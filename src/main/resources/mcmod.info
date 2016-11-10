@@ -1,0 +1,17 @@
+[
+{
+  "modid": "sforge",
+  "name": "SForge",
+  "description": "Provides a compatibility layer between the SBukkit plugins, Forge Mods and the SClient GUI.",
+  "version": "1.0.0",
+  "mcversion": "1.7.10",
+  "url": "http://stargatemc.com",
+  "updateUrl": "",
+  "authors": ["Bysokar"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [],
+  "useDependencyInformation": true
+}
+]

@@ -1,0 +1,4 @@
+*.lock
+.gradle/2.0/taskArtifacts/fileHashes.bin
+*.log
+.gradle/gradle.log
