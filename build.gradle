@@ -18,7 +18,7 @@ buildscript {
 apply plugin: 'forge'
 
 version = "1.0.0"
-group= "com.stargatemc.SForge" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.stargatemc.forge.SForge" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "SForge"
 
 minecraft {
