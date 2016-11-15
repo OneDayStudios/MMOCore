@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 package com.stargatemc.forge.core.Gui;
-import com.stargatemc.forge.core.Gui.RegisterableGui;
 import com.stargatemc.forge.core.constants.GuiSlot;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -15,6 +16,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author draks
  */
+@SideOnly(Side.CLIENT)
 public class GuiElement extends Gui {
 
     private int width = 0;

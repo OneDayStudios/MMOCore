@@ -19,7 +19,7 @@ public class GuiAPI extends AbstractAPI<GuiAPI> {
     
     public void sendGuiElementToClient(UUID playerUUID, GuiSlot slot, String title, String subTitle, String description, int titlecolor, int subtitlecolor, int descColor, long milliseconds) {
         EntityPlayer player = SForge.getInstance().getForgeAPI().getForgePlayer(playerUUID);
-        SForge.getInstance().getChannel().sendGuiElementToClient(player, slot, title, subTitle, description, titlecolor, subtitlecolor, descColor, milliseconds);
+        if (player != null) SForge.getInstance().getChannel().sendGuiElementToClient(player, slot, title, subTitle, description, titlecolor, subtitlecolor, descColor, milliseconds);
     }
     
 }
