@@ -5,10 +5,15 @@
  */
 package com.stargatemc.forge.api;
 
+import com.stargatemc.forge.SForge;
+
 /**
  *
  * @author draks
  */
 public abstract class AbstractAPI<T extends AbstractAPI> {
     
+    public String getVersion() {
+        return SForge.MODVER;
+    }
 }

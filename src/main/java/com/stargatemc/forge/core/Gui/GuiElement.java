@@ -116,8 +116,8 @@ public class GuiElement extends Gui {
     }
     
     private void renderAsTopLeft() {
-        this.drawScaledString(title, (this.getScaledWidth() / 25),  (this.getScaledHeight() / 25), titleColor, (float)1.0, false);
-        this.drawScaledString(subtitle, (this.getScaledWidth() / 25), (this.getScaledHeight() / 15), subtitleColor, (float)1.0, false);
-        this.drawScaledString(description, (this.getScaledWidth() / 25), (this.getScaledHeight() / 5), descriptionColor, (float)1.0, false);
+        this.drawScaledString(title, (this.getScaledWidth() / 25),  (this.getScaledHeight() / 25), titleColor, (float)0.8, false);
+        this.drawScaledString(subtitle, (this.getScaledWidth() / 25), (this.getScaledHeight() / 14), subtitleColor, (float)0.8, false);
+        this.drawScaledString(description, (this.getScaledWidth() / 25), (this.getScaledHeight() / 10), descriptionColor, (float)0.5, false);
     }
 }

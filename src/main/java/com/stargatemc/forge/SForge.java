@@ -4,23 +4,20 @@
  * and open the template in the editor.
  */
 package com.stargatemc.forge;
-import com.stargatemc.forge.api.forge.ForgeAPI;
-import com.stargatemc.forge.api.gui.GuiAPI;
+import com.stargatemc.forge.api.ForgeAPI;
+import com.stargatemc.forge.core.Dialog.DialogRegistry;
+import com.stargatemc.forge.core.Dimension.DimensionRegistry;
+import com.stargatemc.forge.core.Galaxy.GalaxyRegistry;
 import com.stargatemc.forge.core.Gui.GuiRegistry;
-import com.stargatemc.forge.core.constants.GuiSlot;
+import com.stargatemc.forge.core.Listener.ListenerRegistry;
+import com.stargatemc.forge.core.Player.PlayerRegistry;
+import com.stargatemc.forge.core.constants.IntegratedMod;
 import com.stargatemc.forge.network.DataChannel;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 /**
  *
@@ -39,16 +36,40 @@ public class SForge {
    public static final String MODVER = "1.0.0";
 
    private GuiRegistry guiRegistry;
-   private ForgeAPI ForgeAPI;
-   private GuiAPI GuiAPI;
+   private DimensionRegistry dimensionRegistry;
+   private ListenerRegistry listenerRegistry;
+   private PlayerRegistry playerRegistry;
+   private DialogRegistry dialogRegistry;
+   private GalaxyRegistry galaxyRegistry;
+   
    
    private DataChannel channel;
    
+   public GalaxyRegistry getGalaxyRegistry() {
+       if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
+       return galaxyRegistry;
+   }
    public GuiRegistry getGuiRegistry() {
        if (guiRegistry == null) guiRegistry = new GuiRegistry();
        return guiRegistry;
    }
+   public PlayerRegistry getPlayerRegistry() {
+       if (playerRegistry == null) playerRegistry = new PlayerRegistry();
+       return playerRegistry;
+   }
+   public DimensionRegistry getDimensionRegistry() {
+       if (dimensionRegistry == null) dimensionRegistry = new DimensionRegistry();
+       return dimensionRegistry;
+   }
    
+   public ListenerRegistry getListenerRegistry() {
+       if (listenerRegistry == null)  listenerRegistry = new ListenerRegistry();
+       return listenerRegistry;
+   }
+   public DialogRegistry getDialogRegistry() {
+       if (dialogRegistry == null)  dialogRegistry = new DialogRegistry();
+       return dialogRegistry;
+   }
    public DataChannel getChannel() {
        return this.channel;
    }
@@ -56,7 +77,6 @@ public class SForge {
    @Mod.EventHandler
    public void preLoad(FMLPreInitializationEvent event) {
        System.out.println("Starting " + MODNAME + " v" + MODVER);
-       FMLCommonHandler.instance().bus().register(this);
        channel = new DataChannel(SForge.MODID);
    }
    
@@ -68,30 +88,14 @@ public class SForge {
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        System.out.println("Initialising " + MODNAME + " v" + MODVER);
-       MinecraftForge.EVENT_BUS.register(this);
+       SForge.getInstance().getGuiRegistry().initialise();
+       SForge.getInstance().getDimensionRegistry().initialise();
+       SForge.getInstance().getGalaxyRegistry().initialise();
+       SForge.getInstance().getPlayerRegistry().initialise();
+       SForge.getInstance().getListenerRegistry().initialise();
+       SForge.getInstance().getDialogRegistry().initialise();
    }
    
-   @SubscribeEvent
-   public void onRenderGui(RenderGameOverlayEvent.Post e) {
-       getGuiRegistry().tick();
-   }
-   
-   @SubscribeEvent
-   public void onPlayerInteract(PlayerInteractEvent e) {
-       if (FMLCommonHandler.instance().getSide().isServer()) {
-           getGuiAPI().sendGuiElementToClient(((EntityPlayer)e.entityPlayer).getUniqueID(), GuiSlot.Toast, "MyTitle", "MySubTitle", "MyDescription", 100, 100, 100, 2000);
-           getGuiAPI().sendGuiElementToClient(((EntityPlayer)e.entityPlayer).getUniqueID(), GuiSlot.TopLeft, "MyTitle", "MySubTitle", "MyDescription", 100, 100, 100, 2000);
-       }
-   }
-   
-   public ForgeAPI getForgeAPI() {
-       if (this.ForgeAPI == null) ForgeAPI = new ForgeAPI();
-       return this.ForgeAPI;
-   }
-   public GuiAPI getGuiAPI() {
-       if (this.GuiAPI == null) GuiAPI = new GuiAPI();
-       return this.GuiAPI;
-   }
    public static SForge getInstance() {
        return SForge.instance;
    }

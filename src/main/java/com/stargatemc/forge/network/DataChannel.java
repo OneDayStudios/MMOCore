@@ -65,7 +65,7 @@ public class DataChannel extends BaseDataChannel {
         long milliseconds = data.readLong();
         GuiSlot actualSlot = GuiSlot.valueOf(guiSlot);
         RegisterableGui gui = new GuiElement(actualSlot, title, subtitle, description, titleColor, subtitleColor, descriptionColor).asRegisterable(milliseconds);
-        SForge.getInstance().getGuiRegistry().register(gui.getIdentifier(), gui);
+        SForge.getInstance().getGuiRegistry().register(gui);
     }
 
 }

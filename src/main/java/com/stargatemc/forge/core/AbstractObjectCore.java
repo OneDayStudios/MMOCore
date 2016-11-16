@@ -14,4 +14,7 @@ public abstract class AbstractObjectCore<T> {
     public T get() {
         return (T)this;
     }
+   
+    public abstract void initialise();
+    public abstract void finalise();
 }

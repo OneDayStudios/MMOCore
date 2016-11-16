@@ -5,6 +5,9 @@
  */
 package com.stargatemc.forge.core;
 
+import com.stargatemc.forge.api.ForgeAPI;
+import com.stargatemc.forge.core.constants.ConsoleMessageType;
+
 /**
  *
  * @author draks
@@ -14,4 +17,5 @@ public abstract class AbstractRegisterable<T extends AbstractRegisterable, U> ex
     public abstract void tick();
     
     public abstract U getIdentifier();
+
 }

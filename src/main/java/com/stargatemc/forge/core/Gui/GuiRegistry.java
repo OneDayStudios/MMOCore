@@ -7,16 +7,22 @@ package com.stargatemc.forge.core.Gui;
 
 import com.stargatemc.forge.core.AbstractRegistry;
 import com.stargatemc.forge.core.constants.GuiSlot;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  *
  * @author draks
  */
-@SideOnly(Side.CLIENT)
 public class GuiRegistry extends AbstractRegistry<GuiRegistry, GuiSlot, RegisterableGui> {
 
-    // THIS CLASS HAS NO ADDITIONAL CODE BY DESIGN.
+    @Override
+    public void initialise() {
+        // No code required, yet.
+    }
+
+    @Override
+    public void finalise() {
+        // No code required, yet.
+    }
+
     
 }

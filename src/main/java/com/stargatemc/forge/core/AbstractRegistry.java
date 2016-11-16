@@ -15,10 +15,11 @@ import java.util.Map;
 public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends AbstractRegisterable> extends AbstractObjectCore<AbstractRegistry> {
    
     private Map<U, J> objects = new HashMap<U, J>();
-   
-    public void register(U identifier, J object) {
-        if (objects.keySet().contains(identifier) || objects.values().contains(object)) return;
-        objects.put(identifier, object);
+    
+    public void register(J object) {
+        if (isRegistered((U)object.getIdentifier())) this.deregister((U)object.getIdentifier());
+        objects.put((U)object.getIdentifier(), object);
+        object.initialise();
     }
     
     public Map<U, J> getRegistered() {
@@ -29,14 +30,24 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
         return new HashMap<U, J>(objects);
     }
     
+    public boolean isRegistered(U identifier) {
+        return (getRegistered(identifier) != null);
+    }
+    
     public void tick() {
         for (J object : getRegisteredReadOnly().values()) {
             object.tick();
         }
     }
     
+    public J getRegistered(U identifier) {
+        return objects.get(identifier);
+    }
+    
     public void deregister(U identifier) {
         if (!objects.keySet().contains(identifier)) return;
+        objects.get(identifier).finalise();
         objects.remove(identifier);
+        
     }
 }

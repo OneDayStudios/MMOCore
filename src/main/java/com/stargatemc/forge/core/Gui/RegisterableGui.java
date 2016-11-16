@@ -8,14 +8,11 @@ package com.stargatemc.forge.core.Gui;
 import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.core.AbstractRegisterable;
 import com.stargatemc.forge.core.constants.GuiSlot;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  *
  * @author draks
  */
-@SideOnly(Side.CLIENT)
 public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSlot> {
     
     // This is the number of MS the GUI is registered for.
@@ -44,5 +41,15 @@ public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSl
     @Override
     public GuiSlot getIdentifier() {
         return this.gui.getSlot();
+    }
+
+    @Override
+    public void initialise() {
+        // Not required.
+    }
+
+    @Override
+    public void finalise() {
+        // Not required.
     }
 }

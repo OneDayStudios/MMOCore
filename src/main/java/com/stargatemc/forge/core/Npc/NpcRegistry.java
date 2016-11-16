@@ -14,9 +14,18 @@ import java.util.UUID;
  *
  * @author draks
  */
-@SideOnly(Side.SERVER)
 public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, RegisterableNpc> {
 
+    @Override
+    public void initialise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     // THIS CLASS HAS NO ADDITIONAL CODE BY DESIGN.
+
+    @Override
+    public void finalise() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
