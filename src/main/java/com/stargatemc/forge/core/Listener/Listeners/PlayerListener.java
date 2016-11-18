@@ -43,7 +43,6 @@ public class PlayerListener extends RegisterableListener {
         EntityPlayer player = (EntityPlayer)e.player;
         World w = ForgeAPI.getForgeWorld(e.toDim);
         RegisterablePlayer rPlayer = SForge.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        RegisterableDimension rWorld = SForge.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
         GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
     }
     
@@ -52,7 +51,6 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = SForge.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        RegisterableDimension rWorld = SForge.getInstance().getDimensionRegistry().getRegistered(rPlayer.getWorld().getWorldInfo().getWorldName());
         GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 1000);        
     }
 }

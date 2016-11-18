@@ -10,6 +10,7 @@ import com.stargatemc.forge.api.AbstractAPI;
 import com.stargatemc.forge.core.constants.ConsoleMessageType;
 import com.stargatemc.forge.core.constants.IntegratedMod;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -23,6 +24,11 @@ import net.minecraftforge.common.DimensionManager;
  * @author draks
  */
 public class ForgeAPI extends AbstractAPI<ForgeAPI> {
+    
+    // Is item valid in Forge.
+    public static boolean isItemValidInForge(String mod, String name) {
+        return GameRegistry.findItemStack(mod, name, 1) != null;
+    }
     
     public static EntityPlayer getForgePlayer(String name) {        
         for(int id = 0; id<MinecraftServer.getServer().worldServers.length; id++) {

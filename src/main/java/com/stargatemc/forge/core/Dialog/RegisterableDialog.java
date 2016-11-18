@@ -31,7 +31,7 @@ import noppes.npcs.controllers.QuestController;
  *
  * @author Drakster
  */
-public final class RegisterableDialog extends AbstractRegisterable<RegisterableDialog, String> {
+public final class RegisterableDialog extends AbstractRegisterable<RegisterableDialog, Integer> {
     
     private Dialog actualDialog;
     
@@ -395,8 +395,8 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
     }
 
     @Override
-    public String getIdentifier() {
-        return this.getTitle();
+    public Integer getIdentifier() {
+        return this.getID();
     }
 
     @Override

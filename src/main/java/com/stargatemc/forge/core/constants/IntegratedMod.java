@@ -10,5 +10,6 @@ package com.stargatemc.forge.core.constants;
  * @author draks
  */
 public enum IntegratedMod {
-    CustomNpcs
+    CustomNpcs,
+    SGCraft
 }

@@ -646,7 +646,7 @@ public class Npc {
 //        if (this.existsInGame()) {
 //            //System.out.println("NPC: " + this.getName() + " has spawned!");
 //        }
-//       // if (!this.existsInGame()) //System.out.println("NPC: " + this.getName() + " has failed to spawn!");
+//       // if (!this.existsInGame()) //("NPC: " + this.getName() + " has failed to spawn!");
 //    }
 //    
 //    public boolean getShouldRespawnAtHome() {
@@ -709,7 +709,7 @@ public class Npc {
 //                }
 //            }
 //        }
-//       // System.out.println("Failed to find NPC in-game: " + this.getName());
+//       // PC in-game: " + this.getName());
 //        return null;
 //    }
 //    

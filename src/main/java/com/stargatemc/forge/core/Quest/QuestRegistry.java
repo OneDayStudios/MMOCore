@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Dialog;
+package com.stargatemc.forge.core.Quest;
 
 import com.stargatemc.forge.core.AbstractRegistry;
 
@@ -11,7 +11,7 @@ import com.stargatemc.forge.core.AbstractRegistry;
  *
  * @author draks
  */
-public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, RegisterableDialog> {
+public class QuestRegistry extends AbstractRegistry<QuestRegistry, Integer, RegisterableQuest> {
 
     @Override
     public void initialise() {

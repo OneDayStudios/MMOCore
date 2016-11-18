@@ -79,12 +79,12 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static String getLocationMessage(uPosition pos) {
-        String location;
+        String location = null;
         if (isOnDimension(pos)) location = pos.getDimension().getIdentifier();
         if (isInVoidSpace(pos)) location = "Void Space";
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getDimension(pos).getIdentifier();
-        if (location.length() == 0) location = "Unknown location!";
+        if (location == null) location = "Unknown location!";
         return "Location: " + location;
     }
     public static String getConditionsMessage(uPosition pos) {
