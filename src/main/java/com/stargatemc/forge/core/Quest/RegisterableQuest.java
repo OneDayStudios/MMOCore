@@ -342,12 +342,12 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
 
     @Override
     public void initialise() {
-        com.stargatemc.forge.api.ForgeAPI.sendConsoleEntry("Initialised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Initialised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
         this.save();
     }
 
     @Override
     public void finalise() {
-        com.stargatemc.forge.api.ForgeAPI.sendConsoleEntry("Finalised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Finalised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
     }
 }

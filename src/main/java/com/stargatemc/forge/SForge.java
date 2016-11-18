@@ -10,7 +10,10 @@ import com.stargatemc.forge.core.Dimension.DimensionRegistry;
 import com.stargatemc.forge.core.Galaxy.GalaxyRegistry;
 import com.stargatemc.forge.core.Gui.GuiRegistry;
 import com.stargatemc.forge.core.Listener.ListenerRegistry;
+import com.stargatemc.forge.core.NpcFaction.NpcFactionRegistry;
 import com.stargatemc.forge.core.Player.PlayerRegistry;
+import com.stargatemc.forge.core.Quest.QuestRegistry;
+import com.stargatemc.forge.core.Stargate.StargateRegistry;
 import com.stargatemc.forge.core.constants.IntegratedMod;
 import com.stargatemc.forge.network.DataChannel;
 import cpw.mods.fml.common.Mod;
@@ -41,9 +44,13 @@ public class SForge {
    private PlayerRegistry playerRegistry;
    private DialogRegistry dialogRegistry;
    private GalaxyRegistry galaxyRegistry;
+   private NpcFactionRegistry npcFactionRegistry;
    
    
    private DataChannel channel;
+   
+   private StargateRegistry stargateRegistry;
+   private QuestRegistry questRegistry;
    
    public GalaxyRegistry getGalaxyRegistry() {
        if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
@@ -66,10 +73,27 @@ public class SForge {
        if (listenerRegistry == null)  listenerRegistry = new ListenerRegistry();
        return listenerRegistry;
    }
+   
+   public StargateRegistry getStargateRegistry() {
+       if (stargateRegistry == null)  stargateRegistry = new StargateRegistry();
+       return stargateRegistry;
+   }
+   
    public DialogRegistry getDialogRegistry() {
        if (dialogRegistry == null)  dialogRegistry = new DialogRegistry();
        return dialogRegistry;
    }
+   
+   public QuestRegistry getQuestRegistry() {
+       if (questRegistry == null)  questRegistry = new QuestRegistry();
+       return questRegistry;
+   }
+   
+   public NpcFactionRegistry getNpcFactionRegistry() {
+       if (npcFactionRegistry == null) npcFactionRegistry = new NpcFactionRegistry();
+       return npcFactionRegistry;
+   }
+   
    public DataChannel getChannel() {
        return this.channel;
    }
@@ -93,7 +117,10 @@ public class SForge {
        SForge.getInstance().getGalaxyRegistry().initialise();
        SForge.getInstance().getPlayerRegistry().initialise();
        SForge.getInstance().getListenerRegistry().initialise();
-       SForge.getInstance().getDialogRegistry().initialise();
+       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getDialogRegistry().initialise();
+       if (ForgeAPI.isModLoaded(IntegratedMod.SGCraft)) SForge.getInstance().getStargateRegistry().initialise();
+       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getQuestRegistry().initialise();
+       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getNpcFactionRegistry().initialise();
    }
    
    public static SForge getInstance() {
