@@ -5,6 +5,7 @@
  */
 package com.stargatemc.forge.api;
 
+import com.stargatemc.forge.core.constants.uPosition;
 import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.core.Dimension.RegisterableDimension;
 import com.stargatemc.forge.core.Galaxy.RegisterableGalaxy;

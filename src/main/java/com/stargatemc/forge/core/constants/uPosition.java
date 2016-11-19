@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.api;
+package com.stargatemc.forge.core.constants;
 
 import com.stargatemc.forge.SForge;
+import com.stargatemc.forge.api.UniverseAPI;
 import com.stargatemc.forge.core.AbstractObjectCore;
 import com.stargatemc.forge.core.Dimension.RegisterableDimension;
 import com.stargatemc.forge.core.Galaxy.RegisterableGalaxy;

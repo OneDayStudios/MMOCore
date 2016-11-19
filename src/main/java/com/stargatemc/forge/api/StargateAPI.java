@@ -29,10 +29,10 @@ public class StargateAPI extends AbstractAPI<StargateAPI> {
     }
     
     public static boolean connnect(String sourceAddress, String destinationAddress) {
-        if (!SForge.getInstance().getStargateRegistry().isRegistered(sourceAddress)) return false;
-        if (!SForge.getInstance().getStargateRegistry().isRegistered(destinationAddress)) return false;
-        //get(sourceAddress).getStargate().startDiallingStargate(destinationAddress, get(destinationAddress).getStargate(), true);
-        //get(destinationAddress).getStargate().startDiallingStargate(sourceAddress, get(sourceAddress).getStargate(), false);
+        if (!SForge.getInstance().getStargateRegistry().isRegistered(sourceAddress) || isActive(destinationAddress)) return false;
+        if (!SForge.getInstance().getStargateRegistry().isRegistered(destinationAddress) || isActive(destinationAddress)) return false;
+//        get(sourceAddress).getStargate().startDiallingStargate(destinationAddress, get(destinationAddress).getStargate(), true);
+//        get(destinationAddress).getStargate().startDiallingStargate(sourceAddress, get(sourceAddress).getStargate(), false);
         return true;
     }
 }

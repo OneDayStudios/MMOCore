@@ -7,7 +7,7 @@ package com.stargatemc.forge.core.Player;
 
 import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.api.UniverseAPI;
-import com.stargatemc.forge.api.uPosition;
+import com.stargatemc.forge.core.constants.uPosition;
 import com.stargatemc.forge.core.AbstractRegisterable;
 import com.stargatemc.forge.core.constants.ConsoleMessageType;
 import cpw.mods.fml.relauncher.Side;

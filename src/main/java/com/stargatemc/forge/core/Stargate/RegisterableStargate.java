@@ -7,7 +7,7 @@ package com.stargatemc.forge.core.Stargate;
 
 import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.api.UniverseAPI;
-import com.stargatemc.forge.api.uPosition;
+import com.stargatemc.forge.core.constants.uPosition;
 import com.stargatemc.forge.core.AbstractRegisterable;
 import com.stargatemc.forge.core.constants.ConsoleMessageType;
 import gcewing.sg.SGAddressing;
