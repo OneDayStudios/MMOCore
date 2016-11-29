@@ -200,8 +200,7 @@ public class Npc {
     
     public void setForcedSpawnPosition(uPosition position) {
         this.spawnPosition = position;
-        // If the NPC hasnt spawned and updated its actual position, set its current position to the spawn location.
-        this.entity = new EntityCustomNpc(this.getForgeWorld(spawnPosition.getDimension().getName()));
+        this.entity = new EntityCustomNpc(this.getForgeWorld(spawnPosition.getDimension().getIdentifier()));
         this.entity.stats.setMaxHealth(maxHealth);
         if (this.template != null && !this.template.equals("NONE")) this.setLinkedTemplate(template);
         this.setPosition(spawnPosition);
