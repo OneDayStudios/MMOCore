@@ -55,7 +55,6 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
     }
     
     public boolean save() {
-            System.out.println("Attempting to save Dialog: " + actualDialog.id + " and title: " + actualDialog.title + " into category with name  " + actualDialog.category.title + " id : " + actualDialog.category.id);
             if (!actualDialog.category.dialogs.containsValue(actualDialog)) actualDialog.category.dialogs.put(actualDialog.id, actualDialog);
             if (actualDialog.category.dialogs.containsValue(actualDialog)) actualDialog.category.dialogs.replace(actualDialog.id, actualDialog);
             if (DialogController.instance.categories.containsKey(actualDialog.category.id)) DialogController.instance.categories.replace(actualDialog.category.id, actualDialog.category);
@@ -87,9 +86,7 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
     }
     
     public void setDialogCategory(String categoryName) {
-        System.out.println("Handling Category: " + categoryName);
         if (DialogAPI.categoryExists(categoryName)) {
-            System.out.println("Found Category, " + categoryName);
             actualDialog.category = DialogAPI.getCategory(categoryName);
         } 
         

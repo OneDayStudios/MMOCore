@@ -10,10 +10,12 @@ import com.stargatemc.forge.core.Dimension.DimensionRegistry;
 import com.stargatemc.forge.core.Galaxy.GalaxyRegistry;
 import com.stargatemc.forge.core.Gui.GuiRegistry;
 import com.stargatemc.forge.core.Listener.ListenerRegistry;
+import com.stargatemc.forge.core.Npc.NpcRegistry;
 import com.stargatemc.forge.core.NpcFaction.NpcFactionRegistry;
 import com.stargatemc.forge.core.Player.PlayerRegistry;
 import com.stargatemc.forge.core.Quest.QuestRegistry;
 import com.stargatemc.forge.core.Stargate.StargateRegistry;
+import com.stargatemc.forge.core.constants.ConsoleMessageType;
 import com.stargatemc.forge.core.constants.IntegratedMod;
 import com.stargatemc.forge.network.DataChannel;
 import cpw.mods.fml.common.Mod;
@@ -45,6 +47,7 @@ public class SForge {
    private DialogRegistry dialogRegistry;
    private GalaxyRegistry galaxyRegistry;
    private NpcFactionRegistry npcFactionRegistry;
+   private NpcRegistry npcRegistry;
    
    
    private DataChannel channel;
@@ -68,7 +71,10 @@ public class SForge {
        if (dimensionRegistry == null) dimensionRegistry = new DimensionRegistry();
        return dimensionRegistry;
    }
-   
+   public NpcRegistry getNpcRegistry() {
+       if (npcRegistry == null) npcRegistry = new NpcRegistry();
+       return npcRegistry;
+   }
    public ListenerRegistry getListenerRegistry() {
        if (listenerRegistry == null)  listenerRegistry = new ListenerRegistry();
        return listenerRegistry;
@@ -100,18 +106,18 @@ public class SForge {
    
    @Mod.EventHandler
    public void preLoad(FMLPreInitializationEvent event) {
-       System.out.println("Starting " + MODNAME + " v" + MODVER);
+       ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
        channel = new DataChannel(SForge.MODID);
    }
    
    @Mod.EventHandler
    public void load(FMLInitializationEvent event) {
-       System.out.println("Loading " + MODNAME + " v" + MODVER);       
+       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
    }
    
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
-       System.out.println("Initialising " + MODNAME + " v" + MODVER);
+       ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
        SForge.getInstance().getGuiRegistry().initialise();
        SForge.getInstance().getDimensionRegistry().initialise();
        SForge.getInstance().getGalaxyRegistry().initialise();
@@ -121,6 +127,7 @@ public class SForge {
        if (ForgeAPI.isModLoaded(IntegratedMod.SGCraft)) SForge.getInstance().getStargateRegistry().initialise();
        if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getQuestRegistry().initialise();
        if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getNpcFactionRegistry().initialise();
+       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) SForge.getInstance().getNpcRegistry().initialise();
    }
    
    public static SForge getInstance() {

@@ -132,7 +132,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     }
     
     public boolean save() {
-            System.out.println("Attempting to save Quest: " + actualQuest.id + " and title: " + actualQuest.title + " into category with name  " + actualQuest.category.title + " id : " + actualQuest.category.id);
             if (!actualQuest.category.quests.containsValue(actualQuest)) actualQuest.category.quests.put(actualQuest.id, actualQuest);
             if (actualQuest.category.quests.containsValue(actualQuest)) actualQuest.category.quests.replace(actualQuest.id, actualQuest);
             if (QuestController.instance.categories.containsKey(actualQuest.category.id)) QuestController.instance.categories.replace(actualQuest.category.id, actualQuest.category);
