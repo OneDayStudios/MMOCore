@@ -19,6 +19,7 @@ import java.util.UUID;
 import noppes.npcs.constants.EnumJobType;
 import noppes.npcs.constants.EnumRoleType;
 import noppes.npcs.controllers.Line;
+import noppes.npcs.controllers.LinkedNpcController;
 import noppes.npcs.entity.EntityCustomNpc;
 import noppes.npcs.roles.JobHealer;
 import noppes.npcs.roles.JobInterface;
@@ -413,19 +414,19 @@ public class Npc {
     }
     
     public double getPosX() {
-        return actualPosition.getPosInDimX();
+        return actualPosition.getDPosX();
     }
     
     public double getPosY() {
-        return actualPosition.getPosInDimY();
+        return actualPosition.getDPosY();
     }
     
     public double getPosZ() {
-        return actualPosition.getPosInDimZ();
+        return actualPosition.getDPosZ();
     }
     
-    public UPosition getUPosition() {
-        return new UPosition(getPosX(), getPosY(), getPosZ(), getWorldName());
+    public uPosition getUPosition() {
+        return new uPosition(getPosX(), getPosY(), getPosZ(), SForge.getInstance().getDimensionRegistry().getRegistered(getWorldName()));
     }
     
     public String getTitle() {
@@ -507,9 +508,7 @@ public class Npc {
     }
     
     public boolean setCombatOffhand(String modFrom, String name, int dmg) {
-        //System.out.println("Loading: " + modFrom + " : " + name + dmg);
         if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-        //System.out.println("Valid: " + modFrom + " : " + name + dmg);
         ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
         stack.setItemDamage(dmg);
         this.combatOffHand = stack;

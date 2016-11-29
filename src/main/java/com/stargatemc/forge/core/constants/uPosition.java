@@ -18,14 +18,14 @@ import com.stargatemc.forge.core.constants.DimensionType;
  */
 public class uPosition extends AbstractObjectCore<uPosition> {
 
-    private int uPosX;
-    private int uPosZ;
-    private int dPosX;
-    private int dPosZ;
+    private double uPosX;
+    private double uPosZ;
+    private double dPosX;
+    private double dPosZ;
     private RegisterableDimension dimension;
-    private int dPosY;
+    private double dPosY;
     
-    public uPosition(int dPosX, int dPosY, int dPosZ, RegisterableDimension dimension) {
+    public uPosition(double dPosX, double dPosY, double dPosZ, RegisterableDimension dimension) {
         this.dimension = dimension;
         this.dPosX = dPosX;
         this.dPosY = dPosY;
@@ -58,20 +58,20 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     public boolean isInUniverse() {
         return (this.dimension != null);
     }
-    public int getDPosX() {
+    public double getDPosX() {
         return this.dPosX;
     }
-    public int getDPosY() {
+    public double getDPosY() {
         return this.dPosY;
     }
-    public int getDPosZ() {
+    public double getDPosZ() {
         return this.dPosZ;
     }
-    public int getUPosX() {
+    public double getUPosX() {
         return this.uPosX;
     }
     
-    public int getUPosZ() {
+    public double getUPosZ() {
         return this.uPosZ;
     }
     
