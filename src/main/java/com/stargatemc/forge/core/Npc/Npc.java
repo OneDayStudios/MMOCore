@@ -12,7 +12,7 @@ import com.stargatemc.forge.core.Npc.modules.NpcBase;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcHeldItemSet;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
 import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
-import com.stargatemc.forge.core.Npc.modules.NpcSpawnOptions;
+import com.stargatemc.forge.core.Npc.modules.options.NpcSpawnOptions;
 import com.stargatemc.forge.core.constants.NpcSpawnMethod;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -1114,6 +1114,7 @@ public class Npc {
         if (night == day && value) this.entity.stats.spawnCycle = 0;
         this.respawnTime(time);
     }
+    
     public boolean getNaturallyDespawns() {
         return this.entity.stats.canDespawn;
     }

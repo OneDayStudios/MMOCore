@@ -5,10 +5,15 @@
  */
 package com.stargatemc.forge.core.Npc.modules.behaviour;
 
+import com.stargatemc.forge.core.constants.NpcRespawnOption;
+
 /**
  *
  * @author draks
  */
 public class NpcRespawnBehaviour {
+    
+    private NpcRespawnOption respawnTime;
+    private int respawnTimeSeconds;
     
 }

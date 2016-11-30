@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules.behaviour;
+package com.stargatemc.forge.core.Npc.modules.options;
 
 /**
  *
  * @author draks
  */
-public class NpcCombatBehaviour {
+public class NpcBaseOptions {
     
-    private boolean attacksHostileFactions = false;
-    private boolean defendFactionMembers = false;
 }

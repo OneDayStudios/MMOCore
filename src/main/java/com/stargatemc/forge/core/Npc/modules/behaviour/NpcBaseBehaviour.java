@@ -6,6 +6,8 @@
 package com.stargatemc.forge.core.Npc.modules.behaviour;
 
 import com.stargatemc.forge.core.constants.NpcDoorInteraction;
+import com.stargatemc.forge.core.constants.NpcVisibleOption;
+import com.stargatemc.forge.core.constants.TextVisibleOption;
 
 /**
  *
@@ -14,5 +16,8 @@ import com.stargatemc.forge.core.constants.NpcDoorInteraction;
 public class NpcBaseBehaviour {
     
     private NpcDoorInteraction doorBehaviour;
+    private NpcVisibleOption visibility;
+    private TextVisibleOption nameVisibility;
+    private TextVisibleOption bossBarVisibility;
 
 }

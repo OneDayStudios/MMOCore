@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules.behaviour;
+package com.stargatemc.forge.core.constants;
 
 /**
  *
  * @author draks
  */
-public class NpcCombatBehaviour {
-    
-    private boolean attacksHostileFactions = false;
-    private boolean defendFactionMembers = false;
+public enum NpcVisibleOption {
+    Visible,
+    PartiallyVisible,
+    Invisible
 }
