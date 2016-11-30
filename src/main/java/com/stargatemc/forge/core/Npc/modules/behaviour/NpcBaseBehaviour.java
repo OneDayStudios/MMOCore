@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules;
+package com.stargatemc.forge.core.Npc.modules.behaviour;
+
+import com.stargatemc.forge.core.constants.NpcDoorInteraction;
 
 /**
  *
  * @author draks
  */
-public class NpcBehaviour {
+public class NpcBaseBehaviour {
     
+    private NpcDoorInteraction doorBehaviour;
+
 }

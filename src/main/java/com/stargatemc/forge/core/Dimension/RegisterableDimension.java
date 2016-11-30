@@ -14,6 +14,8 @@ import com.stargatemc.forge.core.constants.DimensionType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.World;
+import noppes.npcs.controllers.Faction;
+import noppes.npcs.controllers.FactionController;
 
 /**
  *
@@ -30,6 +32,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private int posX;
     private int posZ;
     private long lastTick;
+    private Faction faction;
     
     public RegisterableDimension(String name, DimensionType type, long border, int posX, int posZ, DimensionConditions conditions) {
         this.type = type;        
@@ -93,6 +96,18 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     public DimensionConditions getConditions() {
         return this.conditions;
+    }
+    
+    public void setFaction(String name) {
+        if (FactionController.getInstance().getFactionFromName(name) != null) this.faction = FactionController.getInstance().getFactionFromName(name);
+    }
+    
+    public String getFactionName() {
+        return (getFaction() != null ? this.faction.name : "Contested");
+    }
+    
+    public Faction getFaction() {
+        return this.faction;
     }
     
     @Override

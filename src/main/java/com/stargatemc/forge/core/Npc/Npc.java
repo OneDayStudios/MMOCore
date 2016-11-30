@@ -8,6 +8,11 @@ import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.core.Dimension.RegisterableDimension;
 import com.stargatemc.forge.core.Galaxy.RegisterableGalaxy;
+import com.stargatemc.forge.core.Npc.modules.NpcBase;
+import com.stargatemc.forge.core.Npc.modules.loadout.NpcHeldItemSet;
+import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
+import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
+import com.stargatemc.forge.core.Npc.modules.NpcSpawnOptions;
 import com.stargatemc.forge.core.constants.NpcSpawnMethod;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -34,9 +39,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 @SideOnly(Side.SERVER)
 public class Npc {
     
-    private FileConfiguration configuration;
-    private int id;
     private EntityCustomNpc entity;
+    
+    private NpcBase baseInfo = new NpcBase();
+    private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
+    private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
+    private NpcSpawnOptions randomSpawnOptions = new NpcSpawnOptions();
+    private NpcInteractions interactions = new NpcInteractions();
+    private NpcWornItemSet armor = new NpcWornItemSet();
+    private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
+    private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
+    private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
+    
+    private int id;
     private String name;
     public String title;
     private String template;
@@ -49,75 +64,16 @@ public class Npc {
     private boolean shouldRespawn;
     private boolean shouldRespawnAtHome;
     private boolean shouldRevive;
-    private uPosition oldPosition;
     private int reviveInSeconds;
+    private uPosition oldPosition;
     private long deathTime;
     private boolean hasTicked = false;
     private boolean isStuck;
     private uPosition newPosition;
-    private boolean canRandomlySpawnInSpawnGalaxy;
     private boolean isMoving;
-    private boolean canSpawnNotMajority = false;    
-    private List<Npc> clones = new ArrayList<Npc>();    
-    private boolean spawnEnabled = false;    
-    public List<String> questsToGrant = new ArrayList<String>();    
-    private List<String> factionsCanSpawn = new ArrayList<String>();    
-    private List<RegisterableDimension> dimensionsCanSpawn = new ArrayList<RegisterableDimension>();    
-    private List<RegisterableGalaxy> galaxiesCanSpawn = new ArrayList<RegisterableGalaxy>();
-    private int randomSpawnDensity = 0;
-    private int randomGalaxyDensity = 0;
-    private int randomDimensionDensity = 0;    
-    private int limitCanSpawn = 0;    
-    private double chance = 0;    
-    private String groupName;    
-    private String eventName;    
-    private String factionName = "NONE";    
-    private int clonesSpawned = 0;    
-    private boolean alwaysSpawnsWithGroup = false;    
-    private NpcSpawnMethod spawnMethod = NpcSpawnMethod.Default;    
     private UUID entityUniqueID;    
-    private int groupArea = 0;    
     private int maxHealth = 0;    
     List<String> randomRepeatableUnavailableLines = new ArrayList<String>();    
-    private boolean randomSpawnEnabled = false;    
-    private boolean spawnsInWater = false;
-    private boolean spawnsOnLand = false;
-    private boolean spawnsOnNonSpawnWorld = false;
-    private boolean spawnsOnSpawnWorld = false;    
-    private int randomSpawnChance = 0;    
-    private List<RegisterableDimension> randomSpawnDimensions = new ArrayList<RegisterableDimension>();  
-    private List<RegisterableDimension> incursionSpawnDimensions = new ArrayList<RegisterableDimension>();    
-    private List<RegisterableGalaxy> incursionSpawnGalaxies = new ArrayList<RegisterableGalaxy>();
-    private List<RegisterableGalaxy> randomSpawnGalaxies = new ArrayList<RegisterableGalaxy>();    
-    private String randomSpawnGroup = null;
-    private int randomSpawnGroupNumberOf = 0;
-    private boolean randomSpawnGroupAlwaysSpawn = false;
-    private boolean randomSpawnGroupTriggerSpawn = false;
-    private boolean incursionSpawnGroupTriggerSpawn = false;
-    private int randomSpawnGroupTriggerSpawnChance = 0;
-    private int incursionSpawnChance = 0;
-    private int incursionSpawnNumberOf = 0;
-    private List<String> incursionSpawnMajorityFactions = new ArrayList<String>();
-    private List<String> incursionSpawnTerritories = new ArrayList<String>();    
-    private List<String> randomSpawnMajorityFactions = new ArrayList<String>();
-    private List<String> randomSpawnTerritories = new ArrayList<String>();
-    private boolean wasRandomSpawned = false;    
-    private boolean wasRandomGroupSpawned = false;
-    private boolean wasIncursionSpawned = false;    
-    private int RandomSpawnMinOffset = 0;
-    private int RandomSpawnMaxOffset = 0;
-    private int IncursionSpawnGroupTriggerSpawnChance = 0;
-    private boolean IncursionSpawnGroupAlwaysSpawn = false;
-    private int IncursionSpawnGroupNumberOf = 0;
-    private String IncursionSpawnGroup = null;
-    private ItemStack combatMainHand = null;
-    private ItemStack passiveMainHand = null;
-    private ItemStack combatOffHand = null;
-    private ItemStack passiveOffHand = null;
-    private ItemStack meleeMainHand = null;
-    private ItemStack meleeOffHand = null;
-    private List<String> requiredRandomQuests = new ArrayList<String>();
-    private List<String> requiredIncursionQuests = new ArrayList<String>();
     private boolean wasInCombat = false;
     
     public Npc(String name, String title, String template, uPosition spawnPosition, boolean shouldRespawn, boolean shouldRespawnAtHome, FileConfiguration config, int maxHealth) {
@@ -154,26 +110,6 @@ public class Npc {
         return this.configuration;
     }
     
-    public void addIncursionSpawnRequiredQuest(String name) {
-        if (!this.requiredIncursionQuests.contains(name)) this.requiredIncursionQuests.add(name);
-    }
-    
-    public List<String> getIncursionSpawnRequiredQuests() {
-        return this.requiredIncursionQuests;
-    }
-    public void addRandomSpawnRequiredQuest(String name) {
-        if (!this.requiredRandomQuests.contains(name)) this.requiredRandomQuests.add(name);
-    }
-    public List<String> getRandomSpawnRequiredQuests() {
-        return this.requiredRandomQuests;
-    }
-    public void addQuestToGrant(String name) {
-        if (!this.questsToGrant.contains(name)) this.questsToGrant.add(name);
-    }
-    public List<String> getQuestsToGrant() {
-        return this.questsToGrant;
-    }
-    
     public void setName(String name) {
         this.name = name;
         if (this.entity != null) this.entity.display.name = name;
@@ -188,14 +124,6 @@ public class Npc {
         if (this.existsInGame()) {
             this.revive();
         }
-    }
-    
-    public String getEvent() {
-        return this.eventName;
-    }
-    
-    public void setEvent(String name) {
-        this.eventName = name;
     }
     
     public void setForcedSpawnPosition(uPosition position) {
@@ -249,6 +177,7 @@ public class Npc {
             return null;
         }
     }
+    
     public void addItemToTrader(ItemStack stack1, ItemStack stack2, ItemStack stackResult, int position) {
         if (position <= 0) return;
         RoleTrader role = (RoleTrader)entity.roleInterface;
@@ -470,6 +399,7 @@ public class Npc {
         //System.out.println("Set: " + entity.inventory.getWeapon().equals(stack));
         return entity.inventory.getWeapon().equals(stack);
     }
+    
     public boolean setCombatWeapon(String modFrom, String name, int dmg) {
         //System.out.println("Loading: " + modFrom + " : " + name + dmg);
         if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 

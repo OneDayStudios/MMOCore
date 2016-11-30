@@ -5,10 +5,37 @@
  */
 package com.stargatemc.forge.core.Npc.modules;
 
+import com.stargatemc.forge.core.Player.RegisterablePlayer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  *
  * @author draks
  */
 public class NpcInteractions {
+
+    private List<String> randomRepeatableUnavailableLines = new ArrayList<String>();
+    
+    public String getRandomRepeatableUnavailableLine(RegisterablePlayer player) {
+       if (randomRepeatableUnavailableLines.isEmpty()) return "I have no RandomRepeatableUnavailable lines. Please report this to a developer.";
+       if (randomRepeatableUnavailableLines.size() == 1) return parseLine(player, randomRepeatableUnavailableLines.get(0));
+       Random ran = new Random();
+       int number = ran.nextInt(randomRepeatableUnavailableLines.size());
+       if (number != 0) number = number - 1;
+       return parseLine(player, randomRepeatableUnavailableLines.get(number));
+    }
+    
+    public void addRandomRepeatableUnavailableLine(String s) {
+        if (!randomRepeatableUnavailableLines.contains(s)) randomRepeatableUnavailableLines.add(s);
+    }
+    
+    private String parseLine(RegisterablePlayer player, String line) {
+        line = line.replace("@player@",player.getName());
+        line = line.replace("@dimension@", player.getPosition().getDimension().getIdentifier());
+        line = line.replace("@galaxy@", player.getPosition().getDimension().getIdentifier());
+        return line;
+    }
     
 }

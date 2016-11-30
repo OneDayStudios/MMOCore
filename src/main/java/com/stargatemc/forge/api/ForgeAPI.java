@@ -19,6 +19,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraft.Block;
 /**
  *
  * @author draks
@@ -41,6 +42,14 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
         return null;
     }
 
+    public static boolean blockExists(String name, String mod) {
+        return GameRegistry.findBlock(mod, name) != null;
+    }
+    
+    public static Block getBlock(String name, String mod) {
+        return GameRegistry.findBlock(mod, name);
+    }
+    
     public static double distance(double sx, double sy, double sz, double dx, double dy, double dz) {
         double distance = Math.sqrt(Math.pow(sx-dx,2) + Math.pow(sx-dx,2) + Math.pow(sz-dz,2));
         return distance;

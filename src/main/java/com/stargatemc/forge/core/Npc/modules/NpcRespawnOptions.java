@@ -9,6 +9,6 @@ package com.stargatemc.forge.core.Npc.modules;
  *
  * @author draks
  */
-public class NpcAppearance {
+public class NpcRespawnOptions {
     
 }

@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules;
+package com.stargatemc.forge.core.constants;
 
 /**
  *
  * @author draks
  */
-public class NpcIncursionSpawnOptions {
-    
+public enum NpcDoorInteraction {
+    Break,
+    Open,
+    None
 }
