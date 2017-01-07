@@ -6,12 +6,11 @@
 package com.stargatemc.forge.core.Npc;
 import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.api.ForgeAPI;
-import com.stargatemc.forge.core.Dimension.RegisterableDimension;
-import com.stargatemc.forge.core.Galaxy.RegisterableGalaxy;
 import com.stargatemc.forge.core.Npc.modules.NpcBase;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcHeldItemSet;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
 import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
+import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
 import com.stargatemc.forge.core.Npc.modules.options.NpcSpawnOptions;
 import com.stargatemc.forge.core.constants.NpcSpawnMethod;
 import com.stargatemc.forge.core.constants.uPosition;
@@ -21,6 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import noppes.npcs.constants.EnumAnimation;
 import noppes.npcs.constants.EnumJobType;
 import noppes.npcs.constants.EnumRoleType;
 import noppes.npcs.controllers.Line;
@@ -41,6 +41,11 @@ public class Npc {
     
     private EntityCustomNpc entity;
     
+    //Marked for a reload from options. This will only occur after a change has been made to the NPCs configurable options.
+    private boolean markedForUpdate = false;
+    //Marked for removal from the NPC Registry. This will occur on the next NPC tick.
+    private boolean markedForRemoval = false;
+    
     private NpcBase baseInfo = new NpcBase();
     private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
@@ -50,6 +55,7 @@ public class Npc {
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
     private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
+    private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
     
     private int id;
     private String name;
@@ -88,6 +94,31 @@ public class Npc {
         this.maxHealth = maxHealth;
         this.setForcedSpawnPosition(spawnPosition);
     }
+    
+    public void setMarkedForUpdate() {
+        this.markedForUpdate = true;
+    }
+    
+    public void setMarkedForRemoval() {
+        this.markedForRemoval = true;
+    }
+    
+    public NpcWornItemSet getArmor() {
+        return this.armor;
+    }
+    public void setArmor(NpcWornItemSet armor) {
+        this.armor = armor;
+        this.setMarkedForUpdate();
+    }
+    
+    // This method is the way that SForge pushes its configuration options into a defined Npc. 
+    // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
+    private void pushToEntity() {
+        entity.inventory.armor.put(3, (getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null));
+    }
+    
+    
+    // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
     
     public boolean isInCombat() {
         return this.entity.isAttacking();
@@ -1310,14 +1341,6 @@ public class Npc {
         return entity.inventory.armorItemInSlot(2).equals(stack);
     }
     
-    public boolean setBootPiece(String mod, String item, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
-        stack.setItemDamage(dmg);
-        entity.inventory.armor.put(3, stack);
-        return entity.inventory.armorItemInSlot(3).equals(stack);
-    }
-    
     public List<DialogOption> getOptionsRecursively(DialogOption opt) {
         List<DialogOption> options = new ArrayList<DialogOption>();
         if (opt.hasDialog()) {
@@ -1428,87 +1451,9 @@ public class Npc {
         return this.existsInGame();
     }
     
-    public void setCanSpawn(boolean value) {
-        this.spawnEnabled = value;
-    }
-    
-    public boolean getCanSpawn() {
-        return this.spawnEnabled;
-    }
-    
-    public NpcSpawnMethod getSpawnMethod() {
-        return this.spawnMethod;
-    }
-    
-    public boolean setSpawnMethod(String value) {
-        if (NpcSpawnMethod.valueOf(value) == null) return false;
-        spawnMethod = NpcSpawnMethod.valueOf(value);
-        return true;
-    }
-    
-    public void addFactionSpawnLocation(String name) {
-        factionsCanSpawn.add(name);
-    }
-    
-    public List<String> getFactionsCanSpawnIn() {
-        return this.factionsCanSpawn;
-    }
-    
-    public List<Dimension> getDimensionsCanSpawnIn() {
-        return this.dimensionsCanSpawn;
-    }
-    
-    public List<Galaxy> getGalaxyCanSpawnIn() {
-        return this.galaxiesCanSpawn;
-    }
-    
-    public boolean addDimensionSpawnLocation(String name) {
-        if (Universe.getInstance().getDimensionForName(name) == null) return false;
-        dimensionsCanSpawn.add(Universe.getInstance().getDimensionForName(name));
-        return true;
-    }
-    
-    public boolean addGalaxySpawnLocation(String name) {
-        if (Universe.getInstance().getGalaxyForName(name) == null) return false;
-        galaxiesCanSpawn.add(Universe.getInstance().getGalaxyForName(name));
-        return true;
-    }
-    
-    public void setGroup(String name) {
-        this.groupName = name;
-    }
-    
-    public String getGroup() {
-        return this.groupName;
-    }
-    
-    public void setAlwaysInGroup(boolean value) {
-        this.alwaysSpawnsWithGroup = value;
-    }
-    
-    public boolean getAlwaysInGroup() {
-        return this.alwaysSpawnsWithGroup;
-    }
-    
-    public int getSpawnLimit() {
-        return this.limitCanSpawn;
-    }
-    
-    public void setSpawnLimit(int number) {
-        this.limitCanSpawn = number;
-    }
-    
-    public void setSpawnChance(double number) {
-        this.chance = number;
-    }
-    
-    public double getSpawnChance() {
-        return this.chance;
-    }
-    
-    public void setFemale(boolean hasBreasts) {
-        if (hasBreasts) this.entity.modelData.breasts = 2;
-        if (!hasBreasts) this.entity.modelData.breasts = 0;
+    public void setGender(boolean isMale) {
+        if (!isMale) this.entity.modelData.breasts = 2;
+        if (isMale) this.entity.modelData.breasts = 0;
     }
     
     public void setModelClass(String modelClass) {
@@ -1535,250 +1480,4 @@ public class Npc {
         entity.dialogs.put(position-1, dialogOption);
     }    
     
-    public void setRandomSpawnSpawnWorldSettings(boolean spawnWorld, boolean nonSpawnWorld) {
-        this.spawnsOnNonSpawnWorld = nonSpawnWorld;
-        this.spawnsOnSpawnWorld = spawnWorld;
-    }
-    
-    public boolean spawnsOnSpawnWorld() {
-        return this.spawnsOnSpawnWorld;
-    }
-    
-    public boolean spawnsOnNonSpawnWorld() {
-        return this.spawnsOnNonSpawnWorld;
-    }
-    
-    public void setRandomSpawnLocations(boolean water, boolean land) {
-        this.spawnsInWater = water;
-        this.spawnsOnLand = land;
-    }
-    
-    public boolean getSpawnsInWater() {
-        return this.spawnsInWater;
-    }
-    
-    public boolean getSpawnsOnLand() {
-        return this.spawnsOnLand;
-    }
-    
-    public void setRandomSpawnEnabled(boolean val) {
-        //System.out.println("Setting random spawn to : " + val + " for npc: " + this.getName());
-        this.randomSpawnEnabled = val;
-    }
-    
-    public boolean getRandomSpawnEnabled() {
-        return this.randomSpawnEnabled;
-    }
-    
-    public void setRandomSpawnChance(int number) {
-        this.randomSpawnChance = number;
-    }
-    
-    public int getRandomSpawnChance() {
-        return this.randomSpawnChance;
-    }
-    
-    public void addRandomSpawnDimension(Dimension dim) {
-        this.randomSpawnDimensions.add(dim);
-    }
-    public void addIncursionSpawnDimension(Dimension dim) {
-        this.incursionSpawnDimensions.add(dim);
-    }
-    public void addRandomSpawnGalaxy(Galaxy galaxyToAdd) {
-        this.randomSpawnGalaxies.add(galaxyToAdd);
-    }
-    
-    public void addIncursionSpawnGalaxy(Galaxy galaxyToAdd) {
-        this.incursionSpawnGalaxies.add(galaxyToAdd);
-    }
-    public List<Dimension> getIncursionSpawnDimensions() {
-        return this.incursionSpawnDimensions;
-    }
-    public List<Dimension> getRandomSpawnDimensions() {
-        return this.randomSpawnDimensions;
-    }
-    public List<Galaxy> getIncursionSpawnGalaxies() {
-        return this.incursionSpawnGalaxies;
-    }
-    
-    public List<Galaxy> getRandomSpawnGalaxies() {
-        return this.randomSpawnGalaxies;
-    }
-    public void setIncursionSpawnGroup(String groupName) {
-        this.IncursionSpawnGroup = groupName;
-    }
-    
-    public String getIncursionSpawnGroup() {
-        return this.IncursionSpawnGroup;
-    }
-    
-    public int getIncursionSpawnGroupNumberOf() {
-        return this.IncursionSpawnGroupNumberOf;
-    }
-    
-    public void setIncursionSpawnGroupNumberOf(int number) {
-        this.IncursionSpawnGroupNumberOf = number;
-    }
-    
-    public boolean getIncursionSpawnGroupAlwaysSpawn() {
-        return this.IncursionSpawnGroupAlwaysSpawn;
-    }
-    
-    public void setIncursionSpawnGroupAlwaysSpawn(boolean value) {
-        this.IncursionSpawnGroupAlwaysSpawn = value;
-    }
-    public void setIncursionSpawnGroupTriggerSpawnChance(int value) {
-        this.IncursionSpawnGroupTriggerSpawnChance = value;
-    }
-    
-    public int getIncursionSpawnGroupTriggerSpawnChance() {
-        return this.IncursionSpawnGroupTriggerSpawnChance;
-    }
-    public void setRandomSpawnGroup(String groupName) {
-        this.randomSpawnGroup = groupName;
-    }
-    
-    public String getRandomSpawnGroup() {
-        return this.randomSpawnGroup;
-    }
-    
-    public int getRandomSpawnGroupNumberOf() {
-        return this.randomSpawnGroupNumberOf;
-    }
-    
-    public void setRandomSpawnGroupNumberOf(int number) {
-        this.randomSpawnGroupNumberOf = number;
-    }
-    
-    public boolean getRandomSpawnGroupAlwaysSpawn() {
-        return this.randomSpawnGroupAlwaysSpawn;
-    }
-    
-    public void setRandomSpawnGroupAlwaysSpawn(boolean value) {
-        this.randomSpawnGroupAlwaysSpawn = value;
-    }
-    public void setRandomSpawnGroupTriggerSpawnChance(int value) {
-        this.randomSpawnGroupTriggerSpawnChance = value;
-    }
-    
-    public int getRandomSpawnGroupTriggerSpawnChance() {
-        return this.randomSpawnGroupTriggerSpawnChance;
-    }
-    public void addRandomSpawnTerritory(String territory) {
-        this.randomSpawnTerritories.add(territory);
-    }
-    public void addIncursionSpawnTerritory(String territory) {
-        this.incursionSpawnTerritories.add(territory);
-    }    
-    public void setIncursionSpawnTriggerGroup(boolean value) {
-        this.incursionSpawnGroupTriggerSpawn = value;
-    }
-    public boolean getIncursionSpawnTriggerGroup() {
-        return this.incursionSpawnGroupTriggerSpawn;
-    }
-    public void setRandomSpawnTriggerGroup(boolean value) {
-        this.randomSpawnGroupTriggerSpawn = value;
-    }
-    public boolean getRandomSpawnTriggerGroup() {
-        return this.randomSpawnGroupTriggerSpawn;
-    }
-    public List<String> getRandomSpawnTerritories() {
-        return this.randomSpawnTerritories;
-    }    
-    public List<String> getIncursionSpawnTerritories() {
-        return this.incursionSpawnTerritories;
-    }    
-    public void addIncursionSpawnMajorityFaction(String name) {
-        this.incursionSpawnMajorityFactions.add(name);
-    }
-    public List<String> getIncursionSpawnMajorityFaction() {
-        return this.incursionSpawnMajorityFactions;
-    }
-    
-    public void addRandomSpawnMajorityFaction(String name) {
-        this.randomSpawnMajorityFactions.add(name);
-    }
-    public List<String> getRandomSpawnMajorityFactions() {
-        return this.randomSpawnMajorityFactions;
-    }
-    public void setWasRandomSpawned(boolean val) {
-        this.wasRandomSpawned = val;
-    }
-    
-    public boolean getWasRandomSpawned() {
-        return this.wasRandomSpawned;
-    }
-    public void setwasRandomGroupSpawned(boolean val) {
-        this.wasRandomGroupSpawned = val;
-    }
-    
-    public boolean getwasRandomGroupSpawned() {
-        return this.wasRandomGroupSpawned;
-    }
-    public void setRandomSpawnMaxOffset(int value) {
-        this.RandomSpawnMaxOffset = value;
-    }
-    
-    public int getRandomSpawnMaxOffset() {
-        return this.RandomSpawnMaxOffset;
-    }
-    public void setRandomSpawnMinOffset(int value) {
-        this.RandomSpawnMinOffset = value;
-    }
-    
-    public int getRandomSpawnMinOffset() {
-        return this.RandomSpawnMinOffset;
-    }
-    public void setRandomDimensionDensity(int number) {
-        this.randomDimensionDensity = number;
-    }
-    
-    public int getRandomDimensionDensity() {
-        return this.randomDimensionDensity;
-    }
-    public void setRandomGalaxyDensity(int number) {
-        this.randomGalaxyDensity = number;
-    }
-    
-    public int getRandomGalaxyDensity() {
-        return this.randomGalaxyDensity;
-    }
-    
-    public void setRandomSpawnDensity(int number) {
-        this.randomSpawnDensity = number;
-    }
-    
-    public int getRandomSpawnDensity() {
-        return this.randomSpawnDensity;
-    }
-    public boolean getHasTicked() {
-            return this.hasTicked;
-    }
-    public void setHasTicked(boolean val) {
-        this.hasTicked = val;
-    }
-    
-    public void setWasIncursionSpawned(boolean val) {
-        this.wasIncursionSpawned = val;
-    }
-    
-    public boolean getWasIncursionSpawned() {
-        return this.wasIncursionSpawned;
-    }
-    
-    public void setIncursionNumberOf(int number) {
-        this.incursionSpawnNumberOf = number;
-    }
-    
-    public int getIncursionNumberOf() {
-        return this.incursionSpawnNumberOf;
-    }
-    
-    public void setIncursionChance(int chance) {
-        this.incursionSpawnChance = chance;
-    }
-    
-    public int getIncursionSpawnChance() {
-        return this.incursionSpawnChance;
-    }
 }

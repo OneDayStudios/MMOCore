@@ -3,16 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules.options;
-
-import com.stargatemc.forge.core.constants.NpcGender;
+package com.stargatemc.forge.core.constants;
 
 /**
  *
  * @author draks
  */
-public class NpcBaseOptions {
-    
-    private NpcGender gender;
-    
+public enum NpcGender {
+    Male,
+    Female
 }

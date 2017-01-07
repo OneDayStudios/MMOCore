@@ -12,10 +12,12 @@ import com.stargatemc.forge.core.constants.ConsoleMessageType;
  *
  * @author draks
  */
-public abstract class AbstractRegisterable<T extends AbstractRegisterable, U> extends AbstractObjectCore<AbstractRegisterable> {
+public abstract class AbstractRegisterable<T extends AbstractRegisterable, U, O extends Object> extends AbstractObjectCore<AbstractRegisterable> {
    
     public abstract void tick();
     
     public abstract U getIdentifier();
+    
+    public abstract O getRegisteredObject();
 
 }

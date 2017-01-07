@@ -17,9 +17,9 @@ import java.util.UUID;
  */
 
 @SideOnly(Side.SERVER)
-public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID> {
+public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID, Npc> {
     
-    private final Npc npc;
+    private Npc npc;
     private NpcSpawnMethod spawnMethod;
     
     public RegisterableNpc(Npc npc, NpcSpawnMethod method) {
@@ -34,7 +34,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID>
 
     @Override
     public UUID getIdentifier() {
-        return null;
+        return npc.getUniqueID();
     }
 
     @Override
@@ -45,5 +45,10 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID>
     @Override
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Npc getRegisteredObject() {
+        return this.npc;
     }
 }
