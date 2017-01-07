@@ -103,9 +103,37 @@ public class Npc {
         this.markedForRemoval = true;
     }
     
+    public NpcHeldItemSet getMeleeHeldItems() {
+        return this.meleeHeld;
+    }
+    
+    public void setMeleeHeldItems(NpcHeldItemSet items) {
+        this.meleeHeld = items;
+        this.setMarkedForUpdate();
+    }
+    
+    public NpcHeldItemSet getRangedHeldItems() {
+        return this.rangedHeld;
+    }
+    
+    public void setRangedHeldItems(NpcHeldItemSet items) {
+        this.rangedHeld = items;
+        this.setMarkedForUpdate();
+    }
+    
+    public NpcHeldItemSet getPassiveHeldItems() {
+        return this.passiveHeld;
+    }
+    
+    public void setPassiveHeldItems(NpcHeldItemSet items) {
+        this.passiveHeld = items;
+        this.setMarkedForUpdate();
+    }
+    
     public NpcWornItemSet getArmor() {
         return this.armor;
     }
+    
     public void setArmor(NpcWornItemSet armor) {
         this.armor = armor;
         this.setMarkedForUpdate();
@@ -685,54 +713,9 @@ public class Npc {
         }
         
     }
-    
-    public void setDeathTime() {
-        this.deathTime = System.currentTimeMillis();
-    }
-    
-    public long getDeathTime() {
-        return this.deathTime;
-    }
-    
+
     private World getForgeWorld(String name) {
         return StargateMCMod.getInstance().getForgeWorldForName(name);
-    }
-    
-    public boolean isStuck() {
-        return this.isStuck;
-    }
-    
-    public void setStuck() {
-        this.isStuck = true;
-    }
-    
-    public void setUnstuck() {
-        this.isStuck = false;
-    }
-    
-    public ItemStack getMainHand() {
-        return this.entity.inventory.getWeapon();
-    }
-    public ItemStack getOffHand() {
-        return this.entity.inventory.getOffHand();
-    }
-    public void equipMeleeOffHand() {
-        this.entity.inventory.setOffHand(this.meleeOffHand);
-    }
-    public void equipMeleeMainHand() {
-        this.entity.inventory.setWeapon(this.meleeMainHand);
-    }
-    public void equipCombatMainHand() {
-        this.entity.inventory.setWeapon(this.combatMainHand);
-    }
-    public void equipPassiveMainHand() {
-        this.entity.inventory.setWeapon(this.passiveMainHand);
-    }
-    public void equipCombatOffHand() {
-        this.entity.inventory.setOffHand(this.combatOffHand);
-    }
-    public void equipPassiveOffHand() {
-        this.entity.inventory.setOffHand(this.passiveOffHand);
     }
     
     public void setWasInCombat(boolean value) {
@@ -741,37 +724,24 @@ public class Npc {
     public boolean getWasInCombat() {
         return this.wasInCombat;
     }
+    
+    public void performHeldItemStateActions() {
+        if (!this.getWasInCombat() && this.isInCombat()) this.entity.inventory.setWeapon((getRangedHeldItems().getMainHand().hasItem() ? getRangedHeldItems().getMainHand().getItem() : null));
+        if (!this.getWasInCombat() && this.isInCombat()) this.entity.inventory.setOffHand((getRangedHeldItems().getOffHand().hasItem() ? getRangedHeldItems().getOffHand().getItem() : null));
+        if (this.getWasInCombat() && !this.isInCombat()) this.entity.inventory.setWeapon((getPassiveHeldItems().getMainHand().hasItem() ? getPassiveHeldItems().getMainHand().getItem() : null));
+        if (this.getWasInCombat() && !this.isInCombat()) this.entity.inventory.setOffHand((getPassiveHeldItems().getOffHand().hasItem() ? getPassiveHeldItems().getOffHand().getItem() : null));
+    }
+    
     public void tick() {
         EntityCustomNpc foundNpc = this.findCustomNpcInGame();
         if (foundNpc != null) {
             this.entity = foundNpc;
             if (this.markedForUpdate) this.pushOptionsToEntity();
-            
-            if (!this.getWasInCombat() && this.isInCombat() && this.combatMainHand != null && (this.getMainHand() == null || !this.getMainHand().equals(this.combatMainHand))) this.equipCombatMainHand();
-            if (!this.getWasInCombat() && this.isInCombat() && this.getMainHand() != null && this.combatMainHand == null) this.entity.inventory.setWeapon(null);
-            if (!this.getWasInCombat() && this.isInCombat() && this.combatOffHand != null && (this.getOffHand() == null || !this.getOffHand().equals(this.combatOffHand))) this.equipCombatOffHand();
-            if (!this.getWasInCombat() && this.isInCombat() && this.getOffHand() != null && this.combatOffHand == null) this.entity.inventory.setOffHand(null);
-            if (this.getWasInCombat() && !this.isInCombat() && this.passiveMainHand != null && (this.getMainHand() == null || !this.getMainHand().equals(this.passiveMainHand))) this.equipPassiveMainHand();
-            if (this.getWasInCombat() && !this.isInCombat() && this.getMainHand() != null && this.passiveMainHand == null) this.entity.inventory.setWeapon(null);
-            if (this.getWasInCombat() && !this.isInCombat() && this.passiveOffHand != null && (this.getOffHand() == null || !this.getOffHand().equals(this.passiveOffHand))) this.equipPassiveOffHand();
-            if (this.getWasInCombat() && !this.isInCombat() && this.getOffHand() != null && this.passiveOffHand == null) this.entity.inventory.setOffHand(null);
-            this.setWasInCombat(this.isInCombat());
-            
+            performHeldItemStateActions();
+            setWasInCombat(isInCombat());
             this.updatePosition();
-            if (this.isMoving() && oldPosition == actualPosition) this.setStuck();
-            if (this.isMoving() && this.isStuck() && oldPosition != actualPosition) this.setUnstuck();
-            if (this.isMoving()) //System.out.println("NPC is moving!");
-            if (this.isPathCompleted() && this.isMoving()) //System.out.println("NPC has completed path moving!");            
-            if (this.isMoving() && this.isPathCompleted()) {
-                this.stopMoving();
-                this.lastMoveSucceeded = true;
-            }   
-            if (this.isMoving() && this.secsToCompleteMove <= ((System.currentTimeMillis() - this.startedMovingTime) / 1000)) {
-                this.stopMoving();
-                this.lastMoveSucceeded = false;
-            }            
-            this.refresh();
-            if (this.getWasRandomSpawned() && this.getNaturallyDespawns() && StargateMCMod.getInstance().getForgeAPI().findPlayersNear((int)this.getPosX(), (int)this.getPosY(), (int)this.getPosZ(), this.getWorldName(), 128).isEmpty()) this.flaggedForRemoval = true;
+        } else {
+            this.setMarkedForRemoval();
         }
     }
     
