@@ -113,11 +113,13 @@ public class Npc {
     
     // This method is the way that SForge pushes its configuration options into a defined Npc. 
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
-    private void pushToEntity() {
+    private void pushOptionsToEntity() {
         entity.inventory.armor.put(3, (getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null));
         entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
         entity.inventory.armor.put(1, (getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null));
         entity.inventory.armor.put(0, (getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null));
+        // This is important so that the NPC doesnt constantly update.
+        this.markedForUpdate = false;
     }
     
     
@@ -743,10 +745,7 @@ public class Npc {
         EntityCustomNpc foundNpc = this.findCustomNpcInGame();
         if (foundNpc != null) {
             this.entity = foundNpc;
-            if (!this.getHasTicked()) {
-                this.revive();
-                this.setHasTicked(true);
-            }
+            if (this.markedForUpdate) this.pushOptionsToEntity();
             
             if (!this.getWasInCombat() && this.isInCombat() && this.combatMainHand != null && (this.getMainHand() == null || !this.getMainHand().equals(this.combatMainHand))) this.equipCombatMainHand();
             if (!this.getWasInCombat() && this.isInCombat() && this.getMainHand() != null && this.combatMainHand == null) this.entity.inventory.setWeapon(null);
