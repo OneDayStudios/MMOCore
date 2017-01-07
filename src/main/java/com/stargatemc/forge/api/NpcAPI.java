@@ -6,6 +6,8 @@
 package com.stargatemc.forge.api;
 
 import com.stargatemc.forge.core.Npc.RegisterableNpc;
+import com.stargatemc.forge.core.Player.RegisterablePlayer;
+import com.stargatemc.forge.core.constants.FactionRelationType;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -48,5 +50,33 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (npc.getRegisteredObject().getArmor().getHead().setItem(stack));
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getHead().getItem().equals(stack));      
+    }
+    
+    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
+    public boolean isHostileToPlayer(String name) {
+        EntityPlayer player = findForgePlayerOnWorld(name);
+        // Return false if the player is not on the world.
+        if (player == null) return false;
+        return entity.getFaction().isAggressiveToPlayer(player);
+    }
+    
+    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
+    public boolean isNeutralToPlayer(String name) {
+        EntityPlayer player = findForgePlayerOnWorld(name);
+        // Return false if the player is not on the world.
+        if (player == null) return false;
+        return entity.getFaction().isNeutralToPlayer(player);
+    }
+    
+    public static FactionRelationType getPlayerRelationToNpc(RegisterablePlayer player, RegisterableNpc npc) {
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isFriendlyToPlayer(player.getRegisteredObject())) return FactionRelationType.FRIENDLY;
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isNeutralToPlayer(player.getRegisteredObject())) return FactionRelationType.NEUTRAL;
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isAggressiveToPlayer(player.getRegisteredObject())) return FactionRelationType.HOSTILE;
+        return FactionRelationType.ERROR;
+    }
+    
+    public static boolean areNpcsHostile(RegisterableNpc sourceNpc, RegisterableNpc targetNpc) {
+        if (NpcFactionAPI.get(sourceNpc.getRegisteredObject().getFactionName()).isAggressiveToNpc(targetNpc.getRegisteredObject().getEntity())) return true;
+        return false;
     }
 }

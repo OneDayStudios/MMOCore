@@ -1265,30 +1265,6 @@ public class Npc {
         entity.advanced.orderedLines = !value;
     }
     
-    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
-    public boolean isHostileToPlayer(String name) {
-        EntityPlayer player = findForgePlayerOnWorld(name);
-        // Return false if the player is not on the world.
-        if (player == null) return false;
-        return entity.getFaction().isAggressiveToPlayer(player);
-    }
-    
-    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
-    public boolean isNeutralToPlayer(String name) {
-        EntityPlayer player = findForgePlayerOnWorld(name);
-        // Return false if the player is not on the world.
-        if (player == null) return false;
-        return entity.getFaction().isNeutralToPlayer(player);
-    }
-    
-    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
-    public boolean isFriendlyToPlayer(String name) {
-        EntityPlayer player = findForgePlayerOnWorld(name);
-        // Return false if the player is not on the world or they dont exist.
-        if (player == null) return false;
-        return entity.getFaction().isFriendlyToPlayer(player);
-    }
-    
     public List<DialogOption> getOptionsRecursively(DialogOption opt) {
         List<DialogOption> options = new ArrayList<DialogOption>();
         if (opt.hasDialog()) {

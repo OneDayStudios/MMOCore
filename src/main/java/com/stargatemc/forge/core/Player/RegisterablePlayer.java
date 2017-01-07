@@ -22,7 +22,7 @@ import net.minecraft.world.World;
  */
 
 @SideOnly(Side.SERVER)
-public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer, UUID> {
+public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer, UUID, EntityPlayer> {
     
     private UUID uuid;
     
@@ -67,5 +67,10 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalising player: " + getName() + " (UUID: " + this.getIdentifier() + ")" , ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public EntityPlayer getRegisteredObject() {
+        return ForgeAPI.getForgePlayer(this.getIdentifier());
     }
 }
