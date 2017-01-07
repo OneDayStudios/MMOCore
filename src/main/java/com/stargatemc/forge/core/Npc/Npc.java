@@ -115,6 +115,9 @@ public class Npc {
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
     private void pushToEntity() {
         entity.inventory.armor.put(3, (getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null));
+        entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
+        entity.inventory.armor.put(1, (getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null));
+        entity.inventory.armor.put(0, (getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null));
     }
     
     
@@ -1315,30 +1318,6 @@ public class Npc {
         // Return false if the player is not on the world or they dont exist.
         if (player == null) return false;
         return entity.getFaction().isFriendlyToPlayer(player);
-    }
-    
-    public boolean setHeadPiece(String mod, String item, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
-        stack.setItemDamage(dmg);
-        entity.inventory.armor.put(0, stack);
-        return entity.inventory.armorItemInSlot(0).equals(stack);
-    }
-    
-    public boolean setChestPiece(String mod, String item, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
-        stack.setItemDamage(dmg);
-        entity.inventory.armor.put(1, stack);
-        return entity.inventory.armorItemInSlot(1).equals(stack);
-    }
-    
-    public boolean setLegPiece(String mod, String item, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
-        stack.setItemDamage(dmg);
-        entity.inventory.armor.put(2, stack);
-        return entity.inventory.armorItemInSlot(2).equals(stack);
     }
     
     public List<DialogOption> getOptionsRecursively(DialogOption opt) {
