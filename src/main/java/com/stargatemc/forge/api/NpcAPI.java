@@ -52,20 +52,16 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         return (npc.getRegisteredObject().getArmor().getHead().getItem().equals(stack));      
     }
     
-    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
-    public boolean isHostileToPlayer(String name) {
-        EntityPlayer player = findForgePlayerOnWorld(name);
-        // Return false if the player is not on the world.
-        if (player == null) return false;
-        return entity.getFaction().isAggressiveToPlayer(player);
+    public static boolean isFriendlyToPlayer(RegisterablePlayer player, RegisterableNpc npc) {
+        return getPlayerRelationToNpc(player, npc).equals(FactionRelationType.FRIENDLY);
     }
     
-    // Imposes a limitation on NPCs not being able to scan players not on their dimension. Should be acceptable.
-    public boolean isNeutralToPlayer(String name) {
-        EntityPlayer player = findForgePlayerOnWorld(name);
-        // Return false if the player is not on the world.
-        if (player == null) return false;
-        return entity.getFaction().isNeutralToPlayer(player);
+    public static boolean isHostileToPlayer(RegisterablePlayer player, RegisterableNpc npc) {
+        return getPlayerRelationToNpc(player, npc).equals(FactionRelationType.HOSTILE);
+    }
+    
+    public static boolean isNeutralToPlayer(RegisterablePlayer player, RegisterableNpc npc) {
+        return getPlayerRelationToNpc(player, npc).equals(FactionRelationType.NEUTRAL);
     }
     
     public static FactionRelationType getPlayerRelationToNpc(RegisterablePlayer player, RegisterableNpc npc) {
