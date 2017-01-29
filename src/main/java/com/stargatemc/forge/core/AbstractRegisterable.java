@@ -5,9 +5,6 @@
  */
 package com.stargatemc.forge.core;
 
-import com.stargatemc.forge.api.ForgeAPI;
-import com.stargatemc.forge.core.constants.ConsoleMessageType;
-
 /**
  *
  * @author draks

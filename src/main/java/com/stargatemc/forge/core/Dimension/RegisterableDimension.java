@@ -23,7 +23,7 @@ import noppes.npcs.controllers.FactionController;
  */
 
 @SideOnly(Side.SERVER)
-public class RegisterableDimension extends AbstractRegisterable<RegisterableDimension, String> {
+public class RegisterableDimension extends AbstractRegisterable<RegisterableDimension, String, World> {
     
     private String name;
     private DimensionType type;
@@ -46,6 +46,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     @Override
     public void tick() {
         // This Object doesnt tick.
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     public long getBorder() {
@@ -77,17 +81,15 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-       return this.getForgeWorld().getWorldInfo().getSpawnX();
-    }
-    public int getSpawnY() {
-       return this.getForgeWorld().getWorldInfo().getSpawnY();
-    }
-    public int getSpawnZ() {
-       return this.getForgeWorld().getWorldInfo().getSpawnZ();
+       return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
-    public World getForgeWorld() {
-        return ForgeAPI.getForgeWorld(this.name);
+    public int getSpawnY() {
+       return getRegisteredObject().getWorldInfo().getSpawnY();
+    }
+    
+    public int getSpawnZ() {
+       return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
     public uPosition getPosition() {
@@ -118,5 +120,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Unloading Dimension: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public World getRegisteredObject() {
+        return ForgeAPI.getForgeWorld(name);
     }
 }

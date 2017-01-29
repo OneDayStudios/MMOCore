@@ -23,4 +23,9 @@ public class GalaxyRegistry extends AbstractRegistry<GalaxyRegistry, String, Reg
         // No code required, yet.
     }
 
+    @Override
+    public boolean canBeEnabled() {
+        return true;
+    }
+
 }

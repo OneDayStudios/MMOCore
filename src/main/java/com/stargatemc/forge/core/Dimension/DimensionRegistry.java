@@ -23,4 +23,9 @@ public class DimensionRegistry extends AbstractRegistry<DimensionRegistry, Strin
         // No code required, yet.
     }
 
+    @Override
+    public boolean canBeEnabled() {
+        return true;
+    }
+    
 }

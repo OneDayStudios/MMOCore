@@ -36,7 +36,7 @@ import noppes.npcs.quests.QuestItem;
  *
  * @author Drakster
  */
-public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer> {
+public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
     
     private Quest actualQuest;
     
@@ -348,5 +348,10 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public Quest getRegisteredObject() {
+        return this.actualQuest;
     }
 }

@@ -39,4 +39,9 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
     public void finalise() {
         // No code required, yet.
     }
+
+    @Override
+    public boolean canBeEnabled() {
+        return true;
+    }
 }

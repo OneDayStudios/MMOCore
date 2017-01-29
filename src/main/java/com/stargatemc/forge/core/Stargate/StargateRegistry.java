@@ -5,7 +5,9 @@
  */
 package com.stargatemc.forge.core.Stargate;
 
+import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.core.AbstractRegistry;
+import com.stargatemc.forge.core.constants.IntegratedMod;
 
 /**
  *
@@ -21,6 +23,11 @@ public class StargateRegistry extends AbstractRegistry<StargateRegistry, String,
     @Override
     public void finalise() {
         // No code required, yet.
+    }
+
+    @Override
+    public boolean canBeEnabled() {
+        return ForgeAPI.isModLoaded(IntegratedMod.SGCraft);
     }
 
 }

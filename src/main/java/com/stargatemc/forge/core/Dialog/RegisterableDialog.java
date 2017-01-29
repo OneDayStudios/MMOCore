@@ -31,7 +31,7 @@ import noppes.npcs.controllers.QuestController;
  *
  * @author Drakster
  */
-public final class RegisterableDialog extends AbstractRegisterable<RegisterableDialog, Integer> {
+public final class RegisterableDialog extends AbstractRegisterable<RegisterableDialog, Integer, Dialog> {
     
     private Dialog actualDialog;
     
@@ -405,5 +405,10 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalised dialog: " + this.getIdentifier(), ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public Dialog getRegisteredObject() {
+        return this.actualDialog;
     }
 }

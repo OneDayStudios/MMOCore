@@ -24,4 +24,9 @@ public class PlayerRegistry extends AbstractRegistry<PlayerRegistry, UUID, Regis
         // No code required, yet.
     }
 
+    @Override
+    public boolean canBeEnabled() {
+        return true;
+    }
+
 }

@@ -17,7 +17,7 @@ import gcewing.sg.SGBaseTE;
  *
  * @author Drakster
  */
-public class RegisterableStargate extends AbstractRegisterable<RegisterableStargate, String> {
+public class RegisterableStargate extends AbstractRegisterable<RegisterableStargate, String, SGBaseTE> {
     
     public String address;
     public int x;
@@ -65,5 +65,10 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalising stargate with address: " + this.address, ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public SGBaseTE getRegisteredObject() {
+        return SGAddressing.findAddressedStargate(this.address, ForgeAPI.getForgeWorld(getPosition().getDimension().getName()));
     }
 }

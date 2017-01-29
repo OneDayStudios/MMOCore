@@ -13,7 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
  *
  * @author draks
  */
-public class RegisterableListener extends AbstractRegisterable<RegisterableListener, String> {
+public class RegisterableListener extends AbstractRegisterable<RegisterableListener, String, RegisterableListener> {
 
     private boolean loaded;
     
@@ -49,5 +49,10 @@ public class RegisterableListener extends AbstractRegisterable<RegisterableListe
         FMLCommonHandler.instance().bus().unregister(this);
         MinecraftForge.EVENT_BUS.unregister(this);       
         setLoaded(false);
+    }
+
+    @Override
+    public RegisterableListener getRegisteredObject() {
+        return this;
     }
 }

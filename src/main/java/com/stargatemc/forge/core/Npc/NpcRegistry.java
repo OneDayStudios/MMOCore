@@ -5,9 +5,9 @@
  */
 package com.stargatemc.forge.core.Npc;
 
+import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.core.AbstractRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.stargatemc.forge.core.constants.IntegratedMod;
 import java.util.UUID;
 
 /**
@@ -26,6 +26,11 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
     @Override
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean canBeEnabled() {
+        return (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs));
     }
 
 }

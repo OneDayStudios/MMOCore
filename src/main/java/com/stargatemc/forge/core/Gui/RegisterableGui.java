@@ -13,7 +13,7 @@ import com.stargatemc.forge.core.constants.GuiSlot;
  *
  * @author draks
  */
-public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSlot> {
+public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSlot, GuiElement> {
     
     // This is the number of MS the GUI is registered for.
     private long milliseconds = 0;
@@ -51,5 +51,10 @@ public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSl
     @Override
     public void finalise() {
         // Not required.
+    }
+
+    @Override
+    public GuiElement getRegisteredObject() {
+        return this.gui;
     }
 }

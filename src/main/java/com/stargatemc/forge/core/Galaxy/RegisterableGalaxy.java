@@ -5,20 +5,13 @@
  */
 package com.stargatemc.forge.core.Galaxy;
 
-import com.stargatemc.forge.core.Dimension.*;
-import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.api.UniverseAPI;
 import com.stargatemc.forge.core.constants.uPosition;
 import com.stargatemc.forge.core.AbstractRegisterable;
 import com.stargatemc.forge.core.constants.ConsoleMessageType;
-import com.stargatemc.forge.core.constants.DimensionConditions;
-import com.stargatemc.forge.core.constants.DimensionType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.awt.Color;
-import java.util.Collection;
-import net.minecraft.world.World;
 
 /**
  *
@@ -26,7 +19,7 @@ import net.minecraft.world.World;
  */
 
 @SideOnly(Side.SERVER)
-public class RegisterableGalaxy extends AbstractRegisterable<RegisterableGalaxy, String> {
+public class RegisterableGalaxy extends AbstractRegisterable<RegisterableGalaxy, String, RegisterableGalaxy> {
     
     private String name;
     private long border;
@@ -74,5 +67,10 @@ public class RegisterableGalaxy extends AbstractRegisterable<RegisterableGalaxy,
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Unloading Galaxy: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+    }
+
+    @Override
+    public RegisterableGalaxy getRegisteredObject() {
+        return this;
     }
 }

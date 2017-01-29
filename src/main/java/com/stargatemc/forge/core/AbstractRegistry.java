@@ -48,6 +48,8 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
         if (!objects.keySet().contains(identifier)) return;
         objects.get(identifier).finalise();
         objects.remove(identifier);
-        
     }
+    
+    public abstract boolean canBeEnabled();
+    
 }

@@ -5,7 +5,9 @@
  */
 package com.stargatemc.forge.core.Dialog;
 
+import com.stargatemc.forge.api.ForgeAPI;
 import com.stargatemc.forge.core.AbstractRegistry;
+import com.stargatemc.forge.core.constants.IntegratedMod;
 
 /**
  *
@@ -21,6 +23,11 @@ public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, Re
     @Override
     public void finalise() {
         // No code required, yet.
+    }
+
+    @Override
+    public boolean canBeEnabled() {
+        return ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs);
     }
 
 }

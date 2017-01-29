@@ -24,5 +24,10 @@ public class GuiRegistry extends AbstractRegistry<GuiRegistry, GuiSlot, Register
         // No code required, yet.
     }
 
+    @Override
+    public boolean canBeEnabled() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }
