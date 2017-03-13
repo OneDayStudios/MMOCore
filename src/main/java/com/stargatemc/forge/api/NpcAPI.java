@@ -5,7 +5,9 @@
  */
 package com.stargatemc.forge.api;
 
+import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.core.Npc.RegisterableNpc;
+import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
 import com.stargatemc.forge.core.Player.RegisterablePlayer;
 import com.stargatemc.forge.core.constants.FactionRelationType;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -15,6 +17,23 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * @author draks
  */
 public class NpcAPI extends AbstractAPI<NpcAPI> {
+    
+    public static boolean create(String name, String title, RegisterableNpcFaction faction) {
+        if (exists(name,title,faction)) return false;
+        // TODO: Create the NPC in game and register it.
+        return true;
+    }
+    
+    public static boolean exists(String name, String title, RegisterableNpcFaction faction) {
+        return (get(name,title,faction) != null);
+    }
+    
+    public static RegisterableNpc get(String name, String title, RegisterableNpcFaction faction) {
+        for (RegisterableNpc npc : SForge.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
+            if (npc.getRegisteredObject().getName().equals(name) && npc.getRegisteredObject().getTitle().equals(title)) return npc;
+        }
+        return null;
+    }
     
     public static boolean setBootItem(String mod, String item, int dmg, RegisterableNpc npc) {
         if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
