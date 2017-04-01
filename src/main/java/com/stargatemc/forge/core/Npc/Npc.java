@@ -12,7 +12,7 @@ import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
 import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
 import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
 import com.stargatemc.forge.core.Npc.modules.options.NpcSpawnOptions;
-import com.stargatemc.forge.core.constants.NpcSpawnMethod;
+import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -90,7 +90,6 @@ public class Npc {
         this.actualPosition = spawnPosition;
         this.shouldRespawn = shouldRespawn;
         this.shouldRespawnAtHome = shouldRespawnAtHome;
-        this.configuration = config;
         this.maxHealth = maxHealth;
         this.setForcedSpawnPosition(spawnPosition);
     }
@@ -146,6 +145,9 @@ public class Npc {
         entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
         entity.inventory.armor.put(1, (getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null));
         entity.inventory.armor.put(0, (getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null));
+        if (this.name != this.entity.display.name) { this.entity.display.name = this.name; }
+        if (this.title != this.entity.display.title) { this.entity.display.title = this.title; }
+        this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
@@ -170,24 +172,14 @@ public class Npc {
         if (!randomRepeatableUnavailableLines.contains(s)) randomRepeatableUnavailableLines.add(s);
     }
     
-    public FileConfiguration getConfig() {
-        return this.configuration;
-    }
-    
     public void setName(String name) {
         this.name = name;
-        if (this.entity != null) this.entity.display.name = name;
-        if (this.existsInGame()) {
-            this.revive();
-        }
+        this.setMarkedForUpdate();
     }
     
     public void setTitle(String title) {
         this.title = title;
-        if (this.entity != null) this.entity.display.title = title;
-        if (this.existsInGame()) {
-            this.revive();
-        }
+        this.setMarkedForUpdate();
     }
     
     public void setForcedSpawnPosition(uPosition position) {
@@ -282,14 +274,6 @@ public class Npc {
     
     public int getID() {
         return this.id;
-    }
-    
-    public void setCanSpawnNotMajority(boolean val) {
-        this.canSpawnNotMajority = val;
-    }
-    
-    public boolean getCanSpawnNotMajority() {
-        return this.canSpawnNotMajority;
     }
     
     public void setID(int id) {
@@ -1348,11 +1332,9 @@ public class Npc {
         return null;
     }
     
-    public boolean setFactionByName(String name) {
-        //System.out.println("Attempting to set Faction: " + name + " on npc: " + this.getName());
-        if (FactionController.getInstance().getFactionFromName(name) == null) return false;
-        this.factionName = name;
-        this.entity.setFaction(FactionController.getInstance().getFactionFromName(name).id);
+    public boolean setFactionByName(RegisterableNpc npc, RegisterableNpcFaction faction) {
+        if (NpcFactionAPI.)
+        this.entity.setFaction(faction.getIdentifier());
         return true;
     }
     

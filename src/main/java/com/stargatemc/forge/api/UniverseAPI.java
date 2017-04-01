@@ -24,6 +24,14 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return SForge.getInstance().getDimensionRegistry().getRegistered(name);
     }
     
+    public static Collection<RegisterableDimension> getDimensionsReadOnly() {
+        return SForge.getInstance().getDimensionRegistry().getRegisteredReadOnly().values();
+    }
+    
+    public static Collection<RegisterableGalaxy> getGalaxiesReadOnly() {
+        return SForge.getInstance().getGalaxyRegistry().getRegisteredReadOnly().values();
+    }
+    
     public static ArrayList<RegisterableDimension> getDimensions() {
         return (ArrayList)SForge.getInstance().getDimensionRegistry().getRegisteredReadOnly().values();
     }
