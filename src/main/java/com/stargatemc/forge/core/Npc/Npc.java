@@ -14,6 +14,7 @@ import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
 import com.stargatemc.forge.core.Npc.options.NpcCombatOptions;
 import com.stargatemc.forge.core.Npc.options.NpcRespawnOptions;
 import com.stargatemc.forge.core.Npc.options.NpcSpawnOptions;
+import com.stargatemc.forge.core.constants.NpcAbstractScale;
 import net.minecraft.item.ItemStack;
 import com.stargatemc.forge.core.constants.NpcDoorInteraction;
 import com.stargatemc.forge.core.constants.NpcGender;
@@ -219,11 +220,84 @@ public class Npc {
         if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
         if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
 
-        if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
+        if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
+            this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
+            this.entity.stats.pRender3D = true;
+            this.entity.stats.pSpin = this.getCombatOptions().getProjectile().getSpins();
+            this.entity.stats.pStick = this.getCombatOptions().getProjectile().getSticks();
+            this.entity.stats.pTrail = this.getCombatOptions().getProjectile().getTrail();
+            this.entity.stats.pSpeed = this.getCombatOptions().getProjectile().getSpeed();
+            this.entity.stats.pSize = this.getCombatOptions().getProjectile().getSize();
+            this.entity.stats.pPhysics = this.getCombatOptions().getProjectile().getAffectedByGravity();
+        }
+        
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Absolute) && this.entity.stats.pDamage != 250) this.entity.stats.pDamage = 250;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Highest) && this.entity.stats.pDamage != 100) this.entity.stats.pDamage = 100;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Higher) && this.entity.stats.pDamage != 50) this.entity.stats.pDamage = 50;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.High) && this.entity.stats.pDamage != 25) this.entity.stats.pDamage = 25;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Medium) && this.entity.stats.pDamage != 10) this.entity.stats.pDamage = 10;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Low) && this.entity.stats.pDamage != 5) this.entity.stats.pDamage = 5;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Lower) && this.entity.stats.pDamage != 3) this.entity.stats.pDamage = 3;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.Lowest) && this.entity.stats.pDamage != 1) this.entity.stats.pDamage = 1;
+        if (this.getCombatOptions().getRangedDamage().equals(NpcAbstractScale.None) && this.entity.stats.pDamage != 0) this.entity.stats.pDamage = 0;
+
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Absolute) && this.entity.stats.getAttackStrength() != 250) this.entity.stats.setAttackStrength(250);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Highest) && this.entity.stats.getAttackStrength() != 100) this.entity.stats.setAttackStrength(100);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Higher) && this.entity.stats.getAttackStrength() != 50) this.entity.stats.setAttackStrength(50);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.High) && this.entity.stats.getAttackStrength() != 25) this.entity.stats.setAttackStrength(25);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Medium) && this.entity.stats.getAttackStrength() != 10) this.entity.stats.setAttackStrength(10);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Low) && this.entity.stats.getAttackStrength() != 5) this.entity.stats.setAttackStrength(5);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Lower) && this.entity.stats.getAttackStrength() != 3) this.entity.stats.setAttackStrength(3);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.Lowest) && this.entity.stats.getAttackStrength() != 1) this.entity.stats.setAttackStrength(1);
+        if (this.getCombatOptions().getMeleeDamage().equals(NpcAbstractScale.None) && this.entity.stats.getAttackStrength() != 0) this.entity.stats.setAttackStrength(0);
+        
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Absolute) && this.entity.stats.resistances.arrow != 2.0) this.entity.stats.resistances.arrow = (float)2.0;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Highest) && this.entity.stats.resistances.arrow != 1.75) this.entity.stats.resistances.arrow = (float)1.75;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Higher) && this.entity.stats.resistances.arrow != 1.50) this.entity.stats.resistances.arrow = (float)1.50;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.High) && this.entity.stats.resistances.arrow != 1.25) this.entity.stats.resistances.arrow = (float)1.25;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Medium) && this.entity.stats.resistances.arrow != 1.0) this.entity.stats.resistances.arrow = (float)1.0;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Low) && this.entity.stats.resistances.arrow != 0.75) this.entity.stats.resistances.arrow = (float)0.75;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Lower) && this.entity.stats.resistances.arrow != 0.50) this.entity.stats.resistances.arrow = (float)0.50;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.Lowest) && this.entity.stats.resistances.arrow != 0.25) this.entity.stats.resistances.arrow = (float)0.25;
+        if (this.getCombatOptions().getProjectileResistance().equals(NpcAbstractScale.None) && this.entity.stats.resistances.arrow != 0.0) this.entity.stats.resistances.arrow = (float)0.0;
+        
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Absolute) && this.entity.stats.resistances.knockback != 2.0) this.entity.stats.resistances.knockback = (float)2.0;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Highest) && this.entity.stats.resistances.knockback != 1.75) this.entity.stats.resistances.knockback = (float)1.75;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Higher) && this.entity.stats.resistances.knockback != 1.50) this.entity.stats.resistances.knockback = (float)1.50;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.High) && this.entity.stats.resistances.knockback != 1.25) this.entity.stats.resistances.knockback = (float)1.25;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Medium) && this.entity.stats.resistances.knockback != 1.0) this.entity.stats.resistances.knockback = (float)1.0;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Low) && this.entity.stats.resistances.knockback != 0.75) this.entity.stats.resistances.knockback = (float)0.75;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Lower) && this.entity.stats.resistances.knockback != 0.50) this.entity.stats.resistances.knockback = (float)0.50;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.Lowest) && this.entity.stats.resistances.knockback != 0.25) this.entity.stats.resistances.knockback = (float)0.25;
+        if (this.getCombatOptions().getKnockbackResistance().equals(NpcAbstractScale.None) && this.entity.stats.resistances.knockback != 0.0) this.entity.stats.resistances.knockback = (float)0.0;
+        
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Absolute) && this.entity.stats.resistances.playermelee != 2.0) this.entity.stats.resistances.playermelee = (float)2.0;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Highest) && this.entity.stats.resistances.playermelee != 1.75) this.entity.stats.resistances.playermelee = (float)1.75;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Higher) && this.entity.stats.resistances.playermelee != 1.50) this.entity.stats.resistances.playermelee = (float)1.50;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.High) && this.entity.stats.resistances.playermelee != 1.25) this.entity.stats.resistances.playermelee = (float)1.25;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Medium) && this.entity.stats.resistances.playermelee != 1.0) this.entity.stats.resistances.playermelee = (float)1.0;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Low) && this.entity.stats.resistances.playermelee != 0.75) this.entity.stats.resistances.playermelee = (float)0.75;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Lower) && this.entity.stats.resistances.playermelee != 0.50) this.entity.stats.resistances.playermelee = (float)0.50;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.Lowest) && this.entity.stats.resistances.playermelee != 0.25) this.entity.stats.resistances.playermelee = (float)0.25;
+        if (this.getCombatOptions().getMeleeResistance().equals(NpcAbstractScale.None) && this.entity.stats.resistances.playermelee != 0.0) this.entity.stats.resistances.playermelee = (float)0.0;
+        
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Absolute) && this.entity.stats.resistances.explosion != 2.0) this.entity.stats.resistances.explosion = (float)2.0;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Highest) && this.entity.stats.resistances.explosion != 1.75) this.entity.stats.resistances.explosion = (float)1.75;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Higher) && this.entity.stats.resistances.explosion != 1.50) this.entity.stats.resistances.explosion = (float)1.50;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.High) && this.entity.stats.resistances.explosion != 1.25) this.entity.stats.resistances.explosion = (float)1.25;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Medium) && this.entity.stats.resistances.explosion != 1.0) this.entity.stats.resistances.explosion = (float)1.0;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Low) && this.entity.stats.resistances.explosion != 0.75) this.entity.stats.resistances.explosion = (float)0.75;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Lower) && this.entity.stats.resistances.explosion != 0.50) this.entity.stats.resistances.explosion = (float)0.50;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Lowest) && this.entity.stats.resistances.explosion != 0.25) this.entity.stats.resistances.explosion = (float)0.25;
+        if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.None) && this.entity.stats.resistances.explosion != 0.0) this.entity.stats.resistances.explosion = (float)0.0;
         
         this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
+    }
+    
+    public void makeInvulnerable() {
+        this.setResistanceToDamage((float)2.0);
     }
     
     // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
@@ -907,22 +981,7 @@ public class Npc {
     public void immuneToFire(boolean value) {
         this.entity.stats.immuneToFire = value;
     }
-    
-    public void setArrowResistance(float value) {
-        this.entity.stats.resistances.arrow = value;
-    }
-    
-    public void setKnockBackResistance(float value) {
-        this.entity.stats.resistances.knockback = value;
-    }
-    
-    public void setMeleeResistance(float value) {
-        this.entity.stats.resistances.playermelee = value;
-    }
-    
-    public void setExplosionResistance(float value) {
-        this.entity.stats.resistances.explosion = value;
-    }
+
     
     public void setMeleeKnockback(int value) {
         this.entity.stats.knockback = value;
@@ -943,44 +1002,7 @@ public class Npc {
     public void setMeleeDamage(int strength) {
         this.entity.stats.setAttackStrength(strength);
     }
-    
-    public void setProjectile3D(boolean value) {
-        this.entity.stats.pRender3D = true;
-        if (!value) this.entity.stats.pStick = false;
-        if (!value) this.entity.stats.pSpin = false;
-    }
-    
-    public boolean setProjectileTrailType(String type) {
-        if (EnumParticleType.valueOf(type) == null) return false;
-        this.entity.stats.pTrail = EnumParticleType.valueOf(type);
-        return true;
-    }
-    
-    public void setProjectileSticks() {
-        this.setProjectile3D(true);
-        this.entity.stats.pStick = true;
-    }
-    
-    public void makeInvulnerable() {
-        this.setResistanceToDamage((float)2.0);
-    }
-    
-    public void setProjectileDamage(int value) {
-        this.entity.stats.pDamage = value;
-    }
-    
-    public void setProjectileSize(int value) {
-        this.entity.stats.pSize = value;
-    }
-    
-    public void setProjectileSpeed(int value) {
-        this.entity.stats.pSpeed = value;
-    }
-    
-    public void setProjectileAffectedByGravity(boolean value) {
-        this.entity.stats.pPhysics = value;
-    }
-    
+
     public void setHealthRegen(int perSecHP) {
         this.entity.stats.healthRegen = perSecHP;
     }

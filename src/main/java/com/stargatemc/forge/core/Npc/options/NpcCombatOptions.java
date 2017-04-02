@@ -5,6 +5,7 @@
  */
 package com.stargatemc.forge.core.Npc.options;
 
+import com.stargatemc.forge.core.constants.NpcAbstractScale;
 import com.stargatemc.forge.core.constants.NpcProjectile;
 
 /**
@@ -15,8 +16,61 @@ public class NpcCombatOptions {
     
     private boolean attacksHostileFactions = false;
     private boolean defendFactionMembers = false;
-    
+    private NpcAbstractScale rangedDamage;
+    private NpcAbstractScale meleeDamage;
+    private NpcAbstractScale projectileResistance;
+    private NpcAbstractScale knockBackResistance;
+    private NpcAbstractScale meleeResistance;
+    private NpcAbstractScale explosionResistance;
     private NpcProjectile projectile;
+    
+    public NpcAbstractScale getProjectileResistance() {
+        return this.projectileResistance;
+    }
+    
+    public void setProjectileResistance(NpcAbstractScale setting) {
+        this.projectileResistance = setting;
+    }
+    
+    public NpcAbstractScale getKnockbackResistance() {
+        return this.knockBackResistance;
+    }
+    
+    public void setKnockbackResistance(NpcAbstractScale setting) {
+        this.knockBackResistance = setting;
+    }
+    
+    public NpcAbstractScale getMeleeResistance() {
+        return this.meleeResistance;
+    }
+    
+    public void setMeleeResistance(NpcAbstractScale setting) {
+        this.meleeResistance = setting;
+    }
+    
+    public NpcAbstractScale getExplosionResistance() {
+        return this.explosionResistance;
+    }
+    
+    public void setExplosionResistance(NpcAbstractScale setting) {
+        this.explosionResistance = setting;
+    }
+    
+    public NpcAbstractScale getMeleeDamage() {
+        return this.meleeDamage;
+    }
+    
+    public void setMeleeDamage(NpcAbstractScale setting) {
+        this.meleeDamage = setting;
+    }
+    
+    public NpcAbstractScale getRangedDamage() {
+        return this.rangedDamage;
+    }
+    
+    public void setRangedDamage(NpcAbstractScale setting) {
+        this.rangedDamage = setting;
+    }
     
     public NpcProjectile getProjectile() {
         return this.projectile;
