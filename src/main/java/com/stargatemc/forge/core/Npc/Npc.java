@@ -6,13 +6,18 @@
 package com.stargatemc.forge.core.Npc;
 import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.api.ForgeAPI;
-import com.stargatemc.forge.core.Npc.modules.NpcBase;
+import com.stargatemc.forge.core.Npc.modules.NpcBaseOptions;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcHeldItemSet;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
 import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
 import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
+import com.stargatemc.forge.core.Npc.modules.behaviour.NpcRespawnBehaviour;
 import com.stargatemc.forge.core.Npc.modules.options.NpcSpawnOptions;
 import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
+import com.stargatemc.forge.core.constants.NpcGender;
+import com.stargatemc.forge.core.constants.NpcRespawnOption;
+import com.stargatemc.forge.core.constants.NpcTextureType;
+import com.stargatemc.forge.core.constants.NpcVisibleOption;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -46,7 +51,7 @@ public class Npc {
     //Marked for removal from the NPC Registry. This will occur on the next NPC tick.
     private boolean markedForRemoval = false;
     
-    private NpcBase baseInfo = new NpcBase();
+    private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions randomSpawnOptions = new NpcSpawnOptions();
@@ -56,6 +61,7 @@ public class Npc {
     private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
     private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
+    private NpcRespawnBehaviour respawnBehaviour = new NpcRespawnBehaviour();
     
     private int id;
     private String name;
@@ -138,6 +144,24 @@ public class Npc {
         this.setMarkedForUpdate();
     }
     
+    public NpcRespawnBehaviour getRespawnBehaviour() {
+        return this.respawnBehaviour;
+    }
+    
+    public void setRespawnBehaviour(NpcRespawnBehaviour behaviour) {
+        this.respawnBehaviour = behaviour;
+        this.setMarkedForUpdate();
+    }
+    
+    public NpcBaseOptions getBaseOptions() {
+        return this.baseInfo;
+    }
+    
+    public void setBaseOptions(NpcBaseOptions base) {
+        this.baseInfo = base;
+        this.setMarkedForUpdate();
+    }
+    
     // This method is the way that SForge pushes its configuration options into a defined Npc. 
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
     private void pushOptionsToEntity() {
@@ -145,13 +169,33 @@ public class Npc {
         entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
         entity.inventory.armor.put(1, (getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null));
         entity.inventory.armor.put(0, (getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null));
-        if (this.name != this.entity.display.name) { this.entity.display.name = this.name; }
-        if (this.title != this.entity.display.title) { this.entity.display.title = this.title; }
+        
+        // Begin Base Options
+        
+        if (!this.getBaseOptions().getName().equals(this.entity.display.name)) { this.entity.display.name = this.getBaseOptions().getName(); }
+        if (!this.getBaseOptions().getTitle().equals(this.entity.display.title)) { this.entity.display.title = this.getBaseOptions().getTitle(); }
+        if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.Visible) && this.entity.display.visible != 0) this.entity.display.visible = 0;
+        if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.Invisible) && this.entity.display.visible != 1) this.entity.display.visible = 1;
+        if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.PartiallyVisible) && this.entity.display.visible != 2) this.entity.display.visible = 2;
+        if (!this.getBaseOptions().getTexture().asTextureString().equals(getEntity().display.texture)) this.entity.display.texture = this.getBaseOptions().getTexture().asTextureString();
+        if (!this.getBaseOptions().getFaction().getRegisteredObject().equals(entity.getFaction())) this.entity.setFaction(this.getBaseOptions().getFaction().getIdentifier());
+        if (this.getBaseOptions().getGender().equals(NpcGender.Male) && this.entity.modelData.breasts != 0) this.entity.modelData.breasts = 0;
+        if (this.getBaseOptions().getGender().equals(NpcGender.Female) && this.entity.modelData.breasts != 2) this.entity.modelData.breasts = 2;
+        
+        // Begin Respawn Behaviour
+        
+        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Always) && this.entity.stats.spawnCycle != 0) this.entity.stats.spawnCycle = 0;
+        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Day) && this.entity.stats.spawnCycle != 1) this.entity.stats.spawnCycle = 1;
+        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Night) && this.entity.stats.spawnCycle != 2) this.entity.stats.spawnCycle = 2;
+        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Never) && this.entity.stats.spawnCycle != 3) this.entity.stats.spawnCycle = 3;
+        
+        if (this.getRespawnBehaviour().getRespawnTime() != this.entity.stats.respawnTime) this.entity.stats.respawnTime = this.getRespawnBehaviour().getRespawnTime();
+
         this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
-    
+        
     
     // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
     
@@ -172,16 +216,6 @@ public class Npc {
         if (!randomRepeatableUnavailableLines.contains(s)) randomRepeatableUnavailableLines.add(s);
     }
     
-    public void setName(String name) {
-        this.name = name;
-        this.setMarkedForUpdate();
-    }
-    
-    public void setTitle(String title) {
-        this.title = title;
-        this.setMarkedForUpdate();
-    }
-    
     public void setForcedSpawnPosition(uPosition position) {
         this.spawnPosition = position;
         this.entity = new EntityCustomNpc(this.getForgeWorld(spawnPosition.getDimension().getIdentifier()));
@@ -191,70 +225,58 @@ public class Npc {
         this.cleanup();
     }
     
-    public void setRoleNone() {
-        this.entity.advanced.role = EnumRoleType.None;
-        this.entity.roleInterface = null;
-        this.revive();
-    }
+//    public void setRoleNone() {
+//        this.entity.advanced.role = EnumRoleType.None;
+//        this.entity.roleInterface = null;
+//        this.revive();
+//    }
     
-    public void setJobNone() {
-        this.entity.advanced.job = EnumJobType.None;
-        this.entity.jobInterface = null;
-        this.revive();
-    }
+//    public void setJobNone() {
+//        this.entity.advanced.job = EnumJobType.None;
+//        this.entity.jobInterface = null;
+//        this.revive();
+//    }
+//    
+//    public void setJobHealer(int range, int speed) {
+//        JobHealer job = new JobHealer(entity);
+//        this.entity.advanced.job = EnumJobType.Healer;
+//        job.speed = speed;
+//        job.range = range;
+//        entity.jobInterface = (JobInterface)job;  
+//        this.revive();
+//    }
+//    
+//    public void setRoleTrader(boolean ignoreDamage, boolean ignoreNBT) {
+//        RoleTrader role = new RoleTrader(entity);
+//        this.entity.advanced.role = EnumRoleType.Trader;
+//        role.ignoreDamage = ignoreDamage;
+//        role.ignoreNBT = ignoreNBT;        
+//        entity.roleInterface = (RoleInterface)role;
+//        this.revive();
+//    }
     
-    public void setJobHealer(int range, int speed) {
-        JobHealer job = new JobHealer(entity);
-        this.entity.advanced.job = EnumJobType.Healer;
-        job.speed = speed;
-        job.range = range;
-        entity.jobInterface = (JobInterface)job;  
-        this.revive();
-    }
     
-    public void setRoleTrader(boolean ignoreDamage, boolean ignoreNBT) {
-        RoleTrader role = new RoleTrader(entity);
-        this.entity.advanced.role = EnumRoleType.Trader;
-        role.ignoreDamage = ignoreDamage;
-        role.ignoreNBT = ignoreNBT;        
-        entity.roleInterface = (RoleInterface)role;
-        this.revive();
-    }
-    
-    public ItemStack getItemStackFromValues(String itemMod, String itemName, int numberOf, int damage) {
-        //System.out.println("Looking for : " + itemMod + " , " + itemName + " , " + numberOf +  " , " + damage);
-        if (ForgeAPI.isItemValidInForge(itemMod, itemName)) {
-            ItemStack itemStack = GameRegistry.findItemStack(itemMod, itemName, numberOf);
-           // if (itemStack.getMaxStackSize() < numberOf) return null;
-            itemStack.setItemDamage(damage);
-            //System.out.println("Found it!");
-            return itemStack;
-        } else {
-            return null;
-        }
-    }
-    
-    public void addItemToTrader(ItemStack stack1, ItemStack stack2, ItemStack stackResult, int position) {
-        if (position <= 0) return;
-        RoleTrader role = (RoleTrader)entity.roleInterface;
-        //System.out.println("Slot is: " + role.inventorySold.firstFreeSlot());
-        //System.out.println("Currency slot is : " + role.inventoryCurrency.firstFreeSlot());
-        if (stackResult != null) role.inventorySold.items.put(position-1, stackResult);
-        if (stack1 != null && stackResult != null) role.inventoryCurrency.items.put(position-1, stack1);
-        if (stack2 != null && stackResult != null) role.inventoryCurrency.items.put((position-1)+18, stack2);
-        role.toSave = true;
-        entity.roleInterface = (RoleInterface)role;
-        revive();
-    }
-    
-    public void setRoleTransporter(String transportName) {
-        TransportLocation desiredLocation = TransportController.getInstance().getTransport(transportName);
-        this.entity.advanced.role = EnumRoleType.Transporter;
-        RoleTransporter role = new RoleTransporter(entity);
-        role.setTransport(desiredLocation);
-        entity.roleInterface = (RoleInterface)role;
-        this.revive();
-    }
+//    public void addItemToTrader(ItemStack stack1, ItemStack stack2, ItemStack stackResult, int position) {
+//        if (position <= 0) return;
+//        RoleTrader role = (RoleTrader)entity.roleInterface;
+//        //System.out.println("Slot is: " + role.inventorySold.firstFreeSlot());
+//        //System.out.println("Currency slot is : " + role.inventoryCurrency.firstFreeSlot());
+//        if (stackResult != null) role.inventorySold.items.put(position-1, stackResult);
+//        if (stack1 != null && stackResult != null) role.inventoryCurrency.items.put(position-1, stack1);
+//        if (stack2 != null && stackResult != null) role.inventoryCurrency.items.put((position-1)+18, stack2);
+//        role.toSave = true;
+//        entity.roleInterface = (RoleInterface)role;
+//        revive();
+//    }
+//    
+//    public void setRoleTransporter(String transportName) {
+//        TransportLocation desiredLocation = TransportController.getInstance().getTransport(transportName);
+//        this.entity.advanced.role = EnumRoleType.Transporter;
+//        RoleTransporter role = new RoleTransporter(entity);
+//        role.setTransport(desiredLocation);
+//        entity.roleInterface = (RoleInterface)role;
+//        this.revive();
+//    }
     
     public boolean shouldRevive() {
         return this.shouldRevive;
@@ -280,10 +302,6 @@ public class Npc {
         this.id = id;
     }
     
-    public void setPartiallyVisible() {
-        this.entity.display.visible = 2;
-    }
-    
     public void showBossBar() {
         this.entity.display.showBossBar = 1;
     }
@@ -294,14 +312,6 @@ public class Npc {
     
     public void showBossBarWhenAttacking() {
         this.entity.display.showBossBar = 2;
-    }
-    
-    public void setVisible() {
-        this.entity.display.visible = 0;
-    }
-    
-    public void setInvisible() {
-        this.entity.display.visible = 1;
     }
     
     public boolean isMoving() {
@@ -316,70 +326,70 @@ public class Npc {
         this.entity.advanced.attackOtherFactions = value;
     }
     
-    public boolean addWorldLine(String text) {
-        if (this.entity.advanced.worldLines.lines.size() > 7) return false;
-        int lineNumber = 0;
-        if (!this.entity.advanced.worldLines.lines.isEmpty()) lineNumber = this.entity.advanced.worldLines.lines.size();
-        Line line = new Line();
-        line.hideText = true;
-        line.text = text;
-        line.sound = "";
-        this.entity.advanced.worldLines.lines.put(lineNumber, line);
-        return true;
-    }
+//    public boolean addWorldLine(String text) {
+//        if (this.entity.advanced.worldLines.lines.size() > 7) return false;
+//        int lineNumber = 0;
+//        if (!this.entity.advanced.worldLines.lines.isEmpty()) lineNumber = this.entity.advanced.worldLines.lines.size();
+//        Line line = new Line();
+//        line.hideText = true;
+//        line.text = text;
+//        line.sound = "";
+//        this.entity.advanced.worldLines.lines.put(lineNumber, line);
+//        return true;
+//    }
 
-    public boolean clearInteractLines() {
-        this.entity.advanced.interactLines.lines.clear();
-        return this.entity.advanced.interactLines.lines.isEmpty();
-    }
-    
-    public boolean addInteractLine(String text) {
-        int lineNumber = 0;
-        if (this.entity.advanced.interactLines.lines.size() > 7) return false;
-        if (!this.entity.advanced.interactLines.lines.isEmpty() && !this.entity.advanced.interactLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.interactLines.lines.size();
-        Line line = new Line();
-        line.hideText = true;
-        line.text = text;
-        line.sound = "";
-        this.entity.advanced.interactLines.lines.put(lineNumber, line);
-        return true;
-    }
-
-    public boolean addKilledLine(String text) {
-        int lineNumber = 0;
-        if (this.entity.advanced.killedLines.lines.size() > 7) return false;
-        if (!this.entity.advanced.killedLines.lines.isEmpty()) lineNumber = this.entity.advanced.killedLines.lines.size();
-        Line line = new Line();
-        line.hideText = true;
-        line.text = text;
-        line.sound = "";
-        this.entity.advanced.killedLines.lines.put(lineNumber, line);
-        return true;
-    }
-    
-    public boolean addKillLine(String text) {
-        int lineNumber = 0;
-        if (this.entity.advanced.killLines.lines.size() > 7) return false;
-        if (!this.entity.advanced.killLines.lines.isEmpty()) lineNumber = this.entity.advanced.killLines.lines.size();
-        Line line = new Line();
-        line.hideText = true;
-        line.text = text;
-        line.sound = "";
-        this.entity.advanced.killLines.lines.put(lineNumber, line);
-        return true;
-    }
-    
-    public boolean addAttackLine(String text) {
-        int lineNumber = 0;
-        if (this.entity.advanced.attackLines.lines.size() > 7) return false;
-        if (!this.entity.advanced.attackLines.lines.isEmpty()) lineNumber = this.entity.advanced.attackLines.lines.size();
-        Line line = new Line();
-        line.hideText = true;
-        line.text = text;
-        line.sound = "";
-        this.entity.advanced.attackLines.lines.put(lineNumber, line);
-        return true;
-    }
+//    public boolean clearInteractLines() {
+//        this.entity.advanced.interactLines.lines.clear();
+//        return this.entity.advanced.interactLines.lines.isEmpty();
+//    }
+//    
+//    public boolean addInteractLine(String text) {
+//        int lineNumber = 0;
+//        if (this.entity.advanced.interactLines.lines.size() > 7) return false;
+//        if (!this.entity.advanced.interactLines.lines.isEmpty() && !this.entity.advanced.interactLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.interactLines.lines.size();
+//        Line line = new Line();
+//        line.hideText = true;
+//        line.text = text;
+//        line.sound = "";
+//        this.entity.advanced.interactLines.lines.put(lineNumber, line);
+//        return true;
+//    }
+//
+//    public boolean addKilledLine(String text) {
+//        int lineNumber = 0;
+//        if (this.entity.advanced.killedLines.lines.size() > 7) return false;
+//        if (!this.entity.advanced.killedLines.lines.isEmpty()) lineNumber = this.entity.advanced.killedLines.lines.size();
+//        Line line = new Line();
+//        line.hideText = true;
+//        line.text = text;
+//        line.sound = "";
+//        this.entity.advanced.killedLines.lines.put(lineNumber, line);
+//        return true;
+//    }
+//    
+//    public boolean addKillLine(String text) {
+//        int lineNumber = 0;
+//        if (this.entity.advanced.killLines.lines.size() > 7) return false;
+//        if (!this.entity.advanced.killLines.lines.isEmpty()) lineNumber = this.entity.advanced.killLines.lines.size();
+//        Line line = new Line();
+//        line.hideText = true;
+//        line.text = text;
+//        line.sound = "";
+//        this.entity.advanced.killLines.lines.put(lineNumber, line);
+//        return true;
+//    }
+//    
+//    public boolean addAttackLine(String text) {
+//        int lineNumber = 0;
+//        if (this.entity.advanced.attackLines.lines.size() > 7) return false;
+//        if (!this.entity.advanced.attackLines.lines.isEmpty()) lineNumber = this.entity.advanced.attackLines.lines.size();
+//        Line line = new Line();
+//        line.hideText = true;
+//        line.text = text;
+//        line.sound = "";
+//        this.entity.advanced.attackLines.lines.put(lineNumber, line);
+//        return true;
+//    }
     
     public void defendFactionMembers(boolean value) {
         this.entity.advanced.defendFaction = value;
@@ -413,22 +423,22 @@ public class Npc {
         return this.name;
     }
     
-    public String getLinkedTemplate() {
-        return this.template;
-    }
+//    public String getLinkedTemplate() {
+//        return this.template;
+//    }
     
-    private void setLinkedTemplate(String template) {
-        if (!this.hasValidTemplate()) return;
-        this.entity.linkedName = template;        
-        LinkedNpcController lnc = new LinkedNpcController();
-        lnc.loadNpcData((EntityNPCInterface)this.entity);
-        stopMoving(); // Stop moving in the off chance the template has moving assigned.
-    }
-    
-    public boolean hasValidTemplate() {
-        LinkedNpcController lnc = new LinkedNpcController();
-        return lnc.getData(this.getLinkedTemplate()) != null;
-    }
+//    private void setLinkedTemplate(String template) {
+//        if (!this.hasValidTemplate()) return;
+//        this.entity.linkedName = template;        
+//        LinkedNpcController lnc = new LinkedNpcController();
+//        lnc.loadNpcData((EntityNPCInterface)this.entity);
+//        stopMoving(); // Stop moving in the off chance the template has moving assigned.
+//    }
+//    
+//    public boolean hasValidTemplate() {
+//        LinkedNpcController lnc = new LinkedNpcController();
+//        return lnc.getData(this.getLinkedTemplate()) != null;
+//    }
     
     private boolean spawnInWorld() {
         getForgeWorld(spawnPosition.getDimension().getName()).spawnEntityInWorld(entity);
@@ -497,16 +507,10 @@ public class Npc {
         entity.updateAI = true;
     }
     
-    private void cleanup() {
+    private void unlinkFromTemplate() {
         this.entity.linkedLast = 0;
         this.entity.linkedData = null;
         this.entity.linkedName = "";
-        this.resetName();
-    }
-    
-    public void resetName() {
-        this.entity.display.name = this.name;
-        this.entity.display.title = this.title;
     }
     
     public void moveTo(int posX, int posY, int posZ, int secondsToComplete) {
@@ -622,14 +626,6 @@ public class Npc {
     
     public void setLootModeAutoPickup() {
         this.entity.inventory.lootMode = 1;
-    }
-    
-    public boolean shouldRespawn() {
-        return this.shouldRespawn;
-    }
-    
-    public void setShouldRespawn(boolean yesOrNo) {
-        this.shouldRespawn = yesOrNo;
     }
     
     public EntityCustomNpc findCustomNpcInGame() {        
@@ -986,14 +982,6 @@ public class Npc {
         this.entity.stats.pDamage = value;
     }
     
-    public void increaseNumberSpawned() {
-        this.clonesSpawned += 1;
-    }
-    
-    public void decreaseNumberSpawned() {
-        this.clonesSpawned -= 1;
-    }
-    
     public void setProjectileSize(int value) {
         this.entity.stats.pSize = value;
     }
@@ -1051,10 +1039,6 @@ public class Npc {
         this.entity.stats.rangedRange = value;
     }
     
-    public void respawnTime(int value) {
-        this.entity.stats.respawnTime = value;
-    }
-    
     public boolean setJob(String jobName) {
         if (EnumJobType.valueOf(jobName) == null) return false;
         this.entity.advanced.job = EnumJobType.valueOf(jobName);
@@ -1093,14 +1077,7 @@ public class Npc {
         if (points >= 0) this.entity.advanced.factions.faction2Points = points;
         return true;
     }
-    
-    public void respawnsInGame(boolean value, int time, boolean day, boolean night) {
-        if (night == day && !value) this.entity.stats.spawnCycle = 3;
-        if (day && !night) this.entity.stats.spawnCycle = 1;
-        if (night && !day) this.entity.stats.spawnCycle = 2;
-        if (night == day && value) this.entity.stats.spawnCycle = 0;
-        this.respawnTime(time);
-    }
+
     
     public boolean getNaturallyDespawns() {
         return this.entity.stats.canDespawn;
@@ -1357,33 +1334,30 @@ public class Npc {
         return this.existsInGame();
     }
     
-    public void setGender(boolean isMale) {
-        if (!isMale) this.entity.modelData.breasts = 2;
-        if (isMale) this.entity.modelData.breasts = 0;
-    }
+
     
-    public void setModelClass(String modelClass) {
-        try {
-            Class c = Class.forName(modelClass);
-            this.entity.modelData.setEntityClass(c);
-        } catch (Exception e) {
-            //System.out.println("Failed to assign modelData: "  + e.getMessage());
-        }
-    }
+//    public void setModelClass(String modelClass) {
+//        try {
+//            Class c = Class.forName(modelClass);
+//            this.entity.modelData.setEntityClass(c);
+//        } catch (Exception e) {
+//            //System.out.println("Failed to assign modelData: "  + e.getMessage());
+//        }
+//    }
     
-    public void addDialogDialogOption(String dialogTitle, int color, int position) {
-        DialogOption dialogOption = new DialogOption();
-        dialogOption.optionType = EnumOptionType.DialogOption;
-        Dialog d = null;
-        for (Dialog dialog : DialogController.instance.dialogs.values()) {
-            if (dialog.title.equals(dialogTitle)) d = dialog;
-        }
-        if (d == null) return;        
-        dialogOption.optionColor = color;
-        dialogOption.dialogId = d.id;
-        dialogOption.title = d.title;
-        dialogOption.command = "NOCOMMAND";
-        entity.dialogs.put(position-1, dialogOption);
-    }    
+//    public void addDialogDialogOption(String dialogTitle, int color, int position) {
+//        DialogOption dialogOption = new DialogOption();
+//        dialogOption.optionType = EnumOptionType.DialogOption;
+//        Dialog d = null;
+//        for (Dialog dialog : DialogController.instance.dialogs.values()) {
+//            if (dialog.title.equals(dialogTitle)) d = dialog;
+//        }
+//        if (d == null) return;        
+//        dialogOption.optionColor = color;
+//        dialogOption.dialogId = d.id;
+//        dialogOption.title = d.title;
+//        dialogOption.command = "NOCOMMAND";
+//        entity.dialogs.put(position-1, dialogOption);
+//    }    
     
 }

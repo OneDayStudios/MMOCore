@@ -13,7 +13,22 @@ import com.stargatemc.forge.core.constants.NpcRespawnOption;
  */
 public class NpcRespawnBehaviour {
     
-    private NpcRespawnOption respawnTime;
+    private NpcRespawnOption respawnOption;
     private int respawnTimeSeconds;
     
+    public void setRespawnOption(NpcRespawnOption option) {
+        this.respawnOption = option;
+    }
+    
+    public NpcRespawnOption getRespawnOption() {
+        return this.respawnOption;
+    }
+    
+    public int getRespawnTime() {
+        return this.respawnTimeSeconds;
+    }
+    
+    public void setRespawnTime(int seconds) {
+        this.respawnTimeSeconds = seconds;
+    }
 }

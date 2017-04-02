@@ -17,7 +17,7 @@ import noppes.npcs.controllers.FactionController;
  *
  * @author draks
  */
-public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpcFaction, Integer> {
+public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpcFaction, Integer, Faction> {
     
     private Faction actualFaction;
     
@@ -44,72 +44,69 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
         actualFaction.id = id;
     }
     
-    public Faction getFaction() {
-        return this.actualFaction;
-    }    
     public void setDefaultPoints(int points) {
-        getFaction().defaultPoints = points;
+        getRegisteredObject().defaultPoints = points;
     }
     public int getDefaultPoints() {
-        return getFaction().defaultPoints;
+        return getRegisteredObject().defaultPoints;
     }
     public int getFriendlyPoints() {
-        return getFaction().friendlyPoints;
+        return getRegisteredObject().friendlyPoints;
     }
     public void setFriendlyPoints(int points) {
-        getFaction().friendlyPoints = points;
+        getRegisteredObject().friendlyPoints = points;
     }
     public void setNeutralPoints(int points) {
-        getFaction().neutralPoints = points;
+        getRegisteredObject().neutralPoints = points;
     }
     public int getNeutralPoints() {
-        return getFaction().neutralPoints;
+        return getRegisteredObject().neutralPoints;
     }
     public void setAttackedByMobs(boolean value) {
-        getFaction().getsAttacked = value;
+        getRegisteredObject().getsAttacked = value;
     }
     public boolean getAttackedByMobs() {
-        return getFaction().getsAttacked;
+        return getRegisteredObject().getsAttacked;
     }
     
     public void setIsHidden(boolean value) {
-        getFaction().hideFaction = value;
+        getRegisteredObject().hideFaction = value;
     }
     
     public boolean getIsHidden() {
-        return getFaction().hideFaction;
+        return getRegisteredObject().hideFaction;
     }
     
     public void clearHostileFactions() {
-        getFaction().attackFactions.clear();
+        getRegisteredObject().attackFactions.clear();
     }
     
     public void addHostileFaction(String name) {
         Faction f = NpcFactionAPI.get(name);
         if (f != null) {
-            getFaction().attackFactions.add(f.id);
+            getRegisteredObject().attackFactions.add(f.id);
         }        
     }
     
     public void setColor(int number) {
-        getFaction().color = number;
+        getRegisteredObject().color = number;
     }
     
     public int getColor() {
-        return getFaction().color;
+        return getRegisteredObject().color;
     }
     
     public int getID() {
-        return getFaction().id;
+        return getRegisteredObject().id;
     }
     
     public void save() {
         try {
-            if (FactionController.getInstance().factions.get(getFaction().id) != null) FactionController.getInstance().factions.replace(getFaction().id, getFaction());        
-            if (FactionController.getInstance().factions.get(getFaction().id) == null) FactionController.getInstance().factions.put(getFaction().id, getFaction());        
+            if (FactionController.getInstance().factions.get(getRegisteredObject().id) != null) FactionController.getInstance().factions.replace(getRegisteredObject().id, getRegisteredObject());        
+            if (FactionController.getInstance().factions.get(getRegisteredObject().id) == null) FactionController.getInstance().factions.put(getRegisteredObject().id, getRegisteredObject());        
             FactionController.getInstance().saveFaction(actualFaction);
         } catch (Exception e) {
-            System.out.println("Failed to save faction: " + getFaction().name);
+            System.out.println("Failed to save faction: " + getRegisteredObject().name);
         }
     }
 
@@ -132,5 +129,11 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalised Npc Faction: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        this.save();
+    }
+
+    @Override
+    public Faction getRegisteredObject() {
+        return this.actualFaction;
     }
 }

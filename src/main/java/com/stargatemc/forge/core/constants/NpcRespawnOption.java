@@ -12,5 +12,6 @@ package com.stargatemc.forge.core.constants;
 public enum NpcRespawnOption {
     Night,
     Day,
-    Always
+    Always,
+    Never
 }

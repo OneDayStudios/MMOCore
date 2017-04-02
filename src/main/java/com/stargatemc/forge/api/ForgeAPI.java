@@ -93,4 +93,17 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
           }
           return null;
     }
+    
+    public static ItemStack getItemStackFromValues(String itemMod, String itemName, int numberOf, int damage) {
+        //System.out.println("Looking for : " + itemMod + " , " + itemName + " , " + numberOf +  " , " + damage);
+        if (ForgeAPI.isItemValidInForge(itemMod, itemName)) {
+            ItemStack itemStack = GameRegistry.findItemStack(itemMod, itemName, numberOf);
+           // if (itemStack.getMaxStackSize() < numberOf) return null;
+            itemStack.setItemDamage(damage);
+            //System.out.println("Found it!");
+            return itemStack;
+        } else {
+            return null;
+        }
+    }
 }

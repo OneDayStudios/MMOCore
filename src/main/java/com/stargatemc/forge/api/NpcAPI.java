@@ -10,6 +10,7 @@ import com.stargatemc.forge.core.Npc.RegisterableNpc;
 import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
 import com.stargatemc.forge.core.Player.RegisterablePlayer;
 import com.stargatemc.forge.core.constants.FactionRelationType;
+import com.stargatemc.forge.core.constants.NpcVisibleOption;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -93,5 +94,13 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     public static boolean areNpcsHostile(RegisterableNpc sourceNpc, RegisterableNpc targetNpc) {
         if (NpcFactionAPI.get(sourceNpc.getRegisteredObject().getFactionName()).isAggressiveToNpc(targetNpc.getRegisteredObject().getEntity())) return true;
         return false;
+    }
+    
+    public static NpcVisibleOption setNpcVisibility(NpcVisibleOption option, RegisterableNpc npc) {
+        if (option != npc.getRegisteredObject().getBaseOptions().getVisibleOption()) {
+            npc.getRegisteredObject().getBaseOptions().setVisibleOption(option);
+            npc.getRegisteredObject().setMarkedForUpdate();
+        }
+        return npc.getRegisteredObject().getBaseOptions().getVisibleOption();
     }
 }
