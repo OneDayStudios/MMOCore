@@ -10,6 +10,7 @@ import com.stargatemc.forge.core.constants.NpcGender;
 import com.stargatemc.forge.core.constants.NpcTexture;
 import com.stargatemc.forge.core.constants.NpcTextureType;
 import com.stargatemc.forge.core.constants.NpcVisibleOption;
+import com.stargatemc.forge.core.constants.TextVisibleOption;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,6 +30,24 @@ public class NpcBaseOptions {
     private RegisterableNpcFaction faction;
     private NpcVisibleOption visibility;
     private NpcGender gender;
+    private TextVisibleOption bossBarVisible;
+    private TextVisibleOption nameVisible;
+
+    public TextVisibleOption getBossBarVisible() {
+        return this.bossBarVisible;
+    }
+    
+    public void setBossBarVisible(TextVisibleOption option) {
+        this.bossBarVisible = option;
+    }
+    
+    public TextVisibleOption getNameVisible() {
+        return this.nameVisible;
+    }
+    
+    public void setNameVisible(TextVisibleOption option) {
+        this.nameVisible = option;
+    }
     
     public NpcGender getGender() {
         return this.gender;

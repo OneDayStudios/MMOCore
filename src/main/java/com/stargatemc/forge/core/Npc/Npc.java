@@ -18,6 +18,7 @@ import com.stargatemc.forge.core.constants.NpcGender;
 import com.stargatemc.forge.core.constants.NpcRespawnOption;
 import com.stargatemc.forge.core.constants.NpcTextureType;
 import com.stargatemc.forge.core.constants.NpcVisibleOption;
+import com.stargatemc.forge.core.constants.TextVisibleOption;
 import com.stargatemc.forge.core.constants.uPosition;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -177,7 +178,8 @@ public class Npc {
         if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.Visible) && this.entity.display.visible != 0) this.entity.display.visible = 0;
         if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.Invisible) && this.entity.display.visible != 1) this.entity.display.visible = 1;
         if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.PartiallyVisible) && this.entity.display.visible != 2) this.entity.display.visible = 2;
-        if (!this.getBaseOptions().getTexture().asTextureString().equals(getEntity().display.texture)) this.entity.display.texture = this.getBaseOptions().getTexture().asTextureString();
+        if (!this.getBaseOptions().getTexture().asTextureString().equals(getEntity().display.texture) && !this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Web)) this.entity.display.texture = this.getBaseOptions().getTexture().asTextureString();
+        if (!this.getBaseOptions().getTexture().asTextureString().equals(getEntity().display.url) && this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Web)) this.entity.display.url = this.getBaseOptions().getTexture().asTextureString();
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Web)) this.entity.display.skinType = 2;
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Player)) this.entity.display.skinType = 1;
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Resource)) this.entity.display.skinType = 0;
@@ -194,11 +196,17 @@ public class Npc {
         
         if (this.getRespawnBehaviour().getRespawnTime() != this.entity.stats.respawnTime) this.entity.stats.respawnTime = this.getRespawnBehaviour().getRespawnTime();
 
+        if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Always) && this.entity.display.showBossBar != 1) this.entity.display.showBossBar = 1;
+        if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Never) && this.entity.display.showBossBar != 0) this.entity.display.showBossBar = 0;
+        if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showBossBar != 2) this.entity.display.showBossBar = 2;
+        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 1) this.entity.display.showName = 1;
+        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 0) this.entity.display.showName = 0;
+        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showName != 2) this.entity.display.showName = 2;
+        
         this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
-        
     
     // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
     
@@ -304,19 +312,7 @@ public class Npc {
     public void setID(int id) {
         this.id = id;
     }
-    
-    public void showBossBar() {
-        this.entity.display.showBossBar = 1;
-    }
-    
-    public void hideBossBar() {
-        this.entity.display.showBossBar = 0;
-    }
-    
-    public void showBossBarWhenAttacking() {
-        this.entity.display.showBossBar = 2;
-    }
-    
+
     public boolean isMoving() {
         return this.isMoving;
     }
@@ -418,13 +414,6 @@ public class Npc {
         return new uPosition(getPosX(), getPosY(), getPosZ(), SForge.getInstance().getDimensionRegistry().getRegistered(getWorldName()));
     }
     
-    public String getTitle() {
-        return this.title;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
     
 //    public String getLinkedTemplate() {
 //        return this.template;
@@ -669,18 +658,6 @@ public class Npc {
     public void setTextureResource(String resource) {
         this.entity.display.texture = resource;
         this.entity.display.skinType = 0;
-    }
-    
-    public void showNameAlways() {
-        entity.display.showName = 0;
-    }
-    
-    public void showNameNever() {
-        entity.display.showName = 1;
-    }
-    
-    public void showNameWhenAttacking() {
-        entity.display.showName = 2;
     }
     
     private void setMovingType(EnumMovingType type) {
@@ -1130,14 +1107,6 @@ public class Npc {
     public void setSize(int value) {
         if (value < 1 || value > 30) return;
         this.entity.display.modelSize = value;
-    }
-    
-    public int getGroupArea() {
-        return this.groupArea;
-    }
-    
-    public void setGroupArea(int number) {
-        this.groupArea = number;
     }
     
     public void shelterFromSun() {
