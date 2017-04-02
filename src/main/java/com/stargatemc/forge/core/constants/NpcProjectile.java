@@ -15,7 +15,7 @@ import noppes.npcs.constants.EnumParticleType;
  */
 
 public enum NpcProjectile {
-    REDPLASMA("IC2", "itemDust2", 2, false, 3, 30, false, true, true, EnumParticleType.None);
+    RED_PLASMA("IC2", "itemDust2", 2, false, 3, 30, false, true, true, EnumParticleType.None);
     
     private String mod;
     private String item;
