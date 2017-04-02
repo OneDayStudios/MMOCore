@@ -178,6 +178,9 @@ public class Npc {
         if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.Invisible) && this.entity.display.visible != 1) this.entity.display.visible = 1;
         if (this.getBaseOptions().getVisibleOption().equals(NpcVisibleOption.PartiallyVisible) && this.entity.display.visible != 2) this.entity.display.visible = 2;
         if (!this.getBaseOptions().getTexture().asTextureString().equals(getEntity().display.texture)) this.entity.display.texture = this.getBaseOptions().getTexture().asTextureString();
+        if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Web)) this.entity.display.skinType = 2;
+        if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Player)) this.entity.display.skinType = 1;
+        if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Resource)) this.entity.display.skinType = 0;
         if (!this.getBaseOptions().getFaction().getRegisteredObject().equals(entity.getFaction())) this.entity.setFaction(this.getBaseOptions().getFaction().getIdentifier());
         if (this.getBaseOptions().getGender().equals(NpcGender.Male) && this.entity.modelData.breasts != 0) this.entity.modelData.breasts = 0;
         if (this.getBaseOptions().getGender().equals(NpcGender.Female) && this.entity.modelData.breasts != 2) this.entity.modelData.breasts = 2;
