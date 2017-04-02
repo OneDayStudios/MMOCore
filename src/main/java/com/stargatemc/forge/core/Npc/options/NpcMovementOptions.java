@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules.options;
+package com.stargatemc.forge.core.Npc.options;
 
 /**
  *
  * @author draks
  */
-public class NpcCombatOptions {
+public class NpcMovementOptions {
     
 }

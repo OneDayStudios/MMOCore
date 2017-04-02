@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules;
+package com.stargatemc.forge.core.Npc.options;
 
 import com.stargatemc.forge.core.Player.RegisterablePlayer;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Random;
  *
  * @author draks
  */
-public class NpcInteractions {
+public class NpcInteractionOptions {
 
     private List<String> randomRepeatableUnavailableLines = new ArrayList<String>();
     

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules;
+package com.stargatemc.forge.core.Npc.options;
 
 import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
+import com.stargatemc.forge.core.constants.NpcDoorInteraction;
 import com.stargatemc.forge.core.constants.NpcGender;
 import com.stargatemc.forge.core.constants.NpcTexture;
 import com.stargatemc.forge.core.constants.NpcTextureType;
@@ -32,7 +33,16 @@ public class NpcBaseOptions {
     private NpcGender gender;
     private TextVisibleOption bossBarVisible;
     private TextVisibleOption nameVisible;
-
+    private NpcDoorInteraction doorBehaviour;
+    
+    public NpcDoorInteraction getDoorBehaviour() {
+        return this.doorBehaviour;
+    }
+    
+    public void setDoorBehaviour(NpcDoorInteraction setting) {
+        this.doorBehaviour = setting;
+    }
+    
     public TextVisibleOption getBossBarVisible() {
         return this.bossBarVisible;
     }

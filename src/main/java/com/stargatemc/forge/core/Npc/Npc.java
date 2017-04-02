@@ -6,14 +6,16 @@
 package com.stargatemc.forge.core.Npc;
 import com.stargatemc.forge.SForge;
 import com.stargatemc.forge.api.ForgeAPI;
-import com.stargatemc.forge.core.Npc.modules.NpcBaseOptions;
+import com.stargatemc.forge.core.Npc.options.NpcBaseOptions;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcHeldItemSet;
 import com.stargatemc.forge.core.Npc.modules.loadout.NpcWornItemSet;
-import com.stargatemc.forge.core.Npc.modules.NpcInteractions;
+import com.stargatemc.forge.core.Npc.options.NpcInteractionOptions;
 import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
-import com.stargatemc.forge.core.Npc.modules.behaviour.NpcRespawnBehaviour;
-import com.stargatemc.forge.core.Npc.modules.options.NpcSpawnOptions;
-import com.stargatemc.forge.core.NpcFaction.RegisterableNpcFaction;
+import com.stargatemc.forge.core.Npc.options.NpcCombatOptions;
+import com.stargatemc.forge.core.Npc.options.NpcRespawnOptions;
+import com.stargatemc.forge.core.Npc.options.NpcSpawnOptions;
+import net.minecraft.item.ItemStack;
+import com.stargatemc.forge.core.constants.NpcDoorInteraction;
 import com.stargatemc.forge.core.constants.NpcGender;
 import com.stargatemc.forge.core.constants.NpcRespawnOption;
 import com.stargatemc.forge.core.constants.NpcTextureType;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.UUID;
 import noppes.npcs.constants.EnumAnimation;
 import noppes.npcs.constants.EnumJobType;
+import noppes.npcs.constants.EnumParticleType;
 import noppes.npcs.constants.EnumRoleType;
 import noppes.npcs.controllers.Line;
 import noppes.npcs.controllers.LinkedNpcController;
@@ -53,16 +56,17 @@ public class Npc {
     private boolean markedForRemoval = false;
     
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
+    private NpcCombatOptions combatOptions = new NpcCombatOptions();
     private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions randomSpawnOptions = new NpcSpawnOptions();
-    private NpcInteractions interactions = new NpcInteractions();
+    private NpcInteractionOptions interactions = new NpcInteractionOptions();
     private NpcWornItemSet armor = new NpcWornItemSet();
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
     private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
     private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
-    private NpcRespawnBehaviour respawnBehaviour = new NpcRespawnBehaviour();
+    private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     
     private int id;
     private String name;
@@ -145,12 +149,21 @@ public class Npc {
         this.setMarkedForUpdate();
     }
     
-    public NpcRespawnBehaviour getRespawnBehaviour() {
+    public NpcRespawnOptions getRespawnBehaviour() {
         return this.respawnBehaviour;
     }
     
-    public void setRespawnBehaviour(NpcRespawnBehaviour behaviour) {
+    public void setRespawnBehaviour(NpcRespawnOptions behaviour) {
         this.respawnBehaviour = behaviour;
+        this.setMarkedForUpdate();
+    }
+    
+    public NpcCombatOptions getCombatOptions() {
+        return this.combatOptions;
+    }
+    
+    public void setCombatOptions(NpcCombatOptions options) {
+        this.combatOptions = options;
         this.setMarkedForUpdate();
     }
     
@@ -202,6 +215,11 @@ public class Npc {
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 1) this.entity.display.showName = 1;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 0) this.entity.display.showName = 0;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showName != 2) this.entity.display.showName = 2;
+        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
+        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
+        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
+
+        if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
         
         this.revive();
         // This is important so that the NPC doesnt constantly update.
@@ -724,18 +742,7 @@ public class Npc {
     public void ignoreWhenAttacked() {
         this.entity.ai.onAttack = 3;
     }
-    
-    public void cantOpenDoors() {
-        this.entity.ai.doorInteract = 0;
-    }
-    
-    public void breaksDoors() {
-        this.entity.ai.doorInteract = 1;
-    }
-    
-    public void opensDoors() {
-        this.entity.ai.doorInteract = 2;
-    }
+
     
     public void canSwim(boolean value) {
         this.entity.ai.canSwim = value;
@@ -1279,16 +1286,6 @@ public class Npc {
             if (player.getGameProfile().getName().equals(playerName)) return player;
         }
         return null;
-    }
-    
-    public boolean setFactionByName(RegisterableNpc npc, RegisterableNpcFaction faction) {
-        if (NpcFactionAPI.)
-        this.entity.setFaction(faction.getIdentifier());
-        return true;
-    }
-    
-    public String getFactionName() {
-        return this.factionName;
     }
     
     public void despawn() {

@@ -5,6 +5,8 @@
  */
 package com.stargatemc.forge.core.Npc.modules.loadout;
 
+import com.stargatemc.forge.core.constants.NpcProjectile;
+
 /**
  *
  * @author draks
@@ -12,7 +14,7 @@ package com.stargatemc.forge.core.Npc.modules.loadout;
 public class NpcHeldItemSet {
     
     private NpcWornItem mainhand = new NpcWornItem();
-    private NpcWornItem offhand = new NpcWornItem();
+    private NpcWornItem offhand = new NpcWornItem();    
     
     public NpcWornItem getOffHand() {
         return this.offhand;
@@ -20,5 +22,13 @@ public class NpcHeldItemSet {
     
     public NpcWornItem getMainHand() {
         return this.mainhand;
+    }
+    
+    public void setOffHand(NpcWornItem item) {
+        this.offhand = item;
+    }
+    
+    public void setMainHand(NpcWornItem item) {
+        this.mainhand = item;
     }
 }

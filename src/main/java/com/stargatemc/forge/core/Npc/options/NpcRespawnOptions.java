@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stargatemc.forge.core.Npc.modules.behaviour;
+package com.stargatemc.forge.core.Npc.options;
 
 import com.stargatemc.forge.core.constants.NpcRespawnOption;
 
@@ -11,7 +11,7 @@ import com.stargatemc.forge.core.constants.NpcRespawnOption;
  *
  * @author draks
  */
-public class NpcRespawnBehaviour {
+public class NpcRespawnOptions {
     
     private NpcRespawnOption respawnOption;
     private int respawnTimeSeconds;

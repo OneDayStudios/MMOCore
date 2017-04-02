@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.stargatemc.forge.core.Npc.modules.loadout;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 
 /**
  *
