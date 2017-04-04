@@ -1,2 +1,2 @@
-# SForge
-SForge is a mod designed at provide bukkit compatible plugins with a way to communicate with forge mods (and vice versa), as well as a simple api for some forge mods to integrate with others.
+# MMOCore
+MMOCore is designed to simplify the use of CustomNPCs, SGCraft and Forge in general to allow for an immersive MMO-like experience to be created by java developers. 
