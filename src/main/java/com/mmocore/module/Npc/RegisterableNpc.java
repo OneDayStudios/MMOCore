@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmcore.module.Npc;
+package com.mmocore.module.Npc;
 
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.NpcSpawnMethod;

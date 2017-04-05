@@ -7,7 +7,7 @@ package com.mmocore.module.Npc.options;
 
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmcore.module.Galaxy.RegisterableGalaxy;
+import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.constants.ConsoleMessageType;

@@ -6,7 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
-import com.mmcore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.FactionRelationType;

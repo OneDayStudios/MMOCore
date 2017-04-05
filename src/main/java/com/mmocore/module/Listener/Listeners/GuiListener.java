@@ -6,7 +6,7 @@
 package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
-import com.mmcore.module.Listener.RegisterableListener;
+import com.mmocore.module.Listener.RegisterableListener;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 

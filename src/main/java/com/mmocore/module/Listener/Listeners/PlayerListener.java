@@ -10,7 +10,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmcore.module.Listener.RegisterableListener;
+import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

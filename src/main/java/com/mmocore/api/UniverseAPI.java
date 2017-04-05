@@ -8,7 +8,7 @@ package com.mmocore.api;
 import com.mmocore.constants.uPosition;
 import com.mmocore.MMOCore;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmcore.module.Galaxy.RegisterableGalaxy;
+import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
 import java.util.ArrayList;

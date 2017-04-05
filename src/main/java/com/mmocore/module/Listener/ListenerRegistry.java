@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmcore.module.Listener;
+package com.mmocore.module.Listener;
 
 import com.mmocore.module.Listener.Listeners.WorldListener;
 import com.mmocore.MMOCore;

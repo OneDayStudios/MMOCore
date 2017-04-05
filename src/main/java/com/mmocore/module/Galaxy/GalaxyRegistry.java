@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmcore.module.Galaxy;
+package com.mmocore.module.Galaxy;
 
 import com.mmocore.module.AbstractRegistry;
 

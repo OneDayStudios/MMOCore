@@ -7,7 +7,7 @@ package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmcore.module.Listener.RegisterableListener;
+import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
