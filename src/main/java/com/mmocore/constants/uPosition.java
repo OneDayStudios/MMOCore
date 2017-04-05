@@ -7,9 +7,9 @@ package com.mmocore.constants;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.UniverseAPI;
-import com.mmocore.core.AbstractObjectCore;
-import com.mmocore.core.Dimension.RegisterableDimension;
-import com.mmcore.core.Galaxy.RegisterableGalaxy;
+import com.mmocore.module.AbstractObjectCore;
+import com.mmocore.module.Dimension.RegisterableDimension;
+import com.mmcore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.constants.DimensionType;
 
 /**

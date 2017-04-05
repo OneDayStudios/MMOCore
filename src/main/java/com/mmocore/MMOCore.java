@@ -5,16 +5,16 @@
  */
 package com.mmocore;
 import com.mmocore.api.ForgeAPI;
-import com.mmocore.core.Dialog.DialogRegistry;
-import com.mmocore.core.Dimension.DimensionRegistry;
-import com.mmcore.core.Galaxy.GalaxyRegistry;
-import com.mmocore.core.Gui.GuiRegistry;
-import com.mmcore.core.Listener.ListenerRegistry;
-import com.mmcore.core.Npc.NpcRegistry;
-import com.mmocore.core.NpcFaction.NpcFactionRegistry;
-import com.mmocore.core.Player.PlayerRegistry;
-import com.mmocore.core.Quest.QuestRegistry;
-import com.mmocore.core.Stargate.StargateRegistry;
+import com.mmocore.module.Dialog.DialogRegistry;
+import com.mmocore.module.Dimension.DimensionRegistry;
+import com.mmcore.module.Galaxy.GalaxyRegistry;
+import com.mmocore.module.Gui.GuiRegistry;
+import com.mmcore.module.Listener.ListenerRegistry;
+import com.mmcore.module.Npc.NpcRegistry;
+import com.mmocore.module.NpcFaction.NpcFactionRegistry;
+import com.mmocore.module.Player.PlayerRegistry;
+import com.mmocore.module.Quest.QuestRegistry;
+import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.network.DataChannel;

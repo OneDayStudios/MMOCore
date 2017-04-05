@@ -6,8 +6,8 @@
 package com.mmocore.network;
 
 import com.mmocore.MMOCore;
-import com.mmocore.core.Gui.RegisterableGui;
-import com.mmocore.core.Gui.GuiElement;
+import com.mmocore.module.Gui.RegisterableGui;
+import com.mmocore.module.Gui.GuiElement;
 import com.mmocore.constants.GuiSlot;
 import java.io.DataInput;
 import java.io.DataOutput;

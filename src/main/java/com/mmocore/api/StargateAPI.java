@@ -6,7 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
-import com.mmocore.core.Stargate.RegisterableStargate;
+import com.mmocore.module.Stargate.RegisterableStargate;
 
 /**
  *

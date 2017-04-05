@@ -6,7 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
-import com.mmocore.core.Player.RegisterablePlayer;
+import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

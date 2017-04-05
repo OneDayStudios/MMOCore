@@ -6,9 +6,9 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
-import com.mmcore.core.Npc.RegisterableNpc;
-import com.mmocore.core.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.core.Player.RegisterablePlayer;
+import com.mmcore.module.Npc.RegisterableNpc;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.FactionRelationType;
 import com.mmocore.constants.NpcVisibleOption;
 import cpw.mods.fml.common.registry.GameRegistry;

@@ -5,7 +5,7 @@
  */
 package com.mmocore.api;
 
-import com.mmocore.core.Player.RegisterablePlayer;
+import com.mmocore.module.Player.RegisterablePlayer;
 import noppes.npcs.controllers.Dialog;
 import noppes.npcs.controllers.DialogCategory;
 import noppes.npcs.controllers.DialogController;
