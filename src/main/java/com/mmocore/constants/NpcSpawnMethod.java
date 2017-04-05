@@ -18,5 +18,5 @@ public enum NpcSpawnMethod {
     Default,
     Random,
     Incursion, 
-    Mission
+    Quest
 }
