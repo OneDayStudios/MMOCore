@@ -11,24 +11,24 @@ package com.mmocore.module.Npc.loadout;
  */
 public class NpcWornItemSet {
     
-    private NpcWornItem head = new NpcWornItem();
-    private NpcWornItem chest = new NpcWornItem();
-    private NpcWornItem legs = new NpcWornItem();
-    private NpcWornItem feet = new NpcWornItem();
+    private NpcItem head = new NpcItem();
+    private NpcItem chest = new NpcItem();
+    private NpcItem legs = new NpcItem();
+    private NpcItem feet = new NpcItem();
     
-    public NpcWornItem getHead() {
+    public NpcItem getHead() {
         return this.head;
     }
     
-    public NpcWornItem getChest() {
+    public NpcItem getChest() {
         return this.chest;
     }
     
-    public NpcWornItem getLegs() {
+    public NpcItem getLegs() {
         return this.legs;
     }
     
-    public NpcWornItem getFeet() {
+    public NpcItem getFeet() {
         return this.feet;
     }
 }

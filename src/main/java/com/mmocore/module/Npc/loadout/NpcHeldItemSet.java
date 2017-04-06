@@ -13,22 +13,22 @@ import com.mmocore.constants.NpcProjectile;
  */
 public class NpcHeldItemSet {
     
-    private NpcWornItem mainhand = new NpcWornItem();
-    private NpcWornItem offhand = new NpcWornItem();    
+    private NpcItem mainhand = new NpcItem();
+    private NpcItem offhand = new NpcItem();    
     
-    public NpcWornItem getOffHand() {
+    public NpcItem getOffHand() {
         return this.offhand;
     }
     
-    public NpcWornItem getMainHand() {
+    public NpcItem getMainHand() {
         return this.mainhand;
     }
     
-    public void setOffHand(NpcWornItem item) {
+    public void setOffHand(NpcItem item) {
         this.offhand = item;
     }
     
-    public void setMainHand(NpcWornItem item) {
+    public void setMainHand(NpcItem item) {
         this.mainhand = item;
     }
 }

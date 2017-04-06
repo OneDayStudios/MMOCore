@@ -9,7 +9,6 @@ import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcTexture;
-import com.mmocore.constants.NpcTextureType;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;

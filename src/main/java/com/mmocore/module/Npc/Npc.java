@@ -18,11 +18,14 @@ import com.mmocore.constants.NpcAbstractScale;
 import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
+import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcRespawnOption;
 import com.mmocore.constants.NpcTextureType;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;
+import com.mmocore.module.Npc.loadout.NpcItem;
+import com.mmocore.module.Npc.options.NpcLootOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,6 +34,7 @@ import java.util.List;
 import java.util.UUID;
 import noppes.npcs.constants.EnumAnimation;
 import noppes.npcs.constants.EnumJobType;
+import noppes.npcs.constants.EnumMovingType;
 import noppes.npcs.constants.EnumParticleType;
 import noppes.npcs.constants.EnumRoleType;
 import noppes.npcs.controllers.Line;
@@ -68,6 +72,7 @@ public class Npc {
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
     private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
+    private NpcLootOptions lootOptions = new NpcLootOptions();
     
     private int id;
     private String name;
@@ -150,17 +155,26 @@ public class Npc {
         this.setMarkedForUpdate();
     }
     
-    public NpcRespawnOptions getRespawnBehaviour() {
+    public NpcRespawnOptions getRespawnOptions() {
         return this.respawnBehaviour;
     }
     
-    public void setRespawnBehaviour(NpcRespawnOptions behaviour) {
+    public void setRespawnOptions(NpcRespawnOptions behaviour) {
         this.respawnBehaviour = behaviour;
         this.setMarkedForUpdate();
     }
     
     public NpcCombatOptions getCombatOptions() {
         return this.combatOptions;
+    }
+    
+    public NpcLootOptions getLootOptions() {
+        return this.lootOptions;
+    }
+    
+    public void setLootOptions(NpcLootOptions options) {
+        this.lootOptions = options;
+        this.setMarkedForUpdate();
     }
     
     public void setCombatOptions(NpcCombatOptions options) {
@@ -203,12 +217,12 @@ public class Npc {
         
         // Begin Respawn Behaviour
         
-        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Always) && this.entity.stats.spawnCycle != 0) this.entity.stats.spawnCycle = 0;
-        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Day) && this.entity.stats.spawnCycle != 1) this.entity.stats.spawnCycle = 1;
-        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Night) && this.entity.stats.spawnCycle != 2) this.entity.stats.spawnCycle = 2;
-        if (this.getRespawnBehaviour().getRespawnOption().equals(NpcRespawnOption.Never) && this.entity.stats.spawnCycle != 3) this.entity.stats.spawnCycle = 3;
+        if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Always) && this.entity.stats.spawnCycle != 0) this.entity.stats.spawnCycle = 0;
+        if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Day) && this.entity.stats.spawnCycle != 1) this.entity.stats.spawnCycle = 1;
+        if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Night) && this.entity.stats.spawnCycle != 2) this.entity.stats.spawnCycle = 2;
+        if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Never) && this.entity.stats.spawnCycle != 3) this.entity.stats.spawnCycle = 3;
         
-        if (this.getRespawnBehaviour().getRespawnTime() != this.entity.stats.respawnTime) this.entity.stats.respawnTime = this.getRespawnBehaviour().getRespawnTime();
+        if (this.getRespawnOptions().getRespawnTime() != this.entity.stats.respawnTime) this.entity.stats.respawnTime = this.getRespawnOptions().getRespawnTime();
 
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Always) && this.entity.display.showBossBar != 1) this.entity.display.showBossBar = 1;
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Never) && this.entity.display.showBossBar != 0) this.entity.display.showBossBar = 0;
@@ -291,14 +305,53 @@ public class Npc {
         if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.Lowest) && this.entity.stats.resistances.explosion != 0.25) this.entity.stats.resistances.explosion = (float)0.25;
         if (this.getCombatOptions().getExplosionResistance().equals(NpcAbstractScale.None) && this.entity.stats.resistances.explosion != 0.0) this.entity.stats.resistances.explosion = (float)0.0;
         
+        if (this.getLootOptions().getLootMode().equals(NpcLootMode.AUTOPICKUP) && this.entity.inventory.lootMode != 1) this.entity.inventory.lootMode = 1;
+        if (this.getLootOptions().getLootMode().equals(NpcLootMode.DEFAULT) && this.entity.inventory.lootMode != 0) this.entity.inventory.lootMode = 0;
+
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Absolute)) this.entity.inventory.minExp = 250;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Highest)) this.entity.inventory.minExp = 100;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Higher)) this.entity.inventory.minExp = 50;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.High)) this.entity.inventory.minExp = 25;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Medium)) this.entity.inventory.minExp = 10;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Low)) this.entity.inventory.minExp = 5;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lower)) this.entity.inventory.minExp = 3;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lowest)) this.entity.inventory.minExp = 1;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.None)) this.entity.inventory.minExp = 0;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Absolute)) this.entity.inventory.maxExp = 500;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Highest)) this.entity.inventory.maxExp = 200;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Higher)) this.entity.inventory.maxExp = 100;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.High)) this.entity.inventory.maxExp = 50;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Medium)) this.entity.inventory.maxExp = 20;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Low)) this.entity.inventory.maxExp = 10;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lower)) this.entity.inventory.maxExp = 6;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lowest)) this.entity.inventory.maxExp = 2;
+        if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.None)) this.entity.inventory.maxExp = 0;
+        
+        entity.inventory.items.clear();
+        entity.inventory.dropchance.clear();
+        int index = 0;        
+        for (NpcItem item : this.getLootOptions().getLootTableReadOnly().keySet()) {
+            int chance = this.getLootOptions().getLootTableReadOnly().get(item);
+            entity.inventory.items.put(index, item.getItem());
+            entity.inventory.dropchance.put(index, chance);
+            index++;
+        }
         this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
-    
-    public void makeInvulnerable() {
-        this.setResistanceToDamage((float)2.0);
-    }
+//    
+//    public boolean addToLootTable(String mod, String item, int percentChanceDrop, int numberOf, int dmg) {
+//        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
+//        if (entity.inventory.items.size() > 8) return false;
+//        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
+//        if (stack.getMaxStackSize() < numberOf) return false;
+//        stack.setItemDamage(dmg);
+//        int index = entity.inventory.items.size();
+//        entity.inventory.items.put(index, stack);
+//        entity.inventory.dropchance.put(index, percentChanceDrop);
+//        return entity.inventory.items.get(index).equals(stack);
+//    }
     
     // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
     
@@ -381,32 +434,12 @@ public class Npc {
 //        this.revive();
 //    }
     
-    public boolean shouldRevive() {
-        return this.shouldRevive;
-    }
-    
-    public int getReviveSeconds() {
-        return this.reviveInSeconds;
-    }
-    
     public boolean flaggedForRemoval() {
         return this.flaggedForRemoval;
     }
     
     public void setFlaggedForRemoval() {
         this.flaggedForRemoval = true;
-    }
-    
-    public int getID() {
-        return this.id;
-    }
-    
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public boolean isMoving() {
-        return this.isMoving;
     }
     
     public EntityCustomNpc getEntity() {
@@ -703,15 +736,7 @@ public class Npc {
             //return false;
         //}
     }
-    
-    public void setLootModeDefault() {
-        this.entity.inventory.lootMode = 0;
-    }
-    
-    public void setLootModeAutoPickup() {
-        this.entity.inventory.lootMode = 1;
-    }
-    
+
     public EntityCustomNpc findCustomNpcInGame() {        
     List<Entity> entities = StargateMCMod.getInstance().getForgeAPI().getForgeWorld(actualPosition.getDimension().getName()).loadedEntityList; 
         for (Entity entity : entities) {
@@ -740,16 +765,6 @@ public class Npc {
     public void setWandering(int range) {
         entity.ai.movingType = EnumMovingType.Wandering;
         entity.ai.walkingRange = range;
-    }
-    
-    public void setTextureWeb(String url) {
-        entity.display.url = url;
-        entity.display.skinType = 2;
-    }
-    
-    public void setTextureResource(String resource) {
-        this.entity.display.texture = resource;
-        this.entity.display.skinType = 0;
     }
     
     private void setMovingType(EnumMovingType type) {
@@ -878,22 +893,12 @@ public class Npc {
         this.entity.ai.tacticalRadius = distance;
     }
     
-    public void setStanding() {
-        if (this.isMoving()) stopMoving();
-        this.entity.ai.movingType = EnumMovingType.Standing;
-    }
-    
     public void interactsWithOtherNPCs(boolean value) {
         this.entity.ai.npcInteracting = value;
     }
     
     public void stopOnInteract(boolean value) {
         this.entity.ai.stopAndInteract = value;
-    }
-    
-    public void setXP(int min, int max) {
-        this.entity.inventory.minExp = min;
-        this.entity.inventory.maxExp = max;
     }
     
     public void setAnimationNormal() {
@@ -985,18 +990,6 @@ public class Npc {
     
     public void setMeleeKnockback(int value) {
         this.entity.stats.knockback = value;
-    }
-    
-    public void setResistanceToDamage(float value) {
-        this.setExplosionResistance(value);
-        this.setKnockBackResistance(value);
-        this.setArrowResistance(value);
-        this.setMeleeResistance(value);
-    }
-    
-    public void setProjectileSpins() {
-        this.setProjectile3D(true);
-        this.entity.stats.pSpin = true;
     }
     
     public void setMeleeDamage(int strength) {
@@ -1210,18 +1203,7 @@ public class Npc {
         ItemStack stack = GameRegistry.findItemStack("minecraft","arrow", 1);
         entity.inventory.setProjectile(stack);
     }
-    
-    public boolean addToLootTable(String mod, String item, int percentChanceDrop, int numberOf, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        if (entity.inventory.items.size() > 8) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-        if (stack.getMaxStackSize() < numberOf) return false;
-        stack.setItemDamage(dmg);
-        int index = entity.inventory.items.size();
-        entity.inventory.items.put(index, stack);
-        entity.inventory.dropchance.put(index, percentChanceDrop);
-        return entity.inventory.items.get(index).equals(stack);
-    }
+
     
     public void sayRandomLines(boolean value) {
         entity.advanced.orderedLines = !value;

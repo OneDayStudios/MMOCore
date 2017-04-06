@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author draks
  */
-public class NpcWornItem {
+public class NpcItem {
     
     private ItemStack item;
     
