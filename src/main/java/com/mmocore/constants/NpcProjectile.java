@@ -15,7 +15,14 @@ import noppes.npcs.constants.EnumParticleType;
  */
 
 public enum NpcProjectile {
-    RED_PLASMA("IC2", "itemDust2", 2, false, 3, 30, false, true, true, EnumParticleType.None);
+    RED_PLASMA("IC2", "itemDust2", 2, false, 3, 65, false, true, true, EnumParticleType.None),    
+    WHITE_PLASMA("IC2", "itemDust2", 6, false, 3, 65, false, true, true, EnumParticleType.None),
+    BLUE_PLASMA("IC2", "itemDust2", 12, false, 3, 65, false, true, true, EnumParticleType.None),
+    GOLD_PLASMA("IC2", "itemDust2", 4, false, 3, 65, false, true, true, EnumParticleType.None),
+    ARROW("minecraft", "arrow", 0, false, 3, 35, false, true, true, EnumParticleType.None),    
+    PISTOL_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 45, true, false, false, EnumParticleType.None),
+    SNIPER_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 100, true, false, false, EnumParticleType.None),
+    MACHINEGUN_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 65, true, false, false, EnumParticleType.None);
     
     private String mod;
     private String item;

@@ -15,16 +15,21 @@ import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcRespawnOptions;
 import com.mmocore.module.Npc.options.NpcSpawnOptions;
 import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.NpcBoolean;
+import com.mmocore.constants.NpcCombatResponse;
 import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
+import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
+import com.mmocore.constants.NpcTacticalOption;
 import com.mmocore.constants.NpcTextureType;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Npc.loadout.NpcItem;
+import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -35,6 +40,7 @@ import java.util.UUID;
 import noppes.npcs.constants.EnumAnimation;
 import noppes.npcs.constants.EnumJobType;
 import noppes.npcs.constants.EnumMovingType;
+import noppes.npcs.constants.EnumNavType;
 import noppes.npcs.constants.EnumParticleType;
 import noppes.npcs.constants.EnumRoleType;
 import noppes.npcs.controllers.Line;
@@ -73,6 +79,8 @@ public class Npc {
     private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
+    private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
+
     
     private int id;
     private String name;
@@ -134,6 +142,15 @@ public class Npc {
     
     public void setRangedHeldItems(NpcHeldItemSet items) {
         this.rangedHeld = items;
+        this.setMarkedForUpdate();
+    }
+    
+    public NpcBehaviourOptions getNpcBehaviourOptions() {
+        return this.behaviours;
+    }
+    
+    public void setNpcBehaviour(NpcBehaviourOptions options) {
+        this.behaviours = options;
         this.setMarkedForUpdate();
     }
     
@@ -230,9 +247,9 @@ public class Npc {
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 1) this.entity.display.showName = 1;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 0) this.entity.display.showName = 0;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showName != 2) this.entity.display.showName = 2;
-        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
-        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
-        if (this.getBaseOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
+        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
+        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
+        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
 
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
@@ -326,6 +343,108 @@ public class Npc {
         if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lower)) this.entity.inventory.maxExp = 6;
         if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.Lowest)) this.entity.inventory.maxExp = 2;
         if (this.getLootOptions().getExpDropped().equals(NpcAbstractScale.None)) this.entity.inventory.maxExp = 0;
+        if (this.getCombatOptions().getCombatResponse().equals(NpcCombatResponse.Ignore)) this.entity.ai.onAttack = 3;
+        if (this.getCombatOptions().getCombatResponse().equals(NpcCombatResponse.Retreat)) this.entity.ai.onAttack = 2;
+        if (this.getCombatOptions().getCombatResponse().equals(NpcCombatResponse.Panic)) this.entity.ai.onAttack = 1;
+        if (this.getCombatOptions().getCombatResponse().equals(NpcCombatResponse.Retaliate)) this.entity.ai.onAttack = 0;
+        if (this.getCombatOptions().getAttacksHostileFactions().equals(NpcBoolean.YES)) this.entity.advanced.attackOtherFactions = true;
+        if (this.getCombatOptions().getAttacksHostileFactions().equals(NpcBoolean.NO)) this.entity.advanced.attackOtherFactions = false;
+        if (this.getCombatOptions().getDefendsFactionMembers().equals(NpcBoolean.YES)) this.entity.advanced.defendFaction = true;
+        if (this.getCombatOptions().getDefendsFactionMembers().equals(NpcBoolean.NO)) this.entity.advanced.defendFaction = false;
+        if (this.getCombatOptions().getRangedUsage().equals(NpcRangedUsage.Always)) this.entity.ai.useRangeMelee = 0;
+        if (this.getCombatOptions().getRangedUsage().equals(NpcRangedUsage.UntilClose)) this.entity.ai.useRangeMelee = 1;
+        if (this.getCombatOptions().getRangedUsage().equals(NpcRangedUsage.WhenMoving)) this.entity.ai.useRangeMelee = 2;
+        
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Absolute)) this.entity.stats.rangedRange = 128;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Highest)) this.entity.stats.rangedRange = 112;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Higher)) this.entity.stats.rangedRange = 96;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.High)) this.entity.stats.rangedRange = 80;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Medium)) this.entity.stats.rangedRange = 64;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Low)) this.entity.stats.rangedRange = 48;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Lower)) this.entity.stats.rangedRange = 32;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.Lowest)) this.entity.stats.rangedRange = 16;
+        if (this.getCombatOptions().getRangedRange().equals(NpcAbstractScale.None)) this.entity.stats.rangedRange = 0;
+        
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Absolute)) this.entity.stats.attackRange = 24;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Highest)) this.entity.stats.attackRange = 21;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Higher)) this.entity.stats.attackRange = 18;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.High)) this.entity.stats.attackRange = 15;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Medium)) this.entity.stats.attackRange = 12;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Low)) this.entity.stats.attackRange = 9;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Lower)) this.entity.stats.attackRange = 6;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.Lowest)) this.entity.stats.attackRange = 3;
+        if (this.getCombatOptions().getMeleeRange().equals(NpcAbstractScale.None)) this.entity.stats.attackRange = 0;
+        
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Absolute)) this.entity.stats.setMaxHealth(2500);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Highest)) this.entity.stats.setMaxHealth(1000);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Higher)) this.entity.stats.setMaxHealth(500);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.High)) this.entity.stats.setMaxHealth(250);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Medium)) this.entity.stats.setMaxHealth(100);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Low)) this.entity.stats.setMaxHealth(50);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Lower)) this.entity.stats.setMaxHealth(25);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.Lowest)) this.entity.stats.setMaxHealth(5);
+        if (this.getCombatOptions().getHealth().equals(NpcAbstractScale.None)) this.entity.stats.setMaxHealth(0);
+        
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Absolute)) this.entity.stats.aggroRange = 100;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Highest)) this.entity.stats.accuracy = 90;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Higher)) this.entity.stats.accuracy = 80;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.High)) this.entity.stats.accuracy = 70;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Medium)) this.entity.stats.accuracy = 60;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Low)) this.entity.stats.accuracy = 50;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Lower)) this.entity.stats.accuracy = 40;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.Lowest)) this.entity.stats.accuracy = 30;
+        if (this.getCombatOptions().getRangedAccuracy().equals(NpcAbstractScale.None)) this.entity.stats.accuracy = 0;
+        
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Absolute)) this.entity.stats.aggroRange = 64;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Highest)) this.entity.stats.aggroRange = 56;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Higher)) this.entity.stats.aggroRange = 48;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.High)) this.entity.stats.aggroRange = 40;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Medium)) this.entity.stats.aggroRange = 32;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Low)) this.entity.stats.aggroRange = 24;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Lower)) this.entity.stats.aggroRange = 16;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.Lowest)) this.entity.stats.aggroRange = 8;
+        if (this.getCombatOptions().getAggroRadius().equals(NpcAbstractScale.None)) this.entity.stats.aggroRange = 0;
+        
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Absolute)) this.entity.stats.healthRegen = 250;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Highest)) this.entity.stats.healthRegen = 100;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Higher)) this.entity.stats.healthRegen = 50;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.High)) this.entity.stats.healthRegen = 25;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Medium)) this.entity.stats.healthRegen = 10;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Low)) this.entity.stats.healthRegen = 5;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Lower)) this.entity.stats.healthRegen = 3;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.Lowest)) this.entity.stats.healthRegen = 1;
+        if (this.getCombatOptions().getPassiveRegeneration().equals(NpcAbstractScale.None)) this.entity.stats.healthRegen = 0;
+        
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Absolute)) this.entity.stats.combatRegen = 250;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Highest)) this.entity.stats.combatRegen = 100;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Higher)) this.entity.stats.combatRegen = 50;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.High)) this.entity.stats.combatRegen = 25;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Medium)) this.entity.stats.combatRegen = 10;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Low)) this.entity.stats.combatRegen = 5;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Lower)) this.entity.stats.combatRegen = 3;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.Lowest)) this.entity.stats.combatRegen = 1;
+        if (this.getCombatOptions().getCombatRegeneration().equals(NpcAbstractScale.None)) this.entity.stats.combatRegen = 0;
+        
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Absolute)) this.entity.ai.tacticalRadius = 64;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Highest)) this.entity.ai.tacticalRadius = 56;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Higher)) this.entity.ai.tacticalRadius = 48;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.High)) this.entity.ai.tacticalRadius = 40;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Medium)) this.entity.ai.tacticalRadius = 32;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Low)) this.entity.ai.tacticalRadius = 24;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Lower)) this.entity.ai.tacticalRadius = 16;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.Lowest)) this.entity.ai.tacticalRadius = 8;
+        if (this.getCombatOptions().getTacticalDistance().equals(NpcAbstractScale.None)) this.entity.ai.tacticalRadius = 0;
+        
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.None)) this.entity.ai.tacticalVariant = EnumNavType.None;
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Ambush)) this.entity.ai.tacticalVariant = EnumNavType.Ambush;
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Dodge)) this.entity.ai.tacticalVariant = EnumNavType.Dodge;
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.HitNRun)) this.entity.ai.tacticalVariant = EnumNavType.HitNRun;
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Stalk)) this.entity.ai.tacticalVariant = EnumNavType.Stalk;
+        if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Surround)) this.entity.ai.tacticalVariant = EnumNavType.Surround;
+
+        
+        
+        // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
         entity.inventory.dropchance.clear();
@@ -336,6 +455,9 @@ public class Npc {
             entity.inventory.dropchance.put(index, chance);
             index++;
         }
+        
+        // END LOOT TABLE REPOPULATION //
+
         this.revive();
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
@@ -444,10 +566,6 @@ public class Npc {
     
     public EntityCustomNpc getEntity() {
         return this.entity;
-    }
-    
-    public void attackHostileFactions(boolean value) {
-        this.entity.advanced.attackOtherFactions = value;
     }
     
 //    public boolean addWorldLine(String text) {
@@ -815,24 +933,7 @@ public class Npc {
     public void setAvoidsSun(boolean value) {
         this.entity.ai.avoidsSun = value;
     }
-    
-    public void retaliateWhenAttacked() {
-        this.entity.ai.onAttack = 0;
-    }
-    
-    public void panicWhenAttacked() {
-        this.entity.ai.onAttack = 1;
-    }
-    
-    public void retreatWhenAttacked() {
-        this.entity.ai.onAttack = 2;
-    }
-    
-    public void ignoreWhenAttacked() {
-        this.entity.ai.onAttack = 3;
-    }
-
-    
+       
     public void canSwim(boolean value) {
         this.entity.ai.canSwim = value;
     }
@@ -852,42 +953,7 @@ public class Npc {
     public void cantFireIndirectly() {
         this.entity.ai.canFireIndirect = 0;
     }
-    
-    public void useRangedAlways() {
-        this.entity.ai.useRangeMelee = 0;
-    }
-    
-    public void useRangedUntilClose() {
-        this.entity.ai.useRangeMelee = 1;
-    }
-    
-    public void useRangedWhenMoving() {
-        this.entity.ai.useRangeMelee = 2;
-    }
-    
-    public void tacticalSurround() {
-        this.entity.ai.tacticalVariant = EnumNavType.Surround;
-    }
-    
-    public void tacticalHitnRun() {
-        this.entity.ai.tacticalVariant = EnumNavType.HitNRun;
-    }
-    
-    public void tacticalAmbush() {
-        this.entity.ai.tacticalVariant = EnumNavType.Ambush;
-    }
-    
-    public void tacticalStalk() {
-        this.entity.ai.tacticalVariant = EnumNavType.Stalk;
-    }
-    
-    public void tacticalDodge() {
-        this.entity.ai.tacticalVariant = EnumNavType.Dodge;
-    }
-    
-    public void tacticalNone() {
-        this.entity.ai.tacticalVariant = EnumNavType.None;
-    }
+
     
     public void setDistanceTactical(int distance) {
         this.entity.ai.tacticalRadius = distance;
@@ -945,24 +1011,6 @@ public class Npc {
         this.entity.stats.hideKilledBody = value;
     }
     
-    public void setMaxHealth(int value) {
-        this.entity.stats.maxHealth = value;
-    }
-    
-    public int getMaxHealth() {
-        return this.entity.stats.maxHealth;
-    }
-    
-    public void setAccuracy(int accuracy) {
-        if (accuracy < 0 || accuracy > 100) return;
-        this.entity.stats.accuracy = accuracy;
-    }
-    
-    public void setAggroRange(int range) {
-        if (range < 0 || range > 64) return;
-        this.entity.stats.aggroRange = range;
-    }
-    
     public void canAttackInvisible(boolean value) {
         this.entity.stats.attackInvisible = value;
     }
@@ -995,14 +1043,6 @@ public class Npc {
     public void setMeleeDamage(int strength) {
         this.entity.stats.setAttackStrength(strength);
     }
-
-    public void setHealthRegen(int perSecHP) {
-        this.entity.stats.healthRegen = perSecHP;
-    }
-    
-    public void setCombatRegen(int perSecHP) {
-        this.entity.stats.combatRegen = perSecHP;
-    }
     
     public void pauseWhileFollowingPath(boolean value) {
         this.entity.ai.movingPause = value;
@@ -1012,18 +1052,13 @@ public class Npc {
         this.entity.stats.pImpact = value;
     }
     
-    public void setProjectileIsExplosive(boolean value, int explosionSize) {
-        this.entity.stats.pExplode = value;
-        this.entity.stats.pArea = Math.min(explosionSize,2);
-    }
-    
-    public boolean setProjectileEffect(String type, int duration, int amplifiedBy) {
-        if (EnumPotionType.valueOf(type) == null) return false;
-        this.entity.stats.pEffect = EnumPotionType.valueOf(type);
-        this.entity.stats.pDur = duration;
-        this.entity.stats.pEffAmp = amplifiedBy;
-        return true;
-    }
+//    public boolean setProjectileEffect(String type, int duration, int amplifiedBy) {
+//        if (EnumPotionType.valueOf(type) == null) return false;
+//        this.entity.stats.pEffect = EnumPotionType.valueOf(type);
+//        this.entity.stats.pDur = duration;
+//        this.entity.stats.pEffAmp = amplifiedBy;
+//        return true;
+//    }
     
     public void setProjectileGlows(boolean value) {
         this.entity.stats.pGlows = value;
@@ -1031,14 +1066,6 @@ public class Npc {
     
     public void aimWhileShooting(boolean value) {
         this.entity.stats.aimWhileShooting = value;
-    }
-    
-    public void meleeRange(int value) {
-        this.entity.stats.attackRange = value;
-    }
-    
-    public void rangedRange(int value) {
-        this.entity.stats.rangedRange = value;
     }
     
     public boolean setJob(String jobName) {
@@ -1169,41 +1196,6 @@ public class Npc {
         line.sound = "";
         if (entity != null) entity.saySurrounding(line);
     }
-    
-    public void setProjectileBullet() {
-        ItemStack stack = GameRegistry.findItemStack("customnpcs","npcBlackBullet", 1);
-        entity.inventory.setProjectile(stack);
-    }
-    
-    public void setProjectileRedPlasma() {
-        ItemStack stack = GameRegistry.findItemStack("IC2","itemDust2", 1);
-        stack.setItemDamage(2);
-        entity.inventory.setProjectile(stack);
-    }    
-    
-    public void setProjectileWhitePlasma() {
-        ItemStack stack = GameRegistry.findItemStack("IC2","itemDust", 1);
-        stack.setItemDamage(6);
-        entity.inventory.setProjectile(stack);
-    }    
-    
-    public void setProjectileBluePlasma() {
-        ItemStack stack = GameRegistry.findItemStack("IC2","itemDust", 1);
-        stack.setItemDamage(12);
-        entity.inventory.setProjectile(stack);
-    }    
-    
-    public void setProjectileGoldPlasma() {
-        ItemStack stack = GameRegistry.findItemStack("IC2","itemDust", 1);
-        stack.setItemDamage(4);
-        entity.inventory.setProjectile(stack);
-    }    
-    
-    public void setProjectileArrow() {
-        ItemStack stack = GameRegistry.findItemStack("minecraft","arrow", 1);
-        entity.inventory.setProjectile(stack);
-    }
-
     
     public void sayRandomLines(boolean value) {
         entity.advanced.orderedLines = !value;

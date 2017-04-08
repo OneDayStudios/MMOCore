@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Npc.options;
 
+import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcRespawnOption;
 
 /**
@@ -14,7 +15,16 @@ import com.mmocore.constants.NpcRespawnOption;
 public class NpcRespawnOptions {
     
     private NpcRespawnOption respawnOption;
+    public NpcBoolean hideDeadBody;
     private int respawnTimeSeconds;
+    
+    public void setHideDeadBody(NpcBoolean setting) {
+        this.hideDeadBody = setting;
+    }
+    
+    public NpcBoolean getHideDeadBody() {
+        return this.hideDeadBody;
+    }
     
     public void setRespawnOption(NpcRespawnOption option) {
         this.respawnOption = option;
