@@ -238,7 +238,8 @@ public class Npc {
         if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Day) && this.entity.stats.spawnCycle != 1) this.entity.stats.spawnCycle = 1;
         if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Night) && this.entity.stats.spawnCycle != 2) this.entity.stats.spawnCycle = 2;
         if (this.getRespawnOptions().getRespawnOption().equals(NpcRespawnOption.Never) && this.entity.stats.spawnCycle != 3) this.entity.stats.spawnCycle = 3;
-        
+        if (this.getRespawnOptions().getHideDeadBody().equals(NpcBoolean.YES)) this.entity.stats.hideKilledBody = true;
+        if (this.getRespawnOptions().getHideDeadBody().equals(NpcBoolean.NO)) this.entity.stats.hideKilledBody = false;
         if (this.getRespawnOptions().getRespawnTime() != this.entity.stats.respawnTime) this.entity.stats.respawnTime = this.getRespawnOptions().getRespawnTime();
 
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Always) && this.entity.display.showBossBar != 1) this.entity.display.showBossBar = 1;
@@ -1005,10 +1006,6 @@ public class Npc {
     
     public void loopWhileFollowingPath() {
         this.entity.ai.movingPattern = 0;
-    }
-    
-    public void hidedDeadBody(boolean value) {
-        this.entity.stats.hideKilledBody = value;
     }
     
     public void canAttackInvisible(boolean value) {
