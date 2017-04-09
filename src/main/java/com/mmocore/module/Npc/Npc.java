@@ -10,7 +10,6 @@ import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
 import com.mmocore.module.Npc.options.NpcInteractionOptions;
-import com.stargatemc.forge.core.Npc.modules.behaviour.NpcBaseBehaviour;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcRespawnOptions;
 import com.mmocore.module.Npc.options.NpcSpawnOptions;
@@ -23,7 +22,9 @@ import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
+import com.mmocore.constants.NpcShelterFromOption;
 import com.mmocore.constants.NpcTacticalOption;
+import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcTextureType;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
@@ -76,7 +77,6 @@ public class Npc {
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
     private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
-    private NpcBaseBehaviour behaviorBase = new NpcBaseBehaviour();
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
@@ -107,7 +107,7 @@ public class Npc {
     List<String> randomRepeatableUnavailableLines = new ArrayList<String>();    
     private boolean wasInCombat = false;
     
-    public Npc(String name, String title, String template, uPosition spawnPosition, boolean shouldRespawn, boolean shouldRespawnAtHome, FileConfiguration config, int maxHealth) {
+    public Npc(String name, String title, uPosition spawnPosition, NpcTexture texture, int maxHealth) {
         this.name = name;
         this.title = title;
         this.template = template;
@@ -145,11 +145,11 @@ public class Npc {
         this.setMarkedForUpdate();
     }
     
-    public NpcBehaviourOptions getNpcBehaviourOptions() {
+    public NpcBehaviourOptions getBehaviourOptions() {
         return this.behaviours;
     }
     
-    public void setNpcBehaviour(NpcBehaviourOptions options) {
+    public void setBehaviourOptions(NpcBehaviourOptions options) {
         this.behaviours = options;
         this.setMarkedForUpdate();
     }
@@ -248,9 +248,9 @@ public class Npc {
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 1) this.entity.display.showName = 1;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 0) this.entity.display.showName = 0;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showName != 2) this.entity.display.showName = 2;
-        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
-        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
-        if (this.getNpcBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
 
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
@@ -443,7 +443,33 @@ public class Npc {
         if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Stalk)) this.entity.ai.tacticalVariant = EnumNavType.Stalk;
         if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Surround)) this.entity.ai.tacticalVariant = EnumNavType.Surround;
 
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Absolute)) this.entity.display.modelSize = 8;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Highest)) this.entity.display.modelSize = 7;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Higher)) this.entity.display.modelSize = 6;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.High)) this.entity.display.modelSize = 5;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Medium)) this.entity.display.modelSize = 4;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Low)) this.entity.display.modelSize = 3;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Lower)) this.entity.display.modelSize = 2;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Lowest)) this.entity.display.modelSize = 1;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.None)) this.entity.display.modelSize = 0;
         
+        if (this.getBehaviourOptions().getAvoidsSun().equals(NpcBoolean.YES)) this.entity.ai.avoidsSun = true;
+        if (this.getBehaviourOptions().getAvoidsSun().equals(NpcBoolean.NO)) this.entity.ai.avoidsSun = false;
+
+        if (this.getBehaviourOptions().getShelterFrom().equals(NpcShelterFromOption.Darkness)) this.entity.ai.findShelter = 0;
+        if (this.getBehaviourOptions().getShelterFrom().equals(NpcShelterFromOption.Sun)) this.entity.ai.findShelter = 1;
+        if (this.getCombatOptions().getMustSeeTarget().equals(NpcBoolean.YES)) this.entity.ai.directLOS = true;
+        if (this.getCombatOptions().getMustSeeTarget().equals(NpcBoolean.NO)) this.entity.ai.directLOS = false;
+        if (this.getBehaviourOptions().getAvoidsWater().equals(NpcBoolean.YES)) this.entity.ai.avoidsWater = true;
+        if (this.getBehaviourOptions().getAvoidsWater().equals(NpcBoolean.NO)) this.entity.ai.avoidsWater = false;
+        if (this.getBehaviourOptions().getReturnToStart().equals(NpcBoolean.YES)) this.entity.ai.returnToStart = true;
+        if (this.getBehaviourOptions().getReturnToStart().equals(NpcBoolean.NO)) this.entity.ai.returnToStart = false;
+        if (this.getBehaviourOptions().getCanLeap().equals(NpcBoolean.YES)) this.entity.ai.canLeap = true;
+        if (this.getBehaviourOptions().getCanLeap().equals(NpcBoolean.NO)) this.entity.ai.canLeap = false;
+        if (this.getBehaviourOptions().getCanPassThroughCobwebs().equals(NpcBoolean.YES)) this.entity.ai.ignoreCobweb = true;
+        if (this.getBehaviourOptions().getCanPassThroughCobwebs().equals(NpcBoolean.NO)) this.entity.ai.ignoreCobweb = false;
+        if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.YES)) this.entity.ai.canSprint = true;
+        if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.NO)) this.entity.ai.canSprint = false;
         
         // START LOOT TABLE REPOPULATION //
         
@@ -463,6 +489,7 @@ public class Npc {
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
+    
 //    
 //    public boolean addToLootTable(String mod, String item, int percentChanceDrop, int numberOf, int dmg) {
 //        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
@@ -477,6 +504,7 @@ public class Npc {
 //    }
     
     // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
+    
     
     public boolean isInCombat() {
         return this.entity.isAttacking();
@@ -931,10 +959,6 @@ public class Npc {
         }
     }
     
-    public void setAvoidsSun(boolean value) {
-        this.entity.ai.avoidsSun = value;
-    }
-       
     public void canSwim(boolean value) {
         this.entity.ai.canSwim = value;
     }
@@ -1108,6 +1132,7 @@ public class Npc {
     public boolean getNaturallyDespawns() {
         return this.entity.stats.canDespawn;
     }
+    
     public void naturallyDespawns(boolean value) {
         this.entity.stats.canDespawn = value;
     }
@@ -1148,43 +1173,6 @@ public class Npc {
     public void setOverlayTexture(String texture) {
         if (texture.equals("NONE")) return;
         this.entity.display.glowTexture = texture;
-    }
-    
-    public void setSize(int value) {
-        if (value < 1 || value > 30) return;
-        this.entity.display.modelSize = value;
-    }
-    
-    public void shelterFromSun() {
-        this.entity.ai.findShelter = 1;
-    }
-    
-    public void shelterFromDarkness() {
-        this.entity.ai.findShelter = 0;
-    }
-    
-    public void mustSeeTarget(boolean value) {
-        this.entity.ai.directLOS = value;
-    }
-    
-    public void avoidsWater(boolean value) {
-        this.entity.ai.avoidsWater = value;
-    }
-    
-    public void returnToStart(boolean value) {
-        this.entity.ai.returnToStart = value;
-    }
-    
-    public void canLeap(boolean value) {
-        this.entity.ai.canLeap = value;
-    }
-    
-    public void ignoreCobwebs(boolean value) {
-        this.entity.ai.ignoreCobweb = !value;
-    }
-    
-    public void canSprint(boolean value) {
-        this.entity.ai.canSprint = value;
     }
     
     public void tellNear(String message) {

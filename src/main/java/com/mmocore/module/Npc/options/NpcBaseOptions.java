@@ -7,7 +7,6 @@ package com.mmocore.module.Npc.options;
 
 import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcVisibleOption;
@@ -34,6 +33,15 @@ public class NpcBaseOptions {
     private TextVisibleOption bossBarVisible;
     private TextVisibleOption nameVisible;
     private NpcAbstractScale movementSpeed;
+    private NpcAbstractScale size;
+    
+    public NpcAbstractScale getSize() {
+        return this.size;
+    }
+    
+    public void setSize(NpcAbstractScale option) {
+        this.size = option;
+    }
     
     public NpcAbstractScale getMovementSpeed() {
         return this.movementSpeed;

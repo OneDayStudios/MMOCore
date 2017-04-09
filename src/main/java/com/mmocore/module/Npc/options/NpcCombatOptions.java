@@ -38,7 +38,16 @@ public class NpcCombatOptions {
     private NpcRangedUsage rangedUsage;
     private NpcTacticalOption tacticalBehaviour;
     private NpcAbstractScale tacticalDistance;
-
+    private NpcBoolean mustSeeTarget;
+    
+    public NpcBoolean getMustSeeTarget() {
+        return this.mustSeeTarget;
+    }
+    
+    public void setMustSeeTarget(NpcBoolean setting) {
+        this.mustSeeTarget = setting;
+    }    
+    
     public NpcTacticalOption getTacticalBehaviour() {
         return this.tacticalBehaviour;
     }
