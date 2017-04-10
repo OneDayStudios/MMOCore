@@ -15,8 +15,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.SERVER)
 public enum NpcSpawnMethod {
-    Default,
+    Static,
     Random,
     Incursion, 
-    Quest
+    Quest,
+    Location
 }

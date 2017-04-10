@@ -20,9 +20,11 @@ import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
+import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
 import com.mmocore.constants.NpcShelterFromOption;
+import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTacticalOption;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcTextureType;
@@ -80,43 +82,22 @@ public class Npc {
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
+    
+    public Npc(String name, String title, NpcTexture texture, NpcModifier modifier) {
+        NpcBaseOptions bOptions = new NpcBaseOptions();
+        bOptions.setName(name);
+        bOptions.setTitle(title);
+        this.setBaseOptions(bOptions);
+        NpcCombatOptions cOptions = new NpcCombatOptions();
+        cOptions.setExplosionResistance(modifier.getExplosiveResistance());
+        cOptions.setMeleeResistance(modifier.getMeleeResistance());
+        cOptions.setProjectileResistance(modifier.getProjectileResistance());
+        cOptions.setKnockbackResistance(modifier.getKnockbackResistance());
+        cOptions.setMeleeDamage(modifier.getMeleeDamage());
+        cOptions.setRangedDamage(modifier.getRangedDamage());        
+        cOptions.setHealth(modifier.getHealth());
+        this.setCombatOptions(cOptions);
 
-    
-    private int id;
-    private String name;
-    public String title;
-    private String template;
-    private uPosition spawnPosition;
-    private uPosition actualPosition;
-    private long startedMovingTime;
-    private int secsToCompleteMove;
-    private boolean lastMoveSucceeded;
-    private boolean flaggedForRemoval;
-    private boolean shouldRespawn;
-    private boolean shouldRespawnAtHome;
-    private boolean shouldRevive;
-    private int reviveInSeconds;
-    private uPosition oldPosition;
-    private long deathTime;
-    private boolean hasTicked = false;
-    private boolean isStuck;
-    private uPosition newPosition;
-    private boolean isMoving;
-    private UUID entityUniqueID;    
-    private int maxHealth = 0;    
-    List<String> randomRepeatableUnavailableLines = new ArrayList<String>();    
-    private boolean wasInCombat = false;
-    
-    public Npc(String name, String title, uPosition spawnPosition, NpcTexture texture, int maxHealth) {
-        this.name = name;
-        this.title = title;
-        this.template = template;
-        this.spawnPosition = spawnPosition;
-        this.actualPosition = spawnPosition;
-        this.shouldRespawn = shouldRespawn;
-        this.shouldRespawnAtHome = shouldRespawnAtHome;
-        this.maxHealth = maxHealth;
-        this.setForcedSpawnPosition(spawnPosition);
     }
     
     public void setMarkedForUpdate() {
