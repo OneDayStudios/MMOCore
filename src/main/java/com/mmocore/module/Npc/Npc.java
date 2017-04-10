@@ -471,6 +471,7 @@ public class Npc {
         if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.YES)) this.entity.ai.canSprint = true;
         if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.NO)) this.entity.ai.canSprint = false;
         
+        
         // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
@@ -895,10 +896,6 @@ public class Npc {
         }
        // PC in-game: " + this.getName());
         return null;
-    }
-    
-    public void setSpeed(int speed) {
-        entity.ai.setWalkingSpeed(speed);
     }
     
     public void startWandering(int range, int secondsToWander) {
