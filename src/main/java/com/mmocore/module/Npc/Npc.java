@@ -471,6 +471,15 @@ public class Npc {
         if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.YES)) this.entity.ai.canSprint = true;
         if (this.getBehaviourOptions().getCanSprint().equals(NpcBoolean.NO)) this.entity.ai.canSprint = false;
         
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Absolute)) this.entity.ai.setWalkingSpeed(10);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Highest)) this.entity.ai.setWalkingSpeed(9);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Higher)) this.entity.ai.setWalkingSpeed(8);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.High)) this.entity.ai.setWalkingSpeed(7);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Medium)) this.entity.ai.setWalkingSpeed(5);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Low)) this.entity.ai.setWalkingSpeed(3);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Lower)) this.entity.ai.setWalkingSpeed(2);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Lowest)) this.entity.ai.setWalkingSpeed(1);
+        if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.None)) this.entity.ai.setWalkingSpeed(0);
         
         // START LOOT TABLE REPOPULATION //
         
