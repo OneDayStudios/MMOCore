@@ -9,6 +9,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.api.AbstractAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.List;
@@ -81,6 +82,10 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
     
     public static World getForgeWorld(int id) {
         return (World)DimensionManager.getWorld(id);
+    }
+    
+    public static World getForgeWorld(RegisterableDimension dimension) {
+        return getForgeWorld(dimension.getName());
     }
     
     public static World getForgeWorld(String name) {

@@ -38,6 +38,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import noppes.npcs.constants.EnumAnimation;
@@ -82,6 +83,7 @@ public class Npc {
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
+    private HashMap<Integer, EntityCustomNpc> npcsInGame = new HashMap<>();
     
     public Npc(String name, String title, NpcTexture texture, NpcModifier modifier) {
         NpcBaseOptions bOptions = new NpcBaseOptions();
@@ -97,7 +99,6 @@ public class Npc {
         cOptions.setRangedDamage(modifier.getRangedDamage());        
         cOptions.setHealth(modifier.getHealth());
         this.setCombatOptions(cOptions);
-
     }
     
     public void setMarkedForUpdate() {
@@ -806,7 +807,7 @@ public class Npc {
         this.isMoving = true;
         this.startedMovingTime = System.currentTimeMillis();
         this.secsToCompleteMove = secondsToComplete;
-    }
+    }rt
     
     public void followPathConstantly(List<int[]> path) {
         entity.ai.setMovingPath(path);
