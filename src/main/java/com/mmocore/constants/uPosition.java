@@ -58,6 +58,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     public boolean isInUniverse() {
         return (this.dimension != null);
     }
+    
     public double getDPosX() {
         return this.dPosX;
     }
@@ -79,6 +80,37 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         return UniverseAPI.getGalaxy(this);
     }
     
+    private double getQuadCoord(double position) {
+        double quadCoord = 0;
+        if (position < 0) { quadCoord = position * -1; } else { quadCoord = position; }
+        quadCoord = Math.floor(quadCoord / 10000);
+        if (quadCoord < 0) { quadCoord = quadCoord * -1; }
+        return quadCoord;
+    }
+    
+    public boolean isQuadrantBorder() {
+        return (Math.floor(this.getUPosX() / 10000) == this.getUPosX() || Math.floor(this.getUPosZ() / 10000) == this.getUPosZ());
+    }
+    
+    public double getDistanceFromQuadrantBorder() {
+        uPosition position = new uPosition (getNearestQuadPoint(this.getUPosX()), 0.0, getNearestQuadPoint(this.getUPosZ()), UniverseAPI.getSpace());
+        return UniverseAPI.distanceBetweenUPositions(this, position);
+    }
+    
+    public uPosition getCurrentQuadPosition() {
+        return new uPosition (getQuadCoord(this.getUPosX()), 0.0, getQuadCoord(this.getUPosZ()), UniverseAPI.getSpace());
+    }
+    
+    public double getNearestQuadPoint(double position) {
+        double quadP = getQuadCoord(position) * 10000;
+        if (position - quadP > (position - (quadP + 10000))) quadP = quadP += 10000;
+        return quadP;
+    }
+
+    public String getQuadrant() {
+        return getQuadCoord(this.getUPosZ()) + ", " + getQuadCoord(this.getUPosZ());
+    }
+    
     @Override
     public void initialise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -88,5 +120,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
     
 }

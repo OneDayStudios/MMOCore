@@ -123,11 +123,11 @@ public class MMOCore {
        MMOCore.getInstance().getGalaxyRegistry().initialise();
        MMOCore.getInstance().getPlayerRegistry().initialise();
        MMOCore.getInstance().getListenerRegistry().initialise();
-       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) MMOCore.getInstance().getDialogRegistry().initialise();
-       if (ForgeAPI.isModLoaded(IntegratedMod.SGCraft)) MMOCore.getInstance().getStargateRegistry().initialise();
-       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) MMOCore.getInstance().getQuestRegistry().initialise();
-       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) MMOCore.getInstance().getNpcFactionRegistry().initialise();
-       if (ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs)) MMOCore.getInstance().getNpcRegistry().initialise();
+       MMOCore.getInstance().getDialogRegistry().initialise();
+       MMOCore.getInstance().getStargateRegistry().initialise();
+       MMOCore.getInstance().getQuestRegistry().initialise();
+       MMOCore.getInstance().getNpcFactionRegistry().initialise();
+       MMOCore.getInstance().getNpcRegistry().initialise();
    }
    
    public static MMOCore getInstance() {
