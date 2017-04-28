@@ -47,7 +47,7 @@ public class NpcBaseOptions {
         return this.movementSpeed;
     }
     
-    public NpcAbstractScale setMovementSpeed(NpcAbstractScale option) {
+    public void setMovementSpeed(NpcAbstractScale option) {
         this.movementSpeed = option;
     }
     

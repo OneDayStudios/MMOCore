@@ -41,7 +41,7 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
     
     public SGBaseTE getStargate() {
         try {
-            return SGAddressing.findAddressedStargate(address, ForgeAPI.getForgeWorldForName(worldName));
+            return SGAddressing.findAddressedStargate(address, ForgeAPI.getForgeWorld(worldName));
         } catch (Exception e) {
             return null;
         }
@@ -69,6 +69,10 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
 
     @Override
     public SGBaseTE getRegisteredObject() {
-        return SGAddressing.findAddressedStargate(this.address, ForgeAPI.getForgeWorld(getPosition().getDimension().getName()));
+            try {
+                return SGAddressing.findAddressedStargate(this.address, ForgeAPI.getForgeWorld(getPosition().getDimension()));
+            } catch (Exception e) {
+                return null;
+            }
     }
 }

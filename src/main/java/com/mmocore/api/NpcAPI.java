@@ -12,6 +12,7 @@ import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.FactionRelationType;
 import com.mmocore.constants.NpcVisibleOption;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.item.ItemStack;
 
 /**
  *
@@ -31,7 +32,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static RegisterableNpc get(String name, String title, RegisterableNpcFaction faction) {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
-            if (npc.getRegisteredObject().getName().equals(name) && npc.getRegisteredObject().getTitle().equals(title)) return npc;
+            if (npc.getRegisteredObject().getBaseOptions().getName().equals(name) && npc.getRegisteredObject().getBaseOptions().getTitle().equals(title)) return npc;
         }
         return null;
     }
@@ -40,7 +41,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
         ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
         stack.setItemDamage(dmg);
-        if (npc.getRegisteredObject().getArmor().getFeet().setItem(stack));
+        npc.getRegisteredObject().getArmor().getFeet().setItem(stack);
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getFeet().getItem().equals(stack));      
     }
@@ -49,7 +50,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
         ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
         stack.setItemDamage(dmg);
-        if (npc.getRegisteredObject().getArmor().getLegs().setItem(stack));
+        npc.getRegisteredObject().getArmor().getLegs().setItem(stack);
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getLegs().getItem().equals(stack));      
     }
@@ -58,7 +59,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
         ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
         stack.setItemDamage(dmg);
-        if (npc.getRegisteredObject().getArmor().getChest().setItem(stack));
+        npc.getRegisteredObject().getArmor().getChest().setItem(stack);
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getChest().getItem().equals(stack));      
     }
@@ -67,7 +68,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
         ItemStack stack = GameRegistry.findItemStack(mod, item, 1);
         stack.setItemDamage(dmg);
-        if (npc.getRegisteredObject().getArmor().getHead().setItem(stack));
+        npc.getRegisteredObject().getArmor().getHead().setItem(stack);
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getHead().getItem().equals(stack));      
     }
@@ -85,14 +86,14 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     }
     
     public static FactionRelationType getPlayerRelationToNpc(RegisterablePlayer player, RegisterableNpc npc) {
-        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isFriendlyToPlayer(player.getRegisteredObject())) return FactionRelationType.FRIENDLY;
-        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isNeutralToPlayer(player.getRegisteredObject())) return FactionRelationType.NEUTRAL;
-        if (NpcFactionAPI.get(npc.getRegisteredObject().getFactionName()).isAggressiveToPlayer(player.getRegisteredObject())) return FactionRelationType.HOSTILE;
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getBaseOptions().getFaction().getIdentifier()).isFriendlyToPlayer(player.getRegisteredObject())) return FactionRelationType.FRIENDLY;
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getBaseOptions().getFaction().getIdentifier()).isNeutralToPlayer(player.getRegisteredObject())) return FactionRelationType.NEUTRAL;
+        if (NpcFactionAPI.get(npc.getRegisteredObject().getBaseOptions().getFaction().getIdentifier()).isAggressiveToPlayer(player.getRegisteredObject())) return FactionRelationType.HOSTILE;
         return FactionRelationType.ERROR;
     }
     
     public static boolean areNpcsHostile(RegisterableNpc sourceNpc, RegisterableNpc targetNpc) {
-        if (NpcFactionAPI.get(sourceNpc.getRegisteredObject().getFactionName()).isAggressiveToNpc(targetNpc.getRegisteredObject().getEntity())) return true;
+        if (NpcFactionAPI.get(sourceNpc.getRegisteredObject().getBaseOptions().getFaction().getIdentifier()).isAggressiveToNpc(targetNpc.getRegisteredObject().getEntity())) return true;
         return false;
     }
     

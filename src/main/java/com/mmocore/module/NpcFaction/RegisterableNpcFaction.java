@@ -96,6 +96,10 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
         return getRegisteredObject().color;
     }
     
+    public String getName() {
+        return getRegisteredObject().name;
+    }
+    
     public int getID() {
         return getRegisteredObject().id;
     }

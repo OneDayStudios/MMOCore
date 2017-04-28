@@ -5,6 +5,8 @@
  */
 package com.mmocore.module.Quest;
 
+import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.AbstractRegistry;
 
 /**
@@ -21,6 +23,11 @@ public class QuestRegistry extends AbstractRegistry<QuestRegistry, Integer, Regi
     @Override
     public void finalise() {
         // No code required, yet.
+    }
+
+    @Override
+    public boolean canBeEnabled() {
+        return ForgeAPI.isModLoaded(IntegratedMod.CustomNpcs);
     }
 
 }

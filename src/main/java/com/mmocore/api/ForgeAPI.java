@@ -6,7 +6,6 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
-import com.mmocore.api.AbstractAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.Dimension.RegisterableDimension;
@@ -20,7 +19,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraft.Block;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+
 /**
  *
  * @author draks
