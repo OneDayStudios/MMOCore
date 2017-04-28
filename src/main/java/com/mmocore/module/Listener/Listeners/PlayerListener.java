@@ -12,10 +12,16 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
+import com.mmocore.constants.NpcBoolean;
+import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
+import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.module.Npc.Npc;
+import com.mmocore.module.Npc.options.NpcBaseOptions;
+import com.mmocore.module.Npc.options.NpcBehaviourOptions;
+import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
@@ -37,7 +43,20 @@ public class PlayerListener extends RegisterableListener {
         if (!MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
         RegisterablePlayer player = MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
         RegisterableNpcFaction faction = new RegisterableNpcFaction("Tauri");
-        Npc npc = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), faction);
+        RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
+        secondFaction.addHostileFaction(faction, true);
+        Npc tauri_soldier = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), faction);
+        NpcCombatOptions cOptions = tauri_soldier.getCombatOptions();
+        cOptions.setAttacksHostileFactions(NpcBoolean.YES);
+        tauri_soldier.setCombatOptions(cOptions);
+        NpcBaseOptions bOptions = tauri_soldier.getBaseOptions();
+        bOptions.setNameVisible(TextVisibleOption.Always);
+        bOptions.setBossBarVisible(TextVisibleOption.WhenAttacking);
+        tauri_soldier.setBaseOptions(bOptions);
+        NpcBehaviourOptions behaviour = tauri_soldier.getBehaviourOptions();
+        behaviour.setDoorBehaviour(NpcDoorInteraction.Open);
+        tauri_soldier.setBehaviourOptions(behaviour);
+        Npc wraith_soldier = new Npc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
     }
     
     @SubscribeEvent

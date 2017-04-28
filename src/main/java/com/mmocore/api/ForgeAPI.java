@@ -11,6 +11,7 @@ import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;

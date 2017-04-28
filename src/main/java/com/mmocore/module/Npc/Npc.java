@@ -6,6 +6,7 @@
 package com.mmocore.module.Npc;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.PlayerAPI;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
@@ -233,12 +234,12 @@ public class Npc {
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Always) && this.entity.display.showBossBar != 1) this.entity.display.showBossBar = 1;
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.Never) && this.entity.display.showBossBar != 0) this.entity.display.showBossBar = 0;
         if (this.getBaseOptions().getBossBarVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showBossBar != 2) this.entity.display.showBossBar = 2;
-        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 1) this.entity.display.showName = 1;
-        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 0) this.entity.display.showName = 0;
+        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Never) && this.entity.display.showName != 1) this.entity.display.showName = 1;
+        if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.Always) && this.entity.display.showName != 0) this.entity.display.showName = 0;
         if (this.getBaseOptions().getNameVisible().equals(TextVisibleOption.WhenAttacking) && this.entity.display.showName != 2) this.entity.display.showName = 2;
-        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
-        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
-        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Open) && this.entity.ai.doorInteract != 1) this.entity.ai.doorInteract = 1;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
+        if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
 
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());

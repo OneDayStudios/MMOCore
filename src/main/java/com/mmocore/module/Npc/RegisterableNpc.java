@@ -5,6 +5,8 @@
  */
 package com.mmocore.module.Npc;
 
+import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.NpcSpawnMethod;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +31,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     
     @Override
     public void tick() {
-       //this.npc.tick();
+       this.npc.tick();
     }
 
     @Override
@@ -39,12 +41,12 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
 
     @Override
     public void initialise() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
     }
 
     @Override
     public void finalise() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ForgeAPI.sendConsoleEntry("Unloading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
     }
 
     @Override

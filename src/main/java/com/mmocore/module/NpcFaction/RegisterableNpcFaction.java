@@ -81,11 +81,16 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
         getRegisteredObject().attackFactions.clear();
     }
     
-    public void addHostileFaction(String name) {
-        Faction f = NpcFactionAPI.get(name);
-        if (f != null) {
-            getRegisteredObject().attackFactions.add(f.id);
-        }        
+    public void removeHostileFaction(RegisterableNpcFaction faction, boolean isInitiator) {
+            getRegisteredObject().attackFactions.remove(faction.getIdentifier());
+            if (isInitiator) faction.removeHostileFaction(this, false);
+            this.save();
+    }
+    
+    public void addHostileFaction(RegisterableNpcFaction faction, boolean isInitiator) {
+            getRegisteredObject().attackFactions.add(faction.getIdentifier());
+            if (isInitiator) faction.addHostileFaction(this, false);
+            this.save();
     }
     
     public void setColor(int number) {

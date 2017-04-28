@@ -7,6 +7,7 @@ package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
 import com.mmocore.module.Listener.RegisterableListener;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
@@ -16,8 +17,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
  */
 public class GuiListener extends RegisterableListener {
     
-   @SubscribeEvent
-   public void onRenderGui(RenderGameOverlayEvent.Post e) {
+   @SubscribeEvent(priority=EventPriority.HIGHEST) // LOWEST causes the overlay to render last, on top of anything else.
+   public void onRenderGui(RenderGameOverlayEvent.Pre e) {
        MMOCore.getInstance().getGuiRegistry().tick();
    }
    
