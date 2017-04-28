@@ -34,6 +34,7 @@ import com.mmocore.constants.uPosition;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -85,10 +86,14 @@ public class Npc {
     private NpcLootOptions lootOptions = new NpcLootOptions();
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     
-    public Npc(String name, String title, NpcTexture texture, NpcModifier modifier) {
+    public Npc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
+        this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(position.getDimension()));
         NpcBaseOptions bOptions = new NpcBaseOptions();
         bOptions.setName(name);
+        bOptions.setTexture(texture);
         bOptions.setTitle(title);
+        bOptions.setFaction(faction);
+        bOptions.setSpawnPosition(position);
         this.setBaseOptions(bOptions);
         NpcCombatOptions cOptions = new NpcCombatOptions();
         cOptions.setExplosionResistance(modifier.getExplosiveResistance());
@@ -99,6 +104,7 @@ public class Npc {
         cOptions.setRangedDamage(modifier.getRangedDamage());        
         cOptions.setHealth(modifier.getHealth());
         this.setCombatOptions(cOptions);
+        this.register();
     }
     
     public void setMarkedForUpdate() {
@@ -440,6 +446,7 @@ public class Npc {
 
         if (this.getBehaviourOptions().getShelterFrom().equals(NpcShelterFromOption.Darkness)) this.entity.ai.findShelter = 0;
         if (this.getBehaviourOptions().getShelterFrom().equals(NpcShelterFromOption.Sun)) this.entity.ai.findShelter = 1;
+        if (this.getBehaviourOptions().getShelterFrom().equals(NpcShelterFromOption.None)) this.entity.ai.findShelter = 2;
         if (this.getCombatOptions().getMustSeeTarget().equals(NpcBoolean.YES)) this.entity.ai.directLOS = true;
         if (this.getCombatOptions().getMustSeeTarget().equals(NpcBoolean.NO)) this.entity.ai.directLOS = false;
         if (this.getBehaviourOptions().getAvoidsWater().equals(NpcBoolean.YES)) this.entity.ai.avoidsWater = true;
@@ -651,19 +658,19 @@ public class Npc {
     }
     
     public String getWorldName() {
-        return this.getUPosition().getDimension().getName();
+        return this.entity.worldObj.getWorldInfo().getWorldName();
     }
     
     public double getPosX() {
-        return this.getUPosition().getDPosX();
+        return this.entity.posX;
     }
     
     public double getPosY() {
-        return this.getUPosition().getDPosY();
+        return this.entity.posY;
     }
     
     public double getPosZ() {
-        return this.getUPosition().getDPosZ();
+        return this.entity.posZ;
     }
     
     public uPosition getUPosition() {
@@ -690,7 +697,7 @@ public class Npc {
     
     private boolean spawnInWorld() {
         ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()).spawnEntityInWorld(entity);
-        entity.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
+        entity.setPositionAndUpdate(this.getBaseOptions().getSpawnPosition().getDPosX(), this.getBaseOptions().getSpawnPosition().getDPosY(), this.getBaseOptions().getSpawnPosition().getDPosZ());
         return existsInGame();
     }
     
@@ -803,6 +810,7 @@ public class Npc {
     
     public void register() {
         if (this.existsInGame()) this.findCustomNpcInGame().delete();
+        this.setPosition(this.getBaseOptions().getSpawnPosition());
         this.spawn();
         refresh();
         revive();
@@ -841,13 +849,13 @@ public class Npc {
 //        entity.ai.startPos = position;
 //    }
     
-//    public void setPosition(UPosition position) {
-//        this.entity.posX = position.getPosInDimX();
-//        this.entity.posY = position.getPosInDimY();
-//        this.entity.posZ = position.getPosInDimZ();
-//        int[] startPos = { (int)position.getPosInDimX(), (int)position.getPosInDimY(), (int)position.getPosInDimZ() };
-//        this.entity.ai.startPos = startPos;
-//    }
+    private void setPosition(uPosition position) {
+        this.entity.posX = position.getDPosX();
+        this.entity.posY = position.getDPosY();
+        this.entity.posZ = position.getDPosZ();
+        int[] startPos = { (int)position.getDPosX(), (int)position.getDPosY(), (int)position.getDPosZ() };
+        this.entity.ai.startPos = startPos;
+    }
     
 //    public boolean stopMoving() {
 //        //if (this.isMoving()) {

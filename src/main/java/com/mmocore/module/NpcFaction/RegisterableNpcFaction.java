@@ -37,7 +37,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
             }
             setID(id);
         }
-        
+        this.save();
     }    
     
     private void setID(int id) {

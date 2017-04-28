@@ -23,17 +23,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.SERVER)
 public class NpcBaseOptions {
     
-    private String name;
-    private String title;
-    private uPosition spawnPosition;
-    private NpcTexture texture;
-    private RegisterableNpcFaction faction;
-    private NpcVisibleOption visibility;
-    private NpcGender gender;
-    private TextVisibleOption bossBarVisible;
-    private TextVisibleOption nameVisible;
-    private NpcAbstractScale movementSpeed;
-    private NpcAbstractScale size;
+    private String name = null;
+    private String title = null;
+    private uPosition spawnPosition = null;
+    private NpcTexture texture = null;
+    private RegisterableNpcFaction faction = null;
+    private NpcVisibleOption visibility = NpcVisibleOption.Visible;
+    private NpcGender gender = NpcGender.Male;
+    private TextVisibleOption bossBarVisible = TextVisibleOption.Never;
+    private TextVisibleOption nameVisible = TextVisibleOption.Never;
+    private NpcAbstractScale movementSpeed = NpcAbstractScale.Medium;
+    private NpcAbstractScale size = NpcAbstractScale.Medium;
     
     public NpcAbstractScale getSize() {
         return this.size;

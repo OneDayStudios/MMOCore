@@ -18,27 +18,27 @@ import com.mmocore.constants.NpcTacticalOption;
  */
 public class NpcCombatOptions {
     
-    private NpcBoolean attacksHostileFactions;
-    private NpcBoolean defendFactionMembers;
-    private NpcAbstractScale rangedDamage;
-    private NpcAbstractScale meleeDamage;
-    private NpcAbstractScale meleeRange;
-    private NpcAbstractScale rangedRange;
-    private NpcAbstractScale accuracy;
-    private NpcAbstractScale health;
-    private NpcAbstractScale aggroRadius;
-    private NpcAbstractScale passiveRegen;
-    private NpcAbstractScale combatRegen;    
-    private NpcAbstractScale projectileResistance;
-    private NpcAbstractScale knockBackResistance;
-    private NpcAbstractScale meleeResistance;
-    private NpcAbstractScale explosionResistance;
-    private NpcProjectile projectile;
-    private NpcCombatResponse response;
-    private NpcRangedUsage rangedUsage;
-    private NpcTacticalOption tacticalBehaviour;
-    private NpcAbstractScale tacticalDistance;
-    private NpcBoolean mustSeeTarget;
+    private NpcBoolean attacksHostileFactions = NpcBoolean.NO;
+    private NpcBoolean defendFactionMembers  = NpcBoolean.YES;
+    private NpcAbstractScale rangedDamage = NpcAbstractScale.Medium;
+    private NpcAbstractScale meleeDamage = NpcAbstractScale.Medium;
+    private NpcAbstractScale meleeRange = NpcAbstractScale.Medium;
+    private NpcAbstractScale rangedRange = NpcAbstractScale.Medium;
+    private NpcAbstractScale accuracy = NpcAbstractScale.Medium;
+    private NpcAbstractScale health = NpcAbstractScale.Medium;
+    private NpcAbstractScale aggroRadius = NpcAbstractScale.Medium;
+    private NpcAbstractScale passiveRegen = NpcAbstractScale.Medium;
+    private NpcAbstractScale combatRegen = NpcAbstractScale.Medium;
+    private NpcAbstractScale projectileResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale knockBackResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale meleeResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale explosionResistance = NpcAbstractScale.Medium;
+    private NpcProjectile projectile = NpcProjectile.MACHINEGUN_BULLET;
+    private NpcCombatResponse response = NpcCombatResponse.Retaliate;
+    private NpcRangedUsage rangedUsage = NpcRangedUsage.UntilClose;
+    private NpcTacticalOption tacticalBehaviour = NpcTacticalOption.Surround;
+    private NpcAbstractScale tacticalDistance = NpcAbstractScale.Medium;
+    private NpcBoolean mustSeeTarget = NpcBoolean.YES;
     
     public NpcBoolean getMustSeeTarget() {
         return this.mustSeeTarget;

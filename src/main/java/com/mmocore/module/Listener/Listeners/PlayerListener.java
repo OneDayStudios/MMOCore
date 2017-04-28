@@ -12,6 +12,11 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
+import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcSpawnMethod;
+import com.mmocore.constants.NpcTexture;
+import com.mmocore.module.Npc.Npc;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -30,6 +35,9 @@ public class PlayerListener extends RegisterableListener {
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent e) {
         if (!MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
+        RegisterablePlayer player = MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
+        RegisterableNpcFaction faction = new RegisterableNpcFaction("Tauri");
+        Npc npc = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), faction);
     }
     
     @SubscribeEvent
@@ -50,6 +58,6 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 1000);        
+        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);        
     }
 }

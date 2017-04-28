@@ -15,22 +15,22 @@ import com.mmocore.constants.NpcShelterFromOption;
  */
 public class NpcBehaviourOptions {
     
-    private NpcBoolean avoidsSun;
-    private NpcBoolean canSwim;    
-    private NpcBoolean avoidsWater;
-    private NpcDoorInteraction doorBehaviour;
-    private NpcBoolean canLeap;
-    private NpcBoolean canSprint;
-    private NpcBoolean passThroughCobwebs;
-    private NpcBoolean returnToStart;
-    private NpcShelterFromOption shelterFrom;
-    private NpcBoolean canDrown;
-    private NpcBoolean burnsInSun;
-    private NpcBoolean suffersFallDamage;
-    private NpcBoolean immuneToFire;
-    private NpcBoolean immuneToPotions;
-    private NpcBoolean aimWhileShooting;
-    private NpcBoolean naturallyDespawns;
+    private NpcBoolean avoidsSun = NpcBoolean.NO;
+    private NpcBoolean canSwim = NpcBoolean.YES; 
+    private NpcBoolean avoidsWater = NpcBoolean.YES; 
+    private NpcDoorInteraction doorBehaviour = NpcDoorInteraction.None;
+    private NpcBoolean canLeap = NpcBoolean.NO;
+    private NpcBoolean canSprint = NpcBoolean.NO;
+    private NpcBoolean passThroughCobwebs = NpcBoolean.NO;
+    private NpcBoolean returnToStart = NpcBoolean.YES;
+    private NpcShelterFromOption shelterFrom = NpcShelterFromOption.None;
+    private NpcBoolean canDrown = NpcBoolean.YES;
+    private NpcBoolean burnsInSun = NpcBoolean.NO;
+    private NpcBoolean suffersFallDamage = NpcBoolean.YES;
+    private NpcBoolean immuneToFire = NpcBoolean.NO;
+    private NpcBoolean immuneToPotions = NpcBoolean.NO;
+    private NpcBoolean aimWhileShooting = NpcBoolean.YES;
+    private NpcBoolean naturallyDespawns = NpcBoolean.NO;
     
     
     public NpcShelterFromOption getShelterFrom() {

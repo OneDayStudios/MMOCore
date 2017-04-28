@@ -11,7 +11,9 @@ import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.FactionRelationType;
 import com.mmocore.constants.NpcVisibleOption;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.ArrayList;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -28,6 +30,14 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static boolean exists(String name, String title, RegisterableNpcFaction faction) {
         return (get(name,title,faction) != null);
+    }
+    
+    public static ArrayList<RegisterableNpc> getAll(RegisterableDimension dimension) {
+        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
+            if (npc.getRegisteredObject().getWorldName().equals(dimension.getName())) npcs.add(npc);
+        }
+        return npcs;
     }
     
     public static RegisterableNpc get(String name, String title, RegisterableNpcFaction faction) {

@@ -6,12 +6,15 @@
 package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.NpcAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.module.Npc.RegisterableNpc;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import java.util.ArrayList;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraft.world.World;
 /**
@@ -38,6 +41,7 @@ public class WorldListener extends RegisterableListener {
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
         dimension.setLastTick(System.currentTimeMillis());
+        MMOCore.getInstance().getNpcRegistry().tickForDimension(dimension);
     }
     
 }

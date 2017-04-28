@@ -29,7 +29,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  * @author Drakster
  */
 
-@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, dependencies = "before:SGCraft, afterY:IC2, after:DefenseTech, after:CustomNpcs", acceptableRemoteVersions = "*")
+@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = "*")
 
 public class MMOCore {
     
@@ -123,9 +123,9 @@ public class MMOCore {
        MMOCore.getInstance().getGalaxyRegistry().initialise();
        MMOCore.getInstance().getPlayerRegistry().initialise();
        MMOCore.getInstance().getListenerRegistry().initialise();
-       MMOCore.getInstance().getDialogRegistry().initialise();
-       MMOCore.getInstance().getStargateRegistry().initialise();
-       MMOCore.getInstance().getQuestRegistry().initialise();
+       //MMOCore.getInstance().getDialogRegistry().initialise();
+       //MMOCore.getInstance().getStargateRegistry().initialise();
+       //MMOCore.getInstance().getQuestRegistry().initialise();
        MMOCore.getInstance().getNpcFactionRegistry().initialise();
        MMOCore.getInstance().getNpcRegistry().initialise();
    }

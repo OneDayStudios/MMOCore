@@ -14,9 +14,9 @@ import com.mmocore.constants.NpcRespawnOption;
  */
 public class NpcRespawnOptions {
     
-    private NpcRespawnOption respawnOption;
-    public NpcBoolean hideDeadBody;
-    private int respawnTimeSeconds;
+    private NpcRespawnOption respawnOption = NpcRespawnOption.Never;
+    public NpcBoolean hideDeadBody = NpcBoolean.NO;
+    private int respawnTimeSeconds = 0;
     
     public void setHideDeadBody(NpcBoolean setting) {
         this.hideDeadBody = setting;

@@ -6,8 +6,11 @@
 package com.mmocore.module.Npc;
 
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcAPI;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.module.Dimension.RegisterableDimension;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -18,14 +21,21 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
 
     @Override
     public void initialise() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     // THIS CLASS HAS NO ADDITIONAL CODE BY DESIGN.
 
     @Override
     public void finalise() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+    
+    public void tickForDimension(RegisterableDimension dimension) {
+        ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);
+        for (RegisterableNpc npc : npcs) {
+            npc.tick();
+        }
     }
 
     @Override

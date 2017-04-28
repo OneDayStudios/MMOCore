@@ -11,5 +11,6 @@ package com.mmocore.constants;
  */
 public enum NpcShelterFromOption {
     Darkness,
-    Sun
+    Sun,
+    None
 }

@@ -10,6 +10,7 @@ package com.mmocore.constants;
  * @author draks
  */
 public enum NpcModifier {
+    
     MELEE_BOSS(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Highest,NpcAbstractScale.Highest,NpcAbstractScale.Highest,NpcAbstractScale.Highest),
     RANGED_BOSS(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
     MELEE_COMMANDER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
@@ -19,13 +20,13 @@ public enum NpcModifier {
     CIVILIAN(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
     CRITTER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High);
 
-    private final NpcAbstractScale health;
-    private final NpcAbstractScale meleeDamage;
-    private final NpcAbstractScale rangedDamage;
-    private final NpcAbstractScale knockbackResistance;
-    private final NpcAbstractScale explosiveResistance;
-    private final NpcAbstractScale meleeResistance;
-    private final NpcAbstractScale projectileResistance;
+    private NpcAbstractScale health = NpcAbstractScale.Medium;
+    private NpcAbstractScale meleeDamage = NpcAbstractScale.Medium;
+    private NpcAbstractScale rangedDamage = NpcAbstractScale.Medium;
+    private NpcAbstractScale knockbackResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale explosiveResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale meleeResistance = NpcAbstractScale.Medium;
+    private NpcAbstractScale projectileResistance = NpcAbstractScale.Medium;
     
     NpcModifier(NpcAbstractScale health, NpcAbstractScale meleeDamage, NpcAbstractScale rangedDamage, NpcAbstractScale knockbackResistance, NpcAbstractScale explosiveResistance, NpcAbstractScale meleeResistance, NpcAbstractScale projectileResistance) {
         this.health = health;

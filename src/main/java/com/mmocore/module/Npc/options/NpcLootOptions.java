@@ -16,8 +16,8 @@ import java.util.HashMap;
  */
 public class NpcLootOptions {
     
-    private NpcLootMode lootMode;
-    private NpcAbstractScale experienceDropped;
+    private NpcLootMode lootMode = NpcLootMode.DEFAULT;
+    private NpcAbstractScale experienceDropped = NpcAbstractScale.Lowest;
     private HashMap<NpcItem, Integer> lootTable = new HashMap<NpcItem, Integer>();
     
     
