@@ -26,20 +26,20 @@ public class WorldListener extends RegisterableListener {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load e) {
         World w = (World)e.world;
-        if (!MMOCore.getInstance().getDimensionRegistry().isRegistered(w.provider.getDimensionName())) MMOCore.getInstance().getDimensionRegistry().register(new RegisterableDimension(w.provider.getDimensionName(), DimensionType.Unknown, 2500, 0, 0, DimensionConditions.Unknown));
-        RegisterableDimension dim = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.provider.getDimensionName());
+        if (!MMOCore.getInstance().getDimensionRegistry().isRegistered(w.getWorldInfo().getWorldName())) MMOCore.getInstance().getDimensionRegistry().register(new RegisterableDimension(w.getWorldInfo().getWorldName(), DimensionType.Unknown, 2500, 0, 0, DimensionConditions.Unknown));
+        RegisterableDimension dim = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
     }
     
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         World w = (World)e.world;
-        MMOCore.getInstance().getDimensionRegistry().deregister(w.provider.getDimensionName());
+        MMOCore.getInstance().getDimensionRegistry().deregister(w.getWorldInfo().getWorldName());
     }
     
     @SubscribeEvent
     public void onWorldTick(WorldTickEvent e) {
         World w = (World)e.world;
-        RegisterableDimension dimension = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.provider.getDimensionName());
+        RegisterableDimension dimension = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
         dimension.setLastTick(System.currentTimeMillis());
         MMOCore.getInstance().getNpcRegistry().tickForDimension(dimension);
     }

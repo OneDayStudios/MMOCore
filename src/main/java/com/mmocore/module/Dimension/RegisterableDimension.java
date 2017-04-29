@@ -113,8 +113,9 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     public String getDisplayName() {
         String providerName = getRegisteredObject().provider.getDimensionName();
         String actualName = getRegisteredObject().getWorldInfo().getWorldName();
+        if (providerName.contains("End") || providerName.contains("Overworld") || providerName.contains("Nether")) return actualName;
         if (actualName.equals(providerName)) return providerName;
-        if (providerName.contains("DIM") && !actualName.contains("DIM")) return providerName;
+        if (providerName.contains("DIM") && !actualName.contains("DIM")) return actualName;
         return actualName;
     }
     
