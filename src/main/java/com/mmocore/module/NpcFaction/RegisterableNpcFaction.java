@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.NpcFaction;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.module.AbstractRegisterable;
@@ -37,6 +38,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
             }
             setID(id);
         }
+        MMOCore.getInstance().getNpcFactionRegistry().register(this);
         this.save();
     }    
     

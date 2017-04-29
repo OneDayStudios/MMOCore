@@ -42,20 +42,10 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerJoin(PlayerLoggedInEvent e) {
         if (!MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
         RegisterablePlayer player = MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
-        RegisterableNpcFaction faction = new RegisterableNpcFaction("Tauri");
+        RegisterableNpcFaction tauriFaction = new RegisterableNpcFaction("Tauri");
         RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
         secondFaction.addHostileFaction(faction, true);
         Npc tauri_soldier = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), faction);
-        NpcCombatOptions cOptions = tauri_soldier.getCombatOptions();
-        cOptions.setAttacksHostileFactions(NpcBoolean.YES);
-        tauri_soldier.setCombatOptions(cOptions);
-        NpcBaseOptions bOptions = tauri_soldier.getBaseOptions();
-        bOptions.setNameVisible(TextVisibleOption.Always);
-        bOptions.setBossBarVisible(TextVisibleOption.WhenAttacking);
-        tauri_soldier.setBaseOptions(bOptions);
-        NpcBehaviourOptions behaviour = tauri_soldier.getBehaviourOptions();
-        behaviour.setDoorBehaviour(NpcDoorInteraction.Open);
-        tauri_soldier.setBehaviourOptions(behaviour);
         Npc wraith_soldier = new Npc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
     }
     
