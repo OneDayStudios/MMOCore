@@ -683,7 +683,7 @@ public class Npc {
     }
     
     public String getWorldName() {
-        return this.entity.worldObj.getWorldInfo().getWorldName();
+        return this.entity.worldObj.provider.getDimensionName();
     }
     
     public double getPosX() {

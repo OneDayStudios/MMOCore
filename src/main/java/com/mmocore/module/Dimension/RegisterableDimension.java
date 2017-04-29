@@ -81,15 +81,41 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-       return getRegisteredObject().getWorldInfo().getSpawnX();
+       try {
+           return getRegisteredObject().getWorldInfo().getSpawnX();
+       } catch (Exception e) {
+           ForgeAPI.sendConsoleEntry("SpawnX was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
+           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
+           return 0;
+       }
     }
     
     public int getSpawnY() {
-       return getRegisteredObject().getWorldInfo().getSpawnY();
+       try {
+           return getRegisteredObject().getWorldInfo().getSpawnY();
+       } catch (Exception e) {
+           ForgeAPI.sendConsoleEntry("SpawnY was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
+           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
+           return 0;
+       }    
     }
     
     public int getSpawnZ() {
-       return getRegisteredObject().getWorldInfo().getSpawnZ();
+       try {
+           return getRegisteredObject().getWorldInfo().getSpawnZ();
+       } catch (Exception e) {
+           ForgeAPI.sendConsoleEntry("SpawnZ was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
+           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
+           return 0;
+       }    
+    }
+    
+    public String getDisplayName() {
+        String providerName = getRegisteredObject().provider.getDimensionName();
+        String actualName = getRegisteredObject().getWorldInfo().getWorldName();
+        if (actualName.equals(providerName)) return providerName;
+        if (providerName.contains("DIM") && !actualName.contains("DIM")) return providerName;
+        return actualName;
     }
     
     public uPosition getPosition() {

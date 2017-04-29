@@ -22,5 +22,4 @@ public class GuiAPI extends AbstractAPI<GuiAPI> {
         if (player != null) MMOCore.getInstance().getChannel().sendGuiElementToClient(player.getPlayer(), slot, title, subTitle, description, titlecolor, subtitlecolor, descColor, milliseconds);
     }
     
-    
 }

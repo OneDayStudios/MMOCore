@@ -41,7 +41,7 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     }
     
     public uPosition getPosition() {
-        return new uPosition((int)getPlayer().posX, (int)getPlayer().posY, (int)getPlayer().posZ, UniverseAPI.getDimension(getWorld().getWorldInfo().getWorldName()));
+        return new uPosition((int)getPlayer().posX, (int)getPlayer().posY, (int)getPlayer().posZ, UniverseAPI.getDimension(getWorld().provider.getDimensionName()));
     }
 
     public World getWorld() {
