@@ -90,6 +90,7 @@ public class GuiElement extends Gui {
         if (centred) this.drawCenteredString(mc.fontRenderer, text, posX, posY, color);
         if (!centred) this.drawString(text, posX, posY, color);
         this.stopScaling();
+        GL11.glPopMatrix();
     }
     
     public RegisterableGui asRegisterable(long durationms) {

@@ -18,7 +18,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 public class GuiListener extends RegisterableListener {
     
    @SubscribeEvent(priority=EventPriority.HIGHEST) // LOWEST causes the overlay to render last, on top of anything else.
-   public void onRenderGui(RenderGameOverlayEvent.Pre e) {
+   public void onRenderGui(RenderGameOverlayEvent.Post e) {
        MMOCore.getInstance().getGuiRegistry().tick();
    }
    
