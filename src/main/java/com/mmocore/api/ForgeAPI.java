@@ -93,7 +93,7 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
     public static World getForgeWorld(String name) {
           for(int id = 0; id<MinecraftServer.getServer().worldServers.length; id++) {
                 WorldServer worldToProcess = MinecraftServer.getServer().worldServers[id];
-                String worldName = worldToProcess.getWorldInfo().getWorldName();
+                String worldName = worldToProcess.provider.getDimensionName();
                 if (worldName.equals(name)) {
                     return worldToProcess;
                 }

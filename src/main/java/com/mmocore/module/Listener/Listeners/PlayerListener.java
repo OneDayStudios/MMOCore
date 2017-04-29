@@ -42,11 +42,11 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerJoin(PlayerLoggedInEvent e) {
         if (!MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
         RegisterablePlayer player = MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
-        RegisterableNpcFaction tauriFaction = new RegisterableNpcFaction("Tauri");
-        RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
-        secondFaction.addHostileFaction(tauriFaction, true);
-        Npc tauri_soldier = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), tauriFaction);
-        Npc wraith_soldier = new Npc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
+        //RegisterableNpcFaction tauriFaction = new RegisterableNpcFaction("Tauri");
+        //RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
+        //secondFaction.addHostileFaction(tauriFaction, true);
+        //Npc tauri_soldier = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), tauriFaction);
+        //Npc wraith_soldier = new Npc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
     }
     
     @SubscribeEvent
