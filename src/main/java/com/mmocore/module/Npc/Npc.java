@@ -22,6 +22,7 @@ import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
 import com.mmocore.constants.NpcShelterFromOption;
@@ -35,6 +36,7 @@ import com.mmocore.constants.uPosition;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
+import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -86,6 +88,7 @@ public class Npc {
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
+    private NpcMovementOptions movementOptions = new NpcMovementOptions();
     
     public Npc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(position.getDimension()));
@@ -106,6 +109,15 @@ public class Npc {
         cOptions.setHealth(modifier.getHealth());
         this.setCombatOptions(cOptions);
         this.register();
+    }
+    
+    public NpcMovementOptions getMovementOptions() {
+        return this.movementOptions;
+    }
+    
+    public void setMovementOptions(NpcMovementOptions options) {
+        this.movementOptions = options;
+        this.setMarkedForUpdate();
     }
     
     public void setMarkedForUpdate() {
@@ -196,7 +208,7 @@ public class Npc {
         this.baseInfo = base;
         this.setMarkedForUpdate();
     }
-    
+
     // This method is the way that MMOCore pushes its configuration options into a defined Npc. 
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
     private void pushOptionsToEntity() {
@@ -471,6 +483,18 @@ public class Npc {
         if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.Lowest)) this.entity.ai.setWalkingSpeed(1);
         if (this.getBaseOptions().getMovementSpeed().equals(NpcAbstractScale.None)) this.entity.ai.setWalkingSpeed(0);
         
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.None)) this.entity.ai.animationType = EnumAnimation.NONE;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Sneaking)) this.entity.ai.animationType = EnumAnimation.SNEAKING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Crawling)) this.entity.ai.animationType = EnumAnimation.CRAWLING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Dancing)) this.entity.ai.animationType = EnumAnimation.DANCING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Crying)) this.entity.ai.animationType = EnumAnimation.CRY;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Hugging)) this.entity.ai.animationType = EnumAnimation.HUG;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Waving)) this.entity.ai.animationType = EnumAnimation.WAVING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Sitting)) this.entity.ai.animationType = EnumAnimation.SITTING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.AimingGun)) this.entity.ai.animationType = EnumAnimation.AIMING;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.AimingBow)) this.entity.ai.animationType = EnumAnimation.BOW;
+        if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Lying)) this.entity.ai.animationType = EnumAnimation.LYING;
+
         // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
@@ -942,39 +966,7 @@ public class Npc {
 //    public void stopOnInteract(boolean value) {
 //        this.entity.ai.stopAndInteract = value;
 //    }
-//    
-//    public void setAnimationNormal() {
-//        this.entity.ai.animationType = EnumAnimation.NONE;
-//    }
-//    
-//    public void setAnimationWaving() {
-//        this.entity.ai.animationType = EnumAnimation.WAVING;
-//    }
-//    
-//    public void setAnimationHugging() {
-//        this.entity.ai.animationType = EnumAnimation.HUG;
-//    }
-//    
-//    public void setAnimationDancing() {
-//        this.entity.ai.animationType = EnumAnimation.DANCING;
-//    }
-//    
-//    public void setAnimationCrawling() {
-//        this.entity.ai.animationType = EnumAnimation.CRAWLING;
-//    }
-//    
-//    public void setAnimationCrying() {
-//        this.entity.ai.animationType = EnumAnimation.CRY;
-//    }
-//    
-//    public void setAnimationSneaking() {
-//        this.entity.ai.animationType = EnumAnimation.SNEAKING;
-//    }
-//    
-//    public void setAnimationSitting() {
-//        this.entity.ai.animationType = EnumAnimation.SITTING;
-//    }
-//    
+
 //    public void backTrackWhileFollowingPath() {
 //        this.entity.ai.movingPattern = 1;
 //    }
