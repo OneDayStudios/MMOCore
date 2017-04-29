@@ -48,6 +48,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     
     public void setDefaultPoints(int points) {
         getRegisteredObject().defaultPoints = points;
+        this.save();
     }
     public int getDefaultPoints() {
         return getRegisteredObject().defaultPoints;
@@ -57,15 +58,18 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     }
     public void setFriendlyPoints(int points) {
         getRegisteredObject().friendlyPoints = points;
+        this.save();
     }
     public void setNeutralPoints(int points) {
         getRegisteredObject().neutralPoints = points;
+        this.save();
     }
     public int getNeutralPoints() {
         return getRegisteredObject().neutralPoints;
     }
     public void setAttackedByMobs(boolean value) {
         getRegisteredObject().getsAttacked = value;
+        this.save();
     }
     public boolean getAttackedByMobs() {
         return getRegisteredObject().getsAttacked;
@@ -73,6 +77,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     
     public void setIsHidden(boolean value) {
         getRegisteredObject().hideFaction = value;
+        this.save();
     }
     
     public boolean getIsHidden() {
@@ -97,6 +102,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     
     public void setColor(int number) {
         getRegisteredObject().color = number;
+        this.save();
     }
     
     public int getColor() {
