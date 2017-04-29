@@ -31,7 +31,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     
     @Override
     public void tick() {
-       this.npc.tick();
+       this.getRegisteredObject().tick();
     }
 
     @Override
