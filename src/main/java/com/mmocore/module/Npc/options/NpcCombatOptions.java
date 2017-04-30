@@ -8,6 +8,7 @@ package com.mmocore.module.Npc.options;
 import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
+import com.mmocore.constants.NpcFireIndirectlyOption;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcTacticalOption;
@@ -39,6 +40,15 @@ public class NpcCombatOptions {
     private NpcTacticalOption tacticalBehaviour = NpcTacticalOption.Surround;
     private NpcAbstractScale tacticalDistance = NpcAbstractScale.Medium;
     private NpcBoolean mustSeeTarget = NpcBoolean.YES;
+    private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
+    
+    public NpcFireIndirectlyOption getFireIndirectlyOption() {
+        return this.fireIndirectly;
+    }
+    
+    public void setFireIndirectlyOption(NpcFireIndirectlyOption setting) {
+        this.fireIndirectly = setting;
+    }    
     
     public NpcBoolean getMustSeeTarget() {
         return this.mustSeeTarget;

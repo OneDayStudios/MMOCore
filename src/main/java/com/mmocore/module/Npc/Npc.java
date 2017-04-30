@@ -19,6 +19,7 @@ import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
 import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
+import com.mmocore.constants.NpcFireIndirectlyOption;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcModifier;
@@ -58,6 +59,7 @@ import noppes.npcs.roles.JobHealer;
 import noppes.npcs.roles.JobInterface;
 import noppes.npcs.roles.RoleTrader;
 import net.minecraft.entity.Entity;
+import noppes.npcs.controllers.FactionController;
 
 
 /**
@@ -494,7 +496,46 @@ public class Npc {
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.AimingGun)) this.entity.ai.animationType = EnumAnimation.AIMING;
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.AimingBow)) this.entity.ai.animationType = EnumAnimation.BOW;
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Lying)) this.entity.ai.animationType = EnumAnimation.LYING;
-
+        if (this.getCombatOptions().getFireIndirectlyOption().equals(NpcFireIndirectlyOption.Never)) this.entity.ai.canFireIndirect = 0;
+        if (this.getCombatOptions().getFireIndirectlyOption().equals(NpcFireIndirectlyOption.WhenDistant)) this.entity.ai.canFireIndirect = 1;
+        if (this.getCombatOptions().getFireIndirectlyOption().equals(NpcFireIndirectlyOption.WhenSuprised)) this.entity.ai.canFireIndirect = 2;
+        
+        if (this.getLootOptions().getSecondaryFaction() != null) {
+            this.entity.advanced.factions.decreaseFaction2Points = this.getLootOptions().getSecondaryFaction().isDecrease();
+            this.entity.advanced.factions.faction2Id = this.getLootOptions().getSecondaryFaction().getFaction().getID();
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Absolute)) this.entity.advanced.factions.faction2Points = 250;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Highest)) this.entity.advanced.factions.faction2Points = 100;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Higher)) this.entity.advanced.factions.faction2Points = 50;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.High)) this.entity.advanced.factions.faction2Points = 25;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Medium)) this.entity.advanced.factions.faction2Points = 10;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Low)) this.entity.advanced.factions.faction2Points = 5;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Lower)) this.entity.advanced.factions.faction2Points = 3;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.Lowest)) this.entity.advanced.factions.faction2Points = 1;
+            if (this.getLootOptions().getSecondaryFaction().getValue().equals(NpcAbstractScale.None)) this.entity.advanced.factions.faction2Points = 0;
+        } else {
+            this.entity.advanced.factions.faction2Points = 0;
+            this.entity.advanced.factions.faction2Id = 0;
+            this.entity.advanced.factions.decreaseFaction2Points = false;
+        }        
+        
+        if (this.getLootOptions().getPrimaryFaction() != null) {
+            this.entity.advanced.factions.decreaseFactionPoints = this.getLootOptions().getPrimaryFaction().isDecrease();
+            this.entity.advanced.factions.factionId = this.getLootOptions().getPrimaryFaction().getFaction().getID();
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Absolute)) this.entity.advanced.factions.factionPoints = 250;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Highest)) this.entity.advanced.factions.factionPoints = 100;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Higher)) this.entity.advanced.factions.factionPoints = 50;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.High)) this.entity.advanced.factions.factionPoints = 25;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Medium)) this.entity.advanced.factions.factionPoints = 10;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Low)) this.entity.advanced.factions.factionPoints = 5;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Lower)) this.entity.advanced.factions.factionPoints = 3;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.Lowest)) this.entity.advanced.factions.factionPoints = 1;
+            if (this.getLootOptions().getPrimaryFaction().getValue().equals(NpcAbstractScale.None)) this.entity.advanced.factions.factionPoints = 0;
+        } else {
+            this.entity.advanced.factions.factionPoints = 0;
+            this.entity.advanced.factions.factionId = 0;
+            this.entity.advanced.factions.decreaseFactionPoints = false;
+        }
+        
         // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
@@ -513,7 +554,6 @@ public class Npc {
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
-    
 //    
 //    public boolean addToLootTable(String mod, String item, int percentChanceDrop, int numberOf, int dmg) {
 //        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
@@ -942,22 +982,7 @@ public class Npc {
 //        this.entity.ai.findShelter = 2;
 //    }
 //    
-//    public void canFireIndirectlyWhenSuprising() {
-//        this.entity.ai.canFireIndirect = 2;
-//    }
-//    
-//    public void canFireIndirectlyWhenFar() {
-//        this.entity.ai.canFireIndirect = 1;
-//    }
-//    
-//    public void cantFireIndirectly() {
-//        this.entity.ai.canFireIndirect = 0;
-//    }
-//
-//    
-//    public void setDistanceTactical(int distance) {
-//        this.entity.ai.tacticalRadius = distance;
-//    }
+
 //    
 //    public void interactsWithOtherNPCs(boolean value) {
 //        this.entity.ai.npcInteracting = value;
@@ -1053,23 +1078,6 @@ public class Npc {
 //        return true;
 //    }
 //    
-//    public boolean setFactionPointsOnDeathPrimary(String factionName, int points) {
-//        if (FactionController.getInstance().getFactionFromName(factionName) == null) return false;
-//        this.entity.advanced.factions.decreaseFactionPoints = (points < 0);
-//        this.entity.advanced.factions.factionId = FactionController.getInstance().getFactionFromName(factionName).id;
-//        if (points < 0) this.entity.advanced.factions.factionPoints = points * -1;
-//        if (points >= 0) this.entity.advanced.factions.factionPoints = points;
-//        return true;
-//    }
-//    
-//    public boolean setFactionPointsOnDeathSecondary(String factionName, int points) {
-//        if (FactionController.getInstance().getFactionFromName(factionName) == null) return false;
-//        this.entity.advanced.factions.decreaseFaction2Points = (points < 0);
-//        this.entity.advanced.factions.faction2Id = FactionController.getInstance().getFactionFromName(factionName).id;
-//        if (points < 0) this.entity.advanced.factions.faction2Points = points * -1;
-//        if (points >= 0) this.entity.advanced.factions.faction2Points = points;
-//        return true;
-//    }
 //
 //    
 //    public boolean getNaturallyDespawns() {
@@ -1201,15 +1209,6 @@ public class Npc {
 //    
 //    public boolean hasRepeatableQuests() {
 //        return !getRepeatableQuests().isEmpty();
-//    }
-//    
-//    private EntityPlayer findForgePlayerOnWorld(String playerName) {
-//        World world = getForgeWorld(actualPosition.getDimension().getName());
-//        for (Object playerObj : world.playerEntities) {
-//            EntityPlayer player = (EntityPlayer)playerObj;
-//            if (player.getGameProfile().getName().equals(playerName)) return player;
-//        }
-//        return null;
 //    }
     
     public void despawn() {
