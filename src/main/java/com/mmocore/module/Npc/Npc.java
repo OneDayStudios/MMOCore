@@ -718,10 +718,6 @@ public class Npc {
 //        return true;
 //    }
     
-    public void defendFactionMembers(boolean value) {
-        this.entity.advanced.defendFaction = value;
-    }
-    
     public String getWorldName() {
         return this.entity.worldObj.getWorldInfo().getWorldName();
     }
