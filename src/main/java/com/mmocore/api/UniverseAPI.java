@@ -94,7 +94,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getDimension(pos).getDisplayName();
         if (location == null) location = "Unknown location!";
-        return location + " (" + pos.getUPosX() + "," + pos.getUPosZ() + ")";
+        return location;
     }
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
