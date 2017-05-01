@@ -94,7 +94,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getDimension(pos).getDisplayName();
         if (location == null) location = "Unknown location!";
-        return "Location: " + location;
+        return location + " (" + pos.getUPosX() + "," + pos.getUPosZ() + ")";
     }
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
@@ -103,7 +103,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (conditions == null && isInInterstellarSpace(pos)) conditions = "None";
         if (conditions == null && isInOrbitOf(pos)) conditions = pos.getDimension().getConditions().name();
         if (conditions == null) conditions = "Unknown conditions!";
-        return "Atmosphere: " + conditions;
+        return conditions;
     }
     public static RegisterableGalaxy getGalaxy(uPosition pos) {
         ArrayList<RegisterableGalaxy> galaxies = new ArrayList<RegisterableGalaxy>();
