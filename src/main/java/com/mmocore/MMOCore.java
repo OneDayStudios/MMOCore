@@ -23,6 +23,7 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
 
 /**
  *
@@ -118,6 +119,10 @@ public class MMOCore {
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
+   }
+   
+   @Mod.EventHandler
+   public void onServerStarted(FMLServerStartedEvent e) {       
        MMOCore.getInstance().getGuiRegistry().initialise();
        MMOCore.getInstance().getDimensionRegistry().initialise();
        MMOCore.getInstance().getGalaxyRegistry().initialise();
