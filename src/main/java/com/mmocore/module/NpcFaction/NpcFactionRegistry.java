@@ -10,6 +10,7 @@ import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.constants.IntegratedMod;
+import java.util.ArrayList;
 import noppes.npcs.controllers.Faction;
 
 /**
@@ -20,9 +21,14 @@ public class NpcFactionRegistry extends AbstractRegistry<NpcFactionRegistry, Int
 
     @Override
     public void initialise() {
+        ArrayList<String> factionNames = new ArrayList<String>();
         for (Faction f : NpcFactionAPI.getAllFactionsReadOnly()) {
-            RegisterableNpcFaction faction = new RegisterableNpcFaction(f.name);
-            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + f.name, ConsoleMessageType.FINE);
+            factionNames.add(f.name);
+            ForgeAPI.sendConsoleEntry("Detected existing Npc Faction: " + f.name + ", queuing for initialisation.", ConsoleMessageType.FINE);
+        }
+        for (String name : factionNames) {
+            RegisterableNpcFaction faction = new RegisterableNpcFaction(name);
+            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
         }
     }
 
