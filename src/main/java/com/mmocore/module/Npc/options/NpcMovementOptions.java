@@ -39,8 +39,7 @@ public class NpcMovementOptions {
         return this.movingAnimation;
     }
     
-    public void setMovementTypeStanding() {
-        this.wanderingRadius = NpcAbstractScale.None;
+    public void setMovementTypeStanding(NpcRotation rotation) {
         this.movingType = NpcMovementType.Standing;
     }
     
