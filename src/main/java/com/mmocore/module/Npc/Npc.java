@@ -6,7 +6,6 @@
 package com.mmocore.module.Npc;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
-import com.mmocore.api.PlayerAPI;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
@@ -637,44 +636,10 @@ public class Npc {
         // This is important so that the NPC doesnt constantly update.
         this.markedForUpdate = false;
     }
-//    
-//    public boolean addToLootTable(String mod, String item, int percentChanceDrop, int numberOf, int dmg) {
-//        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-//        if (entity.inventory.items.size() > 8) return false;
-//        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-//        if (stack.getMaxStackSize() < numberOf) return false;
-//        stack.setItemDamage(dmg);
-//        int index = entity.inventory.items.size();
-//        entity.inventory.items.put(index, stack);
-//        entity.inventory.dropchance.put(index, percentChanceDrop);
-//        return entity.inventory.items.get(index).equals(stack);
-//    }
     
     public boolean isInCombat() {
         return this.entity.isAttacking();
     }
-    
-//    public String getRandomRepeatableUnavailableLine(String PlayerName) {
-//       if (randomRepeatableUnavailableLines.isEmpty()) return "I have nothing for you now, check back later.";
-//       if (randomRepeatableUnavailableLines.size() == 1) return randomRepeatableUnavailableLines.get(0).replace("{player}", PlayerName).replace("@dp", PlayerName);
-//       Random ran = new Random();
-//       int number = ran.nextInt(randomRepeatableUnavailableLines.size());
-//       if (number != 0) number = number - 1;
-//       return randomRepeatableUnavailableLines.get(number).replace("{player}", PlayerName).replace("@dp", PlayerName);
-//    }
-//    
-//    public void addRandomNotRepeatableLine(String s) {
-//        if (!randomRepeatableUnavailableLines.contains(s)) randomRepeatableUnavailableLines.add(s);
-//    }
-//    
-//    public void setForcedSpawnPosition(uPosition position) {
-//        this.spawnPosition = position;
-//        this.entity = new EntityCustomNpc(this.getForgeWorld(spawnPosition.getDimension().getIdentifier()));
-//        this.entity.stats.setMaxHealth(maxHealth);
-//        if (this.template != null && !this.template.equals("NONE")) this.setLinkedTemplate(template);
-//        this.setPosition(spawnPosition);
-//        this.cleanup();
-//    }
 //    
 //    public void setRoleNone() {
 //        this.entity.advanced.role = EnumRoleType.None;
