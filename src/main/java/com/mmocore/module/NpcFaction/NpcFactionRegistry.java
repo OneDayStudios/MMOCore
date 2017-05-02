@@ -6,8 +6,11 @@
 package com.mmocore.module.NpcFaction;
 
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcFactionAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.constants.IntegratedMod;
+import noppes.npcs.controllers.Faction;
 
 /**
  *
@@ -17,12 +20,18 @@ public class NpcFactionRegistry extends AbstractRegistry<NpcFactionRegistry, Int
 
     @Override
     public void initialise() {
-        // Not required.
+        for (Faction f : NpcFactionAPI.getAllFactions()) {
+            RegisterableNpcFaction faction = new RegisterableNpcFaction(f.name);
+            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + f.name, ConsoleMessageType.FINE);
+        }
     }
 
     @Override
     public void finalise() {
-        // No code required, yet.
+        for (RegisterableNpcFaction faction : NpcFactionAPI.getAllRegisteredFactionsReadOnly()) {
+            this.deregister(faction.getID());
+            ForgeAPI.sendConsoleEntry("Uninitialising Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
+        }
     }
 
     @Override

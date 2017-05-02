@@ -5,6 +5,8 @@
  */
 package com.mmocore.api;
 
+import com.mmocore.MMOCore;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,8 +20,13 @@ import noppes.npcs.controllers.PlayerDataController;
  * @author draks
  */
 public class NpcFactionAPI extends AbstractAPI<NpcFactionAPI> {
+    
     public static Collection<Faction> getAllFactions() {
         return FactionController.getInstance().factions.values();
+    }
+    
+    public static Collection<RegisterableNpcFaction> getAllRegisteredFactionsReadOnly() {
+        return MMOCore.getInstance().getNpcFactionRegistry().getRegisteredReadOnly().values();
     }
     
     public static Faction get(String name) {

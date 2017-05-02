@@ -39,7 +39,7 @@ public class NpcMovementOptions {
         return this.movingAnimation;
     }
     
-    public void setMovementTypeStanding(NpcRotation rotation) {
+    public void setMovementTypeStanding() {
         this.movingType = NpcMovementType.Standing;
     }
     

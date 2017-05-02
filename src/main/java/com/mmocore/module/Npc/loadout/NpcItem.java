@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.mmocore.module.Npc.loadout;
+import com.mmocore.api.ForgeAPI;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -16,6 +17,10 @@ public class NpcItem {
     
     public void setItem(ItemStack stack) {
         this.item = stack;
+    }
+    
+    public void setItem(String ModName, String ModItemName, int numberOf, int damage) {
+        this.item = ForgeAPI.getItemStackFromValues(ModName,ModItemName, numberOf, damage);
     }
     
     public ItemStack getItem() {
