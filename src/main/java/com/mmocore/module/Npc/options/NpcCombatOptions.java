@@ -41,6 +41,15 @@ public class NpcCombatOptions {
     private NpcAbstractScale tacticalDistance = NpcAbstractScale.Medium;
     private NpcBoolean mustSeeTarget = NpcBoolean.YES;
     private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
+    private NpcBoolean canAttackInvisibleTargets = NpcBoolean.NO;
+    
+    public NpcBoolean getCanAttackInvisibleTargets() {
+        return this.canAttackInvisibleTargets;
+    }
+    
+    public void setCanAttackInvisibleTargets(NpcBoolean setting) {
+        this.canAttackInvisibleTargets = setting;
+    }
     
     public NpcFireIndirectlyOption getFireIndirectlyOption() {
         return this.fireIndirectly;

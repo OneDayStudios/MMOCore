@@ -6,6 +6,7 @@
 package com.mmocore.module.Npc.options;
 
 import com.mmocore.constants.NpcMovementAnimation;
+import com.mmocore.constants.NpcRotation;
 
 /**
  *
@@ -14,7 +15,15 @@ import com.mmocore.constants.NpcMovementAnimation;
 public class NpcMovementOptions {
     
     private NpcMovementAnimation movingAnimation = NpcMovementAnimation.None;
+    private NpcRotation rotation = NpcRotation.NORTH;
     
+    public NpcRotation getRotation() {
+        return this.rotation;
+    }
+    
+    public void setRotation(NpcRotation rotation) {
+        this.rotation = rotation;
+    }
     
     public NpcMovementAnimation getMovingAnimation() {
         return this.movingAnimation;

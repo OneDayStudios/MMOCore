@@ -32,6 +32,37 @@ public class NpcBehaviourOptions {
     private NpcBoolean aimWhileShooting = NpcBoolean.YES;
     private NpcBoolean naturallyDespawns = NpcBoolean.NO;
     
+    public NpcBoolean getImmuneToPotions() {
+        return this.immuneToPotions;
+    }
+    
+    public void setImmuneToPotions(NpcBoolean setting) {
+        this.immuneToPotions = setting;
+    }
+    
+    public NpcBoolean getImmuneToFire() {
+        return this.immuneToFire;
+    }
+    
+    public void setImmuneToFire(NpcBoolean setting) {
+        this.immuneToFire = setting;
+    }
+    
+    public NpcBoolean getAimsWhileShooting() {
+        return this.aimWhileShooting;
+    }
+    
+    public void setAimsWhileShooting(NpcBoolean setting) {
+        this.aimWhileShooting = setting;
+    }
+    
+    public NpcBoolean getBurnsInSun() {
+        return this.burnsInSun;
+    }
+    
+    public void setBurnsInSun(NpcBoolean option) {
+        this.burnsInSun = option;
+    }
     
     public NpcShelterFromOption getShelterFrom() {
         return this.shelterFrom;
@@ -73,6 +104,14 @@ public class NpcBehaviourOptions {
         this.canLeap = setting;
     }
     
+    public NpcBoolean getCanDrown() {
+        return this.canDrown;
+    }
+    
+    public void setCanDrown(NpcBoolean setting) {
+        this.canDrown = setting;
+    }
+    
     public NpcBoolean getCanSwim() {
         return this.canSwim;
     }
@@ -104,5 +143,12 @@ public class NpcBehaviourOptions {
     public void setDoorBehaviour(NpcDoorInteraction setting) {
         this.doorBehaviour = setting;
     }
+
+    public NpcBoolean getSuffersFallDamage() {
+        return this.suffersFallDamage;
+    }
     
+    public void setSuffersFallDamage(NpcBoolean setting) {
+        this.suffersFallDamage = setting;
+    }
 }

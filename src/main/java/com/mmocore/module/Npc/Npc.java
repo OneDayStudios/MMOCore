@@ -10,7 +10,7 @@ import com.mmocore.api.PlayerAPI;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
-import com.mmocore.module.Npc.options.NpcInteractionOptions;
+import com.mmocore.module.Npc.options.NpcInteractOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcRespawnOptions;
 import com.mmocore.module.Npc.options.NpcSpawnOptions;
@@ -82,13 +82,15 @@ public class Npc {
     private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
     private NpcSpawnOptions randomSpawnOptions = new NpcSpawnOptions();
-    private NpcInteractionOptions interactions = new NpcInteractionOptions();
+    private NpcInteractOptions interactions = new NpcInteractOptions();
     private NpcWornItemSet armor = new NpcWornItemSet();
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
     private NpcHeldItemSet rangedHeld = new NpcHeldItemSet();
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
+    private NpcInteractOptions interactOptions = new NpcInteractOptions();
+    
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     private NpcMovementOptions movementOptions = new NpcMovementOptions();
     
@@ -188,6 +190,15 @@ public class Npc {
         return this.combatOptions;
     }
     
+    public NpcInteractOptions getInteractOptions() {
+        return this.interactOptions;
+    }
+    
+    public void setInteractOptions(NpcInteractOptions options) {
+        this.interactOptions = options;
+        this.setMarkedForUpdate();
+    }
+    
     public NpcLootOptions getLootOptions() {
         return this.lootOptions;
     }
@@ -213,6 +224,7 @@ public class Npc {
 
     // This method is the way that MMOCore pushes its configuration options into a defined Npc. 
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
+    
     private void pushOptionsToEntity() {
         entity.inventory.armor.put(3, (getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null));
         entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
@@ -536,6 +548,77 @@ public class Npc {
             this.entity.advanced.factions.decreaseFactionPoints = false;
         }
         
+        // INTERACT LINE POPULATION //
+        
+        entity.advanced.interactLines.lines.clear();
+        for (String line : this.getInteractOptions().getInteractLines()) {
+            int lineNumber = 0;
+            if (!this.entity.advanced.interactLines.lines.isEmpty() && !this.entity.advanced.interactLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.interactLines.lines.size();
+            Line cNpcsLine = new Line();
+            cNpcsLine.hideText = true;
+            cNpcsLine.text = line;
+            cNpcsLine.sound = "";
+            this.entity.advanced.interactLines.lines.put(lineNumber, cNpcsLine);
+        }
+        
+        // KILL LINE POPULATION //
+        
+        entity.advanced.killLines.lines.clear();
+        for (String line : this.getInteractOptions().getKillLines()) {
+            int lineNumber = 0;
+            if (!this.entity.advanced.killLines.lines.isEmpty() && !this.entity.advanced.killLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.killLines.lines.size();
+            Line cNpcsLine = new Line();
+            cNpcsLine.hideText = true;
+            cNpcsLine.text = line;
+            cNpcsLine.sound = "";
+            this.entity.advanced.killLines.lines.put(lineNumber, cNpcsLine);
+        }
+        
+        entity.advanced.killedLines.lines.clear();
+        for (String line : this.getInteractOptions().getDeathLines()) {
+            int lineNumber = 0;
+            if (!this.entity.advanced.killedLines.lines.isEmpty() && !this.entity.advanced.killedLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.killedLines.lines.size();
+            Line cNpcsLine = new Line();
+            cNpcsLine.hideText = true;
+            cNpcsLine.text = line;
+            cNpcsLine.sound = "";
+            this.entity.advanced.killedLines.lines.put(lineNumber, cNpcsLine);
+        }
+        
+        entity.advanced.attackLines.lines.clear();
+        for (String line : this.getInteractOptions().getAttackLines()) {
+            int lineNumber = 0;
+            if (!this.entity.advanced.attackLines.lines.isEmpty() && !this.entity.advanced.attackLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.attackLines.lines.size();
+            Line cNpcsLine = new Line();
+            cNpcsLine.hideText = true;
+            cNpcsLine.text = line;
+            cNpcsLine.sound = "";
+            this.entity.advanced.attackLines.lines.put(lineNumber, cNpcsLine);
+        }
+        
+        entity.advanced.worldLines.lines.clear();
+        for (String line : this.getInteractOptions().getWorldLines()) {
+            int lineNumber = 0;
+            if (!this.entity.advanced.worldLines.lines.isEmpty() && !this.entity.advanced.worldLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.worldLines.lines.size();
+            Line cNpcsLine = new Line();
+            cNpcsLine.hideText = true;
+            cNpcsLine.text = line;
+            cNpcsLine.sound = "";
+            this.entity.advanced.worldLines.lines.put(lineNumber, cNpcsLine);
+        }
+        
+        this.entity.ai.orientation = this.getMovementOptions().getRotation().getDegree();
+        this.entity.ai.stopAndInteract = (this.getInteractOptions().getStopsOnInteract().equals(NpcBoolean.YES));
+        this.entity.stats.aimWhileShooting = (this.getBehaviourOptions().getAimsWhileShooting().equals(NpcBoolean.YES));
+        this.entity.ai.canSwim = (this.getBehaviourOptions().getCanSwim().equals(NpcBoolean.YES));
+        this.entity.ai.npcInteracting = (this.getInteractOptions().getInteractsWithOtherNpcs().equals(NpcBoolean.YES));
+        this.entity.stats.burnInSun = (this.getBehaviourOptions().getBurnsInSun().equals(NpcBoolean.YES));
+        this.entity.stats.attackInvisible = (this.getCombatOptions().getCanAttackInvisibleTargets().equals(NpcBoolean.YES));
+        this.entity.stats.noFallDamage = (this.getBehaviourOptions().getSuffersFallDamage().equals(NpcBoolean.YES));
+        this.entity.stats.canDrown = (this.getBehaviourOptions().getCanDrown().equals(NpcBoolean.YES));
+        this.entity.stats.potionImmune = (this.getBehaviourOptions().getImmuneToPotions().equals(NpcBoolean.YES));
+        this.entity.stats.immuneToFire = (this.getBehaviourOptions().getImmuneToFire().equals(NpcBoolean.YES));
+        
         // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
@@ -566,9 +649,6 @@ public class Npc {
 //        entity.inventory.dropchance.put(index, percentChanceDrop);
 //        return entity.inventory.items.get(index).equals(stack);
 //    }
-    
-    // ANY METHOD BELOW THIS IS UNVERIFIED AND NOT UPDATED.
-    
     
     public boolean isInCombat() {
         return this.entity.isAttacking();
@@ -652,72 +732,7 @@ public class Npc {
     public EntityCustomNpc getEntity() {
         return this.entity;
     }
-    
-//    public boolean addWorldLine(String text) {
-//        if (this.entity.advanced.worldLines.lines.size() > 7) return false;
-//        int lineNumber = 0;
-//        if (!this.entity.advanced.worldLines.lines.isEmpty()) lineNumber = this.entity.advanced.worldLines.lines.size();
-//        Line line = new Line();
-//        line.hideText = true;
-//        line.text = text;
-//        line.sound = "";
-//        this.entity.advanced.worldLines.lines.put(lineNumber, line);
-//        return true;
-//    }
-
-//    public boolean clearInteractLines() {
-//        this.entity.advanced.interactLines.lines.clear();
-//        return this.entity.advanced.interactLines.lines.isEmpty();
-//    }
-//    
-//    public boolean addInteractLine(String text) {
-//        int lineNumber = 0;
-//        if (this.entity.advanced.interactLines.lines.size() > 7) return false;
-//        if (!this.entity.advanced.interactLines.lines.isEmpty() && !this.entity.advanced.interactLines.lines.get(0).text.equals("Please report me to the StargateMC admins, as I am an NPC with no logic!")) lineNumber = this.entity.advanced.interactLines.lines.size();
-//        Line line = new Line();
-//        line.hideText = true;
-//        line.text = text;
-//        line.sound = "";
-//        this.entity.advanced.interactLines.lines.put(lineNumber, line);
-//        return true;
-//    }
-//
-//    public boolean addKilledLine(String text) {
-//        int lineNumber = 0;
-//        if (this.entity.advanced.killedLines.lines.size() > 7) return false;
-//        if (!this.entity.advanced.killedLines.lines.isEmpty()) lineNumber = this.entity.advanced.killedLines.lines.size();
-//        Line line = new Line();
-//        line.hideText = true;
-//        line.text = text;
-//        line.sound = "";
-//        this.entity.advanced.killedLines.lines.put(lineNumber, line);
-//        return true;
-//    }
-//    
-//    public boolean addKillLine(String text) {
-//        int lineNumber = 0;
-//        if (this.entity.advanced.killLines.lines.size() > 7) return false;
-//        if (!this.entity.advanced.killLines.lines.isEmpty()) lineNumber = this.entity.advanced.killLines.lines.size();
-//        Line line = new Line();
-//        line.hideText = true;
-//        line.text = text;
-//        line.sound = "";
-//        this.entity.advanced.killLines.lines.put(lineNumber, line);
-//        return true;
-//    }
-//    
-//    public boolean addAttackLine(String text) {
-//        int lineNumber = 0;
-//        if (this.entity.advanced.attackLines.lines.size() > 7) return false;
-//        if (!this.entity.advanced.attackLines.lines.isEmpty()) lineNumber = this.entity.advanced.attackLines.lines.size();
-//        Line line = new Line();
-//        line.hideText = true;
-//        line.text = text;
-//        line.sound = "";
-//        this.entity.advanced.attackLines.lines.put(lineNumber, line);
-//        return true;
-//    }
-    
+        
     public String getWorldName() {
         return this.entity.worldObj.getWorldInfo().getWorldName();
     }
@@ -737,24 +752,6 @@ public class Npc {
     public uPosition getUPosition() {
         return new uPosition(getPosX(), getPosY(), getPosZ(), MMOCore.getInstance().getDimensionRegistry().getRegistered(getWorldName()));
     }
-    
-    
-//    public String getLinkedTemplate() {
-//        return this.template;
-//    }
-    
-//    private void setLinkedTemplate(String template) {
-//        if (!this.hasValidTemplate()) return;
-//        this.entity.linkedName = template;        
-//        LinkedNpcController lnc = new LinkedNpcController();
-//        lnc.loadNpcData((EntityNPCInterface)this.entity);
-//        stopMoving(); // Stop moving in the off chance the template has moving assigned.
-//    }
-//    
-//    public boolean hasValidTemplate() {
-//        LinkedNpcController lnc = new LinkedNpcController();
-//        return lnc.getData(this.getLinkedTemplate()) != null;
-//    }
     
     private boolean spawnInWorld() {
         ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()).spawnEntityInWorld(entity);
@@ -823,12 +820,6 @@ public class Npc {
         entity.updateAI = true;
     }
     
-    private void unlinkFromTemplate() {
-        this.entity.linkedLast = 0;
-        this.entity.linkedData = null;
-        this.entity.linkedName = "";
-    }
-    
 //    public void moveTo(int posX, int posY, int posZ, int secondsToComplete) {
 //        List<int[]> path = new ArrayList<int[]>();
 //        int[] currentLocation = { (int)this.actualPosition.getPosInDimX(), (int)this.actualPosition.getPosInDimY(), (int)this.actualPosition.getPosInDimZ() };
@@ -878,10 +869,6 @@ public class Npc {
         MMOCore.getInstance().getNpcRegistry().register(new RegisterableNpc(this, NpcSpawnMethod.Static));
     }
     
-//    public void setUniqueID(UUID id) {
-//        this.entityUniqueID = id;
-//    }
-//    
     public UUID getUniqueID() {
         return this.entity.getUniqueID();
     }
@@ -894,21 +881,6 @@ public class Npc {
         }
        // if (!this.existsInGame()) //("NPC: " + this.getName() + " has failed to spawn!");
     }
-    
-//    
-//    public boolean getShouldRespawnAtHome() {
-//        return this.shouldRespawnAtHome;
-//    }
-//    
-//    public void respawn() {
-//        if (this.existsInGame()) this.despawn();
-//        if (this.getShouldRespawnAtHome()) this.actualPosition = this.spawnPosition;
-//        this.spawn();
-//    }
-    
-//    private void setStartPosition(int[] position) {
-//        entity.ai.startPos = position;
-//    }
     
     private void setPosition(uPosition position) {
         this.entity.posX = position.getDPosX();
@@ -943,14 +915,6 @@ public class Npc {
         return null;
     }
     
-//    public void startWandering(int range, int secondsToWander) {
-//        entity.ai.movingType = EnumMovingType.Wandering;
-//        entity.ai.walkingRange = range;
-//        this.isMoving = true;
-//        this.startedMovingTime = System.currentTimeMillis();
-//        this.secsToCompleteMove = secondsToWander;
-//    }
-    
     public void setWandering(int range) {
         entity.ai.movingType = EnumMovingType.Wandering;
         entity.ai.walkingRange = range;
@@ -964,29 +928,11 @@ public class Npc {
         EntityCustomNpc foundNpc = this.findCustomNpcInGame();
         if (foundNpc != null) {
             this.entity = foundNpc;
-            if (this.markedForUpdate) this.pushOptionsToEntity();
+            if (this.markedForUpdate) this.pushOptionsToEntity();            
         } else {
             this.setMarkedForRemoval();
         }
     }
-//    
-//    public void canSwim(boolean value) {
-//        this.entity.ai.canSwim = value;
-//    }
-//    
-//    public void shelterFromNothing() {
-//        this.entity.ai.findShelter = 2;
-//    }
-//    
-
-//    
-//    public void interactsWithOtherNPCs(boolean value) {
-//        this.entity.ai.npcInteracting = value;
-//    }
-//    
-//    public void stopOnInteract(boolean value) {
-//        this.entity.ai.stopAndInteract = value;
-//    }
 
 //    public void backTrackWhileFollowingPath() {
 //        this.entity.ai.movingPattern = 1;
@@ -996,29 +942,7 @@ public class Npc {
 //        this.entity.ai.movingPattern = 0;
 //    }
 //    
-//    public void canAttackInvisible(boolean value) {
-//        this.entity.stats.attackInvisible = value;
-//    }
-//    
-//    public void suffersFallDamage(boolean value) {
-//        this.entity.stats.noFallDamage = !value;
-//    }
-//    
-//    public void burnsInSun(boolean value) {
-//        this.entity.stats.burnInSun = value;
-//    }
-//    
-//    public void canDrown(boolean value) {
-//        this.entity.stats.canDrown = value;
-//    }
-//    
-//    public void immuneToPotions(boolean value) {
-//        this.entity.stats.potionImmune = value;
-//    }
-//    
-//    public void immuneToFire(boolean value) {
-//        this.entity.stats.immuneToFire = value;
-//    }
+
 //
 //    
 //    public void setMeleeKnockback(int value) {
@@ -1049,19 +973,13 @@ public class Npc {
 //        this.entity.stats.pGlows = value;
 //    }
 //    
-//    public void aimWhileShooting(boolean value) {
-//        this.entity.stats.aimWhileShooting = value;
-//    }
-//    
 //    public boolean setJob(String jobName) {
 //        if (EnumJobType.valueOf(jobName) == null) return false;
 //        this.entity.advanced.job = EnumJobType.valueOf(jobName);
 //        return true;
 //    }
 //    
-//    public void setRotation(int number) {
-//        this.entity.ai.orientation = number;
-//    }
+
 //    
 //    public void setStandingType(String type) {
 //        if (EnumStandingType.valueOf(type) == null) return;

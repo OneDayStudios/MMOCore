@@ -6,7 +6,6 @@
 package com.mmocore.module.Npc.options;
 
 import com.mmocore.constants.NpcAbstractScale;
-import com.mmocore.constants.NpcFactionValue;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcTexture;
