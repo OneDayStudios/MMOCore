@@ -20,7 +20,7 @@ public class NpcFactionRegistry extends AbstractRegistry<NpcFactionRegistry, Int
 
     @Override
     public void initialise() {
-        for (Faction f : NpcFactionAPI.getAllFactions()) {
+        for (Faction f : NpcFactionAPI.getAllFactionsReadOnly()) {
             RegisterableNpcFaction faction = new RegisterableNpcFaction(f.name);
             ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + f.name, ConsoleMessageType.FINE);
         }
