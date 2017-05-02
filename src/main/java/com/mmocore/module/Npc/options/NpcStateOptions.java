@@ -18,4 +18,35 @@ public class NpcStateOptions {
     private boolean isInCombat = false;
     private boolean isNearPlayers = false;
     
+    public void setHealth(int number) {
+        this.health = number;
+    }
+    
+    public int getHealth() {
+        return this.health;
+    }
+    
+    public void setPosition(uPosition position) {
+        this.position = position;
+    }
+    
+    public uPosition getPosition() {
+        return this.position;
+    }
+    
+    public void setIsInCombat(boolean value) {
+        this.isInCombat = value;
+    }
+    
+    public void setIsNearPlayers(boolean value) {
+        this.isNearPlayers = value;
+    }
+    
+    public boolean isInCombat() {
+        return this.isInCombat;
+    }
+    
+    public boolean isNearPlayers() {
+        return this.isNearPlayers;
+    }
 }

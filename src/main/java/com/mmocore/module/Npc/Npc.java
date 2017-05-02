@@ -23,6 +23,7 @@ import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcMovementAnimation;
+import com.mmocore.constants.NpcMovementType;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
 import com.mmocore.constants.NpcShelterFromOption;
@@ -37,6 +38,7 @@ import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
+import com.mmocore.module.Npc.options.NpcStateOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -92,6 +94,7 @@ public class Npc {
     
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     private NpcMovementOptions movementOptions = new NpcMovementOptions();
+    private NpcStateOptions stateOptions = new NpcStateOptions();
     
     public Npc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(position.getDimension()));
@@ -225,11 +228,16 @@ public class Npc {
     // This is an relatively intensive process that should only occur on ticks where an Npc has its options changed.
     
     private void pushOptionsToEntity() {
-        entity.inventory.armor.put(3, (getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null));
-        entity.inventory.armor.put(2, (getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null));
-        entity.inventory.armor.put(1, (getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null));
-        entity.inventory.armor.put(0, (getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null));
         
+        
+        entity.inventory.armor.put(3, ((getArmor().getFeet().hasItem() ? getArmor().getFeet().getItem() : null)));
+        entity.inventory.armor.put(2, ((getArmor().getLegs().hasItem() ? getArmor().getLegs().getItem() : null)));
+        entity.inventory.armor.put(1, ((getArmor().getChest().hasItem() ? getArmor().getChest().getItem() : null)));
+        entity.inventory.armor.put(0, ((getArmor().getHead().hasItem() ? getArmor().getHead().getItem() : null)));        
+        
+        entity.inventory.setWeapon((getPassiveHeldItems().getMainHand().hasItem() ? getPassiveHeldItems().getMainHand().getItem() : null));
+        entity.inventory.setOffHand((getPassiveHeldItems().getOffHand().hasItem() ? getPassiveHeldItems().getOffHand().getItem() : null));
+
         // Begin Base Options
         
         if (!this.getBaseOptions().getName().equals(this.entity.display.name)) { this.entity.display.name = this.getBaseOptions().getName(); }
@@ -618,6 +626,37 @@ public class Npc {
         this.entity.stats.potionImmune = (this.getBehaviourOptions().getImmuneToPotions().equals(NpcBoolean.YES));
         this.entity.stats.immuneToFire = (this.getBehaviourOptions().getImmuneToFire().equals(NpcBoolean.YES));
         
+        if (this.getMovementOptions().getMovementType().equals(NpcMovementType.Standing)) entity.ai.movingType = EnumMovingType.Standing;
+                
+        if (this.getMovementOptions().getMovementType().equals(NpcMovementType.Wandering)) {
+            entity.ai.movingType = EnumMovingType.Wandering;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.None)) entity.ai.walkingRange = 0;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Lowest)) entity.ai.walkingRange = 4;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Lower)) entity.ai.walkingRange = 8;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Low)) entity.ai.walkingRange = 12;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Medium)) entity.ai.walkingRange = 16;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.High)) entity.ai.walkingRange = 32;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Higher)) entity.ai.walkingRange = 64;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Highest)) entity.ai.walkingRange = 96;
+            if (this.getMovementOptions().getWanderingRadius().equals(NpcAbstractScale.Absolute)) entity.ai.walkingRange = 128;
+        } else {
+            entity.ai.walkingRange = 0;
+        }
+        
+        if (this.getMovementOptions().getMovementType().equals(NpcMovementType.FollowingPath)) {
+            entity.ai.movingType = EnumMovingType.MovingPath;
+            entity.ai.movingPos = 0;
+            int[] currentLocation = { (int)this.getPosX(), (int)this.getPosY(), (int)this.getPosZ()};
+            List<int[]> path = new ArrayList<int[]>();
+            path.add(currentLocation);
+            for (int[] pathEntry : this.getMovementOptions().getMovingPath()) {
+                path.add(pathEntry);
+            }
+            entity.ai.setMovingPath(path);
+        } else {
+            entity.ai.setMovingPath(null);
+        }
+        
         // START LOOT TABLE REPOPULATION //
         
         entity.inventory.items.clear();
@@ -640,59 +679,6 @@ public class Npc {
     public boolean isInCombat() {
         return this.entity.isAttacking();
     }
-//    
-//    public void setRoleNone() {
-//        this.entity.advanced.role = EnumRoleType.None;
-//        this.entity.roleInterface = null;
-//        this.revive();
-//    }
-    
-//    public void setJobNone() {
-//        this.entity.advanced.job = EnumJobType.None;
-//        this.entity.jobInterface = null;
-//        this.revive();
-//    }
-//    
-//    public void setJobHealer(int range, int speed) {
-//        JobHealer job = new JobHealer(entity);
-//        this.entity.advanced.job = EnumJobType.Healer;
-//        job.speed = speed;
-//        job.range = range;
-//        entity.jobInterface = (JobInterface)job;  
-//        this.revive();
-//    }
-//    
-//    public void setRoleTrader(boolean ignoreDamage, boolean ignoreNBT) {
-//        RoleTrader role = new RoleTrader(entity);
-//        this.entity.advanced.role = EnumRoleType.Trader;
-//        role.ignoreDamage = ignoreDamage;
-//        role.ignoreNBT = ignoreNBT;        
-//        entity.roleInterface = (RoleInterface)role;
-//        this.revive();
-//    }
-    
-    
-//    public void addItemToTrader(ItemStack stack1, ItemStack stack2, ItemStack stackResult, int position) {
-//        if (position <= 0) return;
-//        RoleTrader role = (RoleTrader)entity.roleInterface;
-//        //System.out.println("Slot is: " + role.inventorySold.firstFreeSlot());
-//        //System.out.println("Currency slot is : " + role.inventoryCurrency.firstFreeSlot());
-//        if (stackResult != null) role.inventorySold.items.put(position-1, stackResult);
-//        if (stack1 != null && stackResult != null) role.inventoryCurrency.items.put(position-1, stack1);
-//        if (stack2 != null && stackResult != null) role.inventoryCurrency.items.put((position-1)+18, stack2);
-//        role.toSave = true;
-//        entity.roleInterface = (RoleInterface)role;
-//        revive();
-//    }
-//    
-//    public void setRoleTransporter(String transportName) {
-//        TransportLocation desiredLocation = TransportController.getInstance().getTransport(transportName);
-//        this.entity.advanced.role = EnumRoleType.Transporter;
-//        RoleTransporter role = new RoleTransporter(entity);
-//        role.setTransport(desiredLocation);
-//        entity.roleInterface = (RoleInterface)role;
-//        this.revive();
-//    }
     
     public EntityCustomNpc getEntity() {
         return this.entity;
@@ -718,119 +704,26 @@ public class Npc {
         return new uPosition(getPosX(), getPosY(), getPosZ(), MMOCore.getInstance().getDimensionRegistry().getRegistered(getWorldName()));
     }
     
-    private boolean spawnInWorld() {
-        ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()).spawnEntityInWorld(entity);
-        entity.setPositionAndUpdate(this.getBaseOptions().getSpawnPosition().getDPosX(), this.getBaseOptions().getSpawnPosition().getDPosY(), this.getBaseOptions().getSpawnPosition().getDPosZ());
-        return existsInGame();
-    }
-    
-//    public boolean setPassiveWeapon(String modFrom, String name, int dmg) {
-//        //System.out.println("Loading: " + modFrom + " : " + name + dmg);
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        //System.out.println("Valid: " + modFrom + " : " + name + dmg);
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        entity.inventory.setWeapon(stack);
-//        this.passiveMainHand = stack;
-//        //System.out.println("Set: " + entity.inventory.getWeapon().equals(stack));
-//        return entity.inventory.getWeapon().equals(stack);
-//    }
-//    
-//    public boolean setCombatWeapon(String modFrom, String name, int dmg) {
-//        //System.out.println("Loading: " + modFrom + " : " + name + dmg);
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        //System.out.println("Valid: " + modFrom + " : " + name + dmg);
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        this.combatMainHand = stack;
-//        return combatMainHand != null;
-//    }
-//    public boolean setMeleeWeapon(String modFrom, String name, int dmg) {
-//        //System.out.println("Loading: " + modFrom + " : " + name + dmg);
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        //System.out.println("Valid: " + modFrom + " : " + name + dmg);
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        this.meleeMainHand = stack;
-//        return meleeMainHand != null;
-//    }
-//    public boolean setMeleeOffhand(String modFrom, String name, int dmg) {
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        this.meleeOffHand = stack;
-//        return meleeOffHand != null;
-//    }
-//    public boolean setPassiveOffhand(String modFrom, String name, int dmg) {
-//        //System.out.println("Loading: " + modFrom + " : " + name + dmg);
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        //System.out.println("Valid: " + modFrom + " : " + name + dmg);
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        this.passiveOffHand = stack;
-//        entity.inventory.setOffHand(stack);
-//        return entity.inventory.getOffHand().equals(stack);
-//    }
-//    
-//    public boolean setCombatOffhand(String modFrom, String name, int dmg) {
-//        if (!(ForgeAPI.isItemValidInForge(modFrom, name))) return false; 
-//        ItemStack stack = GameRegistry.findItemStack(modFrom, name, 1);
-//        stack.setItemDamage(dmg);
-//        this.combatOffHand = stack;
-//        return combatOffHand != null;
-//    }
-    
     public void refresh() {
         entity.updateClient = true;
         entity.updateAI = true;
     }
-    
-//    public void moveTo(int posX, int posY, int posZ, int secondsToComplete) {
-//        List<int[]> path = new ArrayList<int[]>();
-//        int[] currentLocation = { (int)this.actualPosition.getPosInDimX(), (int)this.actualPosition.getPosInDimY(), (int)this.actualPosition.getPosInDimZ() };
-//        int[] coordinates = { posX, posY, posZ };
-//        path.add(currentLocation);
-//        path.add(coordinates);
-//        entity.ai.setMovingPath(path);
-//        setMovingType(EnumMovingType.MovingPath);
-//    }
     
     public boolean isDead() {
         return entity.hasDied;
     }
     
     public boolean revive() {
-        entity.updateAI = true;
-        entity.updateClient = true;
+        refresh();
         entity.setPositionAndUpdate(entity.posX, entity.posY, entity.posZ);
         entity.reset();
         return !isDead();
-    }
-    
-    public boolean isPathCompleted() {
-        //if (!isMoving() || entity.ai.getMovingPath().isEmpty()) return true;
-        int[] lastPoint = entity.ai.getMovingPath().get(entity.ai.getMovingPath().size()-1);
-        return entity.ai.getCurrentMovingPath() == lastPoint && entity.ai.getDistanceSqToPathPoint() < 3;
-    }
-    
-    public void followPath(List<int[]> path, int secondsToComplete) {
-        entity.ai.setMovingPath(path);
-        setMovingType(EnumMovingType.MovingPath);
-        entity.ai.movingPos = 0;
-    }
-    
-    public void followPathConstantly(List<int[]> path) {
-        entity.ai.setMovingPath(path);
-        entity.ai.movingPos = 0;
-        setMovingType(EnumMovingType.MovingPath);
     }
     
     public void register() {
         if (this.existsInGame()) this.findCustomNpcInGame().delete();
         this.setPosition(this.getBaseOptions().getSpawnPosition());
         this.spawn();
-        refresh();
-        revive();
         MMOCore.getInstance().getNpcRegistry().register(new RegisterableNpc(this, NpcSpawnMethod.Static));
     }
     
@@ -839,12 +732,9 @@ public class Npc {
     }
     
     private void spawn() {
-        //System.out.println("NPC: " + this.entity.display.name + " is being added to the game with template: " + this.entity.linkedName);
-        this.spawnInWorld();
-        if (this.existsInGame()) {
-            //System.out.println("NPC: " + this.getName() + " has spawned!");
-        }
-       // if (!this.existsInGame()) //("NPC: " + this.getName() + " has failed to spawn!");
+        ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()).spawnEntityInWorld(entity);
+        entity.setPositionAndUpdate(this.getBaseOptions().getSpawnPosition().getDPosX(), this.getBaseOptions().getSpawnPosition().getDPosY(), this.getBaseOptions().getSpawnPosition().getDPosZ());
+        revive();
     }
     
     private void setPosition(uPosition position) {
@@ -854,18 +744,6 @@ public class Npc {
         int[] startPos = { (int)position.getDPosX(), (int)position.getDPosY(), (int)position.getDPosZ() };
         this.entity.ai.startPos = startPos;
     }
-    
-//    public boolean stopMoving() {
-//        //if (this.isMoving()) {
-//            int[] startPos = { (int)this.actualPosition.getPosInDimX(), (int)this.actualPosition.getPosInDimY(), (int)this.actualPosition.getPosInDimZ() };
-//            setStartPosition(startPos);
-//            setMovingType(EnumMovingType.Standing);
-//            this.isMoving = false;
-//            return true;
-//        //} else {
-//            //return false;
-//        //}
-//    }
 
     public EntityCustomNpc findCustomNpcInGame() {        
     List<Entity> entities = ForgeAPI.getForgeWorld(this.getUPosition().getDimension()).loadedEntityList; 
@@ -876,17 +754,7 @@ public class Npc {
                 }
             }
         }
-       // PC in-game: " + this.getName());
         return null;
-    }
-    
-    public void setWandering(int range) {
-        entity.ai.movingType = EnumMovingType.Wandering;
-        entity.ai.walkingRange = range;
-    }
-    
-    private void setMovingType(EnumMovingType type) {
-        entity.ai.movingType = type;
     }
     
     public void tick() {
@@ -894,6 +762,8 @@ public class Npc {
         if (foundNpc != null) {
             this.entity = foundNpc;
             if (this.markedForUpdate) this.pushOptionsToEntity();            
+            switchHeldItemsIfNeeded();
+            updateStateData();
         } else {
             this.setMarkedForRemoval();
         }
@@ -906,9 +776,6 @@ public class Npc {
 //    public void loopWhileFollowingPath() {
 //        this.entity.ai.movingPattern = 0;
 //    }
-//    
-
-//
 //    
 //    public void setMeleeKnockback(int value) {
 //        this.entity.stats.knockback = value;
@@ -1016,80 +883,6 @@ public class Npc {
 //        entity.advanced.orderedLines = !value;
 //    }
     
-//    public List<DialogOption> getOptionsRecursively(DialogOption opt) {
-//        List<DialogOption> options = new ArrayList<DialogOption>();
-//        if (opt.hasDialog()) {
-//            if (!options.contains(opt)) options.add(opt);
-//            if (opt.hasDialog() && opt.getDialog().hasOtherOptions()) {
-//                options.add(opt);
-//                for (DialogOption subopt : opt.getDialog().options.values()) {
-//                    if (!options.contains(subopt)) options.add(subopt);
-//                    if (subopt.hasDialog() && subopt.getDialog().hasOtherOptions()) {
-//                        for (DialogOption subsubopt : subopt.getDialog().options.values()) {
-//                            if (!options.contains(subsubopt)) options.add(subsubopt);
-//                            if (subsubopt.hasDialog() && subsubopt.getDialog().hasOtherOptions()) {
-//                                for (DialogOption subsubsubopt : subsubopt.getDialog().options.values()) {
-//                                    if (!options.contains(subsubsubopt)) options.add(subsubsubopt);
-//                                    if (subsubsubopt.hasDialog() && subsubsubopt.getDialog().hasOtherOptions()) {
-//                                        for (DialogOption subsubsubsubopt : subsubsubopt.getDialog().options.values()) {
-//                                            if (!options.contains(subsubsubsubopt)) options.add(subsubsubsubopt);
-//                                            if (subsubsubsubopt.hasDialog() && subsubsubsubopt.getDialog().hasOtherOptions()) {
-//                                                for (DialogOption subsubsubsubsubopt : subsubsubsubopt.getDialog().options.values()) {
-//                                                    if (!options.contains(subsubsubsubsubopt)) options.add(subsubsubsubsubopt);
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return options;
-//    }
-    
-//    public List<Quest> getRepeatableQuestsFromOption(DialogOption opt) {
-//        List<Quest> quests = new ArrayList<Quest>();
-//        for (DialogOption sopt : getOptionsRecursively(opt)) {
-//            if (sopt.hasDialog() && sopt.getDialog().hasQuest() || sopt.command.contains("givequest")) {
-//                if (sopt.command.contains("givequest")) {
-//                    List<String> split = Arrays.asList(sopt.command.split(" "));
-//                    String questName = "";
-//                    for (String s : split) {
-//                        if (s.equals("s") || s.equals("givequest") || s.equals("@dp") || s.equals("{player}")) continue;
-//                        if (!"".equals(questName)) questName = questName + " " + s;
-//                        if ("".equals(questName)) questName = s;
-//                    }
-//                    Quest q = StargateMCMod.getInstance().getForgeAPI().getQuestFromTitle(questName);
-//                    if (q != null) {
-//                        if (q.repeat != EnumQuestRepeat.NONE) {
-//                            if (!quests.contains(q)) quests.add(q);
-//                        }
-//                    } 
-//                } else {
-//                    if (sopt.getDialog().getQuest().repeat != EnumQuestRepeat.NONE) {
-//                        if (!quests.contains(sopt.getDialog().getQuest())) quests.add(sopt.getDialog().getQuest());
-//                    }
-//                }
-//            }
-//        }
-//        return quests;
-//    }
-    
-//    public List<Quest> getRepeatableQuests() {
-//        List<Quest> quests = new ArrayList<Quest>();
-//        for (DialogOption dialogOption : entity.dialogs.values()) {
-//            quests.addAll(getRepeatableQuestsFromOption(dialogOption));
-//        }
-//        return quests;
-//    }
-//    
-//    public boolean hasRepeatableQuests() {
-//        return !getRepeatableQuests().isEmpty();
-//    }
-    
     public void despawn() {
         if (existsInGame())  entity.delete();
     }
@@ -1097,24 +890,6 @@ public class Npc {
     public boolean existsInGame() {
         return findCustomNpcInGame() != null;
     }
-    
-//    public boolean teleport(UPosition destination) {
-//        this.despawn();
-//        this.setPosition(destination);
-//        this.spawn();
-//        return this.existsInGame();
-//    }
-    
-
-    
-//    public void setModelClass(String modelClass) {
-//        try {
-//            Class c = Class.forName(modelClass);
-//            this.entity.modelData.setEntityClass(c);
-//        } catch (Exception e) {
-//            //System.out.println("Failed to assign modelData: "  + e.getMessage());
-//        }
-//    }
     
 //    public void addDialogDialogOption(String dialogTitle, int color, int position) {
 //        DialogOption dialogOption = new DialogOption();
@@ -1130,5 +905,31 @@ public class Npc {
 //        dialogOption.command = "NOCOMMAND";
 //        entity.dialogs.put(position-1, dialogOption);
 //    }    
+
+    
+    private void switchHeldItemsIfNeeded() {
+        if (!this.getStateOptions().isInCombat() && this.isInCombat()) {
+            this.entity.inventory.setOffHand((this.getRangedHeldItems().getOffHand().hasItem() ? this.getRangedHeldItems().getOffHand().getItem() : null));
+            this.entity.inventory.setWeapon((this.getRangedHeldItems().getMainHand().hasItem() ? this.getRangedHeldItems().getMainHand().getItem() : null));
+        }
+        if (this.getStateOptions().isInCombat() && !this.isInCombat()) {
+            this.entity.inventory.setOffHand((this.getPassiveHeldItems().getOffHand().hasItem() ? this.getPassiveHeldItems().getOffHand().getItem() : null));
+            this.entity.inventory.setWeapon((this.getPassiveHeldItems().getMainHand().hasItem() ? this.getPassiveHeldItems().getMainHand().getItem() : null));
+        }
+    }
+    
+    private void updateStateData() {
+        NpcStateOptions options = this.getStateOptions();
+        options.setIsInCombat(this.isInCombat());
+        setStateOptions(options);
+    }
+    
+    private void setStateOptions(NpcStateOptions options) {
+        this.stateOptions = options;
+    }
+    
+    public NpcStateOptions getStateOptions() {
+        return this.stateOptions;
+    }
     
 }
