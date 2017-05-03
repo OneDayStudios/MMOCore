@@ -904,6 +904,7 @@ public class Npc {
     private void updateStateData() {
         NpcStateOptions options = this.getStateOptions();
         options.setIsInCombat(this.isInCombat());
+        options.setPosition(this.getUPosition());
         setStateOptions(options);
     }
     
