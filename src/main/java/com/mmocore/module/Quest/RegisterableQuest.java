@@ -170,8 +170,8 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         actualQuest.version = VersionCompatibility.ModRev;
     }
     
-    public String getCategory() {
-        return actualQuest.category.title;
+    public QuestCategory getCategory() {
+        return actualQuest.category;
     }
     
     public void setQuestCategory(String categoryName) {
@@ -353,5 +353,9 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     @Override
     public Quest getRegisteredObject() {
         return this.actualQuest;
+    }
+
+    public String getCategoryName() {
+        return this.actualQuest.category.title;
     }
 }

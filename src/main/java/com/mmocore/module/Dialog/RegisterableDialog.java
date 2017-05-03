@@ -81,8 +81,12 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
         actualDialog.version = VersionCompatibility.ModRev;
     }
     
-    public String getCategory() {
+    public String getCategoryName() {
         return actualDialog.category.title;
+    }
+    
+    public DialogCategory getCategory() {
+        return this.actualDialog.category;
     }
     
     public void setDialogCategory(String categoryName) {

@@ -5,9 +5,14 @@
  */
 package com.mmocore.module.Dialog;
 
+import com.mmocore.api.DialogAPI;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.constants.IntegratedMod;
+import java.util.ArrayList;
+import java.util.HashMap;
+import noppes.npcs.controllers.Dialog;
 
 /**
  *
@@ -17,7 +22,15 @@ public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, Re
 
     @Override
     public void initialise() {
-        // Not required.
+        HashMap<String, String> dialogs = new HashMap<String, String>();
+        for (Dialog d : DialogAPI.getAllReadOnly()) {
+            dialogs.put(d.title, d.category.title);
+            ForgeAPI.sendConsoleEntry("Detected existing Dialog: " + d.title + " (" + d.id + ") with category: " + d.category.title + "), queuing for initialisation.", ConsoleMessageType.FINE);
+        }
+        for (String dialogName : dialogs.keySet()) {
+            RegisterableDialog dialog = new RegisterableDialog(dialogName, dialogs.get(dialogName));
+            ForgeAPI.sendConsoleEntry("Initialised existing Dialog: " + dialog.getTitle() + " (" + dialog.getID() + ") with category: " + dialog.getCategoryName() + ".", ConsoleMessageType.FINE);
+        }    
     }
 
     @Override

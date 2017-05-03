@@ -5,6 +5,8 @@
  */
 package com.mmocore.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.UUID;
 import noppes.npcs.controllers.PlayerData;
 import noppes.npcs.controllers.PlayerDataController;
@@ -114,4 +116,9 @@ public class QuestAPI extends AbstractAPI<QuestAPI> {
             }
         } 
     }
+    
+    public static Collection<Quest> getAllReadOnly() {
+        return new ArrayList<Quest>(QuestController.instance.quests.values());
+    }
+    
 }

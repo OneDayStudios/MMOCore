@@ -6,8 +6,12 @@
 package com.mmocore.module.Quest;
 
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.QuestAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.AbstractRegistry;
+import java.util.HashMap;
+import noppes.npcs.controllers.Quest;
 
 /**
  *
@@ -17,7 +21,15 @@ public class QuestRegistry extends AbstractRegistry<QuestRegistry, Integer, Regi
 
     @Override
     public void initialise() {
-        // Not required.
+        HashMap<String, String> quests = new HashMap<String, String>();
+        for (Quest q : QuestAPI.getAllReadOnly()) {
+            quests.put(q.title, q.category.title);
+            ForgeAPI.sendConsoleEntry("Detected existing Quest: " + q.title + " (" + q.id + ") with category: " + q.category.title + "), queuing for initialisation.", ConsoleMessageType.FINE);
+        }
+        for (String QuestName : quests.keySet()) {
+            RegisterableQuest Quest = new RegisterableQuest(QuestName, quests.get(QuestName));
+            ForgeAPI.sendConsoleEntry("Initialised existing Quest: " + Quest.getTitle() + " (" + Quest.getID() + ") with category: " + Quest.getCategoryName() + ".", ConsoleMessageType.FINE);
+        }    
     }
 
     @Override

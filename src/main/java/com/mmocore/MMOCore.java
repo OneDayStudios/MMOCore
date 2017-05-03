@@ -128,9 +128,9 @@ public class MMOCore {
        MMOCore.getInstance().getDimensionRegistry().initialise();
        MMOCore.getInstance().getGalaxyRegistry().initialise();
        MMOCore.getInstance().getPlayerRegistry().initialise();
-       //MMOCore.getInstance().getDialogRegistry().initialise();
+       MMOCore.getInstance().getDialogRegistry().initialise();
        //MMOCore.getInstance().getStargateRegistry().initialise();
-       //MMOCore.getInstance().getQuestRegistry().initialise();
+       MMOCore.getInstance().getQuestRegistry().initialise();
        MMOCore.getInstance().getNpcFactionRegistry().initialise();
        MMOCore.getInstance().getNpcRegistry().initialise();
    }

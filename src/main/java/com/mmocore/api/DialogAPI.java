@@ -6,6 +6,8 @@
 package com.mmocore.api;
 
 import com.mmocore.module.Player.RegisterablePlayer;
+import java.util.ArrayList;
+import java.util.Collection;
 import noppes.npcs.controllers.Dialog;
 import noppes.npcs.controllers.DialogCategory;
 import noppes.npcs.controllers.DialogController;
@@ -63,6 +65,10 @@ public class DialogAPI extends AbstractAPI<DialogAPI> {
             if (d.id == id) return d;
         }
         return null;
+    }
+    
+    public static Collection<Dialog> getAllReadOnly() {
+        return new ArrayList<Dialog>(DialogController.instance.dialogs.values());
     }
     
     public static Dialog get(String title) {

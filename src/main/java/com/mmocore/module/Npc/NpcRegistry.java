@@ -32,7 +32,6 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
         ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);
         for (RegisterableNpc npc : npcs) {
             npc.tick();
-            ForgeAPI.sendConsoleEntry("Ticked NPC: " + npc.getRegisteredObject().getBaseOptions().getName() + " at " + npc.getRegisteredObject().getStateOptions().getPosition().getDisplayString() + " (UUID: " + npc.getIdentifier() + ")", ConsoleMessageType.FINE);
         }
     }
 
