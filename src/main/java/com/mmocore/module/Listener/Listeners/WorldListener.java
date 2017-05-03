@@ -19,6 +19,8 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import java.util.ArrayList;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.gameevent.TickEvent;
+
 /**
  *
  * @author draks
@@ -39,7 +41,8 @@ public class WorldListener extends RegisterableListener {
     }
     
     @SubscribeEvent
-    public void onWorldTick(WorldTickEvent e) {
+    public void onWorldTick(TickEvent.WorldTickEvent e) {
+        if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
         dimension.setLastTick(System.currentTimeMillis());

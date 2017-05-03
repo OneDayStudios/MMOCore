@@ -101,6 +101,7 @@ public class Npc {
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     private NpcMovementOptions movementOptions = new NpcMovementOptions();
     private NpcStateOptions stateOptions = new NpcStateOptions();
+    private UUID uuid;
     
     public Npc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(position.getDimension()));
@@ -748,11 +749,16 @@ public class Npc {
         if (this.existsInGame()) this.findCustomNpcInGame().delete();
         this.setPosition(this.getBaseOptions().getSpawnPosition());
         this.spawn();
+        this.setUniqueID(this.entity.getUniqueID());
         MMOCore.getInstance().getNpcRegistry().register(new RegisterableNpc(this, NpcSpawnMethod.Static));
     }
     
+    public void setUniqueID(UUID id) {
+        this.uuid = id;
+    }
+    
     public UUID getUniqueID() {
-        return this.entity.getUniqueID();
+        return this.uuid;
     }
     
     private void spawn() {
