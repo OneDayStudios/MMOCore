@@ -72,6 +72,10 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         return this.uPosX;
     }
     
+    public String getDisplayString() {
+        return (this.getDPosX() + "," + this.getDPosY() + ", " + this.getDPosZ() + " on dimension: " + this.getDimension().getDisplayName());
+    }
+    
     public double getUPosZ() {
         return this.uPosZ;
     }

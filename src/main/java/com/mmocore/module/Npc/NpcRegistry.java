@@ -7,16 +7,13 @@ package com.mmocore.module.Npc;
 
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
-import com.mmocore.module.AbstractRegistry;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.module.AbstractRegistry;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/**
- *
- * @author draks
- */
 public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, RegisterableNpc> {
 
     @Override
@@ -35,6 +32,7 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
         ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);
         for (RegisterableNpc npc : npcs) {
             npc.tick();
+            ForgeAPI.sendConsoleEntry("Ticked NPC: " + npc.getRegisteredObject().getBaseOptions().getName() + " at " + npc.getRegisteredObject().getStateOptions().getPosition().getDisplayString() + " (UUID: " + npc.getIdentifier() + ")", ConsoleMessageType.FINE);
         }
     }
 

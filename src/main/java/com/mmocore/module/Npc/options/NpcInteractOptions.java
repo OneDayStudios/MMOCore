@@ -6,10 +6,9 @@
 package com.mmocore.module.Npc.options;
 
 import com.mmocore.constants.NpcBoolean;
-import com.mmocore.module.Player.RegisterablePlayer;
+import com.mmocore.constants.NpcDialogOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -25,16 +24,28 @@ public class NpcInteractOptions {
     private List<String> attackLines = new ArrayList<String>();
     private NpcBoolean stopsOnInteract = NpcBoolean.YES;
     private NpcBoolean interactsWithOtherNpcs = NpcBoolean.YES;
+    private ArrayList<NpcDialogOption> dialogs = new ArrayList<NpcDialogOption>();
+    private NpcBoolean sayRandomLines = NpcBoolean.YES;
     
-//    // TODO: Move this method to the NpcAPI.
-//    public String getRepeatableUnavailableLine(RegisterablePlayer player) {
-//       if (repeatableUnavailableLines.isEmpty()) return "I have nothing for you right now, @p.";
-//       if (repeatableUnavailableLines.size() == 1) return parseLine(player, repeatableUnavailableLines.get(0));
-//       Random ran = new Random();
-//       int number = ran.nextInt(repeatableUnavailableLines.size());
-//       if (number != 0) number = number - 1;
-//       return parseLine(player, repeatableUnavailableLines.get(number));
-//    }
+    public void setSayRandomLines(NpcBoolean setting) {
+        this.sayRandomLines = setting;
+    }
+    
+    public NpcBoolean getSayRandomLines() {
+        return this.sayRandomLines;
+    }
+    
+    public ArrayList<NpcDialogOption> getDialogs() {
+        return this.dialogs;
+    }
+    
+    public void addDialog(NpcDialogOption dialog) {
+        if (!this.dialogs.contains(dialog)) this.dialogs.add(dialog);
+    }
+    
+    public void removeDialog(NpcDialogOption dialog) {
+        if (this.dialogs.contains(dialog)) this.dialogs.remove(dialog);
+    }
     
     public NpcBoolean getInteractsWithOtherNpcs() {
         return this.interactsWithOtherNpcs;

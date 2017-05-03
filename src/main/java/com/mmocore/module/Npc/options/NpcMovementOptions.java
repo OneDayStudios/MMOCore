@@ -6,6 +6,7 @@
 package com.mmocore.module.Npc.options;
 
 import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.NpcFollowPathBehaviour;
 import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcMovementType;
 import com.mmocore.constants.NpcRotation;
@@ -22,6 +23,7 @@ public class NpcMovementOptions {
     private NpcMovementType movingType = NpcMovementType.Standing;
     private NpcAbstractScale wanderingRadius = NpcAbstractScale.None;
     private ArrayList<int[]> pathCoordinates = new ArrayList<int[]>();
+    private NpcFollowPathBehaviour pathBehaviour = NpcFollowPathBehaviour.LoopPath;
     
     public NpcRotation getRotation() {
         return this.rotation;
@@ -48,9 +50,14 @@ public class NpcMovementOptions {
         this.movingType = NpcMovementType.Wandering;
     }
     
-    public void setMovementTypeFollowPath(ArrayList<int[]> coordinateArray) {
+    public void setMovementTypeFollowPath(ArrayList<int[]> coordinateArray, NpcFollowPathBehaviour behaviour) {
         this.movingType = NpcMovementType.FollowingPath;
+        this.pathBehaviour = behaviour;
         this.pathCoordinates = coordinateArray;
+    }
+    
+    public NpcFollowPathBehaviour getFollowPathBehaviour() {
+        return this.pathBehaviour;
     }
     
     public void setMovingAnimation(NpcMovementAnimation animation) {

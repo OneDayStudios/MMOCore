@@ -30,7 +30,7 @@ import cpw.mods.fml.common.event.FMLServerStartedEvent;
  * @author Drakster
  */
 
-@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = "*")
+@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = MMOCore.MODVER)
 
 public class MMOCore {
     
@@ -119,6 +119,7 @@ public class MMOCore {
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
+       MMOCore.getInstance().getListenerRegistry().initialise();
    }
    
    @Mod.EventHandler
@@ -127,7 +128,6 @@ public class MMOCore {
        MMOCore.getInstance().getDimensionRegistry().initialise();
        MMOCore.getInstance().getGalaxyRegistry().initialise();
        MMOCore.getInstance().getPlayerRegistry().initialise();
-       MMOCore.getInstance().getListenerRegistry().initialise();
        //MMOCore.getInstance().getDialogRegistry().initialise();
        //MMOCore.getInstance().getStargateRegistry().initialise();
        //MMOCore.getInstance().getQuestRegistry().initialise();

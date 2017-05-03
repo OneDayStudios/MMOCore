@@ -16,9 +16,11 @@ import com.mmocore.module.Npc.options.NpcSpawnOptions;
 import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
+import com.mmocore.constants.NpcDialogOption;
 import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcFireIndirectlyOption;
+import com.mmocore.constants.NpcFollowPathBehaviour;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.constants.NpcModifier;
@@ -34,6 +36,7 @@ import com.mmocore.constants.NpcTextureType;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;
+import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
@@ -60,6 +63,9 @@ import noppes.npcs.roles.JobHealer;
 import noppes.npcs.roles.JobInterface;
 import noppes.npcs.roles.RoleTrader;
 import net.minecraft.entity.Entity;
+import noppes.npcs.constants.EnumOptionType;
+import static noppes.npcs.constants.EnumOptionType.DialogOption;
+import noppes.npcs.controllers.DialogOption;
 import noppes.npcs.controllers.FactionController;
 
 
@@ -90,8 +96,7 @@ public class Npc {
     private NpcHeldItemSet meleeHeld = new NpcHeldItemSet();
     private NpcRespawnOptions respawnBehaviour = new NpcRespawnOptions();
     private NpcLootOptions lootOptions = new NpcLootOptions();
-    private NpcInteractOptions interactOptions = new NpcInteractOptions();
-    
+    private NpcInteractOptions interactOptions = new NpcInteractOptions();    
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     private NpcMovementOptions movementOptions = new NpcMovementOptions();
     private NpcStateOptions stateOptions = new NpcStateOptions();
@@ -237,6 +242,25 @@ public class Npc {
         
         entity.inventory.setWeapon((getPassiveHeldItems().getMainHand().hasItem() ? getPassiveHeldItems().getMainHand().getItem() : null));
         entity.inventory.setOffHand((getPassiveHeldItems().getOffHand().hasItem() ? getPassiveHeldItems().getOffHand().getItem() : null));
+
+        entity.advanced.orderedLines = (this.getInteractOptions().getSayRandomLines().equals(NpcBoolean.NO));
+        
+        if (this.getMovementOptions().getFollowPathBehaviour().equals(NpcFollowPathBehaviour.LoopPath)) entity.ai.movingPattern = 0;
+        if (this.getMovementOptions().getFollowPathBehaviour().equals(NpcFollowPathBehaviour.Backtrack)) entity.ai.movingPattern = 1;
+
+        entity.dialogs.clear();            
+        int position = 0;
+        
+        for (NpcDialogOption dialog : this.getInteractOptions().getDialogs()) {
+            DialogOption dialogOption = new DialogOption();
+            dialogOption.optionType = EnumOptionType.DialogOption;
+            dialogOption.optionColor = dialog.getColor();
+            dialogOption.dialogId = dialog.getDialog().getIdentifier();
+            dialogOption.title = dialog.getLabel();
+            dialogOption.command = "NOCOMMAND";
+            entity.dialogs.put(position, dialogOption);
+            position++;
+        }
 
         // Begin Base Options
         
@@ -643,19 +667,18 @@ public class Npc {
             entity.ai.walkingRange = 0;
         }
         
+        int[] currentLocation = { (int)this.getPosX(), (int)this.getPosY(), (int)this.getPosZ()};            
+        List<int[]> path = new ArrayList<int[]>();
+        path.add(currentLocation);
         if (this.getMovementOptions().getMovementType().equals(NpcMovementType.FollowingPath)) {
             entity.ai.movingType = EnumMovingType.MovingPath;
             entity.ai.movingPos = 0;
-            int[] currentLocation = { (int)this.getPosX(), (int)this.getPosY(), (int)this.getPosZ()};
-            List<int[]> path = new ArrayList<int[]>();
-            path.add(currentLocation);
             for (int[] pathEntry : this.getMovementOptions().getMovingPath()) {
                 path.add(pathEntry);
             }
-            entity.ai.setMovingPath(path);
-        } else {
-            entity.ai.setMovingPath(null);
         }
+        entity.ai.setMovingPath(path);
+
         
         // START LOOT TABLE REPOPULATION //
         
@@ -769,13 +792,6 @@ public class Npc {
         }
     }
 
-//    public void backTrackWhileFollowingPath() {
-//        this.entity.ai.movingPattern = 1;
-//    }
-//    
-//    public void loopWhileFollowingPath() {
-//        this.entity.ai.movingPattern = 0;
-//    }
 //    
 //    public void setMeleeKnockback(int value) {
 //        this.entity.stats.knockback = value;
@@ -805,27 +821,13 @@ public class Npc {
 //        this.entity.stats.pGlows = value;
 //    }
 //    
-//    public boolean setJob(String jobName) {
-//        if (EnumJobType.valueOf(jobName) == null) return false;
-//        this.entity.advanced.job = EnumJobType.valueOf(jobName);
-//        return true;
-//    }
-//    
 
 //    
 //    public void setStandingType(String type) {
 //        if (EnumStandingType.valueOf(type) == null) return;
 //        this.entity.ai.standingType = EnumStandingType.valueOf(type);
 //    }
-//    
-//    public boolean setRole(String roleName) {
-//        if (EnumRoleType.valueOf(roleName) == null) return false;
-//        this.entity.advanced.role = EnumRoleType.valueOf(roleName);
-//        return true;
-//    }
-//    
-//
-//    
+    
 //    public boolean getNaturallyDespawns() {
 //        return this.entity.stats.canDespawn;
 //    }
@@ -872,16 +874,13 @@ public class Npc {
 //        this.entity.display.glowTexture = texture;
 //    }
 //    
-//    public void tellNear(String message) {
-//        Line line = new Line(message);
-//        line.hideText = true;
-//        line.sound = "";
-//        if (entity != null) entity.saySurrounding(line);
-//    }
-//    
-//    public void sayRandomLines(boolean value) {
-//        entity.advanced.orderedLines = !value;
-//    }
+    
+   public void tellNear(String message) {
+        Line line = new Line(message);
+        line.hideText = true;
+        line.sound = "";
+        if (entity != null) entity.saySurrounding(line);
+    }
     
     public void despawn() {
         if (existsInGame())  entity.delete();
@@ -890,22 +889,6 @@ public class Npc {
     public boolean existsInGame() {
         return findCustomNpcInGame() != null;
     }
-    
-//    public void addDialogDialogOption(String dialogTitle, int color, int position) {
-//        DialogOption dialogOption = new DialogOption();
-//        dialogOption.optionType = EnumOptionType.DialogOption;
-//        Dialog d = null;
-//        for (Dialog dialog : DialogController.instance.dialogs.values()) {
-//            if (dialog.title.equals(dialogTitle)) d = dialog;
-//        }
-//        if (d == null) return;        
-//        dialogOption.optionColor = color;
-//        dialogOption.dialogId = d.id;
-//        dialogOption.title = d.title;
-//        dialogOption.command = "NOCOMMAND";
-//        entity.dialogs.put(position-1, dialogOption);
-//    }    
-
     
     private void switchHeldItemsIfNeeded() {
         if (!this.getStateOptions().isInCombat() && this.isInCombat()) {
