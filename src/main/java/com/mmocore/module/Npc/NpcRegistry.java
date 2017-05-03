@@ -29,7 +29,8 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
     }
     
     public void tickForDimension(RegisterableDimension dimension) {
-        ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);
+        ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);        
+        ForgeAPI.sendConsoleEntry("Ticking " + npcs.size() + " in NpcRegistry for dimension: " + dimension.getDisplayName() +".", ConsoleMessageType.FINE);
         for (RegisterableNpc npc : npcs) {
             npc.tick();
         }

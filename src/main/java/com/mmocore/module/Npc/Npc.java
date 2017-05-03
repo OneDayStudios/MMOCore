@@ -6,6 +6,7 @@
 package com.mmocore.module.Npc;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
@@ -489,13 +490,13 @@ public class Npc {
         if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Stalk)) this.entity.ai.tacticalVariant = EnumNavType.Stalk;
         if (this.getCombatOptions().getTacticalBehaviour().equals(NpcTacticalOption.Surround)) this.entity.ai.tacticalVariant = EnumNavType.Surround;
 
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Absolute)) this.entity.display.modelSize = 8;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Highest)) this.entity.display.modelSize = 7;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Higher)) this.entity.display.modelSize = 6;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.High)) this.entity.display.modelSize = 5;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Medium)) this.entity.display.modelSize = 4;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Low)) this.entity.display.modelSize = 3;
-        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Lower)) this.entity.display.modelSize = 2;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Absolute)) this.entity.display.modelSize = 20;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Highest)) this.entity.display.modelSize = 12;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Higher)) this.entity.display.modelSize = 9;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.High)) this.entity.display.modelSize = 6;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Medium)) this.entity.display.modelSize = 5;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Low)) this.entity.display.modelSize = 4;
+        if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Lower)) this.entity.display.modelSize = 3;
         if (this.getBaseOptions().getSize().equals(NpcAbstractScale.Lowest)) this.entity.display.modelSize = 1;
         if (this.getBaseOptions().getSize().equals(NpcAbstractScale.None)) this.entity.display.modelSize = 0;
         
@@ -781,6 +782,7 @@ public class Npc {
     }
     
     public void tick() {
+        ForgeAPI.sendConsoleEntry("Ticking NPC: " + this.getUniqueID() + " at " + this.getUPosition().getDisplayString(), ConsoleMessageType.DEBUG);
         EntityCustomNpc foundNpc = this.findCustomNpcInGame();
         if (foundNpc != null) {
             this.entity = foundNpc;
