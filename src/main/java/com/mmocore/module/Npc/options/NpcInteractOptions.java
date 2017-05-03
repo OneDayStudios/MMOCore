@@ -16,12 +16,12 @@ import java.util.List;
  */
 public class NpcInteractOptions {
 
-    private List<String> repeatableUnavailableLines = new ArrayList<String>();
-    private List<String> worldLines = new ArrayList<String>();
-    private List<String> interactLines = new ArrayList<String>();
-    private List<String> deathLines = new ArrayList<String>();
-    private List<String> killLines = new ArrayList<String>();
-    private List<String> attackLines = new ArrayList<String>();
+    private ArrayList<String> repeatableUnavailableLines = new ArrayList<String>();
+    private ArrayList<String> worldLines = new ArrayList<String>();
+    private ArrayList<String> interactLines = new ArrayList<String>();
+    private ArrayList<String> deathLines = new ArrayList<String>();
+    private ArrayList<String> killLines = new ArrayList<String>();
+    private ArrayList<String> attackLines = new ArrayList<String>();
     private NpcBoolean stopsOnInteract = NpcBoolean.YES;
     private NpcBoolean interactsWithOtherNpcs = NpcBoolean.YES;
     private ArrayList<NpcDialogOption> dialogs = new ArrayList<NpcDialogOption>();
@@ -63,7 +63,10 @@ public class NpcInteractOptions {
         this.stopsOnInteract = setting;
     }
     
-    public List<String> getRepeatableUnavailableLines() {
+    public ArrayList<String> getRepeatableUnavailableLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("I have nothing for you right now, @player@");
+        if (this.repeatableUnavailableLines.isEmpty()) return defaultLines;
         return this.repeatableUnavailableLines;
     }
     
@@ -76,6 +79,10 @@ public class NpcInteractOptions {
     }
     
     public List<String> getWorldLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("Hmmmmm.....");
+        defaultLines.add("Hello there, @dp!");
+        if (this.worldLines.isEmpty()) return defaultLines;
         return this.worldLines;
     }
     
@@ -88,6 +95,9 @@ public class NpcInteractOptions {
     }
     
     public List<String> getDeathLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("Argh.....");
+        if (this.deathLines.isEmpty()) return defaultLines;
         return this.deathLines;
     }
     
@@ -100,6 +110,9 @@ public class NpcInteractOptions {
     }
     
     public List<String> getKillLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("Target Eliminated.....");
+        if (this.killLines.isEmpty()) return defaultLines;
         return this.killLines;
     }
     
@@ -112,6 +125,9 @@ public class NpcInteractOptions {
     }
     
     public List<String> getInteractLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("What do you want?");
+        if (this.interactLines.isEmpty()) return defaultLines;
         return this.interactLines;
     }
     
@@ -124,6 +140,9 @@ public class NpcInteractOptions {
     }
     
     public List<String> getAttackLines() {
+        ArrayList<String> defaultLines = new ArrayList<String>();
+        defaultLines.add("You'll pay for that!");
+        if (this.attackLines.isEmpty()) return defaultLines;
         return this.attackLines;
     }
     
