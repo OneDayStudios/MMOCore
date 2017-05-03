@@ -32,6 +32,14 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         return (get(name,title,faction) != null);
     }
     
+    public static ArrayList<RegisterableNpc> getAllReadOnly(RegisterableDimension dimension) {
+        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
+            if (npc.getRegisteredObject().getWorldName().equals(dimension.getName())) npcs.add(npc);
+        }
+        return new ArrayList<RegisterableNpc>(npcs);
+    }
+    
     public static ArrayList<RegisterableNpc> getAll(RegisterableDimension dimension) {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {

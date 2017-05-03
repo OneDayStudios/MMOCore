@@ -137,6 +137,10 @@ public class Npc {
         this.markedForUpdate = true;
     }
     
+    public boolean getMarkedForRemoval() {
+        return this.markedForRemoval;
+    }
+    
     public void setMarkedForRemoval() {
         this.markedForRemoval = true;
     }
