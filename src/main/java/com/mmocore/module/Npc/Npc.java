@@ -84,7 +84,9 @@ public class Npc {
     private boolean markedForUpdate = false;
     //Marked for removal from the NPC Registry. This will occur on the next NPC tick.
     private boolean markedForRemoval = false;
+    // This stores the UUID for the Npc.
     
+    private UUID uuid;
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcCombatOptions combatOptions = new NpcCombatOptions();
     private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
@@ -101,7 +103,6 @@ public class Npc {
     private NpcBehaviourOptions behaviours = new NpcBehaviourOptions();
     private NpcMovementOptions movementOptions = new NpcMovementOptions();
     private NpcStateOptions stateOptions = new NpcStateOptions();
-    private UUID uuid;
     
     public Npc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(position.getDimension()));
