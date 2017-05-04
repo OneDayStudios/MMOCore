@@ -956,7 +956,6 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     @Override
     public void initialise() {
         ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
-        if (this.existsInGame()) this.findCustomNpcInGame().delete();        
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
         this.setPosition(this.getBaseOptions().getSpawnPosition());
         this.spawn();
