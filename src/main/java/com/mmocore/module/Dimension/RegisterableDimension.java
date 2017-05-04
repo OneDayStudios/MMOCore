@@ -54,8 +54,28 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         return this.name;
     }
     
+    public void setType(DimensionType type) {
+        this.type = type;
+    }
+    
+    public void setConditions(DimensionConditions conditions) {
+        this.conditions = conditions;
+    }
+    
     public long getBorder() {
         return this.border;
+    }
+    
+    public void setPosX(int posX) {
+        this.posX = posX;        
+    }
+    
+    public void setPosZ(int posZ) {
+        this.posZ = posZ;        
+    }
+    
+    public void setRadius(int radius) {
+        this.border = radius;        
     }
     
     public void setLastTick(long time) {

@@ -32,7 +32,7 @@ public class BaseCommand extends CommandBase {
 
     @Override
     public String getCommandName() {
-        return "s";
+        return "sgmc";
     }
 
     @Override
