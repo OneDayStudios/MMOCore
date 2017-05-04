@@ -42,6 +42,35 @@ public class NpcCombatOptions {
     private NpcBoolean mustSeeTarget = NpcBoolean.YES;
     private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
     private NpcBoolean canAttackInvisibleTargets = NpcBoolean.NO;
+
+    public NpcCombatOptions() {
+        
+    }
+    
+    public NpcCombatOptions(NpcCombatOptions combatOptions) {
+        this.attacksHostileFactions = combatOptions.attacksHostileFactions;
+        this.defendFactionMembers = combatOptions.defendFactionMembers;
+        this.rangedDamage = combatOptions.rangedDamage;
+        this.meleeDamage = combatOptions.meleeDamage;
+        this.meleeRange = combatOptions.meleeRange;
+        this.rangedRange = combatOptions.rangedRange;
+        this.accuracy = combatOptions.accuracy;
+        this.health = combatOptions.health;
+        this.aggroRadius = combatOptions.aggroRadius;
+        this.passiveRegen = combatOptions.passiveRegen;
+        this.projectileResistance = combatOptions.projectileResistance;
+        this.knockBackResistance = combatOptions.knockBackResistance;
+        this.meleeResistance = combatOptions.meleeResistance;
+        this.explosionResistance = combatOptions.explosionResistance;
+        this.projectile = combatOptions.projectile;
+        this.response = combatOptions.response;
+        this.rangedUsage = combatOptions.rangedUsage;
+        this.tacticalBehaviour = combatOptions.tacticalBehaviour;
+        this.tacticalDistance = combatOptions.tacticalDistance;
+        this.mustSeeTarget = combatOptions.mustSeeTarget;
+        this.fireIndirectly = combatOptions.fireIndirectly;
+        this.canAttackInvisibleTargets = combatOptions.canAttackInvisibleTargets;
+    }
     
     public NpcBoolean getCanAttackInvisibleTargets() {
         return this.canAttackInvisibleTargets;

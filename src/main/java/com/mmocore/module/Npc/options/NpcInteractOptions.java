@@ -26,6 +26,23 @@ public class NpcInteractOptions {
     private NpcBoolean interactsWithOtherNpcs = NpcBoolean.YES;
     private ArrayList<NpcDialogOption> dialogs = new ArrayList<NpcDialogOption>();
     private NpcBoolean sayRandomLines = NpcBoolean.YES;
+
+    public NpcInteractOptions() {
+        
+    }
+    
+    public NpcInteractOptions(NpcInteractOptions interactOptions) {
+        this.repeatableUnavailableLines = interactOptions.repeatableUnavailableLines;
+        this.worldLines = interactOptions.worldLines;
+        this.interactLines = interactOptions.interactLines;
+        this.deathLines = interactOptions.deathLines;
+        this.killLines = interactOptions.killLines;
+        this.attackLines = interactOptions.attackLines;
+        this.stopsOnInteract = interactOptions.stopsOnInteract;
+        this.interactsWithOtherNpcs = interactOptions.interactsWithOtherNpcs;
+        this.dialogs = interactOptions.dialogs;
+        this.sayRandomLines = interactOptions.sayRandomLines;
+    }
     
     public void setSayRandomLines(NpcBoolean setting) {
         this.sayRandomLines = setting;

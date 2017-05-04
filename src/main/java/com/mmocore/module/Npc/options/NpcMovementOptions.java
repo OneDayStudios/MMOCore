@@ -24,6 +24,19 @@ public class NpcMovementOptions {
     private NpcAbstractScale wanderingRadius = NpcAbstractScale.None;
     private ArrayList<int[]> pathCoordinates = new ArrayList<int[]>();
     private NpcFollowPathBehaviour pathBehaviour = NpcFollowPathBehaviour.LoopPath;
+
+    public NpcMovementOptions() {
+        
+    }
+    
+    public NpcMovementOptions(NpcMovementOptions movementOptions) {
+        this.movingAnimation = movementOptions.movingAnimation;
+        this.rotation = movementOptions.rotation;
+        this.movingType = movementOptions.movingType;
+        this.wanderingRadius = movementOptions.wanderingRadius;
+        this.pathCoordinates = new ArrayList<int[]>(movementOptions.pathCoordinates);
+        this.pathBehaviour = movementOptions.pathBehaviour;
+    }
     
     public NpcRotation getRotation() {
         return this.rotation;

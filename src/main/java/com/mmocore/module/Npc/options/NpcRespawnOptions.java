@@ -17,6 +17,16 @@ public class NpcRespawnOptions {
     private NpcRespawnOption respawnOption = NpcRespawnOption.Never;
     public NpcBoolean hideDeadBody = NpcBoolean.NO;
     private int respawnTimeSeconds = 0;
+
+    public NpcRespawnOptions() {
+        
+    }
+
+    public NpcRespawnOptions(NpcRespawnOptions respawnOptions) {
+        this.respawnOption = respawnOptions.respawnOption;
+        this.hideDeadBody = respawnOptions.hideDeadBody;
+        this.respawnTimeSeconds = respawnOptions.respawnTimeSeconds;
+    }
     
     public void setHideDeadBody(NpcBoolean setting) {
         this.hideDeadBody = setting;

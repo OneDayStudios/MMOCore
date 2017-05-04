@@ -31,6 +31,29 @@ public class NpcBehaviourOptions {
     private NpcBoolean immuneToPotions = NpcBoolean.NO;
     private NpcBoolean aimWhileShooting = NpcBoolean.YES;
     private NpcBoolean naturallyDespawns = NpcBoolean.NO;
+
+    public NpcBehaviourOptions() {
+        
+    }
+    
+    public NpcBehaviourOptions(NpcBehaviourOptions behaviourOptions) {
+        this.avoidsSun = behaviourOptions.avoidsSun;
+        this.canSwim = behaviourOptions.canSwim;
+        this.avoidsWater = behaviourOptions.avoidsWater;
+        this.doorBehaviour = behaviourOptions.doorBehaviour;
+        this.canLeap = behaviourOptions.canLeap;
+        this.canSprint = behaviourOptions.canSprint;
+        this.passThroughCobwebs = behaviourOptions.passThroughCobwebs;
+        this.returnToStart = behaviourOptions.returnToStart;
+        this.shelterFrom = behaviourOptions.shelterFrom;
+        this.canDrown = behaviourOptions.canDrown;
+        this.burnsInSun = behaviourOptions.burnsInSun;
+        this.suffersFallDamage = behaviourOptions.suffersFallDamage;
+        this.immuneToFire = behaviourOptions.immuneToFire;
+        this.immuneToPotions = behaviourOptions.immuneToPotions;
+        this.aimWhileShooting = behaviourOptions.aimWhileShooting;
+        this.naturallyDespawns = behaviourOptions.naturallyDespawns;
+    }
     
     public NpcBoolean getImmuneToPotions() {
         return this.immuneToPotions;

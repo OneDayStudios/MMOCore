@@ -15,6 +15,17 @@ public class NpcWornItemSet {
     private NpcItem chest = new NpcItem();
     private NpcItem legs = new NpcItem();
     private NpcItem feet = new NpcItem();
+
+    public NpcWornItemSet() {
+        
+    }
+    
+    public NpcWornItemSet(NpcWornItemSet armor) {
+        this.head = new NpcItem(armor.getHead());
+        this.chest = new NpcItem(armor.getChest());
+        this.legs = new NpcItem(armor.getLegs());
+        this.feet = new NpcItem(armor.getFeet());
+    }
     
     public NpcItem getHead() {
         return this.head;

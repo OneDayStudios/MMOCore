@@ -22,6 +22,18 @@ public class NpcLootOptions {
     private HashMap<NpcItem, Integer> lootTable = new HashMap<NpcItem, Integer>();
     private NpcFactionValue primaryFactionValue = null;
     private NpcFactionValue secondaryFactionValue = null;
+
+    public NpcLootOptions() {
+        
+    }
+    
+    public NpcLootOptions(NpcLootOptions lootOptions) {
+        this.lootMode = lootOptions.lootMode;
+        this.experienceDropped = lootOptions.experienceDropped;
+        this.lootTable = new HashMap<NpcItem, Integer>(lootOptions.lootTable);
+        this.primaryFactionValue = lootOptions.primaryFactionValue;
+        this.secondaryFactionValue = lootOptions.secondaryFactionValue;
+    }
     
     public NpcFactionValue getPrimaryFaction() {
         return this.primaryFactionValue;

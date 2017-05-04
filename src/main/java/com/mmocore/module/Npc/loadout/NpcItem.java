@@ -14,6 +14,14 @@ import net.minecraft.item.ItemStack;
 public class NpcItem {
     
     private ItemStack item;
+
+    public NpcItem() {
+        
+    }
+    
+    NpcItem(NpcItem item) {
+        this.item = item.item;
+    }
     
     public void setItem(ItemStack stack) {
         this.item = stack;

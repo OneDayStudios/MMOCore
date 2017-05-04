@@ -15,6 +15,15 @@ public class NpcHeldItemSet {
     
     private NpcItem mainhand = new NpcItem();
     private NpcItem offhand = new NpcItem();    
+
+    public NpcHeldItemSet() {
+
+    }
+
+    public NpcHeldItemSet(NpcHeldItemSet heldItems) {
+        this.mainhand = new NpcItem(heldItems.mainhand);
+        this.offhand = new NpcItem(heldItems.offhand);
+    }
     
     public NpcItem getOffHand() {
         return this.offhand;

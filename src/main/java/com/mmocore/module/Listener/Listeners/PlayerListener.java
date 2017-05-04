@@ -59,6 +59,7 @@ public class PlayerListener extends RegisterableListener {
         NpcBaseOptions bOptions = second_soldier.getBaseOptions();
         bOptions.setName("Barney");
         second_soldier.setBaseOptions(bOptions);
+        ForgeAPI.sendConsoleEntry("Base Options Match: " + bOptions.equals(tauri_soldier.getBaseOptions()), ConsoleMessageType.FINE);
         NpcAPI.register(tauri_soldier);
         NpcAPI.register(second_soldier);
         //Npc wraith_soldier = new RegisterableNpc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);

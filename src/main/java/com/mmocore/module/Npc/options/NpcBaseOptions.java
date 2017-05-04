@@ -38,6 +38,26 @@ public class NpcBaseOptions {
     private NpcAbstractScale size = NpcAbstractScale.Medium;
     private NpcModifier modifier = null;
     private NpcSpawnMethod method = null;
+
+    public NpcBaseOptions() {
+        
+    }
+    
+    public NpcBaseOptions(NpcBaseOptions baseOptions) {
+        this.name = baseOptions.name;
+        this.title = baseOptions.title;
+        this.spawnPosition = baseOptions.spawnPosition;
+        this.texture = baseOptions.texture;
+        this.faction = baseOptions.faction;
+        this.visibility = baseOptions.visibility;
+        this.gender = baseOptions.gender;
+        this.bossBarVisible = baseOptions.bossBarVisible;
+        this.nameVisible = baseOptions.nameVisible;
+        this.movementSpeed = baseOptions.movementSpeed;
+        this.size = baseOptions.size;
+        this.modifier = baseOptions.modifier;
+        this.method = baseOptions.method;
+    }
     
     public NpcSpawnMethod getSpawnMethod() {
         return this.method;

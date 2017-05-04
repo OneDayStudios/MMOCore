@@ -48,7 +48,9 @@ import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -104,17 +106,17 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     private NpcStateOptions stateOptions = new NpcStateOptions();
     
     public RegisterableNpc(RegisterableNpc npc) {
-        this.setBaseOptions(npc.getBaseOptions());
-        this.setArmor(npc.getArmor());
-        this.setBehaviourOptions(npc.getBehaviourOptions());
-        this.setCombatOptions(npc.getCombatOptions());
-        this.setInteractOptions(npc.getInteractOptions());
-        this.setLootOptions(npc.getLootOptions());
-        this.setMeleeHeldItems(this.getMeleeHeldItems());
-        this.setMovementOptions(npc.getMovementOptions());
-        this.setPassiveHeldItems(npc.getPassiveHeldItems());
-        this.setRangedHeldItems(npc.getRangedHeldItems());
-        this.setRespawnOptions(npc.getRespawnOptions());
+        this.setBaseOptions(new NpcBaseOptions(npc.getBaseOptions()));
+        this.setArmor(new NpcWornItemSet(npc.getArmor()));
+        this.setBehaviourOptions(new NpcBehaviourOptions(npc.getBehaviourOptions()));
+        this.setCombatOptions(new NpcCombatOptions(npc.getCombatOptions()));
+        this.setInteractOptions(new NpcInteractOptions(npc.getInteractOptions()));
+        this.setLootOptions(new NpcLootOptions(npc.getLootOptions()));
+        this.setMeleeHeldItems(new NpcHeldItemSet(this.getMeleeHeldItems()));
+        this.setMovementOptions(new NpcMovementOptions(npc.getMovementOptions()));
+        this.setPassiveHeldItems(new NpcHeldItemSet(npc.getPassiveHeldItems()));
+        this.setRangedHeldItems(new NpcHeldItemSet(npc.getRangedHeldItems()));
+        this.setRespawnOptions(new NpcRespawnOptions(npc.getRespawnOptions()));
     }
     
     public RegisterableNpc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
@@ -226,7 +228,7 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     }
     
     public NpcLootOptions getLootOptions() {
-        return this.lootOptions;
+        return lootOptions;
     }
     
     public void setLootOptions(NpcLootOptions options) {
@@ -955,11 +957,11 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
 
     @Override
     public void initialise() {
-        ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
         this.setPosition(this.getBaseOptions().getSpawnPosition());
         this.spawn();
         this.setUniqueID(this.entity.getUniqueID());
+        ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
     }
 
     @Override
