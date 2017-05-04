@@ -63,6 +63,12 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         return new ArrayList<RegisterableNpc>(npcs);
     }
     
+    public static void deregisterAll() {
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
+            MMOCore.getInstance().getNpcRegistry().deregister(npc.getUniqueID());
+        }
+    }
+    
     public static ArrayList<RegisterableNpc> getAll(RegisterableDimension dimension) {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {

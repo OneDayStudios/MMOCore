@@ -5,6 +5,7 @@
  */
 package com.mmocore;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
 import com.mmocore.module.Galaxy.GalaxyRegistry;
@@ -16,7 +17,8 @@ import com.mmocore.module.Player.PlayerRegistry;
 import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
-import com.mmocore.constants.IntegratedMod;
+import com.mmocore.module.command.BaseCommand;
+import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -24,6 +26,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+
 
 /**
  *
@@ -49,12 +54,18 @@ public class MMOCore {
    private GalaxyRegistry galaxyRegistry;
    private NpcFactionRegistry npcFactionRegistry;
    private NpcRegistry npcRegistry;
+   private CommandRegistry cmdRegistry;
    
    
    private DataChannel channel;
    
    private StargateRegistry stargateRegistry;
    private QuestRegistry questRegistry;
+   
+   public CommandRegistry getCommandRegistry() {
+       if (cmdRegistry == null) cmdRegistry = new CommandRegistry();
+       return cmdRegistry;
+   }
    
    public GalaxyRegistry getGalaxyRegistry() {
        if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
@@ -123,6 +134,16 @@ public class MMOCore {
    }
    
    @Mod.EventHandler
+   public void onServerStarting(FMLServerStartingEvent e) {       
+    e.registerServerCommand(new BaseCommand());
+   }
+   
+   @Mod.EventHandler
+   public void onServerStopping(FMLServerStoppingEvent e) {       
+    NpcAPI.deregisterAll();
+   }
+   
+   @Mod.EventHandler
    public void onServerStarted(FMLServerStartedEvent e) {       
        MMOCore.getInstance().getGuiRegistry().initialise();
        MMOCore.getInstance().getDimensionRegistry().initialise();
@@ -130,11 +151,12 @@ public class MMOCore {
        MMOCore.getInstance().getPlayerRegistry().initialise();
        MMOCore.getInstance().getDialogRegistry().initialise();
        //MMOCore.getInstance().getStargateRegistry().initialise();
+       MMOCore.getInstance().getCommandRegistry().initialise();
        MMOCore.getInstance().getQuestRegistry().initialise();
        MMOCore.getInstance().getNpcFactionRegistry().initialise();
        MMOCore.getInstance().getNpcRegistry().initialise();
    }
-   
+
    public static MMOCore getInstance() {
        return MMOCore.instance;
    }

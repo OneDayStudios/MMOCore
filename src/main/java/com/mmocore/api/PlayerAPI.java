@@ -11,6 +11,8 @@ import com.mmocore.module.Player.RegisterablePlayer;
 import java.util.ArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChatComponentText; 
+
 /**
  *
  * @author draks
@@ -27,5 +29,9 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
     
     public static int getNearCount(uPosition position, int distance) {
         return getNear(position, distance).size();
+    }
+    
+    public static void sendMessage(RegisterablePlayer player, String message) {
+        player.getRegisteredObject().addChatMessage(new ChatComponentText(message));
     }
 }

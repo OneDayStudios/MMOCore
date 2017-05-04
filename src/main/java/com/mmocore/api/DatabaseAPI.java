@@ -30,7 +30,7 @@ public class DatabaseAPI extends AbstractAPI<DatabaseAPI> {
             ForgeAPI.sendConsoleEntry("Loaded MySQL Driver: " + driverClass, ConsoleMessageType.INFO);
             connection = DriverManager.getConnection(connectionString, username, password);
             ForgeAPI.sendConsoleEntry("Connected to MySQL Database: " + connectionString, ConsoleMessageType.INFO);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             ForgeAPI.sendConsoleEntry("Failed to connect to database, error: " + e.getMessage(), ConsoleMessageType.FATAL);
         }
     }
