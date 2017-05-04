@@ -16,6 +16,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityCommandBlock;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText; 
+import net.minecraft.util.EnumChatFormatting;
 
 /**
  *
@@ -45,6 +47,7 @@ public class BaseCommand extends CommandBase {
     
     @Override
     public void processCommand(ICommandSender sender, String[] params) {
+        if (params.length == 0) sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No command names passed, Try /s help!"));
         String cmdName = params[0];
         RegisterableCommand command = MMOCore.getInstance().getCommandRegistry().getRegistered(cmdName);
         if (command == null) {
