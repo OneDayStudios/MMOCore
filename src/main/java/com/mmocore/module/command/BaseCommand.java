@@ -47,19 +47,22 @@ public class BaseCommand extends CommandBase {
     
     @Override
     public void processCommand(ICommandSender sender, String[] params) {
-        if (params.length == 0) sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No command names passed, Try /s help!"));
-        String cmdName = params[0];
-        RegisterableCommand command = MMOCore.getInstance().getCommandRegistry().getRegistered(cmdName);
-        if (command == null) {
-            ForgeAPI.sendConsoleEntry("Attempted to look up server command: " + cmdName + " which does not exist.", ConsoleMessageType.WARNING);
+        if (params.length == 0) {
+            sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No command names passed, Try /s help!"));
         } else {
-            if (sender instanceof EntityPlayer) {
-                command.processCommandForPlayer(MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)sender).getUniqueID()), params);
+            String cmdName = params[0];
+            RegisterableCommand command = MMOCore.getInstance().getCommandRegistry().getRegistered(cmdName);
+            if (command == null) {
+                ForgeAPI.sendConsoleEntry("Attempted to look up server command: " + cmdName + " which does not exist.", ConsoleMessageType.WARNING);
             } else {
-                if (sender instanceof TileEntityCommandBlock) {
-                    command.processCommandForCommandBlock(params);
+                if (sender instanceof EntityPlayer) {
+                    command.processCommandForPlayer(MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)sender).getUniqueID()), params);
                 } else {
-                    command.processCommandForConsole(params);
+                    if (sender instanceof TileEntityCommandBlock) {
+                        command.processCommandForCommandBlock(params);
+                    } else {
+                        command.processCommandForConsole(params);
+                    }
                 }
             }
         }
