@@ -17,9 +17,9 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
     private Map<U, J> objects = new HashMap<U, J>();
     
     public void register(J object) {
-        if (isRegistered((U)object.getIdentifier())) this.deregister((U)object.getIdentifier());
-        objects.put((U)object.getIdentifier(), object);
+        if (isRegistered((U)object.getIdentifier())) this.deregister((U)object.getIdentifier());        
         object.initialise();
+        objects.put((U)object.getIdentifier(), object);
     }
     
     public Map<U, J> getRegistered() {
