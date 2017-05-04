@@ -8,6 +8,8 @@ package com.mmocore.module.Npc.options;
 import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.constants.NpcGender;
+import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.TextVisibleOption;
@@ -34,6 +36,24 @@ public class NpcBaseOptions {
     private TextVisibleOption nameVisible = TextVisibleOption.Never;
     private NpcAbstractScale movementSpeed = NpcAbstractScale.Medium;
     private NpcAbstractScale size = NpcAbstractScale.Medium;
+    private NpcModifier modifier = null;
+    private NpcSpawnMethod method = null;
+    
+    public NpcSpawnMethod getSpawnMethod() {
+        return this.method;
+    }
+    
+    public void setSpawnMethod(NpcSpawnMethod method) {
+        this.method = method;
+    }
+    
+    public NpcModifier getModifier() {
+        return this.modifier;
+    }
+    
+    public void setModifier(NpcModifier modifier) {
+        this.modifier = modifier;
+    }
     
     public NpcAbstractScale getSize() {
         return this.size;

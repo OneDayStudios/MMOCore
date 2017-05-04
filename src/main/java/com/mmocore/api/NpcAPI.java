@@ -6,15 +6,23 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.FactionRelationType;
+import com.mmocore.constants.NpcSpawnMethod;
+import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcVisibleOption;
+import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
+import com.mmocore.module.Npc.RegisterableNpc;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.item.ItemStack;
+import net.minecraft.entity.Entity;
+import noppes.npcs.entity.EntityCustomNpc;
 
 /**
  *
@@ -26,6 +34,21 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         if (exists(name,title,faction)) return false;
         // TODO: Create the NPC in game and register it.
         return true;
+    }
+    
+    public static RegisterableNpc simpleClone(RegisterableNpc clonedNpc, NpcSpawnMethod method, uPosition position) {
+        RegisterableNpc clone = new RegisterableNpc(clonedNpc.getBaseOptions().getName(), clonedNpc.getBaseOptions().getTitle(), clonedNpc.getBaseOptions().getTexture(), clonedNpc.getBaseOptions().getModifier(), method, position, clonedNpc.getBaseOptions().getFaction());
+        clone.setBaseOptions(clonedNpc.getBaseOptions());
+        clone.setCombatOptions(clonedNpc.getCombatOptions());
+        clone.setInteractOptions(clonedNpc.getInteractOptions());
+        clone.setArmor(clonedNpc.getArmor());
+        clone.setPassiveHeldItems(clonedNpc.getPassiveHeldItems());
+        clone.setRangedHeldItems(clonedNpc.getRangedHeldItems());
+        clone.setLootOptions(clonedNpc.getLootOptions());
+        clone.setMovementOptions(clonedNpc.getMovementOptions());
+        clone.setBehaviourOptions(clonedNpc.getBehaviourOptions());
+        clone.setRespawnOptions(clonedNpc.getRespawnOptions());
+        return clone;
     }
     
     public static boolean exists(String name, String title, RegisterableNpcFaction faction) {
@@ -62,6 +85,14 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         npc.getRegisteredObject().getArmor().getFeet().setItem(stack);
         npc.getRegisteredObject().setMarkedForUpdate();
         return (npc.getRegisteredObject().getArmor().getFeet().getItem().equals(stack));      
+    }
+    
+    public static void register(RegisterableNpc npc) {
+        MMOCore.getInstance().getNpcRegistry().register(npc);
+    }
+    
+    public static RegisterableNpc clone(RegisterableNpc npc) {
+        return new RegisterableNpc(npc);
     }
     
     public static boolean setLegItem(String mod, String item, int dmg, RegisterableNpc npc) {

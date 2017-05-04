@@ -8,6 +8,7 @@ package com.mmocore.module.Listener.Listeners;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
+import com.mmocore.api.NpcAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Listener.RegisterableListener;
@@ -17,9 +18,10 @@ import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
-import com.mmocore.module.Npc.Npc;
+import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
+import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -44,21 +46,22 @@ public class PlayerListener extends RegisterableListener {
         RegisterableNpcFaction tauriFaction = new RegisterableNpcFaction("Tauri");
         RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
         secondFaction.addHostileFaction(tauriFaction, true);
-        Npc tauri_soldier = new Npc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), tauriFaction);
+        RegisterableNpc tauri_soldier = new RegisterableNpc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), tauriFaction);
         NpcMovementOptions mOptions = tauri_soldier.getMovementOptions();
-        try {
-            NpcHeldItemSet weapons = tauri_soldier.getPassiveHeldItems();
-            NpcItem weapon = new NpcItem();
-            weapon.setItem("flansmod", "p90", 1, 0);
-            weapons.setMainHand(weapon);
-            tauri_soldier.setPassiveHeldItems(weapons);
-            ForgeAPI.sendConsoleEntry("Successfully assigned P90 to Npc: " + tauri_soldier.getBaseOptions().getName(), ConsoleMessageType.DEBUG);
-        } catch (Exception ex) {
-            ForgeAPI.sendConsoleEntry("Failed to assign P90 to Npc: " + tauri_soldier.getBaseOptions().getName(), ConsoleMessageType.DEBUG);
-        }
+        NpcHeldItemSet weapons = tauri_soldier.getPassiveHeldItems();
+        NpcItem weapon = new NpcItem();
+        weapon.setItem("flansmod", "p90", 1, 0);
+        weapons.setMainHand(weapon);
+        tauri_soldier.setPassiveHeldItems(weapons);
         mOptions.setMovementTypeWandering(NpcAbstractScale.Medium);
         tauri_soldier.setMovementOptions(mOptions);
-        //Npc wraith_soldier = new Npc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
+        RegisterableNpc second_soldier = NpcAPI.clone(tauri_soldier);
+        NpcBaseOptions bOptions = second_soldier.getBaseOptions();
+        bOptions.setName("Barney");
+        second_soldier.setBaseOptions(bOptions);
+        NpcAPI.register(tauri_soldier);
+        NpcAPI.register(second_soldier);
+        //Npc wraith_soldier = new RegisterableNpc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
     }
     
     @SubscribeEvent
