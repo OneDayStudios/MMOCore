@@ -16,10 +16,13 @@ import java.sql.SQLException;
  *
  * @author draks
  */
-public class DatabaseAPI {
+public class DatabaseAPI extends AbstractAPI<DatabaseAPI> {
     
     private static final String driverClass = "com.mysql.jdbc.Driver";
     private static Connection connection;
+    private static String connectionString = "jdbc:mysql://localhost:3306/{REDACTED}";
+    private static String username = "{REDACTED}";
+    private static String password = "{REDACTED}";
     
     private static void connect() {
         try {
