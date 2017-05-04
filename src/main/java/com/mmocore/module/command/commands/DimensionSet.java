@@ -30,7 +30,7 @@ public class DimensionSet extends RegisterableCommand {
 
     @Override
     public void processCommandForPlayer(RegisterablePlayer player, String[] parameters) {
-        if (parameters.length != 7) {
+        if (parameters.length != 8) {
             PlayerAPI.sendMessage(player, EnumChatFormatting.RED + "You must specify: DimensionName, xPos, zPos, Radius, Conditions and Faction to continue.");
         } else {
             RegisterableDimension dim = UniverseAPI.getDimension(parameters[1]);
