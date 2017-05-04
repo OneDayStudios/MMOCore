@@ -6,11 +6,13 @@
 package com.mmocore.module.Dimension;
 
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.World;
@@ -32,7 +34,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private int posX;
     private int posZ;
     private long lastTick;
-    private Faction faction;
+    private RegisterableNpcFaction faction;
     
     public RegisterableDimension(String name, DimensionType type, long border, int posX, int posZ, DimensionConditions conditions) {
         this.type = type;        
@@ -130,14 +132,18 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public void setFaction(String name) {
-        if (FactionController.getInstance().getFactionFromName(name) != null) this.faction = FactionController.getInstance().getFactionFromName(name);
+        this.faction = NpcFactionAPI.getRegistered(name);
     }
     
     public String getFactionName() {
-        return (getFaction() != null ? this.faction.name : "Contested");
+        return (hasFaction() ? this.getFaction().getName() : "Contested");
     }
     
-    public Faction getFaction() {
+    public boolean hasFaction() {
+        return this.faction != null;
+    }
+    
+    public RegisterableNpcFaction getFaction() {
         return this.faction;
     }
     

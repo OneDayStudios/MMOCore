@@ -153,4 +153,15 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         }
         return npc.getRegisteredObject().getBaseOptions().getVisibleOption();
     }
+
+    public static void spawnRandomNpcs(RegisterablePlayer player) {
+//        ArrayList<RegisterableNpc> npcs = NpcAPI.getAllReadOnly(player.getPosition().getDimension());
+//        for (RegisterableNpc npc : npcs) {
+//            if (!npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static)) continue;
+//            if (!npc.getRandomSpawnOptions().getSpawnDimensions().contains(player.getPosition().getDimension()) && !npc.getRandomSpawnOptions().getSpawnDimensions().isEmpty()) continue;
+//            if (!npc.getRandomSpawnOptions().getSpawnGalaxies().contains(player.getPosition().getGalaxy()) && !npc.getRandomSpawnOptions().getSpawnGalaxies().isEmpty()) continue;
+//            if (!npc.getRandomSpawnOptions().)
+//            
+//        }
+    }
 }

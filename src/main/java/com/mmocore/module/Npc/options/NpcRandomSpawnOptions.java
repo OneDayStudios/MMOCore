@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author draks
  */
-public class NpcSpawnOptions {
+public class NpcRandomSpawnOptions {
     
     // This field is responsible for globally enabling or disabling spawning via this NpcSpawnOptions class.
     private boolean enabled = false;

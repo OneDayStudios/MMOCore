@@ -13,7 +13,6 @@ import com.mmocore.module.Npc.loadout.NpcWornItemSet;
 import com.mmocore.module.Npc.options.NpcInteractOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcRespawnOptions;
-import com.mmocore.module.Npc.options.NpcSpawnOptions;
 import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
@@ -43,6 +42,7 @@ import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
+import com.mmocore.module.Npc.options.NpcRandomSpawnOptions;
 import com.mmocore.module.Npc.options.NpcStateOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -90,9 +90,7 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcCombatOptions combatOptions = new NpcCombatOptions();
-    private NpcSpawnOptions defaultSpawnOptions = new NpcSpawnOptions();
-    private NpcSpawnOptions incursionSpawnOptions = new NpcSpawnOptions();
-    private NpcSpawnOptions randomSpawnOptions = new NpcSpawnOptions();
+    private NpcRandomSpawnOptions randomSpawnOptions = new NpcRandomSpawnOptions();
     private NpcInteractOptions interactions = new NpcInteractOptions();
     private NpcWornItemSet armor = new NpcWornItemSet();
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
@@ -115,7 +113,6 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         this.setMeleeHeldItems(this.getMeleeHeldItems());
         this.setMovementOptions(npc.getMovementOptions());
         this.setPassiveHeldItems(npc.getPassiveHeldItems());
-        this.setPosition(npc.getUPosition());
         this.setRangedHeldItems(npc.getRangedHeldItems());
         this.setRespawnOptions(npc.getRespawnOptions());
     }
@@ -138,8 +135,8 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         cOptions.setRangedDamage(modifier.getRangedDamage());        
         cOptions.setHealth(modifier.getHealth());
         this.setCombatOptions(cOptions);
-    }
-        
+    }        
+    
     public NpcMovementOptions getMovementOptions() {
         return this.movementOptions;
     }
@@ -896,6 +893,15 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
 //    }
 //    
     
+    
+   public NpcRandomSpawnOptions getRandomSpawnOptions() {
+       return this.randomSpawnOptions;
+   }
+   
+   public void setRandomSpawnOptions(NpcRandomSpawnOptions rOptions) {
+       this.randomSpawnOptions = rOptions;
+   }
+   
    public void tellNear(String message) {
         Line line = new Line(message);
         line.hideText = true;
