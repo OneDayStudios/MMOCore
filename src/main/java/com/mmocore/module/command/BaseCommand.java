@@ -11,7 +11,6 @@ import com.mmocore.constants.ConsoleMessageType;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityCommandBlock;
@@ -37,7 +36,7 @@ public class BaseCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/s <parameters>";
+        return getCommandName() + " <parameters>";
     }
 
     @Override
@@ -48,10 +47,10 @@ public class BaseCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] params) {
         if (params.length == 0) {
-            sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No command names passed, Try /s help!"));
+            sender.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "No command names passed, Try /sgmc help!"));
         } else {
             String cmdName = params[0];
-            RegisterableCommand command = MMOCore.getInstance().getCommandRegistry().getRegistered(cmdName);
+            RegisterableCommand command = MMOCore.getCommandRegistry().getRegistered(cmdName);
             if (command == null) {
                 ForgeAPI.sendConsoleEntry("Attempted to look up server command: " + cmdName + " which does not exist.", ConsoleMessageType.WARNING);
             } else {

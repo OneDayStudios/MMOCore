@@ -21,24 +21,24 @@ import java.util.Collection;
 public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static RegisterableDimension getDimension(String name) {
-        return MMOCore.getInstance().getDimensionRegistry().getRegistered(name);
+        return MMOCore.getDimensionRegistry().getRegistered(name);
     }
     
     public static Collection<RegisterableDimension> getDimensionsReadOnly() {
-        return MMOCore.getInstance().getDimensionRegistry().getRegisteredReadOnly().values();
+        return MMOCore.getDimensionRegistry().getRegisteredReadOnly().values();
     }
     
     public static Collection<RegisterableGalaxy> getGalaxiesReadOnly() {
-        return MMOCore.getInstance().getGalaxyRegistry().getRegisteredReadOnly().values();
+        return MMOCore.getGalaxyRegistry().getRegisteredReadOnly().values();
     }
     
     public static ArrayList<RegisterableDimension> getDimensions() {
-        return (ArrayList)MMOCore.getInstance().getDimensionRegistry().getRegisteredReadOnly().values();
+        return (ArrayList)MMOCore.getDimensionRegistry().getRegisteredReadOnly().values();
     }
     
     public static ArrayList<RegisterableDimension> getDimensions(DimensionType type) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
-        for (RegisterableDimension dim : MMOCore.getInstance().getDimensionRegistry().getRegisteredReadOnly().values()) {
+        for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (dim.getType().equals(type)) dimensions.add(dim);
         }
         return dimensions;
@@ -46,7 +46,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static Collection<RegisterableDimension> getDimensions(RegisterableGalaxy galaxy) {
         Collection<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
-        for (RegisterableDimension dim : MMOCore.getInstance().getDimensionRegistry().getRegisteredReadOnly().values()) {
+        for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (distanceBetweenUPositions(galaxy.getPosition(), dim.getPosition()) < galaxy.getBorder()) dimensions.add(dim);
         }
         return dimensions;
@@ -54,7 +54,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static RegisterableDimension getDimension(uPosition pos) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
-        for (RegisterableDimension dim : MMOCore.getInstance().getDimensionRegistry().getRegisteredReadOnly().values()) {
+        for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.Space)) continue;
             if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getBorder()) dimensions.add(dim);
         }
@@ -80,11 +80,11 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static RegisterableGalaxy getGalaxy(String name) {
-        return MMOCore.getInstance().getGalaxyRegistry().getRegistered(name);
+        return MMOCore.getGalaxyRegistry().getRegistered(name);
     }
     
     public static ArrayList<RegisterableGalaxy> getGalaxies() {
-        return (ArrayList)MMOCore.getInstance().getGalaxyRegistry().getRegisteredReadOnly().values();
+        return (ArrayList)MMOCore.getGalaxyRegistry().getRegisteredReadOnly().values();
     }
     
     public static String getLocationMessage(uPosition pos) {
@@ -107,7 +107,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     public static RegisterableGalaxy getGalaxy(uPosition pos) {
         ArrayList<RegisterableGalaxy> galaxies = new ArrayList<RegisterableGalaxy>();
-        for (RegisterableGalaxy gal : MMOCore.getInstance().getGalaxyRegistry().getRegisteredReadOnly().values()) {
+        for (RegisterableGalaxy gal : MMOCore.getGalaxyRegistry().getRegisteredReadOnly().values()) {
             if (distanceBetweenUPositions(gal.getPosition(), pos) < gal.getBorder()) galaxies.add(gal);
         }
         if (galaxies.isEmpty()) return new RegisterableGalaxy("Galactic Void", 0, 0, 0);

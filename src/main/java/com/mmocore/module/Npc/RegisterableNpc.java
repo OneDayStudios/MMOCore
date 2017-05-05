@@ -582,6 +582,8 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
             this.entity.advanced.factions.decreaseFaction2Points = false;
         }        
         
+        this.entity.stats.fireSound = this.getCombatOptions().getFireWeaponSound().getSoundString();
+        
         if (this.getLootOptions().getPrimaryFaction() != null) {
             this.entity.advanced.factions.decreaseFactionPoints = this.getLootOptions().getPrimaryFaction().isDecrease();
             this.entity.advanced.factions.factionId = this.getLootOptions().getPrimaryFaction().getFaction().getID();
@@ -866,10 +868,6 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
 //    
 //    public void setFireRate(int value) {
 //        this.entity.stats.fireRate = value;
-//    }
-//    
-//    public void setFireSound(String sound) {
-//        this.entity.stats.fireSound = sound;
 //    }
 //    
 //    public void setBurstCount(int number) {

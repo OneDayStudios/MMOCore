@@ -46,80 +46,80 @@ public class MMOCore {
    public static final String MODNAME = "MMOCore";
    public static final String MODVER = "1.0.0";
 
-   private GuiRegistry guiRegistry;
-   private DimensionRegistry dimensionRegistry;
-   private ListenerRegistry listenerRegistry;
-   private PlayerRegistry playerRegistry;
-   private DialogRegistry dialogRegistry;
-   private GalaxyRegistry galaxyRegistry;
-   private NpcFactionRegistry npcFactionRegistry;
-   private NpcRegistry npcRegistry;
-   private CommandRegistry cmdRegistry;
+   private static GuiRegistry guiRegistry;
+   private static DimensionRegistry dimensionRegistry;
+   private static ListenerRegistry listenerRegistry;
+   private static PlayerRegistry playerRegistry;
+   private static DialogRegistry dialogRegistry;
+   private static GalaxyRegistry galaxyRegistry;
+   private static NpcFactionRegistry npcFactionRegistry;
+   private static NpcRegistry npcRegistry;
+   private static CommandRegistry cmdRegistry;
    
    
-   private DataChannel channel;
+   private static DataChannel channel;
    
-   private StargateRegistry stargateRegistry;
-   private QuestRegistry questRegistry;
+   private static StargateRegistry stargateRegistry;
+   private static QuestRegistry questRegistry;
    
-   public CommandRegistry getCommandRegistry() {
+   public static CommandRegistry getCommandRegistry() {
        if (cmdRegistry == null) cmdRegistry = new CommandRegistry();
        return cmdRegistry;
    }
    
-   public GalaxyRegistry getGalaxyRegistry() {
+   public static GalaxyRegistry getGalaxyRegistry() {
        if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
        return galaxyRegistry;
    }
-   public GuiRegistry getGuiRegistry() {
+   public static GuiRegistry getGuiRegistry() {
        if (guiRegistry == null) guiRegistry = new GuiRegistry();
        return guiRegistry;
    }
-   public PlayerRegistry getPlayerRegistry() {
+   public static PlayerRegistry getPlayerRegistry() {
        if (playerRegistry == null) playerRegistry = new PlayerRegistry();
        return playerRegistry;
    }
-   public DimensionRegistry getDimensionRegistry() {
+   public static DimensionRegistry getDimensionRegistry() {
        if (dimensionRegistry == null) dimensionRegistry = new DimensionRegistry();
        return dimensionRegistry;
    }
-   public NpcRegistry getNpcRegistry() {
+   public static NpcRegistry getNpcRegistry() {
        if (npcRegistry == null) npcRegistry = new NpcRegistry();
        return npcRegistry;
    }
-   public ListenerRegistry getListenerRegistry() {
+   public static ListenerRegistry getListenerRegistry() {
        if (listenerRegistry == null)  listenerRegistry = new ListenerRegistry();
        return listenerRegistry;
    }
    
-   public StargateRegistry getStargateRegistry() {
+   public static StargateRegistry getStargateRegistry() {
        if (stargateRegistry == null)  stargateRegistry = new StargateRegistry();
        return stargateRegistry;
    }
    
-   public DialogRegistry getDialogRegistry() {
+   public static DialogRegistry getDialogRegistry() {
        if (dialogRegistry == null)  dialogRegistry = new DialogRegistry();
        return dialogRegistry;
    }
    
-   public QuestRegistry getQuestRegistry() {
+   public static QuestRegistry getQuestRegistry() {
        if (questRegistry == null)  questRegistry = new QuestRegistry();
        return questRegistry;
    }
    
-   public NpcFactionRegistry getNpcFactionRegistry() {
+   public static NpcFactionRegistry getNpcFactionRegistry() {
        if (npcFactionRegistry == null) npcFactionRegistry = new NpcFactionRegistry();
        return npcFactionRegistry;
    }
    
-   public DataChannel getChannel() {
-       return this.channel;
+   public static DataChannel getChannel() {
+       return channel;
    }
    
    @Mod.EventHandler
    public void preLoad(FMLPreInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       channel = new DataChannel(MMOCore.MODID);
+       MMOCore.channel = new DataChannel(MMOCore.MODID);
    }
    
    @Mod.EventHandler
@@ -130,7 +130,7 @@ public class MMOCore {
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       MMOCore.getInstance().getListenerRegistry().initialise();
+       MMOCore.getListenerRegistry().initialise();
    }
    
    @Mod.EventHandler
@@ -145,16 +145,16 @@ public class MMOCore {
    
    @Mod.EventHandler
    public void onServerStarted(FMLServerStartedEvent e) {       
-       MMOCore.getInstance().getGuiRegistry().initialise();
-       MMOCore.getInstance().getDimensionRegistry().initialise();
-       MMOCore.getInstance().getGalaxyRegistry().initialise();
-       MMOCore.getInstance().getPlayerRegistry().initialise();
-       MMOCore.getInstance().getDialogRegistry().initialise();
+       MMOCore.getGuiRegistry().initialise();
+       MMOCore.getDimensionRegistry().initialise();
+       MMOCore.getGalaxyRegistry().initialise();
+       MMOCore.getPlayerRegistry().initialise();
+       MMOCore.getDialogRegistry().initialise();
        //MMOCore.getInstance().getStargateRegistry().initialise();
-       MMOCore.getInstance().getCommandRegistry().initialise();
-       MMOCore.getInstance().getQuestRegistry().initialise();
-       MMOCore.getInstance().getNpcFactionRegistry().initialise();
-       MMOCore.getInstance().getNpcRegistry().initialise();
+       MMOCore.getCommandRegistry().initialise();
+       MMOCore.getQuestRegistry().initialise();
+       MMOCore.getNpcFactionRegistry().initialise();
+       MMOCore.getNpcRegistry().initialise();
    }
 
    public static MMOCore getInstance() {

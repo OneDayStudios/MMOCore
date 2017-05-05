@@ -11,6 +11,7 @@ import com.mmocore.constants.NpcCombatResponse;
 import com.mmocore.constants.NpcFireIndirectlyOption;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcRangedUsage;
+import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcTacticalOption;
 
 /**
@@ -42,6 +43,7 @@ public class NpcCombatOptions {
     private NpcBoolean mustSeeTarget = NpcBoolean.YES;
     private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
     private NpcBoolean canAttackInvisibleTargets = NpcBoolean.NO;
+    private NpcSound fireWeaponSound = NpcSound.NONE;
 
     public NpcCombatOptions() {
         
@@ -70,6 +72,15 @@ public class NpcCombatOptions {
         this.mustSeeTarget = combatOptions.mustSeeTarget;
         this.fireIndirectly = combatOptions.fireIndirectly;
         this.canAttackInvisibleTargets = combatOptions.canAttackInvisibleTargets;
+        this.fireWeaponSound = combatOptions.fireWeaponSound;
+    }
+    
+    public NpcSound getFireWeaponSound() {
+        return this.fireWeaponSound;
+    }
+    
+    public void setFireWeaponSound(NpcSound sound) {
+        this.fireWeaponSound = sound;
     }
     
     public NpcBoolean getCanAttackInvisibleTargets() {

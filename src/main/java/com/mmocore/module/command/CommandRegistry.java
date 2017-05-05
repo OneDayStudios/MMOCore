@@ -6,7 +6,6 @@
 package com.mmocore.module.command;
 
 import com.mmocore.module.AbstractRegistry;
-import com.mmocore.module.command.commands.DimensionSet;
 
 /**
  *
@@ -16,7 +15,7 @@ public class CommandRegistry extends AbstractRegistry<CommandRegistry, String, R
 
     @Override
     public void initialise() {
-        this.register(new DimensionSet("dimensionset", "Configures a dimension within the StargateMC Universe"));
+        //this.register(new DimensionSet("dimensionset", "Configures a dimension within the StargateMC Universe"));
     }
 
     @Override
