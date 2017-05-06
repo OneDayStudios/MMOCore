@@ -44,9 +44,13 @@ public class WorldListener extends RegisterableListener {
     public void onWorldTick(TickEvent.WorldTickEvent e) {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
-        RegisterableDimension dimension = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
         dimension.setLastTick(System.currentTimeMillis());
-        MMOCore.getInstance().getNpcRegistry().tickForDimension(dimension);
+        MMOCore.getNpcRegistry().tickForDimension(dimension);
+        if (dimension.getName().equals("DIM-65")) {
+            dimension.setConditions(DimensionConditions.Space);
+            dimension.setRadius(100000);
+        }
     }
     
 }

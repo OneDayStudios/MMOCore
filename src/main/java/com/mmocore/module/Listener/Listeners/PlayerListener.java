@@ -18,6 +18,7 @@ import com.mmocore.constants.NpcAbstractScale;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
+import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -41,27 +42,8 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent e) {
-        if (!MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
-        RegisterablePlayer player = MMOCore.getInstance().getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
-        RegisterableNpcFaction tauriFaction = new RegisterableNpcFaction("Tauri");
-        RegisterableNpcFaction secondFaction = new RegisterableNpcFaction("Wraith");
-        secondFaction.addHostileFaction(tauriFaction, true);
-        RegisterableNpc tauri_soldier = new RegisterableNpc("Fred", "Flinstone", NpcTexture.SGC_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), tauriFaction);
-        NpcMovementOptions mOptions = tauri_soldier.getMovementOptions();
-        NpcHeldItemSet weapons = tauri_soldier.getPassiveHeldItems();
-        NpcItem weapon = new NpcItem();
-        weapon.setItem("flansmod", "p90", 1, 0);
-        weapons.setMainHand(weapon);
-        tauri_soldier.setPassiveHeldItems(weapons);
-        mOptions.setMovementTypeWandering(NpcAbstractScale.Medium);
-        tauri_soldier.setMovementOptions(mOptions);
-        RegisterableNpc second_soldier = NpcAPI.clone(tauri_soldier);
-        NpcBaseOptions bOptions = second_soldier.getBaseOptions();
-        bOptions.setName("Barney");
-        second_soldier.setBaseOptions(bOptions);
-        NpcAPI.register(tauri_soldier);
-        NpcAPI.register(second_soldier);
-        //Npc wraith_soldier = new RegisterableNpc("Wraith Soldier", "Todd's Hive", NpcTexture.WRAITH_SOLDIER, NpcModifier.MELEE_SOLDIER, NpcSpawnMethod.Static, player.getPosition(), secondFaction);
+        if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
+        RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
     }
     
     @SubscribeEvent
