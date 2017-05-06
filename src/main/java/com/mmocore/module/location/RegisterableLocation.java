@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.Dimension;
+package com.mmocore.module.location;
 
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
