@@ -12,9 +12,12 @@ import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cr0s.warpdrive.config.CelestialObjectManager;
+import cr0s.warpdrive.data.CelestialObject;
 import net.minecraft.world.World;
 import noppes.npcs.controllers.Faction;
 import noppes.npcs.controllers.FactionController;
@@ -117,6 +120,16 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
            return getRegisteredObject().getWorldInfo().getSpawnY();
        } catch (Exception e) {
            ForgeAPI.sendConsoleEntry("SpawnY was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
+           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
+           return 0;
+       }    
+    }
+    
+    public int getForgeId() {
+       try {
+           return getRegisteredObject().provider.dimensionId;
+       } catch (Exception e) {
+           ForgeAPI.sendConsoleEntry("ID was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
            ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
            return 0;
        }    

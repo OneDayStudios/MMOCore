@@ -11,5 +11,6 @@ package com.mmocore.constants;
  */
 public enum IntegratedMod {
     CustomNpcs,
-    SGCraft
+    SGCraft,
+    WarpDrive;
 }
