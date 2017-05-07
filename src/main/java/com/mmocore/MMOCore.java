@@ -140,7 +140,7 @@ public class MMOCore {
    
    @Mod.EventHandler
    public void onServerStopping(FMLServerStoppingEvent e) {       
-    NpcAPI.deregisterAll();
+    if (ForgeAPI.isServer()) NpcAPI.deregisterAll();
    }
    
    @Mod.EventHandler

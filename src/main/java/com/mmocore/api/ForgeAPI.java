@@ -22,7 +22,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 /**
  *
  * @author draks
@@ -44,7 +45,15 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
         }
         return null;
     }
-
+    
+    public static boolean isClient() {
+        return !isServer();
+    }
+    
+    public static boolean isServer() {
+        return FMLCommonHandler.instance().getSide().equals(Side.SERVER);
+    }
+    
     public static boolean blockExists(String name, String mod) {
         return GameRegistry.findBlock(mod, name) != null;
     }
