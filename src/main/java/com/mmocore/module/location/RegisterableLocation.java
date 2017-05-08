@@ -34,7 +34,7 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     
     private String name;
     private String description;
-    private uPosition position;
+    private HashMap<uPosition, HashMap<Integer, Integer>> positions = new HashMap<uPosition, HashMap<Integer, Integer>>();
     private int radiusXZ = 0;
     private int radiusY = 0;
     // Quest required to enter the location.
@@ -59,7 +59,6 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     public RegisterableLocation(RegisterableLocation location) { 
         this.name = location.name;
         this.description = location.description;
-        this.position = location.position;
         this.radiusXZ = location.radiusXZ;
         this.radiusY = location.radiusY;
         this.denyEntryMessage = location.denyEntryMessage;
