@@ -42,7 +42,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     public static ArrayList<RegisterableDimension> getDimensions(DimensionType type) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
-            if (dim.getType().equals(type)) dimensions.add(dim);
+            if (!dim.isFake() && dim.getType().equals(type)) dimensions.add(dim);
         }
         return dimensions;
     }
@@ -78,7 +78,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return false;
     }
     public static boolean isInVoidSpace(uPosition pos) {
-        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getDimension(pos) == null && UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
+        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getCelestialBody(pos) == null && UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
         return false;
     }
     
