@@ -94,9 +94,9 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     public static String getLocationMessage(uPosition pos) {
         String location = null;
         if (isOnDimension(pos)) location = pos.getDimension().getDisplayName();
+        if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getSystem().getDisplayName();
         if (isInVoidSpace(pos)) location = "Void Space";
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
-        if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getCelestialBody().getDisplayName();
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getCelestialBody(pos).getDisplayName();
         if (pos.isInHyperSpace()) location = "Hyperspace (" + location + ")";
         if (location == null) location = "Unknown location!";
@@ -150,8 +150,6 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static double distanceBetweenUPositions(uPosition pos1, uPosition pos2) {
-        ForgeAPI.sendConsoleEntry("Calculating distance between : " + pos1.getDPosX() + ", " + 100 +", " + pos1.getDPosX() + " in dim: " + pos1.getDimension().getName() + " and " + pos2.getDPosX() + "," + pos2.getDPosZ() + " in dim : " + pos2.getDimension().getDisplayName() + " as " + ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ()), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("Calculating distance between : " + pos1.getUPosX() + ", " + pos1.getUPosZ() + " in dim: " + pos1.getDimension().getName() + " and " + pos2.getUPosX() + "," + pos2.getUPosZ() + " in dim : " + pos2.getDimension().getDisplayName() + " as " + ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ()), ConsoleMessageType.FINE);
         return ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ());
     }
 }
