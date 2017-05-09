@@ -41,15 +41,21 @@ public class uPosition extends AbstractObjectCore<uPosition> {
                     uPosX = this.getDimension().getParent().getX();
                     uPosZ = this.getDimension().getParent().getZ();
                     if (this.getDimension().getParent().getSpawnX() > this.getDimension().getX()) uPosX -= (this.getDimension().getParent().getSpawnX() - this.getDimension().getX());
-                    if (this.getDimension().getParent().getSpawnX() < this.getDimension().getX()) uPosZ += (this.getDimension().getX() - this.getDimension().getParent().getSpawnX());
+                    if (this.getDimension().getParent().getSpawnX() < this.getDimension().getX()) uPosX += (this.getDimension().getX() - this.getDimension().getParent().getSpawnX());
                     if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
-                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosZ += (this.getDPosX() - this.getDimension().getSpawnX());                
+                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosX += (this.getDPosX() - this.getDimension().getSpawnX());                
+                    if (this.getDimension().getParent().getSpawnZ() > this.getDimension().getZ()) uPosZ -= (this.getDimension().getParent().getSpawnZ() - this.getDimension().getZ());
+                    if (this.getDimension().getParent().getSpawnZ() < this.getDimension().getZ()) uPosZ += (this.getDimension().getZ() - this.getDimension().getParent().getSpawnZ());
+                    if (this.getDimension().getSpawnZ() > this.getDPosZ()) uPosZ -= (this.getDimension().getSpawnZ() - this.getDPosZ());
+                    if (this.getDimension().getSpawnZ() < this.getDPosZ()) uPosZ += (this.getDPosZ() - this.getDimension().getSpawnZ());   
                 }
                 if (this.dimension.getType().equals(DimensionType.StarSystem)) {
                     uPosX = this.getDimension().getX();
                     uPosZ = this.getDimension().getZ();
                     if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
-                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosZ += (this.getDPosX() - this.getDimension().getSpawnX());    
+                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosX += (this.getDPosX() - this.getDimension().getSpawnX());    
+                    if (this.getDimension().getSpawnZ() > this.getDPosZ()) uPosZ -= (this.getDimension().getSpawnZ() - this.getDPosZ());
+                    if (this.getDimension().getSpawnZ() < this.getDPosZ()) uPosZ += (this.getDPosZ() - this.getDimension().getSpawnZ());    
                 }            
             }
         }
