@@ -25,7 +25,7 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
         for (String s : getReadOnly().keySet()) {
             for (CelestialObject o : getReadOnly().get(s).values()) {
                 if (o.isVirtual) continue;
-                if (o.parentName.equals(o.group) || o.dimensionId == o.parentDimensionId) return o;
+                if (o.dimensionId == o.parentDimensionId) return o;
             }
         }
         return null;
@@ -33,7 +33,13 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     
     private static HashMap<String, HashMap<String, CelestialObject>> getReadOnly() {
-        return CelestialObjectManager.getCelestialObjectsReadOnly();
+        HashMap<String, HashMap<String, CelestialObject>> cachedCopy = CelestialObjectManager.getCelestialObjectsReadOnly();
+        for (String s : cachedCopy.keySet()) {
+            for (CelestialObject c : cachedCopy.get(s).values()) {
+                c.resolveParent();
+            }
+        }
+        return cachedCopy;
     }
     
     public static String getName(int dimensionId) {
@@ -92,14 +98,13 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
         return getForDimId(dimensionId).dimensionCenterZ;
     }
     
-    private static boolean isMapped(int dimensionId) {
+    public static boolean isMapped(int dimensionId) {
         return getForDimId(dimensionId) != null;
     }
     
     private static CelestialObject getForDimId(int dimensionId) {
         for (String s : getReadOnly().keySet()) {
             for (CelestialObject object : getReadOnly().get(s).values()) {
-                if (object.isVirtual) continue;
                 if (object.dimensionId == dimensionId) return object;
             }
         }
@@ -113,7 +118,7 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static boolean isPlanet(int dimensionId) {
         if (!isMapped(dimensionId)) return false;
-        return getForDimId(dimensionId).parentDimensionId != getUniverse().dimensionId;
+        return getForDimId(dimensionId).parentDimensionId != getUniverse().dimensionId && getForDimId(dimensionId).dimensionId != getForDimId(dimensionId).parentDimensionId;
     }
     
     public static DimensionType getType(int dimensionId) {
@@ -125,10 +130,11 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     public static DimensionConditions getConditions(int dimensionId) {
-        if (!isMapped(dimensionId) || getForDimId(dimensionId).setRenderData.isEmpty()) return DimensionConditions.Unknown;
+        if (!isMapped(dimensionId)) return DimensionConditions.Unknown;
         if (isHyperspace(dimensionId)) return DimensionConditions.Hyperspace;
         if (isSolarSystem(dimensionId)) return DimensionConditions.Space;
         for (RenderData data : getForDimId(dimensionId).setRenderData) {
+            if (data.texture.isEmpty()) continue;
             if (data.texture.equals("warpdrive:textures/celestial/planet_magma.png")) return DimensionConditions.Unstable;
             if (data.texture.equals("warpdrive:textures/celestial/planet_icy.png")) return DimensionConditions.Frozen;
             if (data.texture.equals("warpdrive:textures/celestial/planet_temperate.png") || data.texture.equals("warpdrive:textures/celestial/planet_oceanic.png")) return DimensionConditions.Optimal;

@@ -35,6 +35,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private String name;
     private DimensionType type;
     private DimensionConditions conditions;
+    private boolean hasAtmosphere = false;
     private int posX;
     private int posZ;
     private long lastTick;
@@ -43,18 +44,31 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private int borderX;
     private int borderZ;
     private int parentId;
+    private String displayName;
     
-    public RegisterableDimension(String name, DimensionType type, int borderX, int borderZ, int posX, int posZ, int spawnX, int spawnZ, DimensionConditions conditions, int dimensionId, int parentId) {
-        this.type = type;        
+    public RegisterableDimension(String displayName, String name, DimensionType type, boolean hasAtmosphere, int borderX, int borderZ, int posX, int posZ, int spawnX, int spawnZ, DimensionConditions conditions, int dimensionId, int parentId) {
+        this.type = type;      
+        this.displayName = displayName;
         this.name = name;
         this.borderX = borderX;
         this.borderZ = borderZ;
+        this.hasAtmosphere = hasAtmosphere;
         this.posX = posX;
         this.posZ = posZ;
         this.conditions = conditions;
         this.dimensionId = dimensionId;
         this.parentId = parentId;
-        if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration, this may cause issues with players not being able to visit the whole world!", ConsoleMessageType.WARNING);
+        if (!WarpDriveAPI.isMapped(dimensionId)) {
+            ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn configuration mismatch with WarpDrive... attempting to match it...", ConsoleMessageType.WARNING);
+            try {
+                getRegisteredObject().setSpawnLocation(spawnX, this.getSpawnY(), spawnZ);
+                ForgeAPI.sendConsoleEntry("Spawn reconfigured for dimension: " + name + " to: " + spawnX + "," + this.getSpawnY() + "," + spawnZ + "!", ConsoleMessageType.FINE);
+            } catch (Exception e) {
+                ForgeAPI.sendConsoleEntry("Failed to re-set spawn for dimension: " + name + ", please adjust Warpdrive configuration!", ConsoleMessageType.SEVERE);
+            }
+        }
+        if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration (Configured X: " + spawnX + ", actual: " + this.getSpawnX() + ", Configured Z: " + spawnZ + ", actual: " + this.getSpawnZ() + ")!", ConsoleMessageType.WARNING);
+
     }
     
     @Override
@@ -64,6 +78,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     public int getParentId() {
         return this.parentId;
+    }
+    
+    public boolean hasAtmopshere() {
+        return this.hasAtmosphere;
     }
     
     private boolean isParentLoaded() {
@@ -132,47 +150,23 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-       try {
-           return getRegisteredObject().getWorldInfo().getSpawnX();
-       } catch (Exception e) {
-           ForgeAPI.sendConsoleEntry("SpawnX was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
-           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
-           return 0;
-       }
+        return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
     public int getSpawnY() {
-       try {
-           return getRegisteredObject().getWorldInfo().getSpawnY();
-       } catch (Exception e) {
-           ForgeAPI.sendConsoleEntry("SpawnY was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
-           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
-           return 0;
-       }    
+        return getRegisteredObject().getWorldInfo().getSpawnY();
     }
     
     public int getForgeId() {
-       try {
-           return getRegisteredObject().provider.dimensionId;
-       } catch (Exception e) {
-           ForgeAPI.sendConsoleEntry("ID was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
-           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
-           return 0;
-       }    
+        return getRegisteredObject().provider.dimensionId;
     }
     
     public int getSpawnZ() {
-       try {
-           return getRegisteredObject().getWorldInfo().getSpawnZ();
-       } catch (Exception e) {
-           ForgeAPI.sendConsoleEntry("SpawnZ was queried for dimension: " + this.getName() + " and threw an exception.", ConsoleMessageType.FINE);
-           ForgeAPI.sendConsoleEntry("Exception details: " + e.getMessage(), ConsoleMessageType.DEBUG);
-           return 0;
-       }    
+        return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
     public String getDisplayName() {
-        return this.getName();
+        return this.displayName;        
     }
     
     public uPosition getPosition() {
@@ -205,7 +199,17 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     @Override
     public void initialise() {
-        ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);        
+        ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getName() + "...", ConsoleMessageType.FINE);   
+        ForgeAPI.sendConsoleEntry("DisplayName: " + this.getDisplayName()+ "...", ConsoleMessageType.FINE);  
+        ForgeAPI.sendConsoleEntry("Conditions: " + this.getConditions(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Type: " + this.getType(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("PosX: " + this.getX(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("PosZ: " + this.getZ(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("BorderX: " + this.getBorderX(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("BorderZ: " + this.getBorderZ(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("SpawnX: " + this.getSpawnX(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("SpawnZ: " + this.getSpawnZ(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Parent: " + this.getParentId(), ConsoleMessageType.FINE);
     }
 
     @Override
@@ -215,6 +219,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
 
     @Override
     public World getRegisteredObject() {
-        return ForgeAPI.getForgeWorld(name);
+        return ForgeAPI.getForgeWorld(dimensionId);
     }
 }
