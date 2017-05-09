@@ -747,7 +747,7 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     }
     
     public uPosition getUPosition() {
-        return new uPosition(getPosX(), getPosY(), getPosZ(), MMOCore.getInstance().getDimensionRegistry().getRegistered(getWorldName()));
+        return new uPosition(getPosX(), getPosY(), getPosZ(), MMOCore.getDimensionRegistry().getRegistered(getWorldId()));
     }
     
     public void refresh() {
@@ -757,6 +757,10 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     
     public boolean isDead() {
         return entity.hasDied;
+    }
+    
+    public int getWorldId() {
+        return this.entity.worldObj.provider.dimensionId;
     }
     
     public boolean revive() {

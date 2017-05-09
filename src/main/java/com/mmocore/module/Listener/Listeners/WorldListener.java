@@ -8,6 +8,7 @@ package com.mmocore.module.Listener.Listeners;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Listener.RegisterableListener;
@@ -30,27 +31,27 @@ public class WorldListener extends RegisterableListener {
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load e) {
         World w = (World)e.world;
-        if (!MMOCore.getInstance().getDimensionRegistry().isRegistered(w.getWorldInfo().getWorldName())) MMOCore.getInstance().getDimensionRegistry().register(new RegisterableDimension(w.getWorldInfo().getWorldName(), DimensionType.Unknown, 2500, 0, 0, DimensionConditions.Unknown));
-        RegisterableDimension dim = MMOCore.getInstance().getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
+        int dimensionId = w.provider.dimensionId;
+        
+        if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
+            RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
+            MMOCore.getDimensionRegistry().register(dimension);
+        }
     }
     
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         World w = (World)e.world;
-        MMOCore.getInstance().getDimensionRegistry().deregister(w.getWorldInfo().getWorldName());
+        MMOCore.getDimensionRegistry().deregister(w.provider.dimensionId);
     }
     
     @SubscribeEvent
     public void onWorldTick(TickEvent.WorldTickEvent e) {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
-        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.getWorldInfo().getWorldName());
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
         dimension.setLastTick(System.currentTimeMillis());
         MMOCore.getNpcRegistry().tickForDimension(dimension);
-        if (dimension.getName().equals("DIM-65")) {
-            dimension.setConditions(DimensionConditions.Space);
-            dimension.setRadius(100000);
-        }
     }
     
 }

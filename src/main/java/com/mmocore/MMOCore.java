@@ -35,7 +35,7 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
  * @author Drakster
  */
 
-@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = MMOCore.MODVER)
+@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = MMOCore.MODVER, dependencies = "after:WarpDrive;" )
 
 public class MMOCore {
     

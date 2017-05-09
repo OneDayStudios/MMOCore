@@ -11,7 +11,7 @@ import com.mmocore.module.AbstractRegistry;
  *
  * @author draks
  */
-public class DimensionRegistry extends AbstractRegistry<DimensionRegistry, String, RegisterableDimension> {
+public class DimensionRegistry extends AbstractRegistry<DimensionRegistry, Integer, RegisterableDimension> {
 
     @Override
     public void initialise() {

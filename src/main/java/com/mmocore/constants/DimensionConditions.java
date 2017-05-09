@@ -16,5 +16,6 @@ public enum DimensionConditions {
     Flooded,
     Space,
     Hyperspace,
+    Unstable,
     Unknown
 }

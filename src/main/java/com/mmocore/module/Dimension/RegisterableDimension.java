@@ -5,8 +5,10 @@
  */
 package com.mmocore.module.Dimension;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
+import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
@@ -28,29 +30,49 @@ import noppes.npcs.controllers.FactionController;
  */
 
 @SideOnly(Side.SERVER)
-public class RegisterableDimension extends AbstractRegisterable<RegisterableDimension, String, World> {
+public class RegisterableDimension extends AbstractRegisterable<RegisterableDimension, Integer, World> {
     
     private String name;
     private DimensionType type;
     private DimensionConditions conditions;
-    private long border;
     private int posX;
     private int posZ;
     private long lastTick;
     private RegisterableNpcFaction faction;
+    private final int dimensionId;
+    private int borderX;
+    private int borderZ;
+    private int parentId;
     
-    public RegisterableDimension(String name, DimensionType type, long border, int posX, int posZ, DimensionConditions conditions) {
+    public RegisterableDimension(String name, DimensionType type, int borderX, int borderZ, int posX, int posZ, int spawnX, int spawnZ, DimensionConditions conditions, int dimensionId, int parentId) {
         this.type = type;        
         this.name = name;
-        this.border = border;
+        this.borderX = borderX;
+        this.borderZ = borderZ;
         this.posX = posX;
         this.posZ = posZ;
         this.conditions = conditions;
+        this.dimensionId = dimensionId;
+        this.parentId = parentId;
+        if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration, this may cause issues with players not being able to visit the whole world!", ConsoleMessageType.WARNING);
     }
     
     @Override
     public void tick() {
         // This Object doesnt tick.
+    }
+    
+    public int getParentId() {
+        return this.parentId;
+    }
+    
+    private boolean isParentLoaded() {
+        return MMOCore.getDimensionRegistry().getRegistered(parentId) != null;
+    }
+
+    public RegisterableDimension getParent() {
+        if (!this.isParentLoaded()) return null;
+        return MMOCore.getDimensionRegistry().getRegistered(getParentId());
     }
     
     public String getName() {
@@ -65,8 +87,12 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.conditions = conditions;
     }
     
-    public long getBorder() {
-        return this.border;
+    public long getBorderZ() {
+        return this.borderZ;
+    }
+    
+    public long getBorderX() {
+        return this.borderX;
     }
     
     public void setPosX(int posX) {
@@ -77,10 +103,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.posZ = posZ;        
     }
     
-    public void setRadius(int radius) {
-        this.border = radius;        
-    }
-    
     public void setLastTick(long time) {
         this.lastTick = time;
     }
@@ -89,8 +111,8 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         return this.lastTick;
     }
     @Override
-    public String getIdentifier() {
-        return this.name;
+    public Integer getIdentifier() {
+        return this.dimensionId;
     }
     
     public DimensionType getType() {
@@ -103,6 +125,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     public int getZ() {
         return this.posZ;
+    }
+    
+    public int getId() {
+        return this.dimensionId;
     }
     
     public int getSpawnX() {
@@ -146,14 +172,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public String getDisplayName() {
-        String providerName = getRegisteredObject().provider.getDimensionName();
-        String actualName = getRegisteredObject().getWorldInfo().getWorldName();
-        if (providerName.equals("DIM-65")) return "Space";
-        if (providerName.equals("DIM-64")) return "Hyperspace";
-        if (providerName.contains("End") || providerName.contains("Overworld") || providerName.contains("Nether")) return actualName;
-        if (actualName.equals(providerName)) return providerName;
-        if (providerName.contains("DIM") && !actualName.contains("DIM")) return actualName;
-        return actualName;
+        return this.getName();
     }
     
     public uPosition getPosition() {
@@ -162,6 +181,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     public DimensionConditions getConditions() {
         return this.conditions;
+    }
+    
+    public double getGravity() {
+        return WarpDriveAPI.getGravity(this.dimensionId);
     }
     
     public void setFaction(String name) {
@@ -182,7 +205,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     @Override
     public void initialise() {
-        ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);        
     }
 
     @Override

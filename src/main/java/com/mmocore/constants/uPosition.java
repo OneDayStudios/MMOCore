@@ -5,6 +5,7 @@
  */
 package com.mmocore.constants;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.AbstractObjectCore;
 import com.mmocore.module.Dimension.RegisterableDimension;
@@ -28,21 +29,29 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;
-        if (dimension.getType().equals(DimensionType.Hyperspace) || dimension.getType().equals(DimensionType.Space)) {
+        if (dimension.getType().equals(DimensionType.Hyperspace) || dimension.getType().equals(DimensionType.Unknown)) {
             this.uPosX = this.dPosX;
             this.uPosZ = this.dPosZ;
         } else {
-            if (this.dimension.getSpawnX() > this.dPosX) this.uPosX = (this.dimension.getX() - (this.dimension.getSpawnX() - this.dPosX));
-            if (this.dimension.getSpawnX() < this.dPosX) this.uPosX = (this.dimension.getX() + (this.dPosX - this.dimension.getSpawnX()));
-            if (this.dimension.getSpawnZ() > this.dPosZ) this.uPosZ = (this.dimension.getZ() - (this.dimension.getSpawnZ() - this.dPosZ));
-            if (this.dimension.getSpawnZ() < this.dPosZ) this.uPosZ = (this.dimension.getZ() + (this.dPosZ - this.dimension.getSpawnZ()));
-            if (this.dPosX == this.dimension.getSpawnX()) this.uPosX = this.dimension.getSpawnX();
-            if (this.dPosZ == this.dimension.getSpawnZ()) this.uPosZ = this.dimension.getSpawnZ();
+            if (this.dimension.getType().equals(DimensionType.Planet)) {
+                uPosX = this.getDimension().getParent().getX();
+                uPosZ = this.getDimension().getParent().getZ();
+                if (this.getDimension().getParent().getSpawnX() > this.getDimension().getX()) uPosX -= (this.getDimension().getParent().getSpawnX() - this.getDimension().getX());
+                if (this.getDimension().getParent().getSpawnX() < this.getDimension().getX()) uPosZ += (this.getDimension().getX() - this.getDimension().getParent().getSpawnX());
+                if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
+                if (this.getDimension().getSpawnX() < this.getDPosX()) uPosZ += (this.getDPosX() - this.getDimension().getSpawnX());                
+            }
+            if (this.dimension.getType().equals(DimensionType.StarSystem)) {
+                uPosX = this.getDimension().getX();
+                uPosZ = this.getDimension().getZ();
+                if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
+                if (this.getDimension().getSpawnX() < this.getDPosX()) uPosZ += (this.getDPosX() - this.getDimension().getSpawnX());    
+            }            
         }
     }
-
+    
     public boolean isInSpace() {
-        return (this.dimension.getType().equals(DimensionType.Space));
+        return (this.dimension.getType().equals(DimensionType.StarSystem));
     }
     
     public RegisterableDimension getDimension() {

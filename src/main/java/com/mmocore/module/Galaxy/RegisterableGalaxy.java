@@ -56,7 +56,7 @@ public class RegisterableGalaxy extends AbstractRegisterable<RegisterableGalaxy,
     }
     
     public uPosition getPosition() {
-        return new uPosition(this.posX, 0, this.posZ, UniverseAPI.getSpace());
+        return new uPosition(this.posX, 0, this.posZ, UniverseAPI.getHyperSpace());
     }
 
     @Override

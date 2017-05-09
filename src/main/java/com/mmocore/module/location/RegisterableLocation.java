@@ -76,7 +76,7 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     public RegisterableLocation(String name, String description, uPosition position, int radiusXZ, int radiusY) {
         this.name = name;
         this.description = description;
-        this.position = position;
+        //this.position = position;
         this.radiusXZ = radiusXZ;
         this.radiusY = radiusY;
     }

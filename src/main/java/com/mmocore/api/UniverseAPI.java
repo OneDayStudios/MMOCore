@@ -21,7 +21,10 @@ import java.util.Collection;
 public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static RegisterableDimension getDimension(String name) {
-        return MMOCore.getDimensionRegistry().getRegistered(name);
+        for (RegisterableDimension d : getDimensionsReadOnly()) {
+            if (d.getName().equals(name)) return d;
+        }
+        return null;
     }
     
     public static Collection<RegisterableDimension> getDimensionsReadOnly() {
@@ -55,8 +58,8 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     public static RegisterableDimension getDimension(uPosition pos) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
-            if (dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.Space)) continue;
-            if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getBorder()) dimensions.add(dim);
+            if (dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
+            if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getBorderX()) dimensions.add(dim);
         }
         if (dimensions.isEmpty()) return null;
         return dimensions.get(0);
@@ -120,13 +123,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static RegisterableDimension getHyperSpace() {
-        if (UniverseAPI.getDimensions(DimensionType.Hyperspace).isEmpty()) return new RegisterableDimension("Hyperspace is not loaded", DimensionType.Hyperspace, 0, 0, 0, DimensionConditions.Hyperspace);
         return UniverseAPI.getDimensions(DimensionType.Hyperspace).get(0);
-    }
-    
-    public static RegisterableDimension getSpace() {
-        if (UniverseAPI.getDimensions(DimensionType.Space).isEmpty()) return new RegisterableDimension("Space is not loaded", DimensionType.Space, 0, 0, 0, DimensionConditions.Space);
-        return UniverseAPI.getDimensions(DimensionType.Space).get(0);
     }
     
     public static double distanceBetweenUPositions(uPosition pos1, uPosition pos2) {

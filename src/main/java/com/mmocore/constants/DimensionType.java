@@ -10,9 +10,8 @@ package com.mmocore.constants;
  * @author draks
  */
 public enum DimensionType {
-    Ship,
     Planet,
-    Space,
+    StarSystem,
     Hyperspace,
     Unknown
 }
