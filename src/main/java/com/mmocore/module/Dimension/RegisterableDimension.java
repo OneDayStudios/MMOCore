@@ -18,6 +18,7 @@ import com.mmocore.constants.FakeDimensionType;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Random;
 import net.minecraft.world.World;
 
 /**
@@ -36,7 +37,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private int posZ;
     private long lastTick;
     private RegisterableNpcFaction faction;
-    private final int dimensionId;
+    private int dimensionId;
     private int borderX;
     private int borderZ;
     private int parentId;
@@ -52,8 +53,12 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.borderX = borderX;
         this.borderZ = borderZ;
         this.posX = posX;
-        this.posZ = posZ;
-        this.dimensionId = 99999;
+        this.posZ = posZ;        
+        Random random = new Random();
+        this.dimensionId = random.nextInt(100000) + 5000;
+        while (MMOCore.getDimensionRegistry().getRegistered(dimensionId) != null) {
+            this.dimensionId = random.nextInt(100000) + 5000;
+        }
         this.conditions = conditions;
         this.parentId = parentId;
     }

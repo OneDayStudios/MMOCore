@@ -15,6 +15,7 @@ import cr0s.warpdrive.config.CelestialObjectManager;
 import cr0s.warpdrive.data.CelestialObject;
 import cr0s.warpdrive.data.CelestialObject.RenderData;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 /**
  *

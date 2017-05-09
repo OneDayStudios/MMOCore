@@ -7,6 +7,7 @@ package com.mmocore.api;
 
 import com.mmocore.constants.uPosition;
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.constants.DimensionConditions;
@@ -147,6 +148,8 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static double distanceBetweenUPositions(uPosition pos1, uPosition pos2) {
+        ForgeAPI.sendConsoleEntry("Calculating distance between : " + pos1.getDPosX() + ", " + 100 +", " + pos1.getDPosX() + " in dim: " + pos1.getDimension().getName() + " and " + pos2.getDPosX() + "," + pos2.getDPosZ() + " in dim : " + pos2.getDimension().getDisplayName() + " as " + ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ()), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Calculating distance between : " + pos1.getUPosX() + ", " + pos1.getUPosZ() + " in dim: " + pos1.getDimension().getName() + " and " + pos2.getUPosX() + "," + pos2.getUPosZ() + " in dim : " + pos2.getDimension().getDisplayName() + " as " + ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ()), ConsoleMessageType.FINE);
         return ForgeAPI.distance(pos1.getUPosX(), 100, pos1.getUPosZ(),pos2.getUPosX(), 100, pos2.getUPosZ());
     }
 }
