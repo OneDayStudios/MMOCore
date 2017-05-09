@@ -6,6 +6,7 @@
 package com.mmocore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
 import com.mmocore.module.Galaxy.GalaxyRegistry;
@@ -17,6 +18,7 @@ import com.mmocore.module.Player.PlayerRegistry;
 import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
@@ -158,6 +160,7 @@ public class MMOCore {
        MMOCore.getNpcRegistry().initialise();
        RegisterableGalaxy milkyWay = new RegisterableGalaxy("MilkyWay", 500000, 0,0);
        MMOCore.getGalaxyRegistry().register(milkyWay);
+       if (ForgeAPI.isModLoaded(IntegratedMod.WarpDrive)) WarpDriveAPI.onServerStarted();
    }
 
    public static MMOCore getInstance() {

@@ -9,6 +9,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.api.PlayerAPI;
+import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
@@ -90,7 +91,6 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     @Override
     public void tick() {
         processNewPlayers();
-        // Get all players in area.
         // If players in area need quest credit, grant it.
         // If players in area need to be given a quest, give it.
         // If npcs need to be spawned, spawn them.        
@@ -99,6 +99,13 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
         processOldPlayers();
     }
 
+//    private void givePlayersQuestsIfNeeded() {
+//        for (RegisterablePlayer p : getPlayersInLocationReadOnly().keySet()) {
+//            for (RegisterableQuest q : this.questsToGive) {
+//                if (QuestAPI.playerCanObtain(p.getIdentifier(), q));
+//            }
+//        }
+//    }
     private void processNewPlayers() {
         for (RegisterablePlayer p : getPlayersInArea()) {
             if (!isInArea(p)) playersInLocation.put(p, System.currentTimeMillis());
