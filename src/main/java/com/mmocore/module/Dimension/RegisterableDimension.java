@@ -14,15 +14,11 @@ import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
-import com.mmocore.constants.IntegratedMod;
+import com.mmocore.constants.FakeDimensionType;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cr0s.warpdrive.config.CelestialObjectManager;
-import cr0s.warpdrive.data.CelestialObject;
 import net.minecraft.world.World;
-import noppes.npcs.controllers.Faction;
-import noppes.npcs.controllers.FactionController;
 
 /**
  *
@@ -45,6 +41,22 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private int borderZ;
     private int parentId;
     private String displayName;
+    private boolean isFake = false;
+    private FakeDimensionType fakeType;
+    
+    public RegisterableDimension(String name, FakeDimensionType type, int borderX, int borderZ, int posX, int posZ, DimensionConditions conditions, int parentId) {
+        this.isFake = true;
+        this.name = name;
+        this.displayName = name;
+        this.fakeType = type;
+        this.borderX = borderX;
+        this.borderZ = borderZ;
+        this.posX = posX;
+        this.posZ = posZ;
+        this.dimensionId = 99999;
+        this.conditions = conditions;
+        this.parentId = parentId;
+    }
     
     public RegisterableDimension(String displayName, String name, DimensionType type, boolean hasAtmosphere, int borderX, int borderZ, int posX, int posZ, int spawnX, int spawnZ, DimensionConditions conditions, int dimensionId, int parentId) {
         this.type = type;      
@@ -68,7 +80,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
             }
         }
         if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration (Configured X: " + spawnX + ", actual: " + this.getSpawnX() + ", Configured Z: " + spawnZ + ", actual: " + this.getSpawnZ() + ")!", ConsoleMessageType.WARNING);
-
     }
     
     @Override
@@ -128,6 +139,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     public long getLastTick() {
         return this.lastTick;
     }
+    
     @Override
     public Integer getIdentifier() {
         return this.dimensionId;
@@ -135,6 +147,14 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     
     public DimensionType getType() {
         return this.type;
+    }
+    
+    public FakeDimensionType getFakeType() {
+        return this.fakeType;
+    }
+    
+    public boolean isFake() {
+        return this.isFake;
     }
     
     public int getX() {
@@ -150,18 +170,22 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
     public int getSpawnY() {
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnY();
     }
     
     public int getForgeId() {
+        if (isFake) return dimensionId;
         return getRegisteredObject().provider.dimensionId;
     }
     
     public int getSpawnZ() {
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
@@ -178,6 +202,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public double getGravity() {
+        if (isFake) return 0;
         return WarpDriveAPI.getGravity(this.dimensionId);
     }
     
@@ -202,7 +227,8 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getName() + "...", ConsoleMessageType.FINE);   
         ForgeAPI.sendConsoleEntry("DisplayName: " + this.getDisplayName()+ "...", ConsoleMessageType.FINE);  
         ForgeAPI.sendConsoleEntry("Conditions: " + this.getConditions(), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("Type: " + this.getType(), ConsoleMessageType.FINE);
+        if (!isFake()) ForgeAPI.sendConsoleEntry("Type: " + this.getType(), ConsoleMessageType.FINE);
+        if (isFake()) ForgeAPI.sendConsoleEntry("FakeType: " + this.getFakeType(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosX: " + this.getX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosZ: " + this.getZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("BorderX: " + this.getBorderX(), ConsoleMessageType.FINE);
@@ -210,6 +236,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         ForgeAPI.sendConsoleEntry("SpawnX: " + this.getSpawnX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("SpawnZ: " + this.getSpawnZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("Parent: " + this.getParentId(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("IsFake: " + this.isFake(), ConsoleMessageType.FINE);
     }
 
     @Override

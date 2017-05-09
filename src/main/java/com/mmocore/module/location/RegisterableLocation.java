@@ -6,12 +6,15 @@
 package com.mmocore.module.location;
 
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.GuiAPI;
 import com.mmocore.api.NpcFactionAPI;
+import com.mmocore.api.PlayerAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.constants.GuiSlot;
 import com.mmocore.module.Gui.RegisterableGui;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
@@ -34,8 +37,9 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     
     private String name;
     private String description;
-    private HashMap<uPosition, HashMap<Integer, Integer>> positions = new HashMap<uPosition, HashMap<Integer, Integer>>();
-    private int radiusXZ = 0;
+    private uPosition position;
+    private int radiusX = 0;
+    private int radiusZ = 0;
     private int radiusY = 0;
     // Quest required to enter the location.
     private ArrayList<RegisterableQuest> questsRequiredToEnter = new ArrayList<RegisterableQuest>();
@@ -59,8 +63,9 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     public RegisterableLocation(RegisterableLocation location) { 
         this.name = location.name;
         this.description = location.description;
-        this.radiusXZ = location.radiusXZ;
+        this.radiusX = location.radiusX;
         this.radiusY = location.radiusY;
+        this.radiusZ = location.radiusZ;
         this.denyEntryMessage = location.denyEntryMessage;
         this.denyExitMessage = location.denyExitMessage;
         this.entryMessage = location.entryMessage;
@@ -73,24 +78,49 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
         this.preventPlayersLeaving = location.preventPlayersLeaving;
     }
     
-    public RegisterableLocation(String name, String description, uPosition position, int radiusXZ, int radiusY) {
+    public RegisterableLocation(String name, String description, uPosition position, int radiusX, int radiusY, int radiusZ) {
         this.name = name;
         this.description = description;
-        //this.position = position;
-        this.radiusXZ = radiusXZ;
+        this.position = position;
+        this.radiusX = radiusX;
         this.radiusY = radiusY;
+        this.radiusZ = radiusZ;
     }
 
     @Override
     public void tick() {
+        processNewPlayers();
         // Get all players in area.
         // If players in area need quest credit, grant it.
         // If players in area need to be given a quest, give it.
         // If npcs need to be spawned, spawn them.        
         // For players not registered, display entry message or deny entry message depending, and register them if they are let in.
         // For players currently registered but not in the location, display the exit message and deregister them or display the deny exit message and teleport them back.
+        processOldPlayers();
     }
 
+    private void processNewPlayers() {
+        for (RegisterablePlayer p : getPlayersInArea()) {
+            if (!isInArea(p)) playersInLocation.put(p, System.currentTimeMillis());
+        }
+    }
+    private void processOldPlayers() {
+        for (RegisterablePlayer p : getPlayersInLocationReadOnly().keySet()) {
+            if (!isInArea(p)) playersInLocation.remove(p);
+        }
+    }
+    public boolean isInArea(RegisterablePlayer p) {
+        return playersInLocation.get(p) != null;
+    }
+    
+    public HashMap<RegisterablePlayer, Long> getPlayersInLocationReadOnly() {
+        return new HashMap<RegisterablePlayer, Long>(playersInLocation);
+    }
+    
+    public ArrayList<RegisterablePlayer> getPlayersInArea() {
+        return PlayerAPI.getInArea(this.position.getDPosX() - radiusX, this.position.getDPosY() - radiusY, this.position.getDPosZ() - radiusZ, this.position.getDPosX() + radiusX, this.position.getDPosY() + radiusY, this.position.getDPosZ() + radiusZ, this.position.getDimension());
+    }
+    
     @Override
     public String getIdentifier() {
         return this.name;

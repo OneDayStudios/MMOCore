@@ -5,12 +5,17 @@
  */
 package com.mmocore.api;
 
+import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.constants.FakeDimensionType;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import cr0s.warpdrive.config.CelestialObjectManager;
 import cr0s.warpdrive.data.CelestialObject;
 import cr0s.warpdrive.data.CelestialObject.RenderData;
 import java.util.HashMap;
+import java.util.Set;
 /**
  *
  * @author draks
@@ -24,13 +29,11 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     private static CelestialObject getUniverse() {
         for (String s : getReadOnly().keySet()) {
             for (CelestialObject o : getReadOnly().get(s).values()) {
-                if (o.isVirtual) continue;
                 if (o.dimensionId == o.parentDimensionId) return o;
             }
         }
         return null;
     }
-    
     
     private static HashMap<String, HashMap<String, CelestialObject>> getReadOnly() {
         HashMap<String, HashMap<String, CelestialObject>> cachedCopy = CelestialObjectManager.getCelestialObjectsReadOnly();
@@ -124,16 +127,18 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     public static DimensionType getType(int dimensionId) {
         if (!isMapped(dimensionId)) return DimensionType.Unknown;
         if (isPlanet(dimensionId)) return DimensionType.Planet;
-        if (isSolarSystem(dimensionId)) return DimensionType.StarSystem;
         if (isHyperspace(dimensionId)) return DimensionType.Hyperspace;
+        if (isSolarSystem(dimensionId)) return DimensionType.StarSystem;
         return DimensionType.Unknown;
     }
     
-    public static DimensionConditions getConditions(int dimensionId) {
-        if (!isMapped(dimensionId)) return DimensionConditions.Unknown;
-        if (isHyperspace(dimensionId)) return DimensionConditions.Hyperspace;
-        if (isSolarSystem(dimensionId)) return DimensionConditions.Space;
-        for (RenderData data : getForDimId(dimensionId).setRenderData) {
+    public static FakeDimensionType getFakeType(Set<RenderData> dataSet) {
+        if (!getConditionsForRenderData(dataSet).equals(DimensionConditions.Unknown)) return FakeDimensionType.Planet;
+        return FakeDimensionType.Celestial_Body;
+    }
+    
+    public static DimensionConditions getConditionsForRenderData(Set<RenderData> dataSet) {
+        for (RenderData data : dataSet) {
             if (data.texture == null || data.texture.isEmpty()) continue;
             if (data.texture.equals("warpdrive:textures/celestial/planet_magma.png")) return DimensionConditions.Unstable;
             if (data.texture.equals("warpdrive:textures/celestial/planet_icy.png")) return DimensionConditions.Frozen;
@@ -142,6 +147,27 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
             if (data.texture.equals("minecraft:textures/blocks/water_flow.png")) return DimensionConditions.Flooded;
         }
         return DimensionConditions.Unknown;
+    }
+    
+    public static DimensionConditions getConditions(int dimensionId) {
+        if (!isMapped(dimensionId)) return DimensionConditions.Unknown;
+        if (isHyperspace(dimensionId)) return DimensionConditions.Hyperspace;
+        if (isSolarSystem(dimensionId)) return DimensionConditions.Space;
+        return getConditionsForRenderData(getForDimId(dimensionId).setRenderData);
+    }
+    
+    public static void onServerStarted() {
+        for (String s : getReadOnly().keySet()) {
+            for (CelestialObject o : getReadOnly().get(s).values()) {
+                if (!o.isVirtual && ForgeAPI.getForgeWorld(o.dimensionId) == null) {
+                    ForgeAPI.sendConsoleEntry("Error, WarpDrive dimension ID:" + o.dimensionId + " (" + o.name + ") is not mapped to a real dimension! It will not be visitable as a result!", ConsoleMessageType.FINE);
+                }
+                if (o.isVirtual) {
+                    RegisterableDimension dim = new RegisterableDimension(o.name, WarpDriveAPI.getFakeType(o.setRenderData), o.borderRadiusX, o.borderRadiusZ, o.parentCenterX, o.parentCenterZ, WarpDriveAPI.getConditionsForRenderData(o.setRenderData), o.parentDimensionId);
+                    MMOCore.getDimensionRegistry().register(dim);
+                }
+            }
+        }
     }
     
     public static boolean isHyperspace(int dimensionId) {
