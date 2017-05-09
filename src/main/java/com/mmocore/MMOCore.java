@@ -160,7 +160,7 @@ public class MMOCore {
        MMOCore.getNpcRegistry().initialise();
        RegisterableGalaxy milkyWay = new RegisterableGalaxy("MilkyWay", 500000, 0,0);
        MMOCore.getGalaxyRegistry().register(milkyWay);
-       if (ForgeAPI.isModLoaded(IntegratedMod.WarpDrive)) WarpDriveAPI.onServerStarted();
+       WarpDriveAPI.onServerStarted();
    }
 
    public static MMOCore getInstance() {

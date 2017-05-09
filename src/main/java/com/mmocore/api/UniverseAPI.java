@@ -58,7 +58,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     public static RegisterableDimension getDimension(uPosition pos) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
-            if (dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
+            if (dim.isFake() || dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
             if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getBorderX()) dimensions.add(dim);
         }
         if (dimensions.isEmpty()) return null;
@@ -66,7 +66,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
     
     public static boolean isInInterstellarSpace(uPosition pos) {
-        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getDimension(pos) == null && !UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
+        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getSystem(pos) == null && !UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
         return false;
     }
     public static boolean isOnDimension(uPosition pos) {
@@ -74,7 +74,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return false;
     }
     public static boolean isInOrbitOf(uPosition pos) {
-        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getDimension(pos) != null) return true;
+        if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getCelestialBody(pos) != null) return true;
         return false;
     }
     public static boolean isInVoidSpace(uPosition pos) {
@@ -95,17 +95,17 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (isOnDimension(pos)) location = pos.getDimension().getDisplayName();
         if (isInVoidSpace(pos)) location = "Void Space";
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
-        if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getDimension(pos).getDisplayName();
+        if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getCelestialBody(pos).getDisplayName();
         if (location == null) location = "Unknown location!";
         return (location);
     }
     
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
-        if (conditions == null && isOnDimension(pos)) conditions = pos.getDimension().getConditions().name();
+        if (conditions == null && isOnDimension(pos)) conditions = pos.getCelestialBody().getConditions().name();
         if (conditions == null && isInVoidSpace(pos)) conditions = "None";
         if (conditions == null && isInInterstellarSpace(pos)) conditions = "None";
-        if (conditions == null && isInOrbitOf(pos)) conditions = pos.getDimension().getConditions().name();
+        if (conditions == null && isInOrbitOf(pos)) conditions = pos.getCelestialBody().getConditions().name();
         if (conditions == null) conditions = "Unknown conditions!";
         return conditions;
     }
@@ -116,6 +116,26 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         }
         if (galaxies.isEmpty()) return new RegisterableGalaxy("Galactic Void", 0, 0, 0);
         return galaxies.get(0);
+    }
+    
+    public static RegisterableDimension getSystem(uPosition pos) {
+        ArrayList<RegisterableDimension> systems = new ArrayList<RegisterableDimension>();
+        for (RegisterableDimension system : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
+            if (system.isFake() || !system.getType().equals(DimensionType.StarSystem)) continue;
+            if (distanceBetweenUPositions(system.getPosition(), pos) < system.getBorderX()) systems.add(system);
+        }
+        if (systems.isEmpty()) return null;
+        return systems.get(0);
+    }
+    
+    public static RegisterableDimension getCelestialBody(uPosition pos) {
+        ArrayList<RegisterableDimension> bodies = new ArrayList<RegisterableDimension>();
+        for (RegisterableDimension body : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
+            if (!body.isFake() && !body.getType().equals(DimensionType.Planet)) continue;
+            if (distanceBetweenUPositions(body.getPosition(), pos) < body.getBorderX()) bodies.add(body);
+        }
+        if (bodies.isEmpty()) return null;
+        return bodies.get(0);
     }
     
     public static RegisterableGalaxy getGalaxy(RegisterableDimension dimension) {

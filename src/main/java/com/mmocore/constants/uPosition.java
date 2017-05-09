@@ -54,6 +54,14 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         return (this.dimension.getType().equals(DimensionType.StarSystem));
     }
     
+    public RegisterableDimension getCelestialBody() {
+        return UniverseAPI.getCelestialBody(this);
+    }
+    
+    public RegisterableDimension getSystem() {
+        return UniverseAPI.getSystem(this);
+    }
+    
     public RegisterableDimension getDimension() {
         return this.dimension;
     }
