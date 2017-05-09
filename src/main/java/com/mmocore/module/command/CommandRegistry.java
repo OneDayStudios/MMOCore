@@ -6,6 +6,7 @@
 package com.mmocore.module.command;
 
 import com.mmocore.module.AbstractRegistry;
+import com.mmocore.module.command.commands.UniversalPosition;
 
 /**
  *
@@ -15,7 +16,7 @@ public class CommandRegistry extends AbstractRegistry<CommandRegistry, String, R
 
     @Override
     public void initialise() {
-        //this.register(new DimensionSet("dimensionset", "Configures a dimension within the StargateMC Universe"));
+        this.register(new UniversalPosition("position", "Provides universal positioning information"));
     }
 
     @Override
