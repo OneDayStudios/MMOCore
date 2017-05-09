@@ -52,13 +52,13 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     public static int getBorderX(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).borderRadiusX;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).borderRadiusX == 0) return 0;
+        return getForDimId(dimensionId).borderRadiusX / 2;
     }
     
     public static int getBorderZ(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).borderRadiusZ;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).borderRadiusZ == 0) return 0;
+        return getForDimId(dimensionId).borderRadiusZ / 2;
     }
     
     public static boolean hasBreathableAtmosphere(int dimensionId) {
@@ -82,24 +82,24 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     public static int getPosInParentX(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).parentCenterX;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterX == 0) return 0;
+        return getForDimId(dimensionId).parentCenterX / 2;
     }
     
     public static int getPosInParentZ(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).parentCenterZ;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterZ == 0) return 0;
+        return getForDimId(dimensionId).parentCenterZ / 2;
     }
     
     
     public static int getSpawnX(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).dimensionCenterX;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterX == 0) return 0;
+        return getForDimId(dimensionId).dimensionCenterX / 2;
     }
     
     public static int getSpawnZ(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
-        return getForDimId(dimensionId).dimensionCenterZ;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterZ == 0) return 0;
+        return getForDimId(dimensionId).dimensionCenterZ / 2;
     }
     
     public static boolean isMapped(int dimensionId) {
