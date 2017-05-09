@@ -71,7 +71,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return false;
     }
     public static boolean isOnDimension(uPosition pos) {
-        if (!pos.isInHyperSpace() && !pos.isInSpace() && UniverseAPI.getDimension(pos) != null) return true;
+        if (!pos.isInHyperSpace() && !pos.isInSpace() && UniverseAPI.getCelestialBody(pos) != null && pos.getDimension().equals(pos.getCelestialBody())) return true;
         return false;
     }
     public static boolean isInOrbitOf(uPosition pos) {
@@ -96,16 +96,18 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (isOnDimension(pos)) location = pos.getDimension().getDisplayName();
         if (isInVoidSpace(pos)) location = "Void Space";
         if (isInInterstellarSpace(pos)) location = "Interstellar Space";
+        if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getCelestialBody().getDisplayName();
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getCelestialBody(pos).getDisplayName();
+        if (pos.isInHyperSpace()) location = "Hyperspace (" + location + ")";
         if (location == null) location = "Unknown location!";
         return (location);
     }
     
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
-        if (conditions == null && isOnDimension(pos)) conditions = pos.getCelestialBody().getConditions().name();
-        if (conditions == null && isInVoidSpace(pos)) conditions = "None";
-        if (conditions == null && isInInterstellarSpace(pos)) conditions = "None";
+        if (conditions == null && isOnDimension(pos)) conditions = pos.getDimension().getConditions().name();
+        if (conditions == null && isInVoidSpace(pos)) conditions = "Space";
+        if (conditions == null && isInInterstellarSpace(pos)) conditions = "Space";
         if (conditions == null && isInOrbitOf(pos)) conditions = pos.getCelestialBody().getConditions().name();
         if (conditions == null) conditions = "Unknown conditions!";
         return conditions;
