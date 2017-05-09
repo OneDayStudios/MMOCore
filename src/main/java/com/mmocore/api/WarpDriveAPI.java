@@ -134,7 +134,7 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
         if (isHyperspace(dimensionId)) return DimensionConditions.Hyperspace;
         if (isSolarSystem(dimensionId)) return DimensionConditions.Space;
         for (RenderData data : getForDimId(dimensionId).setRenderData) {
-            if (data.texture.isEmpty()) continue;
+            if (data.texture == null || data.texture.isEmpty()) continue;
             if (data.texture.equals("warpdrive:textures/celestial/planet_magma.png")) return DimensionConditions.Unstable;
             if (data.texture.equals("warpdrive:textures/celestial/planet_icy.png")) return DimensionConditions.Frozen;
             if (data.texture.equals("warpdrive:textures/celestial/planet_temperate.png") || data.texture.equals("warpdrive:textures/celestial/planet_oceanic.png")) return DimensionConditions.Optimal;
