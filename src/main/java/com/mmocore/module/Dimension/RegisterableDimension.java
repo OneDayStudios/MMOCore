@@ -111,6 +111,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         int difference = 0;
         if (isSubtracting) difference = Math.abs(this.getSpawnX() - x);
         if (!isSubtracting) difference = Math.abs(x - this.getSpawnX());
+        ForgeAPI.sendConsoleEntry("Found spawnX: " + this.getSpawnX() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + x, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getX() - difference);
         return (this.getX() + difference);
     }
@@ -122,6 +123,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         int difference = 0;
         if (isSubtracting) difference = Math.abs(this.getSpawnZ() - z);
         if (!isSubtracting) difference = Math.abs(z - this.getSpawnZ());
+        ForgeAPI.sendConsoleEntry("Found spawnX: " + this.getSpawnZ() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + z, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getZ() - difference);
         return (this.getZ() + difference);
     }
