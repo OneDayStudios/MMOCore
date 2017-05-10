@@ -8,10 +8,10 @@ package com.mmocore.api;
 import com.mmocore.constants.uPosition;
 import com.mmocore.MMOCore;
 import com.mmocore.constants.ConsoleMessageType;
-import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -65,12 +65,15 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         if (dimensions.isEmpty()) return null;
         return dimensions.get(0);
     }
-    
+    public static boolean isInStellarSpace(uPosition pos) {
+        if ((pos.isInSpace()) && UniverseAPI.getSystem(pos) != null && !UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
+        return false;
+    }
     public static boolean isInInterstellarSpace(uPosition pos) {
         if ((pos.isInHyperSpace() || pos.isInSpace()) && UniverseAPI.getSystem(pos) == null && !UniverseAPI.getGalaxy(pos).getIdentifier().equals("Galactic Void")) return true;
         return false;
     }
-    public static boolean isOnDimension(uPosition pos) {
+    public static boolean isOnPlanet(uPosition pos) {
         if (!pos.isInHyperSpace() && !pos.isInSpace() && UniverseAPI.getCelestialBody(pos) != null && pos.getDimension().equals(pos.getCelestialBody())) return true;
         return false;
     }
@@ -93,10 +96,9 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static String getLocationMessage(uPosition pos) {
         String location = null;
-        if (isOnDimension(pos)) location = pos.getDimension().getDisplayName();
+        if (isOnPlanet(pos)) location = pos.getDimension().getDisplayName();
         if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getSystem().getDisplayName();
-        if (isInVoidSpace(pos)) location = "Void Space";
-        if (isInInterstellarSpace(pos)) location = "Interstellar Space";
+        if (location == null && isInStellarSpace(pos)) location = "Space";
         if (isInOrbitOf(pos)) location = "Orbit of " + UniverseAPI.getCelestialBody(pos).getDisplayName();
         if (pos.isInHyperSpace()) location = "Hyperspace (" + location + ")";
         if (location == null) location = "Unknown location!";
@@ -105,13 +107,13 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
-        if (conditions == null && isOnDimension(pos)) conditions = pos.getDimension().getConditions().name();
-        if (conditions == null && isInVoidSpace(pos)) conditions = "Space";
-        if (conditions == null && isInInterstellarSpace(pos)) conditions = "Space";
+        if (conditions == null && isOnPlanet(pos)) conditions = pos.getDimension().getConditions().name();
+        if (conditions == null && isInStellarSpace(pos)) conditions = "Space";
         if (conditions == null && isInOrbitOf(pos)) conditions = pos.getCelestialBody().getConditions().name();
         if (conditions == null) conditions = "Unknown conditions!";
         return conditions;
     }
+    
     public static RegisterableGalaxy getGalaxy(uPosition pos) {
         ArrayList<RegisterableGalaxy> galaxies = new ArrayList<RegisterableGalaxy>();
         for (RegisterableGalaxy gal : MMOCore.getGalaxyRegistry().getRegisteredReadOnly().values()) {
@@ -125,7 +127,12 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         ArrayList<RegisterableDimension> systems = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension system : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (system.isFake() || !system.getType().equals(DimensionType.StarSystem)) continue;
-            if (distanceBetweenUPositions(system.getPosition(), pos) < system.getBorderX()) systems.add(system);
+            if (distanceBetweenUPositions(system.getPosition(), pos) < system.getBorderX()) {
+                ForgeAPI.sendConsoleEntry("Selecting: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is within border of: " + system.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+                systems.add(system);
+            } else {
+                ForgeAPI.sendConsoleEntry("Disregarding: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is NOT within border of: " + system.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+            }
         }
         if (systems.isEmpty()) return null;
         return systems.get(0);
@@ -135,7 +142,12 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         ArrayList<RegisterableDimension> bodies = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension body : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (!body.isFake() && !body.getType().equals(DimensionType.Planet)) continue;
-            if (distanceBetweenUPositions(body.getPosition(), pos) < body.getBorderX()) bodies.add(body);
+            if (distanceBetweenUPositions(body.getPosition(), pos) < body.getBorderX()) {
+                ForgeAPI.sendConsoleEntry("Selecting: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is within border of: " + body.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+                bodies.add(body);
+            } else {
+                ForgeAPI.sendConsoleEntry("Disregarding: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is NOT within border of: " + body.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+            }
         }
         if (bodies.isEmpty()) return null;
         return bodies.get(0);
