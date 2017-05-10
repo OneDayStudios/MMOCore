@@ -29,34 +29,16 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;
-        if (this.dimension.isFake()) {
-            this.uPosX = this.getDimension().getParent().getX();
-            this.uPosZ = this.getDimension().getParent().getZ();
+        if (this.getDimension().isFake() || this.getDimension().getType().equals(DimensionType.Planet)) {
+            this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent((int)dPosX));
+            this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent((int)dPosZ));
         } else {
-            if (dimension.getType().equals(DimensionType.Hyperspace) || dimension.getType().equals(DimensionType.Unknown)) {
+            if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
+                this.uPosX = this.getDimension().getPosXInParent((int)dPosX);
+                this.uPosZ = this.getDimension().getPosZInParent((int)dPosZ);
+            } else {
                 this.uPosX = this.dPosX;
                 this.uPosZ = this.dPosZ;
-            } else {
-                if (this.dimension.getType().equals(DimensionType.Planet)) {
-                    uPosX = this.getDimension().getParent().getX();
-                    uPosZ = this.getDimension().getParent().getZ();
-                    if (this.getDimension().getParent().getSpawnX() > this.getDimension().getX()) uPosX -= (this.getDimension().getParent().getSpawnX() - this.getDimension().getX());
-                    if (this.getDimension().getParent().getSpawnX() < this.getDimension().getX()) uPosX += (this.getDimension().getX() - this.getDimension().getParent().getSpawnX());
-                    if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
-                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosX += (this.getDPosX() - this.getDimension().getSpawnX());                
-                    if (this.getDimension().getParent().getSpawnZ() > this.getDimension().getZ()) uPosZ -= (this.getDimension().getParent().getSpawnZ() - this.getDimension().getZ());
-                    if (this.getDimension().getParent().getSpawnZ() < this.getDimension().getZ()) uPosZ += (this.getDimension().getZ() - this.getDimension().getParent().getSpawnZ());
-                    if (this.getDimension().getSpawnZ() > this.getDPosZ()) uPosZ -= (this.getDimension().getSpawnZ() - this.getDPosZ());
-                    if (this.getDimension().getSpawnZ() < this.getDPosZ()) uPosZ += (this.getDPosZ() - this.getDimension().getSpawnZ());   
-                }
-                if (this.dimension.getType().equals(DimensionType.StarSystem)) {
-                    uPosX = this.getDimension().getX();
-                    uPosZ = this.getDimension().getZ();
-                    if (this.getDimension().getSpawnX() > this.getDPosX()) uPosX -= (this.getDimension().getSpawnX() - this.getDPosX());
-                    if (this.getDimension().getSpawnX() < this.getDPosX()) uPosX += (this.getDPosX() - this.getDimension().getSpawnX());    
-                    if (this.getDimension().getSpawnZ() > this.getDPosZ()) uPosZ -= (this.getDimension().getSpawnZ() - this.getDPosZ());
-                    if (this.getDimension().getSpawnZ() < this.getDPosZ()) uPosZ += (this.getDPosZ() - this.getDimension().getSpawnZ());    
-                }            
             }
         }
     }

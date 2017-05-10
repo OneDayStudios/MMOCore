@@ -103,7 +103,29 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private boolean isParentLoaded() {
         return MMOCore.getDimensionRegistry().getRegistered(parentId) != null;
     }
-
+    
+    public int getPosXInParent(int x) {        
+        if (this == this.getParent()) return x;
+        if (this.getSpawnX() == x) return this.getX();
+        boolean isSubtracting = (this.getSpawnX() > x);
+        int difference = 0;
+        if (isSubtracting) difference = Math.abs(this.getSpawnX() - x);
+        if (!isSubtracting) difference = Math.abs(x - this.getSpawnX());
+        if (isSubtracting) return (this.getX() - difference);
+        return (this.getX() + difference);
+    }
+    
+    public int getPosZInParent(int z) {        
+        if (this == this.getParent()) return z;
+        if (this.getSpawnZ() == z) return this.getZ();
+        boolean isSubtracting = (this.getSpawnZ() > z);
+        int difference = 0;
+        if (isSubtracting) difference = Math.abs(this.getSpawnZ() - z);
+        if (!isSubtracting) difference = Math.abs(z - this.getSpawnZ());
+        if (isSubtracting) return (this.getZ() - difference);
+        return (this.getZ() + difference);
+    }
+    
     public RegisterableDimension getParent() {
         if (!this.isParentLoaded()) return null;
         return MMOCore.getDimensionRegistry().getRegistered(getParentId());
