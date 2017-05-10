@@ -88,18 +88,18 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static int getPosInParentZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterZ == 0) return 0;
-        return getForDimId(dimensionId).parentCenterZ / 2;
+        return getForDimId(dimensionId).parentCenterZ;
     }
     
     
     public static int getSpawnX(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterX == 0) return 0;
-        return getForDimId(dimensionId).dimensionCenterX / 2;
+        return getForDimId(dimensionId).dimensionCenterX;
     }
     
     public static int getSpawnZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterZ == 0) return 0;
-        return getForDimId(dimensionId).dimensionCenterZ / 2;
+        return getForDimId(dimensionId).dimensionCenterZ;
     }
     
     public static boolean isMapped(int dimensionId) {
