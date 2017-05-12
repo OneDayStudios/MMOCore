@@ -109,21 +109,28 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         if (this.getSpawnX() == x) return this.getX();
         boolean isSubtracting = (this.getSpawnX() > x);
         int difference = 0;
-        if (isSubtracting) difference = Math.abs(this.getSpawnX() - x);
-        if (!isSubtracting) difference = Math.abs(x - this.getSpawnX());
+        int spawnX = (this.getSpawnX() < 0 ? this.getSpawnX() * -1 : this.getSpawnX());
+        int absX = (x < 0 ? x * -1 : x);        
+        if (isSubtracting) difference = (spawnX - absX);
+        if (!isSubtracting) difference = (absX - spawnX);
         ForgeAPI.sendConsoleEntry("Found spawnX: " + this.getSpawnX() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + x, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getX() - difference);
         return (this.getX() + difference);
     }
     
+    // .getZ() returns the coord in the parent dimension for this dimension.
+    // .getSpawnZ() returns the centre of this dimension.
+    // Goal is to find the equivalent position on the Z axis for the parent dimension, by saying .getZ() == .getSpawnZ() and figuring out the distance between that and Z.
     public int getPosZInParent(int z) {        
         if (this == this.getParent()) return z;
         if (this.getSpawnZ() == z) return this.getZ();
         boolean isSubtracting = (this.getSpawnZ() > z);
         int difference = 0;
-        if (isSubtracting) difference = Math.abs(this.getSpawnZ() - z);
-        if (!isSubtracting) difference = Math.abs(z - this.getSpawnZ());
-        ForgeAPI.sendConsoleEntry("Found spawnX: " + this.getSpawnZ() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + z, ConsoleMessageType.FINE);
+        int spawnZ = (this.getSpawnZ() < 0 ? this.getSpawnZ() * -1 : this.getSpawnZ());
+        int absZ = (z < 0 ? z * -1 : z);        
+        if (isSubtracting) difference = (spawnZ - absZ);
+        if (!isSubtracting) difference = (absZ - spawnZ);
+        ForgeAPI.sendConsoleEntry("Found spawnZ: " + this.getSpawnZ() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + z, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getZ() - difference);
         return (this.getZ() + difference);
     }
@@ -146,11 +153,11 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public long getRadiusBorderZ() {
-        return this.borderZ /2;
+        return this.borderZ;
     }
     
     public long getRadiusBorderX() {
-        return this.borderX /2;
+        return this.borderX;
     }
     
     public void setPosX(int posX) {
