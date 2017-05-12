@@ -86,13 +86,13 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     public static int getPosInParentX(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterX == 0) return 0;
         ForgeAPI.sendConsoleEntry("Found PosinParentX: " + getForDimId(dimensionId).parentCenterX + " for dim: " + getForDimId(dimensionId).name, ConsoleMessageType.FINE);
-        return getForDimId(dimensionId).parentCenterX /2;
+        return getForDimId(dimensionId).parentCenterX;
     }
     
     public static int getPosInParentZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterZ == 0) return 0;
         ForgeAPI.sendConsoleEntry("Found PosinParentZ: " + getForDimId(dimensionId).parentCenterZ + " for dim: " + getForDimId(dimensionId).name, ConsoleMessageType.FINE);
-        return getForDimId(dimensionId).parentCenterZ /2;
+        return getForDimId(dimensionId).parentCenterZ;
     }
     
     

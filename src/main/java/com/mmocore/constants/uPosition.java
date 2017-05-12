@@ -41,6 +41,8 @@ public class uPosition extends AbstractObjectCore<uPosition> {
                 this.uPosZ = this.dPosZ;
             }
         }
+        if (this.uPosX != 0) this.uPosX = this.uPosX /2;
+        if (this.uPosZ != 0) this.uPosZ = this.uPosZ /2;
     }
     
     public boolean isInSpace() {
