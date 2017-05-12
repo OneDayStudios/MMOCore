@@ -53,12 +53,12 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static int getBorderX(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).borderRadiusX == 0) return 0;
-        return getForDimId(dimensionId).borderRadiusX / 2;
+        return getForDimId(dimensionId).borderRadiusX;
     }
     
     public static int getBorderZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).borderRadiusZ == 0) return 0;
-        return getForDimId(dimensionId).borderRadiusZ / 2;
+        return getForDimId(dimensionId).borderRadiusZ;
     }
     
     public static boolean hasBreathableAtmosphere(int dimensionId) {
@@ -83,23 +83,23 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static int getPosInParentX(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterX == 0) return 0;
-        return getForDimId(dimensionId).parentCenterX /2;
+        return getForDimId(dimensionId).parentCenterX;
     }
     
     public static int getPosInParentZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).parentCenterZ == 0) return 0;
-        return getForDimId(dimensionId).parentCenterZ /2;
+        return getForDimId(dimensionId).parentCenterZ;
     }
     
     
     public static int getSpawnX(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterX == 0) return 0;
-        return getForDimId(dimensionId).dimensionCenterX /2;
+        return getForDimId(dimensionId).dimensionCenterX;
     }
     
     public static int getSpawnZ(int dimensionId) {
         if (!isMapped(dimensionId) || getForDimId(dimensionId).dimensionCenterZ == 0) return 0;
-        return getForDimId(dimensionId).dimensionCenterZ /2;
+        return getForDimId(dimensionId).dimensionCenterZ;
     }
     
     public static boolean isMapped(int dimensionId) {

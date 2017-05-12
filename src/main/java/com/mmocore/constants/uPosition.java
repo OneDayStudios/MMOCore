@@ -34,9 +34,8 @@ public class uPosition extends AbstractObjectCore<uPosition> {
             this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent((int)dPosZ));
         } else {
             if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
-                // TODO: FIGURE OUT WHY THE VALUES NEED TO BE HALVED.
-                this.uPosX = this.getDimension().getPosXInParent((int)dPosX) / 2;
-                this.uPosZ = this.getDimension().getPosZInParent((int)dPosZ) / 2;
+                this.uPosX = this.getDimension().getPosXInParent((int)dPosX);
+                this.uPosZ = this.getDimension().getPosZInParent((int)dPosZ);
             } else {
                 this.uPosX = this.dPosX;
                 this.uPosZ = this.dPosZ;
