@@ -60,7 +60,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (dim.isFake() || dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
-            if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getBorderX()) dimensions.add(dim);
+            if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getRadiusBorderX()) dimensions.add(dim);
         }
         if (dimensions.isEmpty()) return null;
         return dimensions.get(0);
@@ -127,11 +127,11 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         ArrayList<RegisterableDimension> systems = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension system : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (system.isFake() || !system.getType().equals(DimensionType.StarSystem)) continue;
-            if (distanceBetweenUPositions(system.getPosition(), pos) < system.getBorderX()) {
-                ForgeAPI.sendConsoleEntry("Selecting: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is within border of: " + system.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+            if (distanceBetweenUPositions(system.getPosition(), pos) < system.getRadiusBorderX()) {
+                ForgeAPI.sendConsoleEntry("Selecting: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is within border of: " + system.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 systems.add(system);
             } else {
-                ForgeAPI.sendConsoleEntry("Disregarding: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is NOT within border of: " + system.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+                ForgeAPI.sendConsoleEntry("Disregarding: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is NOT within border of: " + system.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
             }
         }
         if (systems.isEmpty()) return null;
@@ -142,11 +142,11 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         ArrayList<RegisterableDimension> bodies = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension body : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (!body.isFake() && !body.getType().equals(DimensionType.Planet)) continue;
-            if (distanceBetweenUPositions(body.getPosition(), pos) < body.getBorderX()) {
-                ForgeAPI.sendConsoleEntry("Selecting: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is within border of: " + body.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+            if (distanceBetweenUPositions(body.getPosition(), pos) < body.getRadiusBorderX()) {
+                ForgeAPI.sendConsoleEntry("Selecting: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is within border of: " + body.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 bodies.add(body);
             } else {
-                ForgeAPI.sendConsoleEntry("Disregarding: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is NOT within border of: " + body.getBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
+                ForgeAPI.sendConsoleEntry("Disregarding: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is NOT within border of: " + body.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
             }
         }
         if (bodies.isEmpty()) return null;

@@ -145,12 +145,12 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.conditions = conditions;
     }
     
-    public long getBorderZ() {
-        return this.borderZ;
+    public long getRadiusBorderZ() {
+        return this.borderZ /2;
     }
     
-    public long getBorderX() {
-        return this.borderX;
+    public long getRadiusBorderX() {
+        return this.borderX /2;
     }
     
     public void setPosX(int posX) {
@@ -260,8 +260,8 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         if (isFake()) ForgeAPI.sendConsoleEntry("FakeType: " + this.getFakeType(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosX: " + this.getX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosZ: " + this.getZ(), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("BorderX: " + this.getBorderX(), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("BorderZ: " + this.getBorderZ(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("BorderX: " + this.getRadiusBorderX(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("BorderZ: " + this.getRadiusBorderZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("SpawnX: " + this.getSpawnX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("SpawnZ: " + this.getSpawnZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("Parent: " + this.getParentId(), ConsoleMessageType.FINE);
