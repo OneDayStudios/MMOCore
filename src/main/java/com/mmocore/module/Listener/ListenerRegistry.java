@@ -10,6 +10,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.module.Listener.Listeners.GuiListener;
 import com.mmocore.module.Listener.Listeners.PlayerListener;
+import com.mmocore.module.Listener.Listeners.TransitionListener;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,11 +29,12 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
     }
     
     private void initServerListeners() {
-        MMOCore.getInstance().getListenerRegistry().register(new WorldListener());
-        MMOCore.getInstance().getListenerRegistry().register(new PlayerListener());
+        MMOCore.getListenerRegistry().register(new WorldListener());
+        MMOCore.getListenerRegistry().register(new PlayerListener());
+        MMOCore.getListenerRegistry().register(new TransitionListener());
     }
     private void initClientListeners() {
-        MMOCore.getInstance().getListenerRegistry().register(new GuiListener());
+        MMOCore.getListenerRegistry().register(new GuiListener());
     }
 
     @Override
