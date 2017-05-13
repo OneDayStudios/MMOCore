@@ -107,10 +107,8 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     public double getPosXInParent(double x) {        
         boolean isSubtracting = (this.getSpawnX() > x);
         double difference = 0;
-        double spawnX = (this.getSpawnX() < 0 ? this.getSpawnX() * -1 : this.getSpawnX());
-        double absX = (x < 0 ? x * -1 : x);        
-        if (isSubtracting) difference = (spawnX - absX);
-        if (!isSubtracting) difference = (absX - spawnX);
+        if (isSubtracting) difference = (this.getSpawnX() - x);
+        if (!isSubtracting) difference = (x - this.getSpawnX());
         if (isSubtracting) return (this.getX() - difference);
         return (this.getX() + difference);
     }
@@ -120,11 +118,9 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     // Goal is to find the equivalent position on the Z axis for the parent dimension, by saying .getZ() == .getSpawnZ() and figuring out the distance between that and Z.
     public double getPosZInParent(double z) {        
         boolean isSubtracting = (this.getSpawnZ() > z);
-        double difference = 0;
-        double spawnZ = (this.getSpawnZ() < 0 ? this.getSpawnZ() * -1 : this.getSpawnZ());
-        double absZ = (z < 0 ? z * -1 : z);        
-        if (isSubtracting) difference = (spawnZ - absZ);
-        if (!isSubtracting) difference = (absZ - spawnZ);
+        double difference = 0;    
+        if (isSubtracting) difference = (this.getSpawnZ() - z);
+        if (!isSubtracting) difference = (z - this.getSpawnZ());
         if (isSubtracting) return (this.getZ() - difference);
         return (this.getZ() + difference);
     }
