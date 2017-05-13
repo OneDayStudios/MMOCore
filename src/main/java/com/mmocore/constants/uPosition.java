@@ -29,9 +29,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dimension = dimension;
         this.dPosX = dPosX;
         this.dPosY = dPosY;
-        this.dPosZ = dPosZ;
-        ForgeAPI.sendConsoleEntry("Calculating uPos for : " + this.getDisplayString(), ConsoleMessageType.FINE);
-        
+        this.dPosZ = dPosZ;        
         // If a position is in hyperspace, this is how we calculate it.
         if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
             this.uPosX = this.dPosX;
