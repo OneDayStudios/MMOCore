@@ -9,6 +9,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.Dimension.RegisterableDimension;
+import com.mmocore.module.Player.RegisterablePlayer;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
@@ -24,6 +25,15 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import io.netty.channel.ChannelFutureListener;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import net.minecraftforge.common.network.ForgeMessage;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.util.EnumChatFormatting;
+
 /**
  *
  * @author draks
@@ -78,6 +88,33 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
         return null;
     }
     
+
+    public static List<String> registerAllDimensionsFor(RegisterablePlayer rPlayer) {
+        List<String> dimensionsRegistered = new ArrayList<String>();
+        if (rPlayer == null || !rPlayer.isOnline()) return dimensionsRegistered;
+        try {
+            for(int id = 0; id<MinecraftServer.getServer().worldServers.length; id++) {
+
+                    WorldServer worldToProcess = MinecraftServer.getServer().worldServers[id];
+                    sendDimensionRegister(rPlayer, worldToProcess.provider.dimensionId);
+                    dimensionsRegistered.add(worldToProcess.getWorldInfo().getWorldName());
+            }
+            ForgeAPI.sendConsoleEntry("Succeeeded registering dimensions for player : " + rPlayer.getIdentifier() + ", their client will not crash when changing dimensions.", ConsoleMessageType.FINE);
+        } catch (Exception e) {
+            ForgeAPI.sendConsoleEntry("Failed to register dimensions for player : " + rPlayer.getIdentifier() + ", their client may crash when changing dimensions as a result.", ConsoleMessageType.FINE);
+        }
+        return dimensionsRegistered;
+    }
+
+   private static void sendDimensionRegister(RegisterablePlayer player, int dimensionID) {
+        int providerID = DimensionManager.getProviderType(dimensionID);
+        ForgeMessage msg = new ForgeMessage.DimensionRegisterMessage(dimensionID, providerID);
+        FMLEmbeddedChannel channel = NetworkRegistry.INSTANCE.getChannel("FORGE", Side.SERVER);
+        channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+        channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set((EntityPlayerMP)player.getRegisteredObject());
+        channel.writeAndFlush(msg).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+   }
+   
     public static boolean chancePassed(int percent) {
         Random r = new Random();
         return (r.nextInt(101) < percent);
