@@ -19,7 +19,6 @@ import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
-import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
@@ -158,8 +157,6 @@ public class MMOCore {
        MMOCore.getQuestRegistry().initialise();
        MMOCore.getNpcFactionRegistry().initialise();
        MMOCore.getNpcRegistry().initialise();
-       RegisterableGalaxy milkyWay = new RegisterableGalaxy("MilkyWay", 500000, 0,0);
-       MMOCore.getGalaxyRegistry().register(milkyWay);
        WarpDriveAPI.onServerStarted();
    }
 
