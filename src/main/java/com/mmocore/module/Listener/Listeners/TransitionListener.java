@@ -28,6 +28,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
  *
  * @author draks
  */
+@SideOnly(Side.SERVER)
 public class TransitionListener extends RegisterableListener {
     
     @SubscribeEvent
