@@ -128,10 +128,8 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         for (RegisterableDimension system : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (system.isFake() || !system.getType().equals(DimensionType.StarSystem)) continue;
             if (distanceBetweenUPositions(system.getPosition(), pos) < system.getRadiusBorderX()) {
-                ForgeAPI.sendConsoleEntry("Selecting: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is within border of: " + system.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 systems.add(system);
             } else {
-                ForgeAPI.sendConsoleEntry("Disregarding: " + system.getName() + " with pos of " + system.getPosition().getDisplayString() + " as it is NOT within border of: " + system.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
             }
         }
         if (systems.isEmpty()) return null;
@@ -145,8 +143,6 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
             if (distanceBetweenUPositions(body.getPosition(), pos) < body.getRadiusBorderX()) {
                 ForgeAPI.sendConsoleEntry("Selecting: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is within border of: " + body.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 bodies.add(body);
-            } else {
-                ForgeAPI.sendConsoleEntry("Disregarding: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is NOT within border of: " + body.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
             }
         }
         if (bodies.isEmpty()) return null;

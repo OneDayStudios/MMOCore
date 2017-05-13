@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 public class RegisterableDimension extends AbstractRegisterable<RegisterableDimension, Integer, World> {
     
     private String name;
-    private DimensionType type;
-    private DimensionConditions conditions;
+    private DimensionType type = DimensionType.Unknown;
+    private DimensionConditions conditions = DimensionConditions.Unknown;
     private boolean hasAtmosphere = false;
     private int posX;
     private int posZ;
@@ -104,16 +104,13 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         return MMOCore.getDimensionRegistry().getRegistered(parentId) != null;
     }
     
-    public int getPosXInParent(int x) {        
-        if (this == this.getParent()) return x;
-        if (this.getSpawnX() == x) return this.getX();
+    public double getPosXInParent(double x) {        
         boolean isSubtracting = (this.getSpawnX() > x);
-        int difference = 0;
-        int spawnX = (this.getSpawnX() < 0 ? this.getSpawnX() * -1 : this.getSpawnX());
-        int absX = (x < 0 ? x * -1 : x);        
+        double difference = 0;
+        double spawnX = (this.getSpawnX() < 0 ? this.getSpawnX() * -1 : this.getSpawnX());
+        double absX = (x < 0 ? x * -1 : x);        
         if (isSubtracting) difference = (spawnX - absX);
         if (!isSubtracting) difference = (absX - spawnX);
-        ForgeAPI.sendConsoleEntry("Found spawnX: " + this.getSpawnX() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + x, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getX() - difference);
         return (this.getX() + difference);
     }
@@ -121,16 +118,13 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     // .getZ() returns the coord in the parent dimension for this dimension.
     // .getSpawnZ() returns the centre of this dimension.
     // Goal is to find the equivalent position on the Z axis for the parent dimension, by saying .getZ() == .getSpawnZ() and figuring out the distance between that and Z.
-    public int getPosZInParent(int z) {        
-        if (this == this.getParent()) return z;
-        if (this.getSpawnZ() == z) return this.getZ();
+    public double getPosZInParent(double z) {        
         boolean isSubtracting = (this.getSpawnZ() > z);
-        int difference = 0;
-        int spawnZ = (this.getSpawnZ() < 0 ? this.getSpawnZ() * -1 : this.getSpawnZ());
-        int absZ = (z < 0 ? z * -1 : z);        
+        double difference = 0;
+        double spawnZ = (this.getSpawnZ() < 0 ? this.getSpawnZ() * -1 : this.getSpawnZ());
+        double absZ = (z < 0 ? z * -1 : z);        
         if (isSubtracting) difference = (spawnZ - absZ);
         if (!isSubtracting) difference = (absZ - spawnZ);
-        ForgeAPI.sendConsoleEntry("Found spawnZ: " + this.getSpawnZ() + " difference: " + difference + " and isSubtracting: " + isSubtracting + " and original coord was: " + z, ConsoleMessageType.FINE);
         if (isSubtracting) return (this.getZ() - difference);
         return (this.getZ() + difference);
     }
@@ -230,7 +224,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public uPosition getPosition() {
-        return new uPosition(this.posX, 0, this.posZ, this);
+        return new uPosition(this.posX, 0, this.posZ, this.getParent());
     }
     
     public DimensionConditions getConditions() {

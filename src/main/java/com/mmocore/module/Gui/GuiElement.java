@@ -42,6 +42,18 @@ public class GuiElement extends Gui {
         this.subtitleColor = subTitleColor;
     }
     
+    public String getTitle() {
+        return this.title;
+    }
+    
+    public String getSubTitle() {
+        return this.subtitle;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
     public void drawRectangle(int posX, int posY, int sizeX, int sizeY, int color) {
         drawRect(posX, posY, sizeX, sizeY, color);
     }

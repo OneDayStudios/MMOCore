@@ -6,6 +6,7 @@
 package com.mmocore.constants;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.AbstractObjectCore;
 import com.mmocore.module.Dimension.RegisterableDimension;
@@ -29,18 +30,26 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;
-        if (this.getDimension().isFake() || this.getDimension().getType().equals(DimensionType.Planet)) {
-            this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent((int)dPosX));
-            this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent((int)dPosZ));
-        } else {
-            if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
-                this.uPosX = this.getDimension().getPosXInParent((int)dPosX);
-                this.uPosZ = this.getDimension().getPosZInParent((int)dPosZ);
-            } else {
-                this.uPosX = this.dPosX;
-                this.uPosZ = this.dPosZ;
-            }
+        ForgeAPI.sendConsoleEntry("Calculating uPos for : " + this.getDisplayString(), ConsoleMessageType.FINE);
+        
+        // If a position is in hyperspace, this is how we calculate it.
+        if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
+            this.uPosX = this.dPosX;
+            this.uPosZ = this.dPosZ;
         }
+        
+        // If a position is in space, this is how we calculate it.
+        if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
+            this.uPosX = this.getDimension().getPosXInParent(dPosX);
+            this.uPosZ = this.getDimension().getPosZInParent(dPosZ);
+        }
+        
+        // If a position is on a planet, or is on a celestial body, this is how we calculate it.
+        if (this.getDimension().getType().equals(DimensionType.Planet) || this.getDimension().isFake()) {
+            this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent(dPosX));
+            this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent(dPosZ));
+        }
+  
     }
     
     public boolean isInSpace() {
