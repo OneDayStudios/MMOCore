@@ -9,6 +9,12 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.constants.QuestBaseOptions;
+import com.mmocore.constants.QuestConversationObjectiveSet;
+import com.mmocore.constants.QuestItemObjectiveSet;
+import com.mmocore.constants.QuestKillObjectiveSet;
+import com.mmocore.constants.QuestLocationObjectiveSet;
+import com.mmocore.constants.QuestType;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.Random;
 import noppes.npcs.VersionCompatibility;
@@ -39,6 +45,16 @@ import noppes.npcs.quests.QuestItem;
 public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
     
     private Quest actualQuest;
+    
+    private QuestBaseOptions options;
+    
+    private QuestType type;
+    private QuestLocationObjectiveSet locationObjectives;
+    private QuestKillObjectiveSet killObjectives;
+    private QuestConversationObjectiveSet conversationObjectives;
+    private QuestItemObjectiveSet itemObjectives;
+    
+    
     
     public RegisterableQuest(String title, String category) {
         actualQuest = null;
