@@ -9,7 +9,7 @@ package com.mmocore.constants;
  *
  * @author draks
  */
-public enum NpcAbstractScale {
+public enum AbstractScale {
     // This is designed to provide a scale between NONE (0%) and ABSOLUTE (100%) for a variety of things, such as resistances, health pools and weapon damage.... keeping things consistent across the game.
     None,
     Lowest,

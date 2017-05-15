@@ -11,24 +11,24 @@ package com.mmocore.constants;
  */
 public enum NpcModifier {
     
-    MELEE_BOSS(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Highest,NpcAbstractScale.Highest,NpcAbstractScale.Highest,NpcAbstractScale.Highest),
-    RANGED_BOSS(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    MELEE_COMMANDER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    RANGED_COMMANDER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    MELEE_SOLDIER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    RANGED_SOLDIER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    CIVILIAN(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High),
-    CRITTER(NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.Absolute,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High,NpcAbstractScale.High);
+    MELEE_BOSS(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Highest,AbstractScale.Highest,AbstractScale.Highest,AbstractScale.Highest),
+    RANGED_BOSS(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    MELEE_COMMANDER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    RANGED_COMMANDER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    MELEE_SOLDIER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    RANGED_SOLDIER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    CIVILIAN(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
+    CRITTER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High);
 
-    private NpcAbstractScale health = NpcAbstractScale.Medium;
-    private NpcAbstractScale meleeDamage = NpcAbstractScale.Medium;
-    private NpcAbstractScale rangedDamage = NpcAbstractScale.Medium;
-    private NpcAbstractScale knockbackResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale explosiveResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale meleeResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale projectileResistance = NpcAbstractScale.Medium;
+    private AbstractScale health = AbstractScale.Medium;
+    private AbstractScale meleeDamage = AbstractScale.Medium;
+    private AbstractScale rangedDamage = AbstractScale.Medium;
+    private AbstractScale knockbackResistance = AbstractScale.Medium;
+    private AbstractScale explosiveResistance = AbstractScale.Medium;
+    private AbstractScale meleeResistance = AbstractScale.Medium;
+    private AbstractScale projectileResistance = AbstractScale.Medium;
     
-    NpcModifier(NpcAbstractScale health, NpcAbstractScale meleeDamage, NpcAbstractScale rangedDamage, NpcAbstractScale knockbackResistance, NpcAbstractScale explosiveResistance, NpcAbstractScale meleeResistance, NpcAbstractScale projectileResistance) {
+    NpcModifier(AbstractScale health, AbstractScale meleeDamage, AbstractScale rangedDamage, AbstractScale knockbackResistance, AbstractScale explosiveResistance, AbstractScale meleeResistance, AbstractScale projectileResistance) {
         this.health = health;
         this.meleeDamage = meleeDamage;
         this.rangedDamage = rangedDamage;
@@ -38,31 +38,31 @@ public enum NpcModifier {
         this.projectileResistance = projectileResistance;
     }
     
-    public NpcAbstractScale getHealth() {
+    public AbstractScale getHealth() {
         return this.health;
     }
     
-    public NpcAbstractScale getMeleeDamage() {
+    public AbstractScale getMeleeDamage() {
         return this.meleeDamage;
     }
     
-    public NpcAbstractScale getRangedDamage() {
+    public AbstractScale getRangedDamage() {
         return this.rangedDamage;
     }
     
-    public NpcAbstractScale getMeleeResistance() {
+    public AbstractScale getMeleeResistance() {
         return this.meleeResistance;
     }
     
-    public NpcAbstractScale getProjectileResistance() {
+    public AbstractScale getProjectileResistance() {
         return this.projectileResistance;
     }
     
-    public NpcAbstractScale getExplosiveResistance() {
+    public AbstractScale getExplosiveResistance() {
         return this.explosiveResistance;
     }
     
-    public NpcAbstractScale getKnockbackResistance() {
+    public AbstractScale getKnockbackResistance() {
         return this.knockbackResistance;
     }
 }

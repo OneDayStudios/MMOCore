@@ -10,22 +10,15 @@ import com.mmocore.api.QuestAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.QuestBaseOptions;
-import com.mmocore.constants.QuestConversationObjectiveSet;
-import com.mmocore.constants.QuestItemObjectiveSet;
-import com.mmocore.constants.QuestKillObjectiveSet;
-import com.mmocore.constants.QuestLocationObjectiveSet;
-import com.mmocore.constants.QuestType;
+import com.mmocore.module.Quest.options.QuestObjectiveOptions;
+import com.mmocore.module.Quest.options.QuestRewardOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.Random;
 import noppes.npcs.VersionCompatibility;
 import noppes.npcs.constants.EnumQuestCompletion;
 import noppes.npcs.constants.EnumQuestRepeat;
 import noppes.npcs.constants.EnumQuestType;
-import noppes.npcs.controllers.DialogOption;
 import noppes.npcs.controllers.FactionController;
-import noppes.npcs.controllers.PlayerData;
-import noppes.npcs.controllers.PlayerDataController;
-import noppes.npcs.controllers.PlayerMail;
 import noppes.npcs.controllers.Quest;
 import noppes.npcs.controllers.QuestCategory;
 import noppes.npcs.controllers.QuestController;
@@ -33,7 +26,6 @@ import net.minecraft.item.*;
 import noppes.npcs.controllers.Dialog;
 import noppes.npcs.controllers.DialogController;
 import noppes.npcs.quests.QuestDialog;
-import noppes.npcs.quests.QuestInterface;
 import noppes.npcs.quests.QuestKill;
 import noppes.npcs.quests.QuestLocation;
 import noppes.npcs.quests.QuestItem;
@@ -46,13 +38,9 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     
     private Quest actualQuest;
     
-    private QuestBaseOptions options;
-    
-    private QuestType type;
-    private QuestLocationObjectiveSet locationObjectives;
-    private QuestKillObjectiveSet killObjectives;
-    private QuestConversationObjectiveSet conversationObjectives;
-    private QuestItemObjectiveSet itemObjectives;
+    private QuestBaseOptions baseOptions;
+    private QuestRewardOptions rewardOptions;
+    private QuestObjectiveOptions objectiveOptions;
     
     
     
@@ -72,6 +60,10 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             }
             setID(id);
         }
+        
+    }
+    
+    public void pushToGame() {
         
     }
     

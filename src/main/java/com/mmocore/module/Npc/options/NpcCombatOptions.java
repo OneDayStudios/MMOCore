@@ -5,7 +5,7 @@
  */
 package com.mmocore.module.Npc.options;
 
-import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
 import com.mmocore.constants.NpcFireIndirectlyOption;
@@ -22,24 +22,24 @@ public class NpcCombatOptions {
     
     private NpcBoolean attacksHostileFactions = NpcBoolean.NO;
     private NpcBoolean defendFactionMembers  = NpcBoolean.YES;
-    private NpcAbstractScale rangedDamage = NpcAbstractScale.Medium;
-    private NpcAbstractScale meleeDamage = NpcAbstractScale.Medium;
-    private NpcAbstractScale meleeRange = NpcAbstractScale.Medium;
-    private NpcAbstractScale rangedRange = NpcAbstractScale.Medium;
-    private NpcAbstractScale accuracy = NpcAbstractScale.Medium;
-    private NpcAbstractScale health = NpcAbstractScale.Medium;
-    private NpcAbstractScale aggroRadius = NpcAbstractScale.Medium;
-    private NpcAbstractScale passiveRegen = NpcAbstractScale.Medium;
-    private NpcAbstractScale combatRegen = NpcAbstractScale.Medium;
-    private NpcAbstractScale projectileResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale knockBackResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale meleeResistance = NpcAbstractScale.Medium;
-    private NpcAbstractScale explosionResistance = NpcAbstractScale.Medium;
+    private AbstractScale rangedDamage = AbstractScale.Medium;
+    private AbstractScale meleeDamage = AbstractScale.Medium;
+    private AbstractScale meleeRange = AbstractScale.Medium;
+    private AbstractScale rangedRange = AbstractScale.Medium;
+    private AbstractScale accuracy = AbstractScale.Medium;
+    private AbstractScale health = AbstractScale.Medium;
+    private AbstractScale aggroRadius = AbstractScale.Medium;
+    private AbstractScale passiveRegen = AbstractScale.Medium;
+    private AbstractScale combatRegen = AbstractScale.Medium;
+    private AbstractScale projectileResistance = AbstractScale.Medium;
+    private AbstractScale knockBackResistance = AbstractScale.Medium;
+    private AbstractScale meleeResistance = AbstractScale.Medium;
+    private AbstractScale explosionResistance = AbstractScale.Medium;
     private NpcProjectile projectile = NpcProjectile.MACHINEGUN_BULLET;
     private NpcCombatResponse response = NpcCombatResponse.Retaliate;
     private NpcRangedUsage rangedUsage = NpcRangedUsage.UntilClose;
     private NpcTacticalOption tacticalBehaviour = NpcTacticalOption.Surround;
-    private NpcAbstractScale tacticalDistance = NpcAbstractScale.Medium;
+    private AbstractScale tacticalDistance = AbstractScale.Medium;
     private NpcBoolean mustSeeTarget = NpcBoolean.YES;
     private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
     private NpcBoolean canAttackInvisibleTargets = NpcBoolean.NO;
@@ -115,11 +115,11 @@ public class NpcCombatOptions {
         this.tacticalBehaviour = behaviour;
     }    
     
-    public NpcAbstractScale getTacticalDistance() {
+    public AbstractScale getTacticalDistance() {
         return this.tacticalDistance;
     }
     
-    public void setTacticalDistance(NpcAbstractScale setting) {
+    public void setTacticalDistance(AbstractScale setting) {
         this.tacticalDistance = setting;
     }    
     
@@ -131,43 +131,43 @@ public class NpcCombatOptions {
         this.rangedUsage = setting;
     }    
     
-    public NpcAbstractScale getHealth() {
+    public AbstractScale getHealth() {
         return this.health;
     }
     
-    public void setHealth(NpcAbstractScale setting) {
+    public void setHealth(AbstractScale setting) {
         this.health = setting;
     }    
     
-    public NpcAbstractScale getRangedAccuracy() {
+    public AbstractScale getRangedAccuracy() {
         return this.accuracy;
     }
     
-    public void setRangedAccuracy(NpcAbstractScale setting) {
+    public void setRangedAccuracy(AbstractScale setting) {
         this.accuracy = setting;
     }    
     
-    public NpcAbstractScale getAggroRadius() {
+    public AbstractScale getAggroRadius() {
         return this.aggroRadius;
     }
     
-    public void setAggroRadius(NpcAbstractScale setting) {
+    public void setAggroRadius(AbstractScale setting) {
         this.aggroRadius = setting;
     }
     
-    public NpcAbstractScale getPassiveRegeneration() {
+    public AbstractScale getPassiveRegeneration() {
         return this.passiveRegen;
     }
     
-    public void setPassiveRegeneration(NpcAbstractScale setting) {
+    public void setPassiveRegeneration(AbstractScale setting) {
         this.passiveRegen = setting;
     }
     
-    public NpcAbstractScale getCombatRegeneration() {
+    public AbstractScale getCombatRegeneration() {
         return this.combatRegen;
     }
     
-    public void setCombatRegeneration(NpcAbstractScale setting) {
+    public void setCombatRegeneration(AbstractScale setting) {
         this.combatRegen = setting;
     }
     
@@ -195,67 +195,67 @@ public class NpcCombatOptions {
         this.response = response;
     }
     
-    public NpcAbstractScale getProjectileResistance() {
+    public AbstractScale getProjectileResistance() {
         return this.projectileResistance;
     }
     
-    public void setProjectileResistance(NpcAbstractScale setting) {
+    public void setProjectileResistance(AbstractScale setting) {
         this.projectileResistance = setting;
     }
     
-    public NpcAbstractScale getKnockbackResistance() {
+    public AbstractScale getKnockbackResistance() {
         return this.knockBackResistance;
     }
     
-    public void setKnockbackResistance(NpcAbstractScale setting) {
+    public void setKnockbackResistance(AbstractScale setting) {
         this.knockBackResistance = setting;
     }
     
-    public NpcAbstractScale getMeleeResistance() {
+    public AbstractScale getMeleeResistance() {
         return this.meleeResistance;
     }
     
-    public void setMeleeResistance(NpcAbstractScale setting) {
+    public void setMeleeResistance(AbstractScale setting) {
         this.meleeResistance = setting;
     }
     
-    public NpcAbstractScale getExplosionResistance() {
+    public AbstractScale getExplosionResistance() {
         return this.explosionResistance;
     }
     
-    public void setExplosionResistance(NpcAbstractScale setting) {
+    public void setExplosionResistance(AbstractScale setting) {
         this.explosionResistance = setting;
     }
     
-    public NpcAbstractScale getMeleeDamage() {
+    public AbstractScale getMeleeDamage() {
         return this.meleeDamage;
     }
     
-    public void setMeleeDamage(NpcAbstractScale setting) {
+    public void setMeleeDamage(AbstractScale setting) {
         this.meleeDamage = setting;
     }
     
-    public NpcAbstractScale getRangedDamage() {
+    public AbstractScale getRangedDamage() {
         return this.rangedDamage;
     }
     
-    public void setRangedDamage(NpcAbstractScale setting) {
+    public void setRangedDamage(AbstractScale setting) {
         this.rangedDamage = setting;
     }
     
-    public NpcAbstractScale getMeleeRange() {
+    public AbstractScale getMeleeRange() {
         return this.meleeRange;
     }
     
-    public void setMeleeRange(NpcAbstractScale setting) {
+    public void setMeleeRange(AbstractScale setting) {
         this.meleeRange = setting;
     }
     
-    public NpcAbstractScale getRangedRange() {
+    public AbstractScale getRangedRange() {
         return this.rangedRange;
     }
     
-    public void setRangedRange(NpcAbstractScale setting) {
+    public void setRangedRange(AbstractScale setting) {
         this.rangedRange = setting;
     }
     

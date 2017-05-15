@@ -14,16 +14,16 @@ import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 public class NpcFactionValue {
     
     private RegisterableNpcFaction faction;
-    private NpcAbstractScale value;
+    private AbstractScale value;
     private boolean isIncrease;
     
-    public NpcFactionValue(RegisterableNpcFaction faction, NpcAbstractScale scaledPoints, boolean isIncrease) {
+    public NpcFactionValue(RegisterableNpcFaction faction, AbstractScale scaledPoints, boolean isIncrease) {
         this.faction = faction;
         this.value = value;
         this.isIncrease = isIncrease;
     }
     
-    public NpcAbstractScale getValue() {
+    public AbstractScale getValue() {
         return this.value;
     }
     

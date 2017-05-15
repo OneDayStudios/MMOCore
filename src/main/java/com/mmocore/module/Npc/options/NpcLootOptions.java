@@ -5,7 +5,7 @@
  */
 package com.mmocore.module.Npc.options;
 
-import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcFactionValue;
 import com.mmocore.constants.NpcLootMode;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 public class NpcLootOptions {
     
     private NpcLootMode lootMode = NpcLootMode.DEFAULT;
-    private NpcAbstractScale experienceDropped = NpcAbstractScale.Lowest;
+    private AbstractScale experienceDropped = AbstractScale.Lowest;
     private HashMap<NpcItem, Integer> lootTable = new HashMap<NpcItem, Integer>();
     private NpcFactionValue primaryFactionValue = null;
     private NpcFactionValue secondaryFactionValue = null;
@@ -59,11 +59,11 @@ public class NpcLootOptions {
         this.lootMode = mode;
     }
     
-    public NpcAbstractScale getExpDropped() {
+    public AbstractScale getExpDropped() {
         return this.experienceDropped;
     }
     
-    public void setExpDropped(NpcAbstractScale experience) {
+    public void setExpDropped(AbstractScale experience) {
         this.experienceDropped = experience;
     }
     

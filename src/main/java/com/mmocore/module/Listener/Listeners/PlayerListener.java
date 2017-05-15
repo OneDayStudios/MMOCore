@@ -14,7 +14,7 @@ import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
-import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;

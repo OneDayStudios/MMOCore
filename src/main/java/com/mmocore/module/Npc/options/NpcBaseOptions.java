@@ -5,7 +5,7 @@
  */
 package com.mmocore.module.Npc.options;
 
-import com.mmocore.constants.NpcAbstractScale;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcModifier;
@@ -34,8 +34,8 @@ public class NpcBaseOptions {
     private NpcGender gender = NpcGender.Male;
     private TextVisibleOption bossBarVisible = TextVisibleOption.Never;
     private TextVisibleOption nameVisible = TextVisibleOption.Never;
-    private NpcAbstractScale movementSpeed = NpcAbstractScale.Medium;
-    private NpcAbstractScale size = NpcAbstractScale.Medium;
+    private AbstractScale movementSpeed = AbstractScale.Medium;
+    private AbstractScale size = AbstractScale.Medium;
     private NpcModifier modifier = null;
     private NpcSpawnMethod method = null;
 
@@ -75,19 +75,19 @@ public class NpcBaseOptions {
         this.modifier = modifier;
     }
     
-    public NpcAbstractScale getSize() {
+    public AbstractScale getSize() {
         return this.size;
     }
     
-    public void setSize(NpcAbstractScale option) {
+    public void setSize(AbstractScale option) {
         this.size = option;
     }
     
-    public NpcAbstractScale getMovementSpeed() {
+    public AbstractScale getMovementSpeed() {
         return this.movementSpeed;
     }
     
-    public void setMovementSpeed(NpcAbstractScale option) {
+    public void setMovementSpeed(AbstractScale option) {
         this.movementSpeed = option;
     }
     
