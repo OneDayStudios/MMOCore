@@ -9,7 +9,9 @@ import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.QuestCompletionType;
 import com.mmocore.constants.QuestRewardType;
 import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Quest.RegisterableQuest;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,6 +26,7 @@ public class QuestRewardOptions {
     private QuestRewardType rewardType = QuestRewardType.All;
     private String completionCommand = "NONE";
     private AbstractScale experienceReward = AbstractScale.None;
+    private ArrayList<NpcItem> rewardItemStacks = new ArrayList<NpcItem>();
     
     public QuestRewardOptions(QuestRewardOptions options) {
         this.completeAtNpc = options.completeAtNpc;
@@ -32,6 +35,8 @@ public class QuestRewardOptions {
         this.completionType = options.completionType;
         this.followOnQuest = options.followOnQuest;
         this.rewardType = options.rewardType;
+        this.experienceReward = options.experienceReward;
+        this.rewardItemStacks = new ArrayList<NpcItem>(options.rewardItemStacks);
     }
     
     public QuestRewardOptions() {
@@ -85,5 +90,22 @@ public class QuestRewardOptions {
     public void setRewardType(QuestRewardType type) {
         this.rewardType = type;
     }
+    
+    public void addRewardItem(NpcItem item) {
+        if (this.rewardItemStacks.size() < 9 && !this.rewardItemStacks.contains(item)) this.rewardItemStacks.add(item);
+    }
+    
+    public void clearRewardItems() {
+        this.rewardItemStacks.clear();
+    }
+    
+    public ArrayList<NpcItem> getRewardItems() {
+        return this.rewardItemStacks;
+    }
+    
+    public void removeRewardItem(NpcItem item) {
+        if (this.rewardItemStacks.contains(item)) this.rewardItemStacks.remove(item);
+    }
+    
     
 }

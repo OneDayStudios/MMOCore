@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Quest;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.module.AbstractRegisterable;
@@ -38,9 +39,9 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     
     private Quest actualQuest;
     
-    private QuestBaseOptions baseOptions;
-    private QuestRewardOptions rewardOptions;
-    private QuestObjectiveOptions objectiveOptions;
+    private QuestBaseOptions baseOptions = new QuestBaseOptions();
+    private QuestRewardOptions rewardOptions = new QuestRewardOptions();
+    private QuestObjectiveOptions objectiveOptions = new QuestObjectiveOptions();
     
     
     
@@ -65,6 +66,32 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     
     public void pushToGame() {
         
+        if (this.getRewardOptions().getFollowOnQuest() != null && this.getRewardOptions().getFollowOnQuest().isRegistered()){
+                actualQuest.nextQuestTitle = this.getRewardOptions().getFollowOnQuest().getRegisteredCopy().getTitle();
+                actualQuest.nextQuestid = this.getRewardOptions().getFollowOnQuest().getRegisteredCopy().getID();
+        } else {
+            actualQuest.nextQuestid = -1;
+            actualQuest.nextQuestTitle = "NONE";
+        }
+        
+        this.save();
+    }
+    
+    public QuestRewardOptions getRewardOptions() {
+        return this.rewardOptions;
+    }
+    
+    public void setRewardOptions(QuestRewardOptions options) {
+        this.rewardOptions = options;
+        this.pushToGame();
+    }
+    
+    public RegisterableQuest getRegisteredCopy() {
+        return MMOCore.getQuestRegistry().getRegistered(this.getID());
+    }
+    
+    public boolean isRegistered() {
+        return MMOCore.getQuestRegistry().getRegistered(this.getID()) != null;
     }
     
     public void setQuestTypeKill() {
@@ -156,10 +183,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     
     public void setID(int id) {
         actualQuest.id = id;
-    }
-    
-    public int getNextQuestID() {
-        return actualQuest.nextQuestid;
     }
     
     public int getRewardedExp() {
@@ -255,22 +278,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     
     public String getNextQuestTitle() {
         return actualQuest.nextQuestTitle;
-    }
-    
-    public void setNextQuestTitle(String title) {
-        if (title != null) {
-            for (int id : QuestController.instance.quests.keySet()) {
-                Quest quest = QuestController.instance.quests.get(id);
-                if (quest.title == null ? title == null : quest.title.equals(title)) {
-                    actualQuest.nextQuestTitle = quest.title;
-                    actualQuest.nextQuestid = quest.id;
-                }
-            }
-        }
-        if (!actualQuest.hasNewQuest()) {
-            actualQuest.nextQuestTitle = "NONE";
-            actualQuest.nextQuestid = -1;
-        }
     }
     
     public void setCompletionType(String completionType) {
