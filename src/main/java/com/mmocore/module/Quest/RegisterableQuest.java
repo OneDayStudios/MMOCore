@@ -7,10 +7,13 @@ package com.mmocore.module.Quest;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.QuestBaseOptions;
+import com.mmocore.constants.QuestCompletionType;
+import com.mmocore.constants.QuestRewardType;
 import com.mmocore.module.Quest.options.QuestObjectiveOptions;
 import com.mmocore.module.Quest.options.QuestRewardOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -42,39 +45,50 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     private QuestBaseOptions baseOptions = new QuestBaseOptions();
     private QuestRewardOptions rewardOptions = new QuestRewardOptions();
     private QuestObjectiveOptions objectiveOptions = new QuestObjectiveOptions();
-    
-    
-    
-    public RegisterableQuest(String title, String category) {
-        actualQuest = null;
         
-        if (QuestAPI.exists(title) && QuestAPI.get(title).category.title.equals(category)) {
-            this.actualQuest = QuestAPI.get(title);
+    private void pushToGame() {
+        
+        if (this.getRewardOptions().getFollowOnQuest() != null && !this.getRewardOptions().getFollowOnQuest().isRegistered()) {
+            MMOCore.getQuestRegistry().register(this.getRewardOptions().getFollowOnQuest());
+            ForgeAPI.sendConsoleEntry("Registering of follow-on quest for : " + this.getTitle() + " aka. " + this.getRewardOptions().getFollowOnQuest().getTitle() + ": " + (this.getRewardOptions().getFollowOnQuest().isRegistered() ? "succeeded." : "failed."), ConsoleMessageType.FINE);
+        }
+
+        if (this.getRewardOptions().getFollowOnQuest() != null) {
+            this.actualQuest.nextQuestTitle = this.getRewardOptions().getFollowOnQuest().getTitle();
+            this.actualQuest.nextQuestid = this.getRewardOptions().getFollowOnQuest().getID();
         } else {
-            actualQuest = new Quest();
-            actualQuest.title = title;
-            setVersion();
-            Random r = new Random();
-            int id = 1;
-            while (QuestAPI.get(id) != null) {
-                id = r.nextInt(100000);
-            }
-            setID(id);
+            this.actualQuest.nextQuestTitle = "NONE";
+            this.actualQuest.nextQuestid = -1;
         }
         
-    }
-    
-    public void pushToGame() {
+        actualQuest.completeText = this.getRewardOptions().getCompletionText();
+        actualQuest.randomReward = (this.getRewardOptions().getRewardType().equals(QuestRewardType.Random));
+        actualQuest.randomReward = (this.getRewardOptions().getRewardType().equals(QuestRewardType.All));
+        actualQuest.command = this.getRewardOptions().getCompletionCommand();
         
-        if (this.getRewardOptions().getFollowOnQuest() != null && this.getRewardOptions().getFollowOnQuest().isRegistered()){
-                actualQuest.nextQuestTitle = this.getRewardOptions().getFollowOnQuest().getRegisteredCopy().getTitle();
-                actualQuest.nextQuestid = this.getRewardOptions().getFollowOnQuest().getRegisteredCopy().getID();
+
+        if (this.getRewardOptions().getCompletionType().equals(QuestCompletionType.Instant)) {
+            actualQuest.completion = EnumQuestCompletion.Instant;
+            actualQuest.completerNpc = "NONE";
         } else {
-            actualQuest.nextQuestid = -1;
-            actualQuest.nextQuestTitle = "NONE";
+            actualQuest.completion = EnumQuestCompletion.Npc;
+            if (this.getRewardOptions().getCompletionNpc() != null && !NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction())) {
+                MMOCore.getNpcRegistry().register(this.getRewardOptions().getCompletionNpc());
+                ForgeAPI.sendConsoleEntry("Registering of completion Npc for quest: " + this.getTitle() + " aka. " + this.getRewardOptions().getCompletionNpc().getBaseOptions().getName() + ": " + (NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction()) ? "succeeded." : "failed."), ConsoleMessageType.FINE);
+            }
+            actualQuest.completerNpc = this.getRewardOptions().getCompletionNpc().getBaseOptions().getName();
         }
         
         this.save();
+    }
+    
+    public QuestBaseOptions getBaseOptions() {
+        return this.baseOptions;
+    }
+    
+    public void setBaseOptions(QuestBaseOptions options) {
+        this.baseOptions = options;
+        this.pushToGame();
     }
     
     public QuestRewardOptions getRewardOptions() {
@@ -357,6 +371,20 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     @Override
     public void initialise() {
         ForgeAPI.sendConsoleEntry("Initialised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        if (QuestAPI.exists(this.getBaseOptions().getTitle()) && QuestAPI.get(this.getBaseOptions().getTitle()).category.title.equals(this.getBaseOptions().getQuestChainName())) {
+            this.actualQuest = QuestAPI.get(title);
+            this.setID(this.actualQuest.id);
+        } else {
+            actualQuest = new Quest();
+            actualQuest.title = title;
+            setVersion();
+            Random r = new Random();
+            int id = 1;
+            while (QuestAPI.get(id) != null) {
+                id = r.nextInt(100000);
+            }
+            setID(id);
+        }
         this.save();
     }
 
