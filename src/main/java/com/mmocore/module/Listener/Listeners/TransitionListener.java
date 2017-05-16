@@ -33,7 +33,7 @@ public class TransitionListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent e) {
-        EntityPlayer player = (EntityPlayer)e.player;
+        //EntityPlayer player = (EntityPlayer)e.player;
         //TODO: Make a player teleport, and any passengers/vehicles he is with, teleport, when they are below Y=5 in space or above Y=255 on planet.
     }
     

@@ -11,7 +11,6 @@ import com.mmocore.api.NpcAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
-import com.mmocore.constants.QuestBaseOptions;
 import com.mmocore.constants.QuestCompletionType;
 import com.mmocore.constants.QuestRewardType;
 import com.mmocore.module.Quest.options.QuestObjectiveOptions;
@@ -33,6 +32,7 @@ import noppes.npcs.quests.QuestDialog;
 import noppes.npcs.quests.QuestKill;
 import noppes.npcs.quests.QuestLocation;
 import noppes.npcs.quests.QuestItem;
+import com.mmocore.module.Quest.options.QuestBaseOptions;
 
 /**
  *
@@ -80,6 +80,13 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         }
         
         this.save();
+    }
+    
+    public RegisterableQuest(String title, String chain) {
+        QuestBaseOptions bOpts = this.getBaseOptions();
+        bOpts.setTitle(title);
+        bOpts.setQuestChain(chain);
+        this.setBaseOptions(bOpts);
     }
     
     public QuestBaseOptions getBaseOptions() {
@@ -371,12 +378,11 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     @Override
     public void initialise() {
         ForgeAPI.sendConsoleEntry("Initialised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
-        if (QuestAPI.exists(this.getBaseOptions().getTitle()) && QuestAPI.get(this.getBaseOptions().getTitle()).category.title.equals(this.getBaseOptions().getQuestChainName())) {
-            this.actualQuest = QuestAPI.get(title);
-            this.setID(this.actualQuest.id);
+        if (QuestAPI.exists(this.getBaseOptions().getTitle()) && QuestAPI.get(this.getBaseOptions().getTitle()).category.title.equals(this.getBaseOptions().getQuestChain())) {
+            this.actualQuest = QuestAPI.get(this.getBaseOptions().getTitle());
         } else {
             actualQuest = new Quest();
-            actualQuest.title = title;
+            actualQuest.title = this.getBaseOptions().getTitle();
             setVersion();
             Random r = new Random();
             int id = 1;

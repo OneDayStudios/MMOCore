@@ -14,7 +14,7 @@ import com.mmocore.constants.QuestRepeatType;
 public class QuestBaseOptions {
     
     public String title;
-    public String questChainName;
+    public String questChain;
     public String questLogText;
     public QuestRepeatType repeatType;
     
@@ -26,12 +26,12 @@ public class QuestBaseOptions {
         return this.title;
     }
     
-    public void setQuestChainName(String chainName) {
-        this.questChainName = chainName;
+    public void setQuestChain(String chain) {
+        this.questChain = chain;
     }
     
-    public String getQuestChainName() {
-        return this.questChainName;
+    public String getQuestChain() {
+        return this.questChain;
     }
     
     public void setQuestLogText(String text) {
