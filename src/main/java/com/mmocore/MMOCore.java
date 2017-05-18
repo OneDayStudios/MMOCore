@@ -147,17 +147,20 @@ public class MMOCore {
    
    @Mod.EventHandler
    public void onServerStarted(FMLServerStartedEvent e) {       
-       MMOCore.getGuiRegistry().initialise();
-       MMOCore.getDimensionRegistry().initialise();
-       MMOCore.getGalaxyRegistry().initialise();
-       MMOCore.getPlayerRegistry().initialise();
-       MMOCore.getDialogRegistry().initialise();
-       //MMOCore.getInstance().getStargateRegistry().initialise();
-       MMOCore.getCommandRegistry().initialise();
-       MMOCore.getQuestRegistry().initialise();
-       MMOCore.getNpcFactionRegistry().initialise();
-       MMOCore.getNpcRegistry().initialise();
-       WarpDriveAPI.onServerStarted();
+       if (ForgeAPI.isClient()) {
+           MMOCore.getGuiRegistry().initialise();
+       }
+       if (ForgeAPI.isServer()) {
+        MMOCore.getDimensionRegistry().initialise();
+        MMOCore.getGalaxyRegistry().initialise();       
+        MMOCore.getPlayerRegistry().initialise();
+        MMOCore.getDialogRegistry().initialise();       
+        MMOCore.getCommandRegistry().initialise();
+        MMOCore.getQuestRegistry().initialise();
+        MMOCore.getNpcFactionRegistry().initialise();
+        MMOCore.getNpcRegistry().initialise();
+        WarpDriveAPI.onServerStarted();
+       }
    }
 
    public static MMOCore getInstance() {
