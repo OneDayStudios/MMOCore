@@ -141,7 +141,6 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         for (RegisterableDimension body : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
             if (!body.isFake() && !body.getType().equals(DimensionType.Planet)) continue;
             if (distanceBetweenUPositions(body.getPosition(), pos) < body.getRadiusBorderX()) {
-                ForgeAPI.sendConsoleEntry("Selecting: " + body.getName() + " with pos of " + body.getPosition().getDisplayString() + " as it is within border of: " + body.getRadiusBorderX() + " comparing against " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 bodies.add(body);
             }
         }

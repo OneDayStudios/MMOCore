@@ -3,7 +3,7 @@
   "modid": "MMOCore",
   "name": "MMOCore",
   "description": "Provides an abstraction layer between the forge elements that make a server great and other plugins and mods",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "mcversion": "1.7.10",
   "url": "http://stargatemc.com",
   "updateUrl": "",
