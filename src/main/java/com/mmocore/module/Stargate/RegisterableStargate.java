@@ -10,6 +10,7 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import gcewing.sg.SGAddressing;
 import gcewing.sg.SGBaseTE;
 
@@ -23,25 +24,25 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
     public int x;
     public int y;
     public int z;
-    public String worldName;
+    public RegisterableDimension dimension;
     public boolean isHidden;
     
-    public RegisterableStargate(String address, int x, int y, int z, String worldName, boolean isHidden) {
+    public RegisterableStargate(String address, int x, int y, int z, RegisterableDimension dimension, boolean isHidden) {
         this.address = address;
         this.x = x;
         this.y = y;
         this.z = z;
-        this.worldName = worldName;
+        this.dimension = dimension;
         this.isHidden = isHidden;
     }
     
     public uPosition getPosition() {
-        return new uPosition(x, y, z, UniverseAPI.getDimension(worldName));
+        return new uPosition(x, y, z, dimension);
     }
     
     public SGBaseTE getStargate() {
         try {
-            return SGAddressing.findAddressedStargate(address, ForgeAPI.getForgeWorld(worldName));
+            return SGAddressing.findAddressedStargate(address, dimension.getRegisteredObject());
         } catch (Exception e) {
             return null;
         }
@@ -70,7 +71,7 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
     @Override
     public SGBaseTE getRegisteredObject() {
             try {
-                return SGAddressing.findAddressedStargate(this.address, ForgeAPI.getForgeWorld(getPosition().getDimension()));
+                return SGAddressing.findAddressedStargate(this.address, dimension.getRegisteredObject());
             } catch (Exception e) {
                 return null;
             }
