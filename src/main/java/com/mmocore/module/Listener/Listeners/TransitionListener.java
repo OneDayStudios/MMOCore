@@ -84,10 +84,10 @@ public class TransitionListener extends RegisterableListener {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
             Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getSpawnX(), 255, player.getPosition().getCelestialBody().getSpawnZ());
             if (mcPlayer.ridingEntity != null) {
-                while (mcPlayer.ridingEntity != null) {
+                //while (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
                     SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
-                }
+                //}
             } else {
                 SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);
             }
@@ -96,10 +96,10 @@ public class TransitionListener extends RegisterableListener {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
             Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getPosition().getDPosX(), 15, player.getPosition().getCelestialBody().getPosition().getDPosZ());
             if (mcPlayer.ridingEntity != null) {
-                while (mcPlayer.ridingEntity != null) {
+                //while (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
                     SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                }
+                //}
             } else {
                 SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getSystem().getId(), false);
             }
