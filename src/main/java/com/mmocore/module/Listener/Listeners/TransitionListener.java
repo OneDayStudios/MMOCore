@@ -86,10 +86,22 @@ public class TransitionListener extends RegisterableListener {
             if (mcPlayer.ridingEntity != null) {
                 //while (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
+                    double motionX = entity.motionX;
+                    double motionY = entity.motionY;
+                    double motionZ = entity.motionZ;
                     SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
+                    entity.motionX = motionX;
+                    entity.motionY = motionY;
+                    entity.motionZ = motionZ;
                 //}
             } else {
-                SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);
+                double motionX = mcPlayer.motionX;
+                double motionY = mcPlayer.motionY;
+                double motionZ = mcPlayer.motionZ;
+                SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);  
+                mcPlayer.motionX = motionX;
+                mcPlayer.motionY = motionY;
+                mcPlayer.motionZ = motionZ;
             }
         }
         if (!player.getPosition().isInSpace() && player.getPosition().getDPosY() > 300) {
@@ -98,10 +110,22 @@ public class TransitionListener extends RegisterableListener {
             if (mcPlayer.ridingEntity != null) {
                 //while (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
+                    double motionX = entity.motionX;
+                    double motionY = entity.motionY;
+                    double motionZ = entity.motionZ;
                     SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                    entity.motionX = motionX;
+                    entity.motionY = motionY;
+                    entity.motionZ = motionZ;
                 //}
             } else {
-                SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getSystem().getId(), false);
+                    double motionX = mcPlayer.motionX;
+                    double motionY = mcPlayer.motionY;
+                    double motionZ = mcPlayer.motionZ;
+                    SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getSystem().getId(), false);
+                    mcPlayer.motionX = motionX;
+                    mcPlayer.motionY = motionY;
+                    mcPlayer.motionZ = motionZ;
             }
         }
     }
