@@ -70,8 +70,8 @@ import gcewing.sg.SGBaseTE;
 import gcewing.sg.Trans3;
 import gcewing.sg.Vector3;
 import java.util.ArrayList;
-import mcheli.plane.MCP_EntityPlane;
-import mcheli.plane.MCP_ItemPlane;
+import mcheli.aircraft.MCH_EntityAircraft;
+import mcheli.aircraft.MCH_ItemAircraft;
 /**
  *
  * @author draks
@@ -97,10 +97,10 @@ public class TransitionListener extends RegisterableListener {
                 mcPlayer.mountEntity(null);
         }
         if (player.getPosition().isInSpace() && mcPlayer.ridingEntity != null) {
-            if (mcPlayer.ridingEntity instanceof MCP_EntityPlane) {
-                MCP_EntityPlane plane = (MCP_EntityPlane)mcPlayer.ridingEntity;
-                MCP_ItemPlane itemPlane = (MCP_ItemPlane)plane.getItem();
-                if (!TransitionListener.whitelistedVehicles.contains(itemPlane.getAircraftInfo().displayName)) {
+            if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
+                MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mcPlayer.ridingEntity;
+                MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
+                if (!TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName)) {
                     PlayerAPI.sendMessage(player, "Your vehicle does not operate in space!");
                     mcPlayer.mountEntity(null);
                 }                
@@ -110,15 +110,15 @@ public class TransitionListener extends RegisterableListener {
             }
         }
         if (player.getPosition().isInHyperSpace() || player.getPosition().getCelestialBody() == null || player.getPosition().getCelestialBody().isFake()) return;
-        if (player.getPosition().isInSpace() && player.getPosition().getDPosY() < 5) {
+        if (player.getPosition().isInSpace() && player.getPosition().getDPosY() <= 0) {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
-            Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getSpawnX(), 275, player.getPosition().getCelestialBody().getSpawnZ());
+            Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getSpawnX(), 495, player.getPosition().getCelestialBody().getSpawnZ());
             if (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
-                    if (mcPlayer.ridingEntity instanceof MCP_EntityPlane) {
-                        MCP_EntityPlane plane = (MCP_EntityPlane)mcPlayer.ridingEntity;
+                    if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
+                        MCH_EntityAircraft plane = (MCH_EntityAircraft)mcPlayer.ridingEntity;
                         double throttle = plane.getCurrentThrottle();
-                        plane = (MCP_EntityPlane)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
+                        plane = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
                         plane.addCurrentThrottle(throttle);
                     } else {
                         SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
@@ -127,23 +127,23 @@ public class TransitionListener extends RegisterableListener {
                 mcPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);  
             }
         }
-        if (!player.getPosition().isInSpace() && player.getPosition().getDPosY() > 275) {
+        if (!player.getPosition().isInSpace() && player.getPosition().getDPosY() > 400) {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
-            Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getPosition().getDPosX(), 200, player.getPosition().getCelestialBody().getPosition().getDPosZ());
+            Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ());
             if (mcPlayer.ridingEntity != null) {
                     Entity entity = mcPlayer.ridingEntity;
-                    if (mcPlayer.ridingEntity instanceof MCP_EntityPlane) {
-                        MCP_EntityPlane plane = (MCP_EntityPlane)mcPlayer.ridingEntity;
-                        MCP_ItemPlane itemPlane = (MCP_ItemPlane)plane.getItem();
-                        if (!TransitionListener.whitelistedVehicles.contains(itemPlane.getAircraftInfo().displayName)) {
+                    if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
+                        MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mcPlayer.ridingEntity;
+                        MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
+                        if (!TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName)) {
                             PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
                             Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
                             SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);
                         } else {
-                            if (player.getPosition().getDPosY() > 300) {
-                                double throttle = plane.getCurrentThrottle();
-                                plane = (MCP_EntityPlane)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                                plane.addCurrentThrottle(throttle);
+                            if (player.getPosition().getDPosY() >= 500) {
+                                double throttle = aircraft.getCurrentThrottle();
+                                aircraft = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                                aircraft.addCurrentThrottle(throttle);
                             }
                         }
                     } else {
