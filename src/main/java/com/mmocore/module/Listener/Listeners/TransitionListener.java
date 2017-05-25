@@ -89,7 +89,7 @@ public class TransitionListener extends RegisterableListener {
                     double motionX = entity.motionX;
                     double motionY = entity.motionY;
                     double motionZ = entity.motionZ;
-                    SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
+                    entity = SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
                     entity.motionX = motionX;
                     entity.motionY = motionY;
                     entity.motionZ = motionZ;
@@ -98,7 +98,7 @@ public class TransitionListener extends RegisterableListener {
                 double motionX = mcPlayer.motionX;
                 double motionY = mcPlayer.motionY;
                 double motionZ = mcPlayer.motionZ;
-                SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);  
+                mcPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);  
                 mcPlayer.motionX = motionX;
                 mcPlayer.motionY = motionY;
                 mcPlayer.motionZ = motionZ;
@@ -113,7 +113,7 @@ public class TransitionListener extends RegisterableListener {
                     double motionX = entity.motionX;
                     double motionY = entity.motionY;
                     double motionZ = entity.motionZ;
-                    SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                    entity = SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
                     entity.motionX = motionX;
                     entity.motionY = motionY;
                     entity.motionZ = motionZ;
@@ -122,7 +122,7 @@ public class TransitionListener extends RegisterableListener {
                     double motionX = mcPlayer.motionX;
                     double motionY = mcPlayer.motionY;
                     double motionZ = mcPlayer.motionZ;
-                    SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getSystem().getId(), false);
+                    mcPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getSystem().getId(), false);
                     mcPlayer.motionX = motionX;
                     mcPlayer.motionY = motionY;
                     mcPlayer.motionZ = motionZ;
