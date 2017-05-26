@@ -71,7 +71,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     }
     
     public boolean isInUniverse() {
-        return (this.dimension != null);
+        return (this.dimension != null && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderX() && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderZ());
     }
     
     public double getDPosX() {
