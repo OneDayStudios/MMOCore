@@ -73,6 +73,9 @@ import gcewing.sg.Vector3;
 import java.util.ArrayList;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.aircraft.MCH_ItemAircraft;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.ChunkEvent;
+
 /**
  *
  * @author draks
@@ -81,6 +84,18 @@ public class BorderListener extends RegisterableListener {
     
     public BorderListener() {
         
+    }
+    
+    @SubscribeEvent
+    public void onBlockPlace(BlockEvent.PlaceEvent event) {
+        uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
+        if (!position.isInUniverse()) event.setCanceled(true);
+    }
+    
+    @SubscribeEvent
+    public void onBlockBreak(BlockEvent.BreakEvent event) {
+        uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
+        if (!position.isInUniverse()) event.setCanceled(true);
     }
     
     @SubscribeEvent
