@@ -71,6 +71,7 @@ import gcewing.sg.Trans3;
 import gcewing.sg.Vector3;
 import java.util.ArrayList;
 import mcheli.aircraft.MCH_EntityAircraft;
+import mcheli.aircraft.MCH_EntitySeat;
 import mcheli.aircraft.MCH_ItemAircraft;
 /**
  *
@@ -86,6 +87,23 @@ public class TransitionListener extends RegisterableListener {
         whitelistedVehicles.add("Gate Glider");
     }
     
+    private MCH_EntityAircraft getMCHeliVehicle(RegisterablePlayer player) {
+        Entity mount = player.getRegisteredObject().ridingEntity;
+        if (mount == null) return null;
+        if (!(mount instanceof MCH_EntityAircraft) && !(mount instanceof MCH_EntitySeat)) return null;
+        if (mount instanceof MCH_EntitySeat) {
+            mount = ((MCH_EntitySeat)mount).getParent();
+        }
+        return (MCH_EntityAircraft)mount;
+    }
+    
+    private boolean isInMCheliApprovedVehicle(RegisterablePlayer player) {
+        MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
+        if (aircraft == null) return false;
+        MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
+        return (TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName));
+    }
+    
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent e) {
         // If the entity is not a player, do nothing.
@@ -97,16 +115,9 @@ public class TransitionListener extends RegisterableListener {
                 mcPlayer.mountEntity(null);
         }
         if (player.getPosition().isInSpace() && mcPlayer.ridingEntity != null) {
-            if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
-                MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mcPlayer.ridingEntity;
-                MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
-                if (!TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName)) {
-                    PlayerAPI.sendMessage(player, "Your vehicle does not operate in space!");
-                    mcPlayer.mountEntity(null);
-                }                
-            } else {
+            if (!isInMCheliApprovedVehicle(player)) {
                 PlayerAPI.sendMessage(player, "Your vehicle does not operate in space!");
-                mcPlayer.mountEntity(null);
+               mcPlayer.mountEntity(null);      
             }
         }
         if (player.getPosition().isInHyperSpace() || player.getPosition().getCelestialBody() == null || player.getPosition().getCelestialBody().isFake()) return;
@@ -131,28 +142,20 @@ public class TransitionListener extends RegisterableListener {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
             Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ());
             if (mcPlayer.ridingEntity != null) {
-                    Entity entity = mcPlayer.ridingEntity;
-                    if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
-                        MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mcPlayer.ridingEntity;
-                        MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
-                        if (!TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName)) {
-                            PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
-                            ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
-                            Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
-                            SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);
-                        } else {
-                            if (player.getPosition().getDPosY() >= 500) {
-                                double throttle = aircraft.getCurrentThrottle();
-                                aircraft = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                                aircraft.addCurrentThrottle(throttle);
-                            }
-                        }
-                    } else {
-                        ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
-                        PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
-                        Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
-                        SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);  
+                Entity entity = mcPlayer.ridingEntity;
+                if (!this.isInMCheliApprovedVehicle(player)) {
+                    PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
+                    ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
+                    Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
+                    SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);
+                } else {
+                    if (player.getPosition().getDPosY() >= 500) {
+                        MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
+                        double throttle = aircraft.getCurrentThrottle();
+                        aircraft = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                        aircraft.addCurrentThrottle(throttle);
                     }
+                }
             } else {
                 PlayerAPI.sendMessage(player, "The atmosphere is too thin to go any higher!");
                 Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
