@@ -137,6 +137,7 @@ public class TransitionListener extends RegisterableListener {
                         MCH_ItemAircraft itemAircraft = (MCH_ItemAircraft)aircraft.getItem();
                         if (!TransitionListener.whitelistedVehicles.contains(itemAircraft.getAircraftInfo().displayName)) {
                             PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
+                            ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
                             Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
                             SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);
                         } else {
@@ -147,6 +148,7 @@ public class TransitionListener extends RegisterableListener {
                             }
                         }
                     } else {
+                        ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
                         PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
                         Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
                         SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);  
