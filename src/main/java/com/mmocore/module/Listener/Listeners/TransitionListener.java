@@ -92,9 +92,9 @@ public class TransitionListener extends RegisterableListener {
         if (mount == null) return null;
         if (!(mount instanceof MCH_EntityAircraft) && !(mount instanceof MCH_EntitySeat)) return null;
         if (mount instanceof MCH_EntitySeat) {
-            mount = ((MCH_EntitySeat)mount).getParent();
+            return ((MCH_EntitySeat)mount).getParent();
         }
-        return (MCH_EntityAircraft)mount;
+        return ((MCH_EntityAircraft)mount);
     }
     
     private boolean isInMCheliApprovedVehicle(RegisterablePlayer player) {
@@ -152,8 +152,9 @@ public class TransitionListener extends RegisterableListener {
                     if (player.getPosition().getDPosY() >= 500) {
                         MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
                         double throttle = aircraft.getCurrentThrottle();
-                        aircraft = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                        aircraft.addCurrentThrottle(throttle);
+                        SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                        aircraft = this.getMCHeliVehicle(player);
+                        if (aircraft != null) aircraft.addCurrentThrottle(throttle);
                     }
                 }
             } else {
