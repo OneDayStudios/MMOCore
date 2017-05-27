@@ -117,7 +117,7 @@ public class TransitionListener extends RegisterableListener {
         if (player.getPosition().isInSpace() && mcPlayer.ridingEntity != null) {
             if (!isInMCheliApprovedVehicle(player)) {
                 PlayerAPI.sendMessage(player, "Your vehicle does not operate in space!");
-               mcPlayer.mountEntity(null);      
+                mcPlayer.mountEntity(null);      
             }
         }
         if (player.getPosition().isInHyperSpace() || player.getPosition().getCelestialBody() == null || player.getPosition().getCelestialBody().isFake()) return;
@@ -152,9 +152,18 @@ public class TransitionListener extends RegisterableListener {
                     if (player.getPosition().getDPosY() >= 500) {
                         MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
                         double throttle = aircraft.getCurrentThrottle();
-                        SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                        aircraft = this.getMCHeliVehicle(player);
-                        if (aircraft != null) aircraft.addCurrentThrottle(throttle);
+                        Entity entityPost = SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
+                        if (entityPost instanceof MCH_EntityAircraft) {
+                            aircraft = this.getMCHeliVehicle(player);
+                            aircraft.addCurrentThrottle(throttle);
+                        } else {
+                            if (entityPost instanceof MCH_EntitySeat) {
+                                MCH_EntitySeat seat = (MCH_EntitySeat)entityPost;
+                                if (seat.getParent() == null) {
+                                    seat.setParent(aircraft);
+                                }
+                            }
+                        }
                     }
                 }
             } else {
