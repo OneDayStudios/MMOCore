@@ -25,11 +25,4 @@ public class MultiWorldAPI extends AbstractAPI<MultiWorldAPI> {
         MultiWorld.instance.unregisterDimensions();
         MultiWorld.instance.registerDimensions();
     }
-    
-    public static void loadAllDimensions() {
-        for (Integer id : DimensionControl.dimensions) {
-            if (MMOCore.getDimensionRegistry().getRegistered(id) != null) continue;
-            TeleporterAPI.initialWorldChunkLoad(id);
-        }
-    }
 }

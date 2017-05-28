@@ -164,7 +164,6 @@ public class MMOCore {
         MMOCore.getQuestRegistry().initialise();
         MMOCore.getNpcFactionRegistry().initialise();
         MMOCore.getNpcRegistry().initialise();  
-        MultiWorldAPI.loadAllDimensions();
         WarpDriveAPI.onServerStarted();        
        }
    }
