@@ -5,6 +5,7 @@
  */
 package com.mmocore;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.MultiWorldAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
@@ -30,6 +31,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import fabricator77.multiworld.MultiWorld;
+import fabricator77.multiworld.command.CommandTPD;
+import net.minecraftforge.common.DimensionManager;
 
 
 /**
@@ -121,7 +125,8 @@ public class MMOCore {
    @Mod.EventHandler
    public void preLoad(FMLPreInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       MMOCore.channel = new DataChannel(MMOCore.MODID);
+       MMOCore.channel = new DataChannel(MMOCore.MODID);       
+       MultiWorldAPI.fixProviderType();
    }
    
    @Mod.EventHandler
@@ -158,11 +163,12 @@ public class MMOCore {
         MMOCore.getCommandRegistry().initialise();
         MMOCore.getQuestRegistry().initialise();
         MMOCore.getNpcFactionRegistry().initialise();
-        MMOCore.getNpcRegistry().initialise();
-        WarpDriveAPI.onServerStarted();
+        MMOCore.getNpcRegistry().initialise();  
+        MultiWorldAPI.loadAllDimensions();
+        WarpDriveAPI.onServerStarted();        
        }
    }
-
+   
    public static MMOCore getInstance() {
        return MMOCore.instance;
    }
