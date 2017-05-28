@@ -100,35 +100,39 @@ public class BorderListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent e) {
-        // If the entity is not a player, do nothing.
-        if (!(e.entityLiving instanceof EntityPlayer)) return;
-        EntityPlayer mcPlayer = (EntityPlayer)e.entityLiving;
-        RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(mcPlayer.getUniqueID());
-        if (!player.getPosition().isInUniverse()) {
-            Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
-            boolean lessX = player.getPosition().getDimension().getSpawnX() > mcPlayer.posX;
-            boolean lessZ = player.getPosition().getDimension().getSpawnZ() > mcPlayer.posZ;
-            double destinationX;
-            double destinationZ;
-            if (lessX) { destinationX = mcPlayer.posX + 5; } else { destinationX = mcPlayer.posX - 5; }
-            if (lessZ) { destinationZ = mcPlayer.posZ + 5; } else { destinationZ = mcPlayer.posZ - 5; }
-            Trans3 dt = new Trans3(destinationX, player.getPosition().getDPosY(), destinationZ);
-            uPosition destination = new uPosition(destinationX, mcPlayer.posY, destinationZ, player.getPosition().getDimension());
-            if (destination.isInSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of the solar system...");
-            if (destination.isInHyperSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of the universe...");
-            if (!destination.isInSpace() && !destination.isInHyperSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of this world...");
-            if (mcPlayer.ridingEntity != null) {
-                    Entity entity = mcPlayer.ridingEntity;
-                    if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
-                        MCH_EntityAircraft plane = (MCH_EntityAircraft)mcPlayer.ridingEntity;
-                        double throttle = plane.getCurrentThrottle();
-                        plane = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, destination.getDimension().getId(), false);
-                        plane.addCurrentThrottle(throttle);
-                    } else {
-                        SGBaseTE.teleportEntityAndRider(entity, t, dt, destination.getDimension().getId(), false);
-                    }
-            } else {
-                SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, destination.getDimension().getId(), false);  
+        if (e.entityLiving instanceof EntityPlayer) {
+            EntityPlayer mcPlayer = (EntityPlayer)e.entityLiving;
+            RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(mcPlayer.getUniqueID());
+            if (!player.getPosition().isInUniverse()) {
+                Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
+                boolean lessX = player.getPosition().getDimension().getSpawnX() > mcPlayer.posX;
+                boolean lessZ = player.getPosition().getDimension().getSpawnZ() > mcPlayer.posZ;
+                double destinationX;
+                double destinationZ;
+                if (lessX) { destinationX = mcPlayer.posX + 5; } else { destinationX = mcPlayer.posX - 5; }
+                if (lessZ) { destinationZ = mcPlayer.posZ + 5; } else { destinationZ = mcPlayer.posZ - 5; }
+                Trans3 dt = new Trans3(destinationX, player.getPosition().getDPosY(), destinationZ);
+                uPosition destination = new uPosition(destinationX, mcPlayer.posY, destinationZ, player.getPosition().getDimension());
+                if (destination.isInSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of the solar system...");
+                if (destination.isInHyperSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of the universe...");
+                if (!destination.isInSpace() && !destination.isInHyperSpace()) PlayerAPI.sendMessage(player, "You have reached the edge of this world...");
+                if (mcPlayer.ridingEntity != null) {
+                        Entity entity = mcPlayer.ridingEntity;
+                        if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
+                            MCH_EntityAircraft plane = (MCH_EntityAircraft)mcPlayer.ridingEntity;
+                            double throttle = plane.getCurrentThrottle();
+                            plane = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, destination.getDimension().getId(), false);
+                            plane.addCurrentThrottle(throttle);
+                        } else {
+                            SGBaseTE.teleportEntityAndRider(entity, t, dt, destination.getDimension().getId(), false);
+                        }
+                } else {
+                    SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, destination.getDimension().getId(), false);  
+                }
+            }
+        } else {
+            if ((e.entityLiving.riddenByEntity == null)) {
+                e.entityLiving.setDead();
             }
         }
     }

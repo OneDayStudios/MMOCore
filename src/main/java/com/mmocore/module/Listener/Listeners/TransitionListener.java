@@ -119,10 +119,14 @@ public class TransitionListener extends RegisterableListener {
                     p.getRegisteredObject().mountEntity(null);
                 }
             }
-            double throttle = aircraft.getThrottle();
+            double throttle = aircraft.getCurrentThrottle();
+            double acThrottle = aircraft.getThrottle();
             double speed = aircraft.currentSpeed;
+            int fuel = aircraft.currentFuel;
             MCH_EntityAircraft entity = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
-            entity.setThrottle(throttle);
+            entity.setCurrentThrottle(throttle);
+            entity.setThrottle(acThrottle);
+            entity.currentFuel = fuel;
             entity.currentSpeed = speed;
             for (Integer seatID : playersToMove.keySet()) {
                 EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID).getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
