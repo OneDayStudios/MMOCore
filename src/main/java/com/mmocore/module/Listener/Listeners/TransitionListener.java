@@ -43,6 +43,7 @@ import com.mmocore.api.PlayerAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.constants.uPosition;
 import org.apache.logging.log4j.*;
 import io.netty.channel.*;
 
@@ -70,6 +71,7 @@ import gcewing.sg.SGBaseTE;
 import gcewing.sg.Trans3;
 import gcewing.sg.Vector3;
 import java.util.ArrayList;
+import java.util.HashMap;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.aircraft.MCH_EntitySeat;
 import mcheli.aircraft.MCH_ItemAircraft;
@@ -97,6 +99,45 @@ public class TransitionListener extends RegisterableListener {
         return ((MCH_EntityAircraft)mount);
     }
     
+    
+    private void performTeleportForPlayer(RegisterablePlayer player, uPosition destination) {
+        if (player.getRegisteredObject().ridingEntity == null) return;
+        HashMap<Integer,RegisterablePlayer> playersToMove = new HashMap<Integer,RegisterablePlayer>();
+        Entity mount = player.getRegisteredObject().ridingEntity;
+        Trans3 dt = new Trans3(destination.getDPosX(), destination.getDPosY(), destination.getDPosZ());            
+        Trans3 t = new Trans3(player.getRegisteredObject().posX,player.getRegisteredObject().posY,player.getRegisteredObject().posZ);
+        if (mount != null && mount instanceof MCH_EntityAircraft) {            
+            MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
+            MCH_EntitySeat[] seats = aircraft.getSeats();
+            uPosition sourcePos = new uPosition(player.getRegisteredObject().posX, player.getRegisteredObject().posY, player.getRegisteredObject().posZ, player.getPosition().getDimension());
+            ArrayList<RegisterablePlayer> nearbyPlayers = PlayerAPI.getNear(sourcePos, 15);
+            for (RegisterablePlayer p : nearbyPlayers) {
+                if (p.getRegisteredObject().ridingEntity != null && p.getRegisteredObject().ridingEntity instanceof MCH_EntitySeat) {
+                    MCH_EntitySeat seat = (MCH_EntitySeat)p.getRegisteredObject().ridingEntity;
+                    if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
+                    playersToMove.put(seat.seatID, p);
+                    p.getRegisteredObject().mountEntity(null);
+                }
+            }
+            double throttle = aircraft.getThrottle();
+            double speed = aircraft.currentSpeed;
+            MCH_EntityAircraft entity = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
+            entity.setThrottle(throttle);
+            entity.currentSpeed = speed;
+            for (Integer seatID : playersToMove.keySet()) {
+                EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID).getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
+                entityPlayer.mountEntity(entity.getSeat(seatID));
+            }
+        } else {
+            if (mount != null && !(mount instanceof MCH_EntitySeat)) {
+                SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
+            } else {
+                SGBaseTE.teleportEntityAndRider(player.getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
+            }
+        }
+        
+    }
+    
     private boolean isInMCheliApprovedVehicle(RegisterablePlayer player) {
         MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
         if (aircraft == null) return false;
@@ -122,54 +163,27 @@ public class TransitionListener extends RegisterableListener {
         }
         if (player.getPosition().isInHyperSpace() || player.getPosition().getCelestialBody() == null || player.getPosition().getCelestialBody().isFake()) return;
         if (player.getPosition().isInSpace() && player.getPosition().getDPosY() <= 0) {
-            Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
-            Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getSpawnX(), 495, player.getPosition().getCelestialBody().getSpawnZ());
-            if (mcPlayer.ridingEntity != null) {
-                    Entity entity = mcPlayer.ridingEntity;
-                    if (mcPlayer.ridingEntity instanceof MCH_EntityAircraft) {
-                        MCH_EntityAircraft plane = (MCH_EntityAircraft)mcPlayer.ridingEntity;
-                        double throttle = plane.getCurrentThrottle();
-                        plane = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
-                        plane.addCurrentThrottle(throttle);
-                    } else {
-                        SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getCelestialBody().getId(), false);
-                    }
-            } else {
-                mcPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, player.getPosition().getCelestialBody().getId(), false);  
-            }
+            uPosition destination = new uPosition(player.getPosition().getCelestialBody().getSpawnX(), 495, player.getPosition().getCelestialBody().getSpawnZ(), player.getPosition().getCelestialBody());
+            this.performTeleportForPlayer(player, destination);
         }
         if (!player.getPosition().isInSpace() && player.getPosition().getDPosY() > 400) {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
             Trans3 dt = new Trans3(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ());
             if (mcPlayer.ridingEntity != null) {
-                Entity entity = mcPlayer.ridingEntity;
                 if (!this.isInMCheliApprovedVehicle(player)) {
                     PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
-                    ForgeAPI.sendConsoleEntry("Mount attempting to transition is: " + entity.getClass().getName(), ConsoleMessageType.FINE);
-                    Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
-                    SGBaseTE.teleportEntityAndRider(entity, t, newDt, player.getPosition().getCelestialBody().getId(), false);
+                    uPosition destination = new uPosition(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5,player.getPosition().getDPosZ(), player.getPosition().getDimension());
+                    this.performTeleportForPlayer(player, destination);
                 } else {
                     if (player.getPosition().getDPosY() >= 500) {
-                        MCH_EntityAircraft aircraft = this.getMCHeliVehicle(player);
-                        double throttle = aircraft.getCurrentThrottle();
-                        Entity entityPost = SGBaseTE.teleportEntityAndRider(entity, t, dt, player.getPosition().getSystem().getId(), false);
-                        if (entityPost instanceof MCH_EntityAircraft) {
-                            aircraft = this.getMCHeliVehicle(player);
-                            aircraft.addCurrentThrottle(throttle);
-                        } else {
-                            if (entityPost instanceof MCH_EntitySeat) {
-                                MCH_EntitySeat seat = (MCH_EntitySeat)entityPost;
-                                if (seat.getParent() == null) {
-                                    seat.setParent(aircraft);
-                                }
-                            }
-                        }
+                        uPosition destination = new uPosition(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ(), player.getPosition().getSystem());
+                        this.performTeleportForPlayer(player, destination);
                     }
                 }
             } else {
                 PlayerAPI.sendMessage(player, "The atmosphere is too thin to go any higher!");
-                Trans3 newDt = new Trans3(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5, player.getPosition().getDPosZ());
-                SGBaseTE.teleportEntityAndRider(mcPlayer, t, newDt, player.getPosition().getCelestialBody().getId(), false);  
+                uPosition destination = new uPosition(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5,player.getPosition().getDPosZ(), player.getPosition().getDimension());
+                this.performTeleportForPlayer(player, destination);
             }
         }
     }
