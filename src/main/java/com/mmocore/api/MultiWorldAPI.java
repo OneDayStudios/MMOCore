@@ -8,6 +8,7 @@ package com.mmocore.api;
 import com.mmocore.MMOCore;
 import fabricator77.multiworld.DimensionControl;
 import fabricator77.multiworld.ModSettings;
+import fabricator77.multiworld.MultiWorld;
 import fabricator77.multiworld.WorldProviderSimple;
 import fabricator77.multiworld.api.TeleporterAPI;
 import net.minecraftforge.common.DimensionManager;
@@ -21,7 +22,10 @@ public class MultiWorldAPI extends AbstractAPI<MultiWorldAPI> {
     public static void fixProviderType() {
         DimensionManager.unregisterProviderType(ModSettings.providerId);
         DimensionManager.registerProviderType(ModSettings.providerId, WorldProviderSimple.class, true);
+        MultiWorld.instance.unregisterDimensions();
+        MultiWorld.instance.registerDimensions();
     }
+    
     public static void loadAllDimensions() {
         for (Integer id : DimensionControl.dimensions) {
             if (MMOCore.getDimensionRegistry().getRegistered(id) != null) continue;

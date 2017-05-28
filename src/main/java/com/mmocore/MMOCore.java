@@ -126,12 +126,12 @@ public class MMOCore {
    public void preLoad(FMLPreInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
        MMOCore.channel = new DataChannel(MMOCore.MODID);       
-       MultiWorldAPI.fixProviderType();
    }
    
    @Mod.EventHandler
    public void load(FMLInitializationEvent event) {
-       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
+       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);       
+       MultiWorldAPI.fixProviderType();
    }
    
    @Mod.EventHandler
