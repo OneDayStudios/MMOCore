@@ -100,25 +100,22 @@ public class TransitionListener extends RegisterableListener {
     }
     
     
-    private void performTeleportForPlayer(RegisterablePlayer player, uPosition destination) {
-        if (player.getRegisteredObject().ridingEntity == null) return;
-        HashMap<Integer,RegisterablePlayer> playersToMove = new HashMap<Integer,RegisterablePlayer>();
-        Entity mount = player.getRegisteredObject().ridingEntity;
+    private void performTeleportForPlayer(EntityPlayer player, uPosition destination) {
+        HashMap<Integer,EntityPlayer> playersToMove = new HashMap<Integer,EntityPlayer>();
+        Entity mount = player.ridingEntity;
         Trans3 dt = new Trans3(destination.getDPosX(), destination.getDPosY(), destination.getDPosZ());            
-        Trans3 t = new Trans3(player.getRegisteredObject().posX,player.getRegisteredObject().posY,player.getRegisteredObject().posZ);
+        Trans3 t = new Trans3(player.posX,player.posY,player.posZ);
         if (mount != null && mount instanceof MCH_EntityAircraft) {            
             MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
             MCH_EntitySeat[] seats = aircraft.getSeats();
-            uPosition sourcePos = new uPosition(player.getRegisteredObject().posX, player.getRegisteredObject().posY, player.getRegisteredObject().posZ, player.getPosition().getDimension());
-            
+            uPosition sourcePos = new uPosition(player.posX, player.posY, player.posZ, MMOCore.getDimensionRegistry().getRegistered(player.worldObj.provider.dimensionId));            
             for (Object entity : ForgeAPI.getForgeWorld(sourcePos.getDimension().getId()).playerEntities) {       
                 EntityPlayer e = (EntityPlayer)entity;
-                RegisterablePlayer p = MMOCore.getPlayerRegistry().getRegistered(e.getUniqueID());
                 if (e.ridingEntity != null && e.ridingEntity instanceof MCH_EntitySeat) {
                     MCH_EntitySeat seat = (MCH_EntitySeat)e.ridingEntity;
                     if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
-                    ForgeAPI.sendConsoleEntry("Capturing player: " + p.getName() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
-                    playersToMove.put(seat.seatID, p);
+                    ForgeAPI.sendConsoleEntry("Capturing player: " + e.getUniqueID() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
+                    playersToMove.put(seat.seatID, e);
                     e.mountEntity(null);
                 }
             }
@@ -132,15 +129,15 @@ public class TransitionListener extends RegisterableListener {
             entity.currentFuel = fuel;
             entity.currentSpeed = speed;
             for (Integer seatID : playersToMove.keySet()) {
-                ForgeAPI.sendConsoleEntry("Attempting to remount player: " + playersToMove.get(seatID).getName() + " to seat: " + seatID, ConsoleMessageType.FINE);
-                EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID).getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
+                ForgeAPI.sendConsoleEntry("Attempting to remount player: " + playersToMove.get(seatID).getUniqueID() + " to seat: " + seatID, ConsoleMessageType.FINE);
+                EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID), t, dt, destination.getDimension().getId(), false);
                 entityPlayer.mountEntity(entity.getSeat(seatID));
             }
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
                 SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
             } else {
-                if (mount == null) SGBaseTE.teleportEntityAndRider(player.getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
+                if (mount == null) SGBaseTE.teleportEntityAndRider(player, t, dt, destination.getDimension().getId(), false);
             }
         }
         
@@ -172,7 +169,7 @@ public class TransitionListener extends RegisterableListener {
         if (player.getPosition().isInHyperSpace() || player.getPosition().getCelestialBody() == null || player.getPosition().getCelestialBody().isFake()) return;
         if (player.getPosition().isInSpace() && player.getPosition().getDPosY() <= 0) {
             uPosition destination = new uPosition(player.getPosition().getCelestialBody().getSpawnX(), 495, player.getPosition().getCelestialBody().getSpawnZ(), player.getPosition().getCelestialBody());
-            this.performTeleportForPlayer(player, destination);
+            this.performTeleportForPlayer(mcPlayer, destination);
         }
         if (!player.getPosition().isInSpace() && player.getPosition().getDPosY() > 400) {
             Trans3 t = new Trans3(mcPlayer.posX,mcPlayer.posY,mcPlayer.posZ);
@@ -181,17 +178,17 @@ public class TransitionListener extends RegisterableListener {
                 if (!this.isInMCheliApprovedVehicle(player)) {
                     PlayerAPI.sendMessage(player, "Your vehicle has stalled!");
                     uPosition destination = new uPosition(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5,player.getPosition().getDPosZ(), player.getPosition().getDimension());
-                    this.performTeleportForPlayer(player, destination);
+                    this.performTeleportForPlayer(mcPlayer, destination);
                 } else {
                     if (player.getPosition().getDPosY() >= 500) {
                         uPosition destination = new uPosition(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ(), player.getPosition().getSystem());
-                        this.performTeleportForPlayer(player, destination);
+                        this.performTeleportForPlayer(mcPlayer, destination);
                     }
                 }
             } else {
                 PlayerAPI.sendMessage(player, "The atmosphere is too thin to go any higher!");
                 uPosition destination = new uPosition(player.getPosition().getDPosX(), player.getPosition().getDPosY()-5,player.getPosition().getDPosZ(), player.getPosition().getDimension());
-                this.performTeleportForPlayer(player, destination);
+                this.performTeleportForPlayer(mcPlayer, destination);
             }
         }
     }
