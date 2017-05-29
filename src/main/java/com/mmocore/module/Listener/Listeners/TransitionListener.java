@@ -110,14 +110,16 @@ public class TransitionListener extends RegisterableListener {
             MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
             MCH_EntitySeat[] seats = aircraft.getSeats();
             uPosition sourcePos = new uPosition(player.getRegisteredObject().posX, player.getRegisteredObject().posY, player.getRegisteredObject().posZ, player.getPosition().getDimension());
-            ArrayList<RegisterablePlayer> nearbyPlayers = PlayerAPI.getNear(sourcePos, 15);
-            for (RegisterablePlayer p : nearbyPlayers) {
-                if (p.getRegisteredObject().ridingEntity != null && p.getRegisteredObject().ridingEntity instanceof MCH_EntitySeat) {
-                    MCH_EntitySeat seat = (MCH_EntitySeat)p.getRegisteredObject().ridingEntity;
+            
+            for (Object entity : ForgeAPI.getForgeWorld(sourcePos.getDimension().getId()).playerEntities) {       
+                EntityPlayer e = (EntityPlayer)entity;
+                RegisterablePlayer p = MMOCore.getPlayerRegistry().getRegistered(e.getUniqueID());
+                if (e.ridingEntity != null && e.ridingEntity instanceof MCH_EntitySeat) {
+                    MCH_EntitySeat seat = (MCH_EntitySeat)e.ridingEntity;
                     if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
                     ForgeAPI.sendConsoleEntry("Capturing player: " + p.getName() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
                     playersToMove.put(seat.seatID, p);
-                    p.getRegisteredObject().mountEntity(null);
+                    e.mountEntity(null);
                 }
             }
             double throttle = aircraft.getCurrentThrottle();
