@@ -108,15 +108,13 @@ public class TransitionListener extends RegisterableListener {
         if (mount != null && mount instanceof MCH_EntityAircraft) {            
             MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
             MCH_EntitySeat[] seats = aircraft.getSeats();
-            for (Object entity : ForgeAPI.getForgeWorld(player.worldObj.provider.dimensionId).playerEntities) {       
-                EntityPlayer e = (EntityPlayer)entity;
-                if (e.ridingEntity != null && e.ridingEntity instanceof MCH_EntitySeat) {
-                    MCH_EntitySeat seat = (MCH_EntitySeat)e.ridingEntity;
+            for (MCH_EntitySeat seat : seats) {
+                    EntityPlayer e = (EntityPlayer)seat.riddenByEntity;
                     if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
+                    if (e == player) continue;
                     ForgeAPI.sendConsoleEntry("Capturing player: " + e.getUniqueID() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
-                    playersToMove.put(seat.seatID, e);
+                    playersToMove.put(seat.seatID,e);
                     e.mountEntity(null);
-                }
             }
             double throttle = aircraft.getCurrentThrottle();
             double acThrottle = aircraft.getThrottle();
