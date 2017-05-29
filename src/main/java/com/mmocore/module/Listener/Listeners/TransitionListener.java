@@ -115,6 +115,7 @@ public class TransitionListener extends RegisterableListener {
                 if (p.getRegisteredObject().ridingEntity != null && p.getRegisteredObject().ridingEntity instanceof MCH_EntitySeat) {
                     MCH_EntitySeat seat = (MCH_EntitySeat)p.getRegisteredObject().ridingEntity;
                     if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
+                    ForgeAPI.sendConsoleEntry("Capturing player: " + p.getName() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
                     playersToMove.put(seat.seatID, p);
                     p.getRegisteredObject().mountEntity(null);
                 }
@@ -129,8 +130,9 @@ public class TransitionListener extends RegisterableListener {
             entity.currentFuel = fuel;
             entity.currentSpeed = speed;
             for (Integer seatID : playersToMove.keySet()) {
+                ForgeAPI.sendConsoleEntry("Attempting to remount player: " + playersToMove.get(seatID).getName() + " to seat: " + seatID, ConsoleMessageType.FINE);
                 EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID).getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
-                entityPlayer.mountEntity(entity);
+                entityPlayer.mountEntity(entity.getSeat(seatID));
             }
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {

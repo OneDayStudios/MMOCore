@@ -6,6 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Player.RegisterablePlayer;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText; 
 import java.util.List;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.AxisAlignedBB;
 /**
@@ -25,8 +27,12 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
 
     public static ArrayList<RegisterablePlayer> getNear(uPosition position, int distance) {        
         ArrayList<RegisterablePlayer> rPlayers = new ArrayList<RegisterablePlayer>();
-        for (RegisterablePlayer player : MMOCore.getInstance().getPlayerRegistry().getRegisteredReadOnly().values()) {
-            if (player.getPosition().getDimension().equals(position.getDimension()) && ForgeAPI.distance(player.getPosition().getDPosX(), player.getPosition().getDPosY(), player.getPosition().getDPosZ(), position.getDPosX(), position.getDPosY(),position.getDPosZ()) <= distance) rPlayers.add(player);
+        for (Object entity : ForgeAPI.getForgeWorld(position.getDimension().getId()).playerEntities) {       
+            EntityPlayer e = (EntityPlayer)entity;
+            uPosition entityPos = new uPosition(e.posX,e.posY,e.posZ,position.getDimension());
+            RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(e.getUniqueID());
+            ForgeAPI.sendConsoleEntry("Considering: " + player.getName() + " at " + entityPos.getDisplayString(), ConsoleMessageType.FINE);
+            if (ForgeAPI.distance(entityPos.getDPosX(), entityPos.getDPosY(), entityPos.getDPosZ(), position.getDPosX(), position.getDPosY(),position.getDPosZ()) <= distance) rPlayers.add(player);
         }
         return rPlayers;
     }
