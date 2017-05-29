@@ -108,8 +108,7 @@ public class TransitionListener extends RegisterableListener {
         if (mount != null && mount instanceof MCH_EntityAircraft) {            
             MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
             MCH_EntitySeat[] seats = aircraft.getSeats();
-            uPosition sourcePos = new uPosition(player.posX, player.posY, player.posZ, MMOCore.getDimensionRegistry().getRegistered(player.worldObj.provider.dimensionId));            
-            for (Object entity : ForgeAPI.getForgeWorld(sourcePos.getDimension().getId()).playerEntities) {       
+            for (Object entity : ForgeAPI.getForgeWorld(player.worldObj.provider.dimensionId).playerEntities) {       
                 EntityPlayer e = (EntityPlayer)entity;
                 if (e.ridingEntity != null && e.ridingEntity instanceof MCH_EntitySeat) {
                     MCH_EntitySeat seat = (MCH_EntitySeat)e.ridingEntity;
