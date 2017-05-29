@@ -130,7 +130,7 @@ public class TransitionListener extends RegisterableListener {
             entity.currentSpeed = speed;
             for (Integer seatID : playersToMove.keySet()) {
                 EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID).getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
-                entityPlayer.mountEntity(entity.getSeat(seatID));
+                entityPlayer.mountEntity(entity);
             }
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
