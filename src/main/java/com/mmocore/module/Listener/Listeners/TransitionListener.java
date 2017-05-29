@@ -109,7 +109,7 @@ public class TransitionListener extends RegisterableListener {
             MCH_EntityAircraft aircraft = (MCH_EntityAircraft)mount;
             MCH_EntitySeat[] seats = aircraft.getSeats();
             for (MCH_EntitySeat seat : seats) {
-                    if (seat.riddenByEntity == null) continue;
+                    if (seat == null || seat.riddenByEntity == null) continue;
                     EntityPlayer e = (EntityPlayer)seat.riddenByEntity;
                     if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
                     if (e == player) continue;
