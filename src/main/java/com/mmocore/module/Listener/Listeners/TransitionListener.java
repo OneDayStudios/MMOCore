@@ -136,7 +136,7 @@ public class TransitionListener extends RegisterableListener {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
                 SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
             } else {
-                SGBaseTE.teleportEntityAndRider(player.getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
+                if (mount == null) SGBaseTE.teleportEntityAndRider(player.getRegisteredObject(), t, dt, destination.getDimension().getId(), false);
             }
         }
         

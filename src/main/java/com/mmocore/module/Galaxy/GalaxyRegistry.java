@@ -17,7 +17,7 @@ public class GalaxyRegistry extends AbstractRegistry<GalaxyRegistry, String, Reg
     @Override
     public void initialise() {
         if (ForgeAPI.isServer()) {
-            RegisterableGalaxy galaxy = new RegisterableGalaxy("MilkyWay", 50000,0,0);
+            RegisterableGalaxy galaxy = new RegisterableGalaxy("MilkyWay", 500000,0,0);
             this.register(galaxy);
         }
         // Not required.
