@@ -17,9 +17,10 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
  */
 public class GuiListener extends RegisterableListener {
     
-   @SubscribeEvent
-   public void onRenderGui(RenderGameOverlayEvent.Post e) {
+   @SubscribeEvent(priority=EventPriority.HIGHEST)
+   public void onRenderGui(RenderGameOverlayEvent.Pre e) {
+       if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
            MMOCore.getGuiRegistry().tick();
+       }
    }
-   
 }
