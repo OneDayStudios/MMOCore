@@ -20,9 +20,10 @@ import net.minecraftforge.common.DimensionManager;
 public class MultiWorldAPI extends AbstractAPI<MultiWorldAPI> {
     
     public static void fixProviderType() {
+        DimensionControl.fullOverworldList = new boolean[1000];
         DimensionManager.unregisterProviderType(ModSettings.providerId);
-        DimensionManager.registerProviderType(ModSettings.providerId, WorldProviderSimple.class, true);
         MultiWorld.instance.unregisterDimensions();
+        DimensionManager.registerProviderType(ModSettings.providerId, WorldProviderSimple.class, true);
         MultiWorld.instance.registerDimensions();
     }
 }
