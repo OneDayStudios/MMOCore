@@ -67,9 +67,11 @@ import net.minecraftforge.common.*;
 import net.minecraftforge.common.util.*;
 import net.minecraftforge.common.network.*;
 import cpw.mods.fml.common.network.*;
+import cr0s.warpdrive.config.Dictionary;
 import gcewing.sg.SGBaseTE;
 import gcewing.sg.Trans3;
 import gcewing.sg.Vector3;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -77,6 +79,7 @@ import java.util.UUID;
 import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.aircraft.MCH_EntitySeat;
 import mcheli.aircraft.MCH_ItemAircraft;
+import mcheli.weapon.MCH_WeaponSet;
 /**
  *
  * @author draks
@@ -102,7 +105,38 @@ public class TransitionListener extends RegisterableListener {
         return ((MCH_EntityAircraft)mount);
     }
     
-    
+    @SuppressWarnings("unchecked")
+    public static <V> V get(Object object, String fieldName) {
+        Class<?> clazz = object.getClass();
+        while (clazz != null) {
+            try {
+                Field field = clazz.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                return (V) field.get(object);
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        return null;
+    }
+    public static boolean set(Object object, String fieldName, Object fieldValue) {
+        Class<?> clazz = object.getClass();
+        while (clazz != null) {
+            try {
+                Field field = clazz.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                field.set(object, fieldValue);
+                return true;
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        return false;
+    }
     private void performTeleportForPlayer(EntityPlayer player, uPosition destination) {
         HashMap<Integer,EntityPlayer> playersToMove = new HashMap<Integer,EntityPlayer>();
         Entity mount = player.ridingEntity;
@@ -131,13 +165,32 @@ public class TransitionListener extends RegisterableListener {
             double acThrottle = aircraft.getThrottle();
             double speed = aircraft.currentSpeed;
             int fuel = aircraft.currentFuel;
+            boolean throttleUp = aircraft.throttleUp;
+            boolean throttleDown = aircraft.throttleDown;
+            float throttleBack = aircraft.throttleBack;
+            float[] throttleCrawlerTrack = aircraft.throttleCrawlerTrack;
+            MCH_WeaponSet[] weaponSet = null;
+            try {
+                weaponSet = get(aircraft,"weapons");                
+            } catch (Exception e) {
+                ForgeAPI.sendConsoleEntry("Failed to obtain weapon data, it will not persist!", ConsoleMessageType.FINE);                
+            }
             MCH_EntityAircraft entity = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
             entity.setCurrentThrottle(throttle);
             entity.setThrottle(acThrottle);
             entity.currentFuel = fuel;
             entity.currentSpeed = speed;
+            entity.throttleUp = throttleUp;
+            entity.throttleDown = throttleDown;
+            entity.throttleBack = throttleBack;
+            entity.throttleCrawlerTrack = throttleCrawlerTrack;
+            if (weaponSet != null) {
+                if (set(entity, "weapons", weaponSet)) {
+                    ForgeAPI.sendConsoleEntry("Successfully reset weapons!", ConsoleMessageType.FINE);
+                }
+            }
             entity.updateControl();
-            entity.updateSupplyAmmo();;
+            entity.updateSupplyAmmo();
             entity.updateWeapons();
             MCH_EntitySeat seat;
             for (Integer seatID : playersToMove.keySet()) {
