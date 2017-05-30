@@ -168,6 +168,9 @@ public class TransitionListener extends RegisterableListener {
             MCH_WeaponSet[] weaponSet = null;
             try {
                 weaponSet = get(aircraft,"weapons");                
+                for (MCH_WeaponSet set : weaponSet) {
+                    ForgeAPI.sendConsoleEntry("Loading weapon: " + set.getName() + " with : " + set.getAmmoNum() +" loaded ammo and total: " + set.getAllAmmoNum(), ConsoleMessageType.FINE);
+                }
             } catch (Exception e) {
                 ForgeAPI.sendConsoleEntry("Failed to obtain weapon data, it will not persist!", ConsoleMessageType.FINE);                
             }
@@ -188,6 +191,12 @@ public class TransitionListener extends RegisterableListener {
             entity.updateControl();
             entity.updateSupplyAmmo();
             entity.updateWeapons();
+            entity.onUpdateAircraft();
+            for (MCH_EntitySeat seat : entity.getSeats()) {
+                if (seat != null) entity.updateClientSettings(seat.seatID);
+            }
+            
+            entity.updateCameraViewers();
             MCH_EntitySeat seat;
             for (Integer seatID : playersToMove.keySet()) {
                 if (playersToMove.get(seatID) == null) {
