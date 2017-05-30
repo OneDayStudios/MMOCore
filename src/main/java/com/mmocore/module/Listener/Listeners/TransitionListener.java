@@ -131,8 +131,14 @@ public class TransitionListener extends RegisterableListener {
                 ForgeAPI.sendConsoleEntry("Attempting to remount player: " + playersToMove.get(seatID).getUniqueID() + " to seat: " + seatID, ConsoleMessageType.FINE);
                 EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID), t, dt, destination.getDimension().getId(), false);
                 MCH_EntitySeat seat = entity.getSeat(seatID);
+                if (seat == null) {
+                    seat = new MCH_EntitySeat(entity.worldObj, entity.posX, entity.posY, entity.posZ);
+                    seat.parentUniqueID = entity.getCommonUniqueId();
+                    seat.seatID = seatID;
+                }
+                entityPlayer.mountEntity(seat);      
+                entity.setSeat(seatID, seat);
                 ForgeAPI.sendConsoleEntry("Seat Details: "  + seat.parentUniqueID + ", " + seat.parentSearchCount + "," + seat.seatID + "," + seat.func_130002_c(entityPlayer), ConsoleMessageType.FINE);
-                entityPlayer.mountEntity(entity);      
             }
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
