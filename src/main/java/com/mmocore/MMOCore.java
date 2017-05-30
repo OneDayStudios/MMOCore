@@ -50,7 +50,7 @@ public class MMOCore {
     
    public static final String MODID = "mmocore";
    public static final String MODNAME = "MMOCore";
-   public static final String MODVER = "1.0.4";
+   public static final String MODVER = "1.0.5";
 
    private static GuiRegistry guiRegistry;
    private static DimensionRegistry dimensionRegistry;

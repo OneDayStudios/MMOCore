@@ -63,11 +63,8 @@ public class PlayerListener extends RegisterableListener {
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
-        RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());        
-        if (rPlayer.getHudRefreshTime() < (System.currentTimeMillis() - 900)) {
-            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
-            rPlayer.updateHudRefreshTime();
-        }        
+        RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
+        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
         NpcAPI.spawnRandomNpcs(rPlayer);
     }
 }

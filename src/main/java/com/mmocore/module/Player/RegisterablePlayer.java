@@ -25,11 +25,9 @@ import net.minecraft.world.World;
 public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer, UUID, EntityPlayer> {
     
     private UUID uuid;
-    private Long hudRefreshTime;
     
     public RegisterablePlayer(UUID playerUUID) {
         this.uuid = playerUUID;        
-        this.hudRefreshTime = System.currentTimeMillis();
     }
     
     @Override
@@ -40,14 +38,6 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public UUID getIdentifier() {
         return this.uuid;
-    }
-    
-    public void updateHudRefreshTime() {
-        this.hudRefreshTime = System.currentTimeMillis();
-    }
-    
-    public Long getHudRefreshTime() {
-        return this.hudRefreshTime;
     }
     
     public uPosition getPosition() {
