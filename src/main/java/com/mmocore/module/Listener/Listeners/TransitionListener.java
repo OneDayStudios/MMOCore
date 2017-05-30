@@ -111,9 +111,10 @@ public class TransitionListener extends RegisterableListener {
             for (MCH_EntitySeat seat : seats) {
                     if (seat == null || seat.riddenByEntity == null) continue;
                     EntityPlayer e = (EntityPlayer)seat.riddenByEntity;
-                    if (seat.getParent() != null && !(seat.getParent().equals(aircraft))) continue;
+                    if (seat.getParent() != null && !seat.getParent().equals(aircraft)) continue;
                     if (e == player) continue;
                     ForgeAPI.sendConsoleEntry("Capturing player: " + e.getUniqueID() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
+                    ForgeAPI.sendConsoleEntry("Seat Details: "  + seat.parentUniqueID + ", " + seat.parentSearchCount + "," + seat.seatID + "," + seat.func_130002_c(e), ConsoleMessageType.FINE);
                     playersToMove.put(seat.seatID,e);
                     e.mountEntity(null);
             }
@@ -129,7 +130,9 @@ public class TransitionListener extends RegisterableListener {
             for (Integer seatID : playersToMove.keySet()) {
                 ForgeAPI.sendConsoleEntry("Attempting to remount player: " + playersToMove.get(seatID).getUniqueID() + " to seat: " + seatID, ConsoleMessageType.FINE);
                 EntityPlayer entityPlayer = (EntityPlayer)SGBaseTE.teleportEntityAndRider(playersToMove.get(seatID), t, dt, destination.getDimension().getId(), false);
-                entityPlayer.mountEntity(entity.getSeat(seatID));
+                MCH_EntitySeat seat = entity.getSeat(seatID);
+                ForgeAPI.sendConsoleEntry("Seat Details: "  + seat.parentUniqueID + ", " + seat.parentSearchCount + "," + seat.seatID + "," + seat.func_130002_c(entityPlayer), ConsoleMessageType.FINE);
+                entityPlayer.mountEntity(entity);      
             }
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
