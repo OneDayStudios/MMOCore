@@ -111,7 +111,7 @@ public class TransitionListener extends RegisterableListener {
             for (MCH_EntitySeat seat : seats) {
                     if (seat == null || seat.riddenByEntity == null) continue;
                     EntityPlayer e = (EntityPlayer)seat.riddenByEntity;
-                    if (seat.getParent() != null & seat.getParent().equals(aircraft)) continue;
+                    if (seat.getParent() != null && !(seat.getParent().equals(aircraft))) continue;
                     if (e == player) continue;
                     ForgeAPI.sendConsoleEntry("Capturing player: " + e.getUniqueID() + " in seat: " + seat.seatID, ConsoleMessageType.FINE);
                     playersToMove.put(seat.seatID,e);
