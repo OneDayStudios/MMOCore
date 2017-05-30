@@ -108,7 +108,6 @@ public class TransitionListener extends RegisterableListener {
     @SuppressWarnings("unchecked")
     public static <V> V get(Object object, String fieldName) {
         Class<?> clazz = object.getClass();
-        while (clazz != null) {
             try {
                 Field field = clazz.getDeclaredField(fieldName);
                 field.setAccessible(true);
@@ -118,12 +117,10 @@ public class TransitionListener extends RegisterableListener {
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
-        }
         return null;
     }
     public static boolean set(Object object, String fieldName, Object fieldValue) {
         Class<?> clazz = object.getClass();
-        while (clazz != null) {
             try {
                 Field field = clazz.getDeclaredField(fieldName);
                 field.setAccessible(true);
@@ -134,7 +131,6 @@ public class TransitionListener extends RegisterableListener {
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
-        }
         return false;
     }
     private void performTeleportForPlayer(EntityPlayer player, uPosition destination) {
