@@ -180,6 +180,8 @@ public class TransitionListener extends RegisterableListener {
             entity.updateSupplyAmmo();
             entity.updateWeapons();
             entity.onUpdateAircraft();
+            entity.onFirstUpdate();
+            entity.func_70071_h_();
             for (MCH_EntitySeat seatNew : entity.getSeats()) {
                 if (seatNew != null) entity.updateClientSettings(seatNew.seatID);
             }            
