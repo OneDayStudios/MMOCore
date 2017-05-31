@@ -19,7 +19,7 @@ public class GuiListener extends RegisterableListener {
     
    @SubscribeEvent(priority=EventPriority.HIGHEST)
    public void onRenderGui(RenderGameOverlayEvent.Pre e) {
-       if (e.type == RenderGameOverlayEvent.ElementType.TEXT) {
+       if (e.type == RenderGameOverlayEvent.ElementType.HOTBAR) {
            MMOCore.getGuiRegistry().tick();
        }
    }

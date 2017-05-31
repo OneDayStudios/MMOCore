@@ -105,34 +105,6 @@ public class TransitionListener extends RegisterableListener {
         return ((MCH_EntityAircraft)mount);
     }
     
-    @SuppressWarnings("unchecked")
-    public static <V> V get(Object object, String fieldName) {
-        Class<?> clazz = object.getClass();
-            try {
-                Field field = clazz.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                return (V) field.get(object);
-            } catch (NoSuchFieldException e) {
-                clazz = clazz.getSuperclass();
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
-        return null;
-    }
-    public static boolean set(Object object, String fieldName, Object fieldValue) {
-        Class<?> clazz = object.getClass();
-            try {
-                Field field = clazz.getDeclaredField(fieldName);
-                field.setAccessible(true);
-                field.set(object, fieldValue);
-                return true;
-            } catch (NoSuchFieldException e) {
-                clazz = clazz.getSuperclass();
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
-        return false;
-    }
     private void performTeleportForPlayer(EntityPlayer player, uPosition destination) {
         HashMap<Integer,EntityPlayer> playersToMove = new HashMap<Integer,EntityPlayer>();
         Entity mount = player.ridingEntity;
@@ -165,15 +137,6 @@ public class TransitionListener extends RegisterableListener {
             boolean throttleDown = aircraft.throttleDown;
             float throttleBack = aircraft.throttleBack;
             float[] throttleCrawlerTrack = aircraft.throttleCrawlerTrack;
-            MCH_WeaponSet[] weaponSet = null;
-            try {
-                weaponSet = get(aircraft,"weapons");                
-                for (MCH_WeaponSet set : weaponSet) {
-                    ForgeAPI.sendConsoleEntry("Loading weapon: " + set.getName() + " with : " + set.getAmmoNum() +" loaded ammo and total: " + set.getAllAmmoNum(), ConsoleMessageType.FINE);
-                }
-            } catch (Exception e) {
-                ForgeAPI.sendConsoleEntry("Failed to obtain weapon data, it will not persist!", ConsoleMessageType.FINE);                
-            }
             MCH_EntityAircraft entity = (MCH_EntityAircraft)SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
             entity.setCurrentThrottle(throttle);
             entity.setThrottle(acThrottle);
@@ -183,20 +146,6 @@ public class TransitionListener extends RegisterableListener {
             entity.throttleDown = throttleDown;
             entity.throttleBack = throttleBack;
             entity.throttleCrawlerTrack = throttleCrawlerTrack;
-            if (weaponSet != null) {
-                if (set(entity, "weapons", weaponSet)) {
-                    ForgeAPI.sendConsoleEntry("Successfully reset weapons!", ConsoleMessageType.FINE);
-                }
-            }
-            entity.updateControl();
-            entity.updateSupplyAmmo();
-            entity.updateWeapons();
-            entity.onUpdateAircraft();
-            for (MCH_EntitySeat seat : entity.getSeats()) {
-                if (seat != null) entity.updateClientSettings(seat.seatID);
-            }
-            
-            entity.updateCameraViewers();
             MCH_EntitySeat seat;
             for (Integer seatID : playersToMove.keySet()) {
                 if (playersToMove.get(seatID) == null) {
@@ -227,6 +176,14 @@ public class TransitionListener extends RegisterableListener {
                     ForgeAPI.sendConsoleEntry("Seat Details: "  + seat.parentUniqueID + ", " + seat.parentSearchCount + "," + seat.seatID + "," + seat.func_130002_c(entityPlayer), ConsoleMessageType.FINE);
                 }
             }
+            entity.updateControl();
+            entity.updateSupplyAmmo();
+            entity.updateWeapons();
+            entity.onUpdateAircraft();
+            for (MCH_EntitySeat seatNew : entity.getSeats()) {
+                if (seatNew != null) entity.updateClientSettings(seatNew.seatID);
+            }            
+            entity.updateCameraViewers();
         } else {
             if (mount != null && !(mount instanceof MCH_EntitySeat)) {
                 SGBaseTE.teleportEntityAndRider(mount, t, dt, destination.getDimension().getId(), false);
