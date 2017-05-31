@@ -9,7 +9,6 @@ import com.mmocore.module.Listener.Listeners.WorldListener;
 import com.mmocore.MMOCore;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.module.Listener.Listeners.BorderListener;
-import com.mmocore.module.Listener.Listeners.BreathingListener;
 import com.mmocore.module.Listener.Listeners.GuiListener;
 import com.mmocore.module.Listener.Listeners.PlayerListener;
 import com.mmocore.module.Listener.Listeners.TransitionListener;
@@ -35,7 +34,6 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
         MMOCore.getListenerRegistry().register(new PlayerListener());
         MMOCore.getListenerRegistry().register(new TransitionListener());
         MMOCore.getListenerRegistry().register(new BorderListener());
-        MMOCore.getListenerRegistry().register(new BreathingListener());
     }
     private void initClientListeners() {
         MMOCore.getListenerRegistry().register(new GuiListener());
