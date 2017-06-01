@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class QuestObjectiveOptions {
     
-    private QuestType type;
+    private QuestType type = QuestType.Assassination;
     private ArrayList<RegisterableDialog> dialogObjectives = new ArrayList<RegisterableDialog>();
     private ArrayList<RegisterableLocation> locationObjectives = new ArrayList<RegisterableLocation>();
     private HashMap<Integer, RegisterableNpc> killObjectives = new HashMap<Integer, RegisterableNpc>();

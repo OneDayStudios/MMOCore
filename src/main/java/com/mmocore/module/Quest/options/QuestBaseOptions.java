@@ -13,10 +13,10 @@ import com.mmocore.constants.QuestRepeatType;
  */
 public class QuestBaseOptions {
     
-    public String title;
-    public String questChain;
-    public String questLogText;
-    public QuestRepeatType repeatType;
+    public String title = "No Quest Title Defined";
+    public String questChain = "No Quest Chain Defined";
+    public String questLogText = "No quest log information available.";
+    public QuestRepeatType repeatType = QuestRepeatType.Never;
     
     public void setTitle(String title) {
         this.title = title;

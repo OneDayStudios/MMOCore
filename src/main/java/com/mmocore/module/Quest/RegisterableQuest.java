@@ -46,14 +46,15 @@ import noppes.npcs.constants.EnumQuestType;
 public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
     
     private Quest actualQuest;
-    
+    private int id = -1;
     private QuestBaseOptions baseOptions = new QuestBaseOptions();
     private QuestRewardOptions rewardOptions = new QuestRewardOptions();
     private QuestObjectiveOptions objectiveOptions = new QuestObjectiveOptions();
         
     private void pushToGame() {
-        if (!MMOCore.getQuestRegistry().isRegistered(this.getID())) return;
-        if (this.getBaseOptions().getQuestChain() == null ? this.actualQuest.category.title != null : !this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
+        if (this.getID() == -1) return;
+        if (this.actualQuest.id != this.getID()) this.actualQuest.id = this.getID();
+        if (!this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
             this.setQuestCategory(this.getBaseOptions().getQuestChain());
         }
         if (!this.getBaseOptions().getTitle().equals(actualQuest.title)) actualQuest.title = this.getBaseOptions().getTitle();
@@ -203,7 +204,12 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         }
 
         
-        this.save();
+        if (this.save()) {
+            ForgeAPI.sendConsoleEntry("Successfully saved quest: " + this.getID(), ConsoleMessageType.FINE);
+        } else {
+            ForgeAPI.sendConsoleEntry("Failed saving quest: " + this.getID(), ConsoleMessageType.FINE);
+        }
+        
     }
     
     public RegisterableQuest(String title, String chain) {
@@ -283,11 +289,11 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     }
     
     public int getID() {
-        return actualQuest.id;
+        return id;
     }
     
     public void setID(int id) {
-        actualQuest.id = id;
+        this.id = id;
     }
     
     public int getRewardedExp() {
@@ -475,6 +481,8 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             }
             setID(id);
         }
+        this.setQuestCategory(this.getBaseOptions().getQuestChain());
+        this.save();
         this.pushToGame();
     }
 

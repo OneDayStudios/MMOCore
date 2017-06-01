@@ -192,6 +192,7 @@ public class MMOCore {
         rOpts.setExperienceReward(AbstractScale.Lower);
         rOpts.setCompletionText("Win!");
         quest.setRewardOptions(rOpts);
+        MMOCore.getQuestRegistry().register(quest);
        }
    }
    
