@@ -52,7 +52,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     private QuestObjectiveOptions objectiveOptions = new QuestObjectiveOptions();
         
     private void pushToGame() {
-        
+        if (!MMOCore.getQuestRegistry().isRegistered(this.getID())) return;
         if (this.getBaseOptions().getQuestChain() == null ? this.actualQuest.category.title != null : !this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
             this.setQuestCategory(this.getBaseOptions().getQuestChain());
         }
@@ -210,7 +210,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         QuestBaseOptions bOpts = this.getBaseOptions();
         bOpts.setTitle(title);
         bOpts.setQuestChain(chain);
-        this.setBaseOptions(bOpts);
+        this.setBaseOptions(bOpts);        
     }
     
     public QuestObjectiveOptions getObjectiveOptions() {
@@ -475,7 +475,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             }
             setID(id);
         }
-        this.save();
+        this.pushToGame();
     }
 
     @Override
