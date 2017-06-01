@@ -7,9 +7,7 @@ package com.mmocore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.MultiWorldAPI;
 import com.mmocore.api.NpcAPI;
-import com.mmocore.api.UniverseAPI;
 import com.mmocore.api.WarpDriveAPI;
-import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
 import com.mmocore.module.Galaxy.GalaxyRegistry;
@@ -21,16 +19,6 @@ import com.mmocore.module.Player.PlayerRegistry;
 import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
-import com.mmocore.constants.IntegratedMod;
-import com.mmocore.constants.NpcModifier;
-import com.mmocore.constants.NpcSpawnMethod;
-import com.mmocore.constants.NpcTexture;
-import com.mmocore.constants.uPosition;
-import com.mmocore.module.Npc.RegisterableNpc;
-import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.Quest.RegisterableQuest;
-import com.mmocore.module.Quest.options.QuestObjectiveOptions;
-import com.mmocore.module.Quest.options.QuestRewardOptions;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
@@ -42,10 +30,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import fabricator77.multiworld.MultiWorld;
-import fabricator77.multiworld.command.CommandTPD;
-import java.util.HashMap;
-import net.minecraftforge.common.DimensionManager;
 
 
 /**
