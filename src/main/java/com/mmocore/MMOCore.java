@@ -152,15 +152,15 @@ public class MMOCore {
            MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {
-        MMOCore.getDimensionRegistry().initialise();
-        MMOCore.getGalaxyRegistry().initialise();       
-        MMOCore.getPlayerRegistry().initialise();
-        MMOCore.getDialogRegistry().initialise();       
-        MMOCore.getCommandRegistry().initialise();
-        MMOCore.getQuestRegistry().initialise();
-        MMOCore.getNpcFactionRegistry().initialise();
-        MMOCore.getNpcRegistry().initialise();  
-        WarpDriveAPI.onServerStarted();    
+            MMOCore.getDimensionRegistry().initialise();
+            MMOCore.getGalaxyRegistry().initialise();       
+            MMOCore.getPlayerRegistry().initialise();
+            MMOCore.getDialogRegistry().initialise();       
+            MMOCore.getCommandRegistry().initialise();
+            MMOCore.getQuestRegistry().initialise();
+            MMOCore.getNpcFactionRegistry().initialise();
+            MMOCore.getNpcRegistry().initialise();  
+            WarpDriveAPI.onServerStarted();    
        }
    }
    
