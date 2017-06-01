@@ -177,22 +177,6 @@ public class MMOCore {
         MMOCore.getNpcFactionRegistry().initialise();
         MMOCore.getNpcRegistry().initialise();  
         WarpDriveAPI.onServerStarted();    
-        RegisterableNpcFaction testFaction = new RegisterableNpcFaction("Test");
-        MMOCore.getNpcFactionRegistry().register(testFaction);
-        RegisterableQuest quest = new RegisterableQuest("MyQuest", "TestCategory");
-        RegisterableNpc npc = new RegisterableNpc("Test", "Test", NpcTexture.SGC_SOLDIER, NpcModifier.RANGED_COMMANDER, NpcSpawnMethod.Static, new uPosition(100.0,100.0,100.0,UniverseAPI.getDimension("P2X-3YZ")), testFaction);
-        MMOCore.getNpcRegistry().register(npc);
-        QuestObjectiveOptions oOpts = quest.getObjectiveOptions();
-        HashMap<Integer, RegisterableNpc> objectives = new HashMap<Integer,RegisterableNpc>();
-        objectives.put(10, npc);
-        oOpts.setOrUpdateQuestTypeKill(objectives);
-        quest.setObjectiveOptions(oOpts);
-        QuestRewardOptions rOpts = quest.getRewardOptions();
-        rOpts.setCompletionCommand("broadcast You win!");
-        rOpts.setExperienceReward(AbstractScale.Lower);
-        rOpts.setCompletionText("Win!");
-        quest.setRewardOptions(rOpts);
-        MMOCore.getQuestRegistry().register(quest);
        }
    }
    
