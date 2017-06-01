@@ -29,7 +29,7 @@ public class QuestRegistry extends AbstractRegistry<QuestRegistry, Integer, Regi
         for (String QuestName : quests.keySet()) {
             RegisterableQuest Quest = new RegisterableQuest(QuestName, quests.get(QuestName));
             this.register(Quest);
-            ForgeAPI.sendConsoleEntry("Initialised existing Quest: " + Quest.getTitle() + " (" + Quest.getID() + ") with category: " + Quest.getCategoryName() + ".", ConsoleMessageType.FINE);
+            ForgeAPI.sendConsoleEntry("Initialised existing Quest: " + Quest.getBaseOptions().getTitle() + " (" + Quest.getID() + ") with category: " + Quest.getBaseOptions().getQuestChain() + ".", ConsoleMessageType.FINE);
         }    
     }
 
