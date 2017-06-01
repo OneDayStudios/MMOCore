@@ -9,10 +9,14 @@ import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.QuestAPI;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.QuestCompletionType;
+import com.mmocore.constants.QuestRepeatType;
 import com.mmocore.constants.QuestRewardType;
+import com.mmocore.constants.QuestType;
+import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Quest.options.QuestObjectiveOptions;
 import com.mmocore.module.Quest.options.QuestRewardOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -33,6 +37,7 @@ import noppes.npcs.quests.QuestKill;
 import noppes.npcs.quests.QuestLocation;
 import noppes.npcs.quests.QuestItem;
 import com.mmocore.module.Quest.options.QuestBaseOptions;
+import noppes.npcs.constants.EnumQuestType;
 
 /**
  *
@@ -48,6 +53,31 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         
     private void pushToGame() {
         
+        if (this.getBaseOptions().getQuestChain() == null ? this.actualQuest.category.title != null : !this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
+            this.setQuestCategory(this.getBaseOptions().getQuestChain());
+        }
+        if (!this.getBaseOptions().getTitle().equals(actualQuest.title)) actualQuest.title = this.getBaseOptions().getTitle();
+        if (!this.getBaseOptions().getQuestLogText().equals(this.actualQuest.logText)) actualQuest.logText = this.getBaseOptions().getQuestLogText();
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.Always)) actualQuest.repeat = EnumQuestRepeat.REPEATABLE;
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.MCDaily)) actualQuest.repeat = EnumQuestRepeat.MCDAILY;
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.MCWeekly)) actualQuest.repeat = EnumQuestRepeat.MCWEEKLY;
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.RLDaily)) actualQuest.repeat = EnumQuestRepeat.RLDAILY;
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.RLWeekly)) actualQuest.repeat = EnumQuestRepeat.RLDAILY;
+        if (this.getBaseOptions().getRepeatType().equals(QuestRepeatType.Never)) actualQuest.repeat = EnumQuestRepeat.NONE;
+
+        
+        if (this.getRewardOptions().getCompletionType().equals(QuestCompletionType.Instant)) {
+            actualQuest.completion = EnumQuestCompletion.Instant;
+            actualQuest.completerNpc = "NONE";
+        } else {
+            actualQuest.completion = EnumQuestCompletion.Npc;
+            if (this.getRewardOptions().getCompletionNpc() != null && !NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction())) {
+                MMOCore.getNpcRegistry().register(this.getRewardOptions().getCompletionNpc());
+                ForgeAPI.sendConsoleEntry("Registering of completion Npc for quest: " + this.getTitle() + " aka. " + this.getRewardOptions().getCompletionNpc().getBaseOptions().getName() + ": " + (NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction()) ? "succeeded." : "failed."), ConsoleMessageType.FINE);
+            }
+            actualQuest.completerNpc = this.getRewardOptions().getCompletionNpc().getBaseOptions().getName();
+        }
+        
         if (this.getRewardOptions().getFollowOnQuest() != null && !this.getRewardOptions().getFollowOnQuest().isRegistered()) {
             MMOCore.getQuestRegistry().register(this.getRewardOptions().getFollowOnQuest());
             ForgeAPI.sendConsoleEntry("Registering of follow-on quest for : " + this.getTitle() + " aka. " + this.getRewardOptions().getFollowOnQuest().getTitle() + ": " + (this.getRewardOptions().getFollowOnQuest().isRegistered() ? "succeeded." : "failed."), ConsoleMessageType.FINE);
@@ -62,22 +92,116 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         }
         
         actualQuest.completeText = this.getRewardOptions().getCompletionText();
+        
         actualQuest.randomReward = (this.getRewardOptions().getRewardType().equals(QuestRewardType.Random));
         actualQuest.randomReward = (this.getRewardOptions().getRewardType().equals(QuestRewardType.All));
+        
+        
         actualQuest.command = this.getRewardOptions().getCompletionCommand();
         
-
-        if (this.getRewardOptions().getCompletionType().equals(QuestCompletionType.Instant)) {
-            actualQuest.completion = EnumQuestCompletion.Instant;
-            actualQuest.completerNpc = "NONE";
-        } else {
-            actualQuest.completion = EnumQuestCompletion.Npc;
-            if (this.getRewardOptions().getCompletionNpc() != null && !NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction())) {
-                MMOCore.getNpcRegistry().register(this.getRewardOptions().getCompletionNpc());
-                ForgeAPI.sendConsoleEntry("Registering of completion Npc for quest: " + this.getTitle() + " aka. " + this.getRewardOptions().getCompletionNpc().getBaseOptions().getName() + ": " + (NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction()) ? "succeeded." : "failed."), ConsoleMessageType.FINE);
-            }
-            actualQuest.completerNpc = this.getRewardOptions().getCompletionNpc().getBaseOptions().getName();
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Absolute)) actualQuest.rewardExp = 1000;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Highest)) actualQuest.rewardExp = 750;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Higher)) actualQuest.rewardExp = 500;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.High)) actualQuest.rewardExp = 250;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Medium)) actualQuest.rewardExp = 100;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Low)) actualQuest.rewardExp = 50;
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Lower)) actualQuest.rewardExp = 25;        
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.Lowest)) actualQuest.rewardExp = 10;        
+        if (this.getRewardOptions().getExperienceReward().equals(AbstractScale.None)) actualQuest.rewardExp = 0;        
+        
+        actualQuest.rewardItems.items.clear();
+        
+        for (NpcItem item : this.getRewardOptions().getRewardItems()) {
+            if (!item.hasItem()) continue;
+            if (actualQuest.rewardItems.items.size() > 8) continue;
+            int index = actualQuest.rewardItems.items.size();
+            actualQuest.rewardItems.items.put(index, item.getItem());
         }
+        
+        if (this.getRewardOptions().getPrimaryFactionReward() != null) {
+            actualQuest.factionOptions.decreaseFactionPoints = this.getRewardOptions().getPrimaryFactionReward().isDecrease();
+            actualQuest.factionOptions.factionId = this.getRewardOptions().getPrimaryFactionReward().getFaction().getID();
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Absolute)) this.actualQuest.factionOptions.factionPoints = 250;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Highest)) this.actualQuest.factionOptions.factionPoints = 100;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Higher)) this.actualQuest.factionOptions.factionPoints = 50;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.High)) this.actualQuest.factionOptions.factionPoints = 25;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Medium)) this.actualQuest.factionOptions.factionPoints = 10;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Low)) this.actualQuest.factionOptions.factionPoints = 5;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Lower)) this.actualQuest.factionOptions.factionPoints = 3;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.Lowest)) this.actualQuest.factionOptions.factionPoints = 1;
+            if (this.getRewardOptions().getPrimaryFactionReward().getValue().equals(AbstractScale.None)) this.actualQuest.factionOptions.factionPoints = 0;
+        } else {
+            actualQuest.factionOptions.decreaseFactionPoints = false;
+            actualQuest.factionOptions.factionId = -1;
+            actualQuest.factionOptions.factionPoints = 0;            
+        }               
+        
+        if (this.getRewardOptions().getSecondaryFactionReward() != null) {
+            actualQuest.factionOptions.decreaseFaction2Points = this.getRewardOptions().getSecondaryFactionReward().isDecrease();
+            actualQuest.factionOptions.faction2Id = this.getRewardOptions().getSecondaryFactionReward().getFaction().getID();
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Absolute)) this.actualQuest.factionOptions.faction2Points = 250;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Highest)) this.actualQuest.factionOptions.faction2Points = 100;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Higher)) this.actualQuest.factionOptions.faction2Points = 50;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.High)) this.actualQuest.factionOptions.faction2Points = 25;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Medium)) this.actualQuest.factionOptions.faction2Points = 10;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Low)) this.actualQuest.factionOptions.faction2Points = 5;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Lower)) this.actualQuest.factionOptions.faction2Points = 3;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.Lowest)) this.actualQuest.factionOptions.faction2Points = 1;
+            if (this.getRewardOptions().getSecondaryFactionReward().getValue().equals(AbstractScale.None)) this.actualQuest.factionOptions.faction2Points = 0;
+        } else {
+            actualQuest.factionOptions.decreaseFaction2Points = false;
+            actualQuest.factionOptions.faction2Id = -1;
+            actualQuest.factionOptions.faction2Points = 0;            
+        }       
+        
+        if (this.getObjectiveOptions().getType().equals(QuestType.Assassination)) {
+            actualQuest.questInterface = new QuestKill();        
+            QuestKill iface = (QuestKill)actualQuest.questInterface;
+            iface.questId = getID();
+            actualQuest.questInterface = iface;
+            if (iface.targets.size() >= 3) return;
+            iface.targets.clear();
+            for (Integer count : this.getObjectiveOptions().getKillObjectives().keySet()) {
+                iface.targets.put(this.getObjectiveOptions().getKillObjectives().get(count).getBaseOptions().getName(), count);
+                actualQuest.questInterface = iface;
+            }
+        }
+        
+        if (this.getObjectiveOptions().getType().equals(QuestType.Location)) {
+            actualQuest.questInterface = new QuestLocation();
+            QuestLocation iface = (QuestLocation)actualQuest.questInterface;
+            iface.questId = getID();
+            if (this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
+                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getIdentifier();
+            } else {
+                iface.location = "";
+            }
+            
+            if (this.getObjectiveOptions().getLocationObjectives().get(1) != null) {
+                iface.location2 = this.getObjectiveOptions().getLocationObjectives().get(1).getIdentifier();
+            } else {
+                iface.location2 = "";
+            }
+            
+            if (this.getObjectiveOptions().getLocationObjectives().get(2) != null) {
+                iface.location3 = this.getObjectiveOptions().getLocationObjectives().get(2).getIdentifier();
+            } else {
+                iface.location3 = "";
+            }            
+            actualQuest.questInterface = iface;
+        }
+        
+        if (this.getObjectiveOptions().getType().equals(QuestType.ItemRetrieval)) {
+            actualQuest.questInterface = new QuestItem();
+            QuestItem iface = (QuestItem)actualQuest.questInterface;
+            iface.items.items.clear();
+            iface.ignoreNBT = !this.getObjectiveOptions().requireExactItem();
+            iface.leaveItems = !this.getObjectiveOptions().takeItems();
+            for (NpcItem item : this.getObjectiveOptions().getItemObjectives()) {
+                iface.items.items.put(iface.items.items.size(), item.getItem());
+            }
+        }
+
         
         this.save();
     }
@@ -87,6 +211,15 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         bOpts.setTitle(title);
         bOpts.setQuestChain(chain);
         this.setBaseOptions(bOpts);
+    }
+    
+    public QuestObjectiveOptions getObjectiveOptions() {
+        return this.objectiveOptions;
+    }
+    
+    public void setObjectiveOptions(QuestObjectiveOptions options) {
+        this.objectiveOptions = options;
+        this.pushToGame();
     }
     
     public QuestBaseOptions getBaseOptions() {
@@ -115,21 +248,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         return MMOCore.getQuestRegistry().getRegistered(this.getID()) != null;
     }
     
-    public void setQuestTypeKill() {
-        actualQuest.questInterface = new QuestKill();
-        QuestKill iface = (QuestKill)actualQuest.questInterface;
-        iface.questId = getID();
-        actualQuest.questInterface = iface;
-    }
-    
-    public void addKillTarget(String name, int number) {
-        QuestKill iface = (QuestKill)actualQuest.questInterface;
-        if (iface.targets.size() > 2) return;
-        System.out.println("Adding kill target: " + name + " and number: " + number);
-        iface.targets.put(name,number);
-        actualQuest.questInterface = iface;
-    }
-    
     public void setQuestTypeDialog(String dialog1, String dialog2, String dialog3) {
         actualQuest.questInterface = new QuestDialog();
         QuestDialog iface = (QuestDialog)actualQuest.questInterface;
@@ -143,19 +261,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         actualQuest.questInterface = iface;
     }
     
-    public void setQuestTypeLocation(String location1, String location2, String location3) {
-        actualQuest.questInterface = new QuestLocation();
-        QuestLocation iface = (QuestLocation)actualQuest.questInterface;
-        iface.questId = getID();
-        if (!"NONE".equals(location1)) iface.location = location1;
-        if (!"NONE".equals(location2)) iface.location2 = location2;
-        if (!"NONE".equals(location3)) iface.location3 = location3;
-        if ("NONE".equals(location1)) iface.location = "";
-        if ("NONE".equals(location2)) iface.location2 = "";
-        if ("NONE".equals(location3)) iface.location3 = "";
-        actualQuest.questInterface = iface;
-    }
-    
     public void setQuestTypeItem(boolean doIgnoreDamage, boolean doIgnoreNBT, boolean takeItems) {
         actualQuest.questInterface = new QuestItem();
         QuestItem iface = (QuestItem)actualQuest.questInterface;
@@ -164,27 +269,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         iface.ignoreNBT = doIgnoreNBT;
         iface.leaveItems = !takeItems;
         actualQuest.questInterface = iface;
-    }
-    
-    public boolean hasItemRequired(String mod, String item, int numberOf, int dmg) {
-        QuestItem iface = (QuestItem)actualQuest.questInterface;
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-        if (stack.getMaxStackSize() < numberOf) return false;
-        stack.setItemDamage(dmg);
-        return iface.items.items.values().contains(stack);
-    }
-    
-    public boolean addItemRequired(String mod, String item, int numberOf, int dmg) {
-        QuestItem iface = (QuestItem)actualQuest.questInterface;
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        if (iface.items.items.size() > 2) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-        if (stack.getMaxStackSize() < numberOf) return false;
-        stack.setItemDamage(dmg);
-        int index = iface.items.items.size();
-        iface.items.items.put(index, stack);
-        return iface.items.items.get(index).equals(stack);
     }
     
     public boolean save() {

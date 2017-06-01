@@ -23,7 +23,7 @@ public class QuestObjectiveOptions {
     private ArrayList<RegisterableDialog> dialogObjectives = new ArrayList<RegisterableDialog>();
     private ArrayList<RegisterableLocation> locationObjectives = new ArrayList<RegisterableLocation>();
     private HashMap<Integer, RegisterableNpc> killObjectives = new HashMap<Integer, RegisterableNpc>();
-    private HashMap<Integer, NpcItem> itemObjectives = new HashMap<Integer, NpcItem>();
+    private ArrayList<NpcItem> itemObjectives = new ArrayList<NpcItem>();
     private boolean exactMatchForItems = false;
     private boolean takeItemsForItemQuest = false;
     
@@ -32,7 +32,7 @@ public class QuestObjectiveOptions {
     }
     
     private void resetObjectives() {
-        this.itemObjectives = new HashMap<Integer, NpcItem>();
+        this.itemObjectives = new ArrayList<NpcItem>();
         this.killObjectives = new HashMap<Integer, RegisterableNpc>();
         this.locationObjectives = new ArrayList<RegisterableLocation>();
         this.dialogObjectives = new ArrayList<RegisterableDialog>();
@@ -40,10 +40,18 @@ public class QuestObjectiveOptions {
         this.takeItemsForItemQuest = false;
     }
     
-    public void setOrUpdateQuestTypeItem(HashMap<Integer, NpcItem> objectives, boolean takeItems, boolean exactMatch) {
+    public boolean requireExactItem() {
+        return this.exactMatchForItems;
+    }
+    
+    public boolean takeItems() {
+        return this.takeItemsForItemQuest;
+    }
+    
+    public void setOrUpdateQuestTypeItem(ArrayList<NpcItem> objectives, boolean takeItems, boolean exactMatch) {
         this.resetObjectives();
         this.itemObjectives = objectives;
-        this.type = QuestType.Conversation;
+        this.type = QuestType.ItemRetrieval;
         this.takeItemsForItemQuest = takeItems;
         this.exactMatchForItems = exactMatch;
     }
@@ -78,7 +86,7 @@ public class QuestObjectiveOptions {
         return this.killObjectives;
     }
     
-    public HashMap<Integer, NpcItem> getItemObjectives() {
+    public ArrayList<NpcItem> getItemObjectives() {
         return this.itemObjectives;
     }
     

@@ -7,7 +7,9 @@ package com.mmocore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.MultiWorldAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.UniverseAPI;
 import com.mmocore.api.WarpDriveAPI;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
 import com.mmocore.module.Galaxy.GalaxyRegistry;
@@ -20,6 +22,15 @@ import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcSpawnMethod;
+import com.mmocore.constants.NpcTexture;
+import com.mmocore.constants.uPosition;
+import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import com.mmocore.module.Quest.RegisterableQuest;
+import com.mmocore.module.Quest.options.QuestObjectiveOptions;
+import com.mmocore.module.Quest.options.QuestRewardOptions;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
@@ -33,6 +44,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import fabricator77.multiworld.MultiWorld;
 import fabricator77.multiworld.command.CommandTPD;
+import java.util.HashMap;
 import net.minecraftforge.common.DimensionManager;
 
 
@@ -164,7 +176,23 @@ public class MMOCore {
         MMOCore.getQuestRegistry().initialise();
         MMOCore.getNpcFactionRegistry().initialise();
         MMOCore.getNpcRegistry().initialise();  
-        WarpDriveAPI.onServerStarted();        
+        WarpDriveAPI.onServerStarted();    
+        RegisterableNpcFaction testFaction = new RegisterableNpcFaction("Test");
+        MMOCore.getNpcFactionRegistry().register(testFaction);
+        RegisterableQuest quest = new RegisterableQuest("MyQuest", "TestCategory");
+        RegisterableNpc npc = new RegisterableNpc("Test", "Test", NpcTexture.SGC_SOLDIER, NpcModifier.RANGED_COMMANDER, NpcSpawnMethod.Static, new uPosition(100.0,100.0,100.0,UniverseAPI.getDimension("P2X-3YZ")), testFaction);
+        MMOCore.getNpcRegistry().register(npc);
+        QuestObjectiveOptions oOpts = quest.getObjectiveOptions();
+        HashMap<Integer, RegisterableNpc> objectives = new HashMap<Integer,RegisterableNpc>();
+        objectives.put(10, npc);
+        oOpts.setOrUpdateQuestTypeKill(objectives);
+        quest.setObjectiveOptions(oOpts);
+        QuestRewardOptions rOpts = quest.getRewardOptions();
+        rOpts.setCompletionCommand("broadcast You win!");
+        rOpts.setExperienceReward(AbstractScale.Lower);
+        rOpts.setCompletionText("Win!");
+        quest.setRewardOptions(rOpts);
+        MMOCore.getQuestRegistry().register(quest);
        }
    }
    

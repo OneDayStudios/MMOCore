@@ -35,6 +35,7 @@ public class QuestBaseOptions {
     }
     
     public void setQuestLogText(String text) {
+        //TODO: Break this up into lines and add color support.
         this.questLogText = text;
     }
     
