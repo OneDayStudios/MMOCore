@@ -159,7 +159,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             actualQuest.questInterface = new QuestKill();        
             QuestKill iface = (QuestKill)actualQuest.questInterface;
             iface.questId = getID();
-            actualQuest.questInterface = iface;
             if (this.getObjectiveOptions().getShareKillCredit()) {
                 actualQuest.type = EnumQuestType.AreaKill;
             } else {
@@ -169,8 +168,8 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             iface.targets.clear();
             for (Integer count : this.getObjectiveOptions().getKillObjectives().keySet()) {
                 iface.targets.put(this.getObjectiveOptions().getKillObjectives().get(count).getBaseOptions().getName(), count);
-                actualQuest.questInterface = iface;
             }
+            actualQuest.questInterface = iface;
         }
         
         if (this.getObjectiveOptions().getType().equals(QuestType.Location)) {
