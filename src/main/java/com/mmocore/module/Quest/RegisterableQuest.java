@@ -160,6 +160,11 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             QuestKill iface = (QuestKill)actualQuest.questInterface;
             iface.questId = getID();
             actualQuest.questInterface = iface;
+            if (this.getObjectiveOptions().getShareKillCredit()) {
+                actualQuest.type = EnumQuestType.AreaKill;
+            } else {
+                actualQuest.type = EnumQuestType.Kill;
+            }
             if (iface.targets.size() >= 3) return;
             iface.targets.clear();
             for (Integer count : this.getObjectiveOptions().getKillObjectives().keySet()) {
@@ -172,6 +177,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             actualQuest.questInterface = new QuestLocation();
             QuestLocation iface = (QuestLocation)actualQuest.questInterface;
             iface.questId = getID();
+            this.actualQuest.type = EnumQuestType.Location;
             if (this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
                 iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getIdentifier();
             } else {
@@ -195,6 +201,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         if (this.getObjectiveOptions().getType().equals(QuestType.ItemRetrieval)) {
             actualQuest.questInterface = new QuestItem();
             QuestItem iface = (QuestItem)actualQuest.questInterface;
+            this.actualQuest.type = EnumQuestType.Item;
             iface.items.items.clear();
             iface.ignoreNBT = !this.getObjectiveOptions().requireExactItem();
             iface.leaveItems = !this.getObjectiveOptions().takeItems();
@@ -202,7 +209,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
                 iface.items.items.put(iface.items.items.size(), item.getItem());
             }
         }
-
         
         if (this.save()) {
             ForgeAPI.sendConsoleEntry("Successfully saved quest: " + this.getID(), ConsoleMessageType.FINE);

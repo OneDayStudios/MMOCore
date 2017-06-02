@@ -26,6 +26,7 @@ public class QuestObjectiveOptions {
     private ArrayList<NpcItem> itemObjectives = new ArrayList<NpcItem>();
     private boolean exactMatchForItems = false;
     private boolean takeItemsForItemQuest = false;
+    private boolean shareKillCredit = false;
     
     public QuestType getType() {
         return this.type;
@@ -38,6 +39,11 @@ public class QuestObjectiveOptions {
         this.dialogObjectives = new ArrayList<RegisterableDialog>();
         this.exactMatchForItems = false;
         this.takeItemsForItemQuest = false;
+        this.shareKillCredit = false;
+    }
+    
+    public boolean getShareKillCredit() {
+        return this.shareKillCredit;
     }
     
     public boolean requireExactItem() {
@@ -68,9 +74,10 @@ public class QuestObjectiveOptions {
         this.type = QuestType.Location;
     }
     
-    public void setOrUpdateQuestTypeKill(HashMap<Integer, RegisterableNpc> objectives) {
+    public void setOrUpdateQuestTypeKill(HashMap<Integer, RegisterableNpc> objectives, boolean shareCredit) {
         this.resetObjectives();
         this.killObjectives = objectives;
+        this.shareKillCredit = shareCredit;
         this.type = QuestType.Assassination;
     }
     
