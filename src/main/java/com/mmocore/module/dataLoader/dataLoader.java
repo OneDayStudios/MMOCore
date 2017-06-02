@@ -44,6 +44,7 @@ public class dataLoader {
         HashMap<Integer,RegisterableNpc> killObjectives = new HashMap<Integer,RegisterableNpc>();
         killObjectives.put(10, npc);
         objectives.setOrUpdateQuestTypeKill(killObjectives);
+        quest.setObjectiveOptions(objectives);
         DialogActionOptions actionOpts = dialog.getActionOptions();  
         actionOpts.setQuest(quest);
         dialog.setActionOptions(actionOpts);
