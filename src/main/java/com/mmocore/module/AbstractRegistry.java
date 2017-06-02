@@ -22,6 +22,10 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
         objects.put((U)object.getIdentifier(), object);
     }
     
+    public void replaceOrUpdate(J Object, U identifier) {
+        if (isRegistered(identifier)) objects.replace(identifier, Object);
+    }
+    
     public Map<U, J> getRegistered() {
         return this.objects;
     }

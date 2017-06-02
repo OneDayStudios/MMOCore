@@ -88,9 +88,13 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
         actualDialog.command = this.getActionOptions().getCommandAction();
         actualDialog.hideNPC = this.getBaseOptions().getHidesNpc();
         actualDialog.showWheel = this.getBaseOptions().getHasDialogWheel();
-        if (!this.getActionOptions().getQuest().isRegistered()) MMOCore.getQuestRegistry().register(this.getActionOptions().getQuest());
-        if (this.getActionOptions().getQuest().isRegistered()) actualDialog.quest = this.getActionOptions().getQuest().getIdentifier();
-        if (!this.getActionOptions().getQuest().isRegistered()) actualDialog.quest = -1;        
+        if (this.getActionOptions().getQuest() != null) {
+            if (!this.getActionOptions().getQuest().isRegistered()) MMOCore.getQuestRegistry().register(this.getActionOptions().getQuest());
+            if (this.getActionOptions().getQuest().isRegistered()) actualDialog.quest = this.getActionOptions().getQuest().getIdentifier();
+            if (!this.getActionOptions().getQuest().isRegistered()) actualDialog.quest = -1;        
+        } else {
+            actualDialog.quest = -1;    
+        }
         actualDialog.options.clear();
         actualDialog.options.put(0, this.getOptionForOption(this.getConversationOptions().getOptionOne()));
         actualDialog.options.put(1, this.getOptionForOption(this.getConversationOptions().getOptionTwo()));

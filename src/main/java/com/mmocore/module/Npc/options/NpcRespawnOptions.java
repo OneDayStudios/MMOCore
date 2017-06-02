@@ -28,6 +28,7 @@ public class NpcRespawnOptions {
         this.respawnTimeSeconds = respawnOptions.respawnTimeSeconds;
     }
     
+    
     public void setHideDeadBody(NpcBoolean setting) {
         this.hideDeadBody = setting;
     }

@@ -14,9 +14,9 @@ import com.mmocore.module.Npc.options.NpcInteractOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcRespawnOptions;
 import com.mmocore.constants.AbstractScale;
+import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
-import com.mmocore.constants.NpcDialogOption;
 import net.minecraft.item.ItemStack;
 import com.mmocore.constants.NpcDoorInteraction;
 import com.mmocore.constants.NpcFireIndirectlyOption;
@@ -272,13 +272,15 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         entity.dialogs.clear();            
         int position = 0;
         
-        for (NpcDialogOption dialog : this.getInteractOptions().getDialogs()) {
+        for (DialogConversationOption dialog : this.getInteractOptions().getDialogs()) {
             DialogOption dialogOption = new DialogOption();
             dialogOption.optionType = EnumOptionType.DialogOption;
-            dialogOption.optionColor = dialog.getColor();
+            dialogOption.optionColor = dialog.getColor().getNumber();
+            if (!dialog.getDialog().isRegistered()) MMOCore.getDialogRegistry().register(dialog.getDialog());
+            ForgeAPI.sendConsoleEntry("Assigning dialog: " + dialog.getTitle() + " and id: " + dialog.getDialog().getID() + " and title " + dialog.getDialog().getBaseOptions().getTitle(), ConsoleMessageType.INFO);
             dialogOption.dialogId = dialog.getDialog().getIdentifier();
-            dialogOption.title = dialog.getLabel();
-            dialogOption.command = "NOCOMMAND";
+            dialogOption.title = dialog.getTitle();
+            dialogOption.command = dialog.getCommand();
             entity.dialogs.put(position, dialogOption);
             position++;
         }
@@ -813,7 +815,9 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
             if (this.markedForUpdate) this.pushOptionsToEntity();            
             switchHeldItemsIfNeeded();
             updateStateData();
+            ForgeAPI.sendConsoleEntry("Finished Ticking NPC: " + this.getUniqueID() + " at " + this.getUPosition().getDisplayString(), ConsoleMessageType.DEBUG);
         } else {
+            ForgeAPI.sendConsoleEntry("Terminating NPC: " + this.getUniqueID(), ConsoleMessageType.FINE);;
             this.setMarkedForRemoval();
         }
     }
@@ -961,8 +965,8 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     public void initialise() {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
         this.setPosition(this.getBaseOptions().getSpawnPosition());
-        this.spawn();
         this.setUniqueID(this.entity.getUniqueID());
+        this.spawn();
         ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
     }
 

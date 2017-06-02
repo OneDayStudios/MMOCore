@@ -5,8 +5,8 @@
  */
 package com.mmocore.module.Npc.options;
 
+import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.NpcBoolean;
-import com.mmocore.constants.NpcDialogOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class NpcInteractOptions {
     private ArrayList<String> attackLines = new ArrayList<String>();
     private NpcBoolean stopsOnInteract = NpcBoolean.YES;
     private NpcBoolean interactsWithOtherNpcs = NpcBoolean.YES;
-    private ArrayList<NpcDialogOption> dialogs = new ArrayList<NpcDialogOption>();
+    private ArrayList<DialogConversationOption> dialogs = new ArrayList<DialogConversationOption>();
     private NpcBoolean sayRandomLines = NpcBoolean.YES;
 
     public NpcInteractOptions() {
@@ -52,15 +52,15 @@ public class NpcInteractOptions {
         return this.sayRandomLines;
     }
     
-    public ArrayList<NpcDialogOption> getDialogs() {
+    public ArrayList<DialogConversationOption> getDialogs() {
         return this.dialogs;
     }
     
-    public void addDialog(NpcDialogOption dialog) {
+    public void addDialog(DialogConversationOption dialog) {
         if (!this.dialogs.contains(dialog)) this.dialogs.add(dialog);
     }
     
-    public void removeDialog(NpcDialogOption dialog) {
+    public void removeDialog(DialogConversationOption dialog) {
         if (this.dialogs.contains(dialog)) this.dialogs.remove(dialog);
     }
     

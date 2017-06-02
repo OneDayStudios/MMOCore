@@ -34,14 +34,6 @@ public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, Re
             MMOCore.getDialogRegistry().register(dialog);
             ForgeAPI.sendConsoleEntry("Initialised existing Dialog: " + dialog.getBaseOptions().getTitle() + " (" + dialog.getID() + ") with category: " + dialog.getBaseOptions().getCategory() + ".", ConsoleMessageType.FINE);
         }    
-        RegisterableDialog testing = new RegisterableDialog("Test","Testing");
-        DialogBaseOptions bOpts = testing.getBaseOptions();
-        bOpts.setEscDisabled(true);
-        bOpts.setSound("Testing");
-        bOpts.setText("This is a test!");
-        bOpts.setHasDialogWheel(true);
-        testing.setBaseOptions(bOpts);
-        this.register(testing);
     }
 
     @Override

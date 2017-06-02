@@ -130,10 +130,6 @@ public class BorderListener extends RegisterableListener {
                     SGBaseTE.teleportEntityAndRider(mcPlayer, t, dt, destination.getDimension().getId(), false);  
                 }
             }
-        } else {
-            if ((e.entityLiving.riddenByEntity == null)) {
-                e.entityLiving.setDead();
-            }
         }
     }
 }

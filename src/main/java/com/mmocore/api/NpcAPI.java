@@ -71,7 +71,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static ArrayList<RegisterableNpc> getAll(RegisterableDimension dimension) {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
+        for (RegisterableNpc npc : MMOCore.getNpcRegistry().getRegistered().values()) {
             if (npc.getRegisteredObject().getWorldName().equals(dimension.getName())) npcs.add(npc);
         }
         return npcs;
