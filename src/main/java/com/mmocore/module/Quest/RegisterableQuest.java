@@ -74,18 +74,18 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
             actualQuest.completion = EnumQuestCompletion.Npc;
             if (this.getRewardOptions().getCompletionNpc() != null && !NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction())) {
                 MMOCore.getNpcRegistry().register(this.getRewardOptions().getCompletionNpc());
-                ForgeAPI.sendConsoleEntry("Registering of completion Npc for quest: " + this.getTitle() + " aka. " + this.getRewardOptions().getCompletionNpc().getBaseOptions().getName() + ": " + (NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction()) ? "succeeded." : "failed."), ConsoleMessageType.FINE);
+                ForgeAPI.sendConsoleEntry("Registering of completion Npc for quest: " + this.getBaseOptions().getTitle() + " aka. " + this.getRewardOptions().getCompletionNpc().getBaseOptions().getName() + ": " + (NpcAPI.exists(this.getRewardOptions().getCompletionNpc().getBaseOptions().getName(),this.getRewardOptions().getCompletionNpc().getBaseOptions().getTitle(), this.getRewardOptions().getCompletionNpc().getBaseOptions().getFaction()) ? "succeeded." : "failed."), ConsoleMessageType.FINE);
             }
             actualQuest.completerNpc = this.getRewardOptions().getCompletionNpc().getBaseOptions().getName();
         }
         
         if (this.getRewardOptions().getFollowOnQuest() != null && !this.getRewardOptions().getFollowOnQuest().isRegistered()) {
             MMOCore.getQuestRegistry().register(this.getRewardOptions().getFollowOnQuest());
-            ForgeAPI.sendConsoleEntry("Registering of follow-on quest for : " + this.getTitle() + " aka. " + this.getRewardOptions().getFollowOnQuest().getTitle() + ": " + (this.getRewardOptions().getFollowOnQuest().isRegistered() ? "succeeded." : "failed."), ConsoleMessageType.FINE);
+            ForgeAPI.sendConsoleEntry("Registering of follow-on quest for : " + this.getBaseOptions().getTitle() + " aka. " + this.getRewardOptions().getFollowOnQuest().getBaseOptions().getTitle() + ": " + (this.getRewardOptions().getFollowOnQuest().isRegistered() ? "succeeded." : "failed."), ConsoleMessageType.FINE);
         }
 
         if (this.getRewardOptions().getFollowOnQuest() != null) {
-            this.actualQuest.nextQuestTitle = this.getRewardOptions().getFollowOnQuest().getTitle();
+            this.actualQuest.nextQuestTitle = this.getRewardOptions().getFollowOnQuest().getBaseOptions().getTitle();
             this.actualQuest.nextQuestid = this.getRewardOptions().getFollowOnQuest().getID();
         } else {
             this.actualQuest.nextQuestTitle = "NONE";
@@ -296,14 +296,6 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         this.id = id;
     }
     
-    public int getRewardedExp() {
-        return actualQuest.rewardExp;
-    }
-    
-    public void setRewardedExp(int xp) {
-        actualQuest.rewardExp = xp;
-    }
-    
     public int getVersion() {
         return actualQuest.version;
     }
@@ -338,121 +330,8 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         return actualQuest.category;
     }
     
-    public String getTitle() {
-        return actualQuest.title;
-    }
-    
-    public void setTitle(String title) {
-        actualQuest.title = title;
-    }
-    
-    public void setType(String type) {
-        if (EnumQuestType.valueOf(type) == null) return;
-        actualQuest.type = EnumQuestType.valueOf(type);
-    }
-    
     public String getType() {
         return actualQuest.type.name();
-    }
-    
-    public void setCompleteText(String text) {
-        actualQuest.completeText = text; 
-    }
-    
-    public String getCompleteText() {
-        return actualQuest.completeText; 
-    }
-    
-    public void setCompletionCommand(String command) {
-        actualQuest.command = command;
-    }
-    
-    public String getCompletionCommand() {
-        return actualQuest.command;
-    }
-    
-    public void setCompleterNpc(String name) {
-        actualQuest.completerNpc = name;
-    }
-    
-    public String getCompleterNpc() {
-        return actualQuest.completerNpc;
-    }
-    
-    public void setQuestLogText(String text) {
-        actualQuest.logText = text;
-    }
-    
-    public String getQuestLogText() {
-        return actualQuest.logText;
-    }
-    
-    public String getNextQuestTitle() {
-        return actualQuest.nextQuestTitle;
-    }
-    
-    public void setCompletionType(String completionType) {
-        if (EnumQuestCompletion.valueOf(completionType) == null) return;
-        actualQuest.completion = EnumQuestCompletion.valueOf(completionType);
-    }
-    
-    public String getCompletionType() {
-        return actualQuest.completion.name();
-    }
-    
-    public void setQuestRepeatType(String type) {
-        System.out.println("Setting repeat type: " + type);
-        if (EnumQuestRepeat.valueOf(type) == null) return;
-        actualQuest.repeat = EnumQuestRepeat.valueOf(type);
-    }
-    
-    public String getQuestRepeatType() {
-        return actualQuest.repeat.name();
-    }
-    
-    public void setRandomReward(boolean value) {
-        actualQuest.randomReward = value;
-    }
-    
-    public boolean getRandomReward() {
-        return actualQuest.randomReward;
-    }
-    
-    public boolean hasItemReward(String mod, String item, int numberOf, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-        if (stack.getMaxStackSize() < numberOf) return false;
-        stack.setItemDamage(dmg);
-        return actualQuest.rewardItems.items.values().contains(stack);
-    }
-    
-    public boolean addItemReward(String mod, String item, int numberOf, int dmg) {
-        if (!ForgeAPI.isItemValidInForge(mod, item)) return false;
-        if (actualQuest.rewardItems.items.size() > 8) return false;
-        ItemStack stack = GameRegistry.findItemStack(mod, item, numberOf);
-        if (stack.getMaxStackSize() < numberOf) return false;
-        stack.setItemDamage(dmg);
-        int index = actualQuest.rewardItems.items.size();
-        actualQuest.rewardItems.items.put(index, stack);
-        return actualQuest.rewardItems.items.get(index).equals(stack);
-    }
-    
-    public boolean setFactionPointRewardsPrimary(String factionName, int points) {
-        if (FactionController.getInstance().getFactionFromName(factionName) == null) return false;
-        actualQuest.factionOptions.decreaseFactionPoints = (points < 0);
-        actualQuest.factionOptions.factionId = FactionController.getInstance().getFactionFromName(factionName).id;
-        if (points < 0) actualQuest.factionOptions.factionPoints = points * -1;
-        if (points >= 0) actualQuest.factionOptions.factionPoints = points;
-        return true;
-    }
-    
-    public boolean setFactionPointRewardsSecondary(String factionName, int points) {
-        if (FactionController.getInstance().getFactionFromName(factionName) == null) return false;
-        actualQuest.factionOptions.decreaseFaction2Points = (points < 0);
-        actualQuest.factionOptions.faction2Id = FactionController.getInstance().getFactionFromName(factionName).id;
-        if (points < 0) actualQuest.factionOptions.faction2Points = points * -1;
-        if (points >= 0) actualQuest.factionOptions.faction2Points = points;
-        return true;
     }
 
     @Override
@@ -489,6 +368,8 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Finalised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        this.pushToGame();
+        this.save();
     }
 
     @Override

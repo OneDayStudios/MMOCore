@@ -19,6 +19,7 @@ import com.mmocore.module.Player.PlayerRegistry;
 import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
@@ -160,7 +161,7 @@ public class MMOCore {
             MMOCore.getQuestRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();  
-            WarpDriveAPI.onServerStarted();    
+            WarpDriveAPI.onServerStarted();        
        }
    }
    

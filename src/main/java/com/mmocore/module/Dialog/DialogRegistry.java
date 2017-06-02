@@ -5,11 +5,13 @@
  */
 package com.mmocore.module.Dialog;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.DialogAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.constants.IntegratedMod;
+import com.mmocore.module.Dialog.options.DialogBaseOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import noppes.npcs.controllers.Dialog;
@@ -29,8 +31,17 @@ public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, Re
         }
         for (String dialogName : dialogs.keySet()) {
             RegisterableDialog dialog = new RegisterableDialog(dialogName, dialogs.get(dialogName));
-            ForgeAPI.sendConsoleEntry("Initialised existing Dialog: " + dialog.getTitle() + " (" + dialog.getID() + ") with category: " + dialog.getCategoryName() + ".", ConsoleMessageType.FINE);
+            MMOCore.getDialogRegistry().register(dialog);
+            ForgeAPI.sendConsoleEntry("Initialised existing Dialog: " + dialog.getBaseOptions().getTitle() + " (" + dialog.getID() + ") with category: " + dialog.getBaseOptions().getCategory() + ".", ConsoleMessageType.FINE);
         }    
+        RegisterableDialog testing = new RegisterableDialog("Test","Testing");
+        DialogBaseOptions bOpts = testing.getBaseOptions();
+        bOpts.setEscDisabled(true);
+        bOpts.setSound("Testing");
+        bOpts.setText("This is a test!");
+        bOpts.setHasDialogWheel(true);
+        testing.setBaseOptions(bOpts);
+        this.register(testing);
     }
 
     @Override
