@@ -354,6 +354,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
         ForgeAPI.sendConsoleEntry("Initialised quest: " + this.getIdentifier(), ConsoleMessageType.FINE);
         if (QuestAPI.exists(this.getBaseOptions().getTitle()) && QuestAPI.get(this.getBaseOptions().getTitle()).category.title.equals(this.getBaseOptions().getQuestChain())) {
             this.actualQuest = QuestAPI.get(this.getBaseOptions().getTitle());
+            setID(this.actualQuest.id);
         } else {
             actualQuest = new Quest();
             actualQuest.title = this.getBaseOptions().getTitle();

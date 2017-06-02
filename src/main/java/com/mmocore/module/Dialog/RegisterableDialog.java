@@ -325,6 +325,7 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
         
         if (DialogAPI.exists(this.getBaseOptions().getTitle()) && DialogAPI.get(this.getBaseOptions().getTitle()).category.equals(DialogAPI.getCategory(this.getBaseOptions().getCategory()))) {
             this.actualDialog = DialogAPI.get(this.getBaseOptions().getTitle());
+            setID(this.actualDialog.id);
         } else {
             actualDialog = new Dialog();
             actualDialog.title = this.getBaseOptions().getTitle();
