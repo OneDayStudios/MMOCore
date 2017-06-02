@@ -275,7 +275,7 @@ public final class RegisterableDialog extends AbstractRegisterable<RegisterableD
     }
     
     public int getID() {
-        return actualDialog.id;
+        return id;
     }
     
     public void setID(int id) {
