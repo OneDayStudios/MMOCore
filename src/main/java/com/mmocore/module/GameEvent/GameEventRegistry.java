@@ -11,6 +11,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
@@ -49,6 +50,8 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
             npc.setPassiveHeldItems(weapons);
             NpcCombatOptions cOpts = npc.getCombatOptions();
             cOpts.setFireWeaponSound(NpcSound.MatokStaff);
+            cOpts.setProjectile(NpcProjectile.GOLD_PLASMA);
+            npc.setCombatOptions(cOpts);
             npcs.add(npc);
             RandomSpawnEvent gameEvent = new RandomSpawnEvent("Test Random Spawn", npcs);
             RandomSpawnEventOptions options = gameEvent.getOptions();
