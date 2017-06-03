@@ -6,9 +6,7 @@
 package com.mmocore.module.data;
 
 import com.mmocore.module.Npc.RegisterableNpc;
-import com.mmocore.module.data.npcs.FreeJaffaSoldier;
-import com.mmocore.module.data.npcs.GeneralLandry;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
 
 /**
  *
@@ -16,10 +14,7 @@ import com.mmocore.module.data.npcs.StargateCommandSoldier;
  */
 public enum NpcDictionary {
 
-    FREE_JAFFA_SOLDIER(FreeJaffaSoldier.get()),
-    //GOAULD_JAFFA_SOLDIER(GoauldJaffaSoldier.get()),
-    SGC_SOLDIER(StargateCommandSoldier.get()),
-    GENERAL_LANDRY(GeneralLandry.get());
+    GOAULD_JAFFA_SOLDIER(new GoauldJaffaSoldier());
     
     private final RegisterableNpc npc;
     

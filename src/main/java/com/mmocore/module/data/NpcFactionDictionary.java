@@ -6,9 +6,7 @@
 package com.mmocore.module.data;
 
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.data.factions.FreeJaffaNation;
 import com.mmocore.module.data.factions.Goauld;
-import com.mmocore.module.data.factions.StargateCommand;
 
 /**
  *
@@ -16,9 +14,7 @@ import com.mmocore.module.data.factions.StargateCommand;
  */
 public enum NpcFactionDictionary {
 
-    FREE_JAFFA_NATION(FreeJaffaNation.get()),
-    GOAULD(Goauld.get()),
-    SGC(StargateCommand.get());
+    GOAULD(new Goauld());
     
     private final RegisterableNpcFaction faction;
     

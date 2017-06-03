@@ -79,7 +79,7 @@ import noppes.npcs.controllers.FactionController;
  */
 
 @SideOnly(Side.SERVER)
-public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID, RegisterableNpc> {
+public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID, RegisterableNpc> {
     
     private EntityCustomNpc entity;
     

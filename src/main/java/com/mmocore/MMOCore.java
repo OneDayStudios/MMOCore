@@ -172,6 +172,9 @@ public class MMOCore {
             MMOCore.getNpcRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
             WarpDriveAPI.onServerStarted();       
+            DictionaryAPI.loadNpcFactions();
+            DictionaryAPI.loadNpcs();
+            DictionaryAPI.loadGameEvents();
 
        }
    }
