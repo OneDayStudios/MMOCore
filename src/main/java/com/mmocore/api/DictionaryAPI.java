@@ -6,6 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.GameEventDictionary;
 import com.mmocore.module.data.NpcDictionary;
 import com.mmocore.module.data.NpcFactionDictionary;
@@ -24,7 +25,8 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void loadNpcFactions() {
         for (NpcFactionDictionary faction : NpcFactionDictionary.values()) {
-            MMOCore.getNpcFactionRegistry().register(faction.get());
+            RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.get().getName());
+            if (registered == null) MMOCore.getNpcFactionRegistry().register(faction.get());
         }
     }
     
