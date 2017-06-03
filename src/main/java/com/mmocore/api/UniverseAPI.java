@@ -12,8 +12,12 @@ import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
 import com.mmocore.module.Dimension.RegisterableDimension;
+import net.minecraft.block.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.IFluidBlock;
 
 /**
  *
@@ -54,6 +58,54 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
             if (distanceBetweenUPositions(galaxy.getPosition(), dim.getPosition()) < galaxy.getBorder()) dimensions.add(dim);
         }
         return dimensions;
+    }
+    
+    public static uPosition getRandomNearbyPosition(uPosition position, int minDistance, int maxDistance) {
+        uPosition oldPosition = position;
+        Random r = new Random();
+        int offset = maxDistance - minDistance;
+        if (offset < 1) offset = 1;
+        int distanceX = r.nextInt(offset) + minDistance;
+        int distanceZ = r.nextInt(offset) + minDistance;
+        boolean lessThanX = (r.nextBoolean());
+        boolean lessThanZ = (r.nextBoolean());  
+        double tempX = 0;
+        double tempZ = 0;
+        if (lessThanX) tempX = oldPosition.getDPosX() - distanceX;
+        if (!lessThanX) tempX = oldPosition.getDPosX() + distanceX;
+        if (lessThanZ) tempZ = oldPosition.getDPosZ() - distanceZ;
+        if (!lessThanZ) tempZ = oldPosition.getDPosZ() + distanceZ;
+        double origY = oldPosition.getDPosY();
+        Block block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)origY, (int)tempZ);
+        double tempY = origY;
+        while (isBlockLiquid(block) || !isBlockAir(block) && tempY < 256) {
+                block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
+                tempY +=1;
+        }
+        if (tempY  == 256) {
+            tempY = origY;        
+            while (isBlockLiquid(block) || !isBlockAir(block) && tempY > 0) {
+                block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
+                tempY -= 1;
+            }
+        }        
+        uPosition newPosition = new uPosition(tempX, tempY+1, tempZ, position.getDimension());
+        if (origY >= 256 || origY <= 0 || ForgeAPI.distance(oldPosition.getDPosX(), oldPosition.getDPosY(), oldPosition.getDPosZ(), newPosition.getDPosX(), newPosition.getDPosY(), newPosition.getDPosZ()) > 128) return getRandomNearbyPosition(oldPosition, minDistance, maxDistance);
+        return newPosition;
+    }
+
+    private static boolean isBlockAir(Block block) {
+        return (block instanceof BlockAir);
+    }
+
+    private static boolean isBlockLiquid(Block block) {
+        if(block instanceof IFluidBlock) {
+            IFluidBlock fb = (IFluidBlock)block;
+            Fluid fl = fb.getFluid();
+            return !fl.isGaseous();
+        } else {
+            return true;
+        }
     }
     
     public static RegisterableDimension getDimension(uPosition pos) {

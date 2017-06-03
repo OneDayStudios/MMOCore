@@ -45,6 +45,14 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
         player.getRegisteredObject().addChatMessage(new ChatComponentText(message));
     }
     
+    public static ArrayList<RegisterablePlayer> getForDimension(RegisterableDimension dimension) {
+        ArrayList<RegisterablePlayer> players = new ArrayList<RegisterablePlayer>();
+        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {
+            if (player.getPosition().getDimension().equals(dimension)) players.add(player);
+        }
+        return players;
+    }
+    
     public static ArrayList<RegisterablePlayer> getInArea(double x1, double y1, double z1, double x2, double y2, double z2, RegisterableDimension dimension) {
         AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x1, y1, z1, x2, y2, z2);
         List entities = dimension.getRegisteredObject().getEntitiesWithinAABB(EntityPlayer.class, box);

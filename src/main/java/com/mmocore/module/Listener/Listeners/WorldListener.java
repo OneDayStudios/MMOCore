@@ -52,6 +52,7 @@ public class WorldListener extends RegisterableListener {
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
         dimension.setLastTick(System.currentTimeMillis());
         MMOCore.getNpcRegistry().tickForDimension(dimension);
+        MMOCore.getGameEventRegistry().tickForDimension(dimension);
     }
     
 }

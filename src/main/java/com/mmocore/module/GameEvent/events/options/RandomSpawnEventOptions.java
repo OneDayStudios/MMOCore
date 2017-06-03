@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.Npc.options;
+package com.mmocore.module.GameEvent.events.options;
 
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
@@ -11,38 +11,40 @@ import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.constants.RandomSpawnMode;
 import com.mmocore.constants.uPosition;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
  * @author draks
  */
-public class NpcRandomSpawnOptions {
+public class RandomSpawnEventOptions {
     
     // This field is responsible for globally enabling or disabling spawning via this NpcSpawnOptions class.
-    private boolean enabled = false;
+    private boolean enabled = true;
     // This field is responsible for the galaxies that this NPC can spawn in. This allows the NPC to spawn in all dimensions in that galaxy.
     private List<RegisterableGalaxy> galaxies = new ArrayList<RegisterableGalaxy>();    
     // This field is responsible for the dimensions that this NPC can spawn in. This does not need to include any dimension inside a galaxy listed above.
     private List<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();    
-    // This field is responsible for filtering out so that this NPC will only spawn in specific territories. If none are listed the NPC will only spawn in unclaimed land.
-    private List<String> territories = new ArrayList<String>();
     // This field is responsible for specific spawn positions that this NPC will spawn at. This will ignore all dimension, galaxy and territory restrictions above.
     private List<uPosition> positions = new ArrayList<uPosition>();
-    // This field is responsible for creating a hard-cap of the number of this NPC that spawns within a 256x256 area on a single dimension. It will cancel spawns if this limit is reached.
-    private int localDensity = 1;    
     // This field is responsible for creating a hard-cap of the number of this NPC that spawns within on a single dimension. It will cancel spawns if this limit is reached.
-    private int dimensionDensity = 1;    
+    private int dimensionDensity = 5;    
     // This field is responsible for creating a hard-cap of the number of this NPC that spawns within a single galaxy. It will cancel spawns if this limit is reached.
-    private int galaxyDensity = 1;    
+    private int galaxyDensity = 5;    
     // This field is responsible for controlling how many NPCs will spawn at once regardless of the location.
     private int numberOf = 1;
-    // This field controls the group names this NPC will have spawn triggered for. Any NPC with the same group name listed here will spawn together (based on chance/filtering).
-    private List<String> groups = new ArrayList<String>();
+    // This field is responsible for determining if the npcs should all spawn toghether or not.
+    private RandomSpawnMode spawnMode = RandomSpawnMode.SingleFromGroup;
+    // This field is responsibly for controlling how closely together the NPCs spawn if they spawn together.
+    private int maxSpread = 32;
+    // This field is responsible for controlling the minimum distance between spawning npcs in groups.
+    private int minSpread = 4;
     // This field controls the spawn chance for this NPC for all random/incursion spawns. It does not affect specific positions listed above.
-    private int spawnChance = 100;
+    private int spawnChance = 50;
     // This field controls the quests a player must have nearby before this NPC will spawn. If the player leaves the NPC will despawn.
     private List<RegisterableQuest> quests = new ArrayList<RegisterableQuest>();
     // This field controls the blocks this NPC cannot spawn on top of.
@@ -51,6 +53,29 @@ public class NpcRandomSpawnOptions {
     private List<RegisterableNpcFaction> factions = new ArrayList<RegisterableNpcFaction>();
     // Sets whether or not this NPC will spawn on Contested worlds. This defaults to true but can be disabled if factions are defined above.
     private boolean spawnsOnContestedWorlds = true;
+    
+    public int getMaxSpawnSpread() {
+        return this.maxSpread;
+    }
+    
+    public void setMaxSpawnSpread(int spread) {
+        this.maxSpread = spread;
+    }
+    public int getMinSpawnSpread() {
+        return this.minSpread;
+    }
+    
+    public void setMinSpawnSpread(int spread) {
+        this.minSpread = spread;
+    }
+    
+    public RandomSpawnMode getMode() {
+        return this.spawnMode;
+    }
+    
+    public void setMode(RandomSpawnMode mode) {
+        this.spawnMode = mode;
+    }
     
     public boolean spawnEnabled() {
         return this.enabled;
@@ -62,6 +87,13 @@ public class NpcRandomSpawnOptions {
     
     public List<RegisterableNpcFaction> getSpawnFactions() {
         return this.factions;
+    }
+    
+    public boolean chancePassed() {
+        Random r = new Random();
+        int chance = r.nextInt(100);
+        if (chance <= this.getSpawnChance()) return true;
+        return false;
     }
     
     public void addSpawnFaction(RegisterableNpcFaction faction) {
@@ -99,15 +131,6 @@ public class NpcRandomSpawnOptions {
         if (!quests.contains(quest)) quests.add(quest);
     }
     
-    public List<String> getSpawnTerritories() {
-        return this.territories;
-    }
-    
-    public void addSpawnTerritory(String territory) {
-        if (territories.contains(territory)) ForgeAPI.sendConsoleEntry("Something attempted to add a spawn territory to an NPC twice.", ConsoleMessageType.DEBUG);
-        if (!territories.contains(territory)) territories.add(territory);
-    }
-    
     public List<RegisterableGalaxy> getSpawnGalaxies() {
         return this.galaxies;
     }
@@ -135,14 +158,6 @@ public class NpcRandomSpawnOptions {
         if (!positions.contains(pos)) positions.add(pos);
     }
     
-    public List<String> getGroups() {
-        return this.groups;
-    }
-    
-    public void addGroup(String groupName) {
-        groups.add(groupName);
-    }
-    
     public void setNumber(int numberOf) {
         this.numberOf = numberOf;
     }
@@ -161,15 +176,7 @@ public class NpcRandomSpawnOptions {
         if (chance > 100) chance = 100;
         this.spawnChance = chance;
     }
-    
-    public void setLocalDensity(int density) {
-        this.localDensity = density;
-    }
-    
-    public int getLocalDensity() {
-        return this.localDensity;
-    }
-    
+        
     public void setDimensionDensity(int density) {
         this.dimensionDensity = density;
     }

@@ -42,7 +42,7 @@ import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
-import com.mmocore.module.Npc.options.NpcRandomSpawnOptions;
+import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
 import com.mmocore.module.Npc.options.NpcStateOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -89,10 +89,12 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
     private boolean markedForRemoval = false;
     // This stores the UUID for the RegisterableNpc.    
     private UUID uuid;
+    // This stores the class that spawns the Npc.
+    private String createdBy = null;
     
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcCombatOptions combatOptions = new NpcCombatOptions();
-    private NpcRandomSpawnOptions randomSpawnOptions = new NpcRandomSpawnOptions();
+    private RandomSpawnEventOptions randomSpawnOptions = new RandomSpawnEventOptions();
     private NpcInteractOptions interactions = new NpcInteractOptions();
     private NpcWornItemSet armor = new NpcWornItemSet();
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
@@ -119,6 +121,25 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         this.setRespawnOptions(new NpcRespawnOptions(npc.getRespawnOptions()));
     }
     
+    public RegisterableNpc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, RegisterableNpcFaction faction) {
+        NpcBaseOptions bOptions = new NpcBaseOptions();
+        bOptions.setSpawnMethod(method);
+        bOptions.setName(name);
+        bOptions.setTexture(texture);
+        bOptions.setTitle(title);
+        bOptions.setFaction(faction);
+        this.setBaseOptions(bOptions);
+        NpcCombatOptions cOptions = new NpcCombatOptions();
+        cOptions.setExplosionResistance(modifier.getExplosiveResistance());
+        cOptions.setMeleeResistance(modifier.getMeleeResistance());
+        cOptions.setProjectileResistance(modifier.getProjectileResistance());
+        cOptions.setKnockbackResistance(modifier.getKnockbackResistance());
+        cOptions.setMeleeDamage(modifier.getMeleeDamage());
+        cOptions.setRangedDamage(modifier.getRangedDamage());        
+        cOptions.setHealth(modifier.getHealth());
+        this.setCombatOptions(cOptions);
+    }        
+    
     public RegisterableNpc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, uPosition position, RegisterableNpcFaction faction) {
         NpcBaseOptions bOptions = new NpcBaseOptions();
         bOptions.setSpawnMethod(method);
@@ -138,6 +159,13 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         cOptions.setHealth(modifier.getHealth());
         this.setCombatOptions(cOptions);
     }        
+    
+    public void setCreator(String creator) {
+        this.createdBy = creator;
+    }
+    public String getCreator() {
+        return this.createdBy;
+    }
     
     public NpcMovementOptions getMovementOptions() {
         return this.movementOptions;
@@ -902,11 +930,11 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
 //    
     
     
-   public NpcRandomSpawnOptions getRandomSpawnOptions() {
+   public RandomSpawnEventOptions getRandomSpawnOptions() {
        return this.randomSpawnOptions;
    }
    
-   public void setRandomSpawnOptions(NpcRandomSpawnOptions rOptions) {
+   public void setRandomSpawnOptions(RandomSpawnEventOptions rOptions) {
        this.randomSpawnOptions = rOptions;
    }
    

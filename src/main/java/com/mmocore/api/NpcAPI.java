@@ -16,6 +16,7 @@ import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
+import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.Npc.RegisterableNpc;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
@@ -59,6 +60,22 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
             if (npc.getRegisteredObject().getWorldName().equals(dimension.getName())) npcs.add(npc);
+        }
+        return new ArrayList<RegisterableNpc>(npcs);
+    }
+    
+    public static ArrayList<RegisterableNpc> getAllReadOnlyCreatedBy(RegisterableDimension dimension, Class creator) {
+        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
+            if (npc.getRegisteredObject().getWorldName().equals(dimension.getName()) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
+        }
+        return new ArrayList<RegisterableNpc>(npcs);
+    }
+    
+    public static ArrayList<RegisterableNpc> getAllReadOnlyCreatedBy(RegisterableGalaxy galaxy, Class creator) {
+        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
+            if (npc.getUPosition().getGalaxy().equals(galaxy.getIdentifier()) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
         return new ArrayList<RegisterableNpc>(npcs);
     }

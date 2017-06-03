@@ -20,6 +20,7 @@ import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.GameEvent.GameEventRegistry;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
 import com.mmocore.network.DataChannel;
@@ -57,6 +58,7 @@ public class MMOCore {
    private static GalaxyRegistry galaxyRegistry;
    private static NpcFactionRegistry npcFactionRegistry;
    private static NpcRegistry npcRegistry;
+   private static GameEventRegistry gameEventRegistry;
    private static CommandRegistry cmdRegistry;
    
    
@@ -70,10 +72,16 @@ public class MMOCore {
        return cmdRegistry;
    }
    
+   public static GameEventRegistry getGameEventRegistry() {
+       if (gameEventRegistry == null) gameEventRegistry = new GameEventRegistry();
+       return gameEventRegistry;
+   }
+   
    public static GalaxyRegistry getGalaxyRegistry() {
        if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
        return galaxyRegistry;
    }
+   
    public static GuiRegistry getGuiRegistry() {
        if (guiRegistry == null) guiRegistry = new GuiRegistry();
        return guiRegistry;
@@ -161,6 +169,7 @@ public class MMOCore {
             MMOCore.getQuestRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();  
+            MMOCore.getGameEventRegistry().initialise();
             WarpDriveAPI.onServerStarted();        
        }
    }
