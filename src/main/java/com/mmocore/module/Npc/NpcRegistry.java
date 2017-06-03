@@ -42,14 +42,14 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
                 this.deregister(npc.getIdentifier());
             }
         }
-        cleanup(dimension);
+        cleanup(dimension, false);
     }
     
-    private void cleanup(RegisterableDimension dimension) {
+    public void cleanup(RegisterableDimension dimension, boolean registeredToo) {
         List<Entity> entities = ForgeAPI.getForgeWorld(dimension).loadedEntityList; 
         for (Entity entity : entities) {
             if (entity instanceof EntityCustomNpc) {
-                    if (!MMOCore.getNpcRegistry().isRegistered(entity.getUniqueID())) {
+                    if (!MMOCore.getNpcRegistry().isRegistered(entity.getUniqueID()) && !registeredToo) {
                         EntityCustomNpc npc = (EntityCustomNpc)entity;
                         ForgeAPI.sendConsoleEntry("Deleting unregistered NPC: " + npc.getUniqueID() + " at " + entity.posX + "," + entity.posY + "," + entity.posZ + " on dimension : " + dimension.getDisplayName(), ConsoleMessageType.FINE);
                         npc.delete();

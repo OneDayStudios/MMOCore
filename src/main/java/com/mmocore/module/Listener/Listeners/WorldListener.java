@@ -42,7 +42,9 @@ public class WorldListener extends RegisterableListener {
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         World w = (World)e.world;
-        MMOCore.getDimensionRegistry().deregister(w.provider.dimensionId);
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+        MMOCore.getNpcRegistry().cleanup(dimension, true);
+        MMOCore.getDimensionRegistry().deregister(dimension.getIdentifier());
     }
     
     @SubscribeEvent
