@@ -68,7 +68,7 @@ public class RandomSpawnEvent extends GameEvent {
             }
             RegisterableNpc toSpawn = getRandomNpc();
             RegisterableNpc actualSpawner = NpcAPI.simpleClone(toSpawn, NpcSpawnMethod.Random, origSpawnPos);
-            toSpawn.setCreator(this.getClass().getName());
+            actualSpawner.setCreator(this.getClass().getName());
             MMOCore.getNpcRegistry().register(actualSpawner);
             return true;
         } else {
