@@ -44,7 +44,7 @@ public class HankLandry extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-134.0,16.0,-609.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-134.0,15.0,-609.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
@@ -55,7 +55,6 @@ public class HankLandry extends RegisterableNpc {
         this.setBaseOptions(options);
         weapons.setMainHand(heldItem);
         this.setRangedHeldItems(weapons);
-        this.setPassiveHeldItems(weapons);
         NpcCombatOptions cOpts = this.getCombatOptions();
         cOpts.setFireWeaponSound(NpcSound.M9);
         cOpts.setProjectile(NpcProjectile.PISTOL_BULLET);

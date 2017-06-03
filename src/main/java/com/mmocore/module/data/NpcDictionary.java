@@ -7,6 +7,7 @@ package com.mmocore.module.data;
 
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
+import com.mmocore.module.data.npcs.HankLandry;
 
 /**
  *
@@ -14,7 +15,8 @@ import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
  */
 public enum NpcDictionary {
 
-    GOAULD_JAFFA_SOLDIER(new GoauldJaffaSoldier());
+    GOAULD_JAFFA_SOLDIER(new GoauldJaffaSoldier()),
+    HANK_LANDRY(new HankLandry());
     
     private final RegisterableNpc npc;
     
