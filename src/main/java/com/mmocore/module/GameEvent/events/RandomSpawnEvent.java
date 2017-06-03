@@ -6,9 +6,11 @@
 package com.mmocore.module.GameEvent.events;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.PlayerAPI;
 import com.mmocore.api.UniverseAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.RandomSpawnMode;
 import com.mmocore.constants.uPosition;
@@ -34,15 +36,25 @@ public class RandomSpawnEvent extends GameEvent {
     }
     
     public boolean shouldSpawn(uPosition position) {
+        ForgeAPI.sendConsoleEntry("Checking shouldSpawn", ConsoleMessageType.FINE);
         if (!getOptions().spawnEnabled()) return false;        
+        ForgeAPI.sendConsoleEntry("Spawn Enabled!", ConsoleMessageType.FINE);
         if (!getOptions().chancePassed()) return false;
+        ForgeAPI.sendConsoleEntry("Chance Passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnGalaxies().isEmpty() && !getOptions().getSpawnGalaxies().contains(position.getGalaxy())) return false;
+        ForgeAPI.sendConsoleEntry("Galaxy check passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnDimensions().isEmpty() && !getOptions().getSpawnDimensions().contains(position.getDimension()) && !getOptions().getSpawnGalaxies().contains(position.getGalaxy())) return false;
+        ForgeAPI.sendConsoleEntry("Dimension Check Passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnFactions().isEmpty() && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
+        ForgeAPI.sendConsoleEntry("Faction Check passed", ConsoleMessageType.FINE);
         if (getOptions().getDimensionDensity() >= NpcAPI.getAllReadOnlyCreatedBy(position.getDimension(), this.getClass()).size()) return false;
+        ForgeAPI.sendConsoleEntry("DimensionDensity Passed", ConsoleMessageType.FINE);
         if (getOptions().getGalaxyDensity() >= NpcAPI.getAllReadOnlyCreatedBy(position.getGalaxy(), this.getClass()).size()) return false;
+        ForgeAPI.sendConsoleEntry("GalaxyDensity Passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnsOnContestedWorlds() && position.getDimension().getFaction() == null) return false;
+        ForgeAPI.sendConsoleEntry("ContestedPassed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnFactions().isEmpty() && position.getDimension().getFaction() != null && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
+        ForgeAPI.sendConsoleEntry("All passed", ConsoleMessageType.FINE);
         return true;
     }
     

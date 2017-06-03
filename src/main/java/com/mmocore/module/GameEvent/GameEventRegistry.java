@@ -32,11 +32,8 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     public void initialise() {
         if (ForgeAPI.isServer()) {
             RegisterableNpcFaction faction = new RegisterableNpcFaction("Test");
-            // Sets the points required to be friendly.
             faction.setFriendlyPoints(1499);
-            // Sets the player starting points for this faction.
             faction.setDefaultPoints(1500);
-            // Registers the faction in MMOCore.
             MMOCore.getNpcFactionRegistry().register(faction);
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
             RegisterableNpc npc = new RegisterableNpc("Everett Young", "Commander of the Destiny", NpcTexture.TAURI_EVERETT_YOUNG, NpcModifier.RANGED_COMMANDER, NpcSpawnMethod.Static, faction);
