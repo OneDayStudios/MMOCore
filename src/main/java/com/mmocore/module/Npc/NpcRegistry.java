@@ -8,6 +8,7 @@ package com.mmocore.module.Npc;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.PlayerAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.module.AbstractRegistry;
@@ -33,10 +34,16 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
     }
     
     public void tickForDimension(RegisterableDimension dimension) {
+        
+        for (RegisterableNpc npc : NpcAPI.getRandomReadOnly(dimension)) {
+            if (PlayerAPI.getNearCount(npc.getUPosition(), 128) == 0) npc.setMarkedForRemoval();
+        }
+        
         ArrayList<RegisterableNpc> npcs = NpcAPI.getAll(dimension);        
         for (RegisterableNpc npc : npcs) {
-            npc.tick();
+            if (!npc.getMarkedForRemoval()) npc.tick();
         }
+        
         for (RegisterableNpc npc : NpcAPI.getAllReadOnly(dimension)) {
             if (npc.getRegisteredObject().getMarkedForRemoval()) {
                 this.deregister(npc.getIdentifier());

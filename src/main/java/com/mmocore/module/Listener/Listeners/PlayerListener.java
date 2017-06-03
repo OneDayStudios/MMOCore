@@ -25,7 +25,6 @@ import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.dataLoader.dataLoader;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -45,7 +44,6 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerJoin(PlayerLoggedInEvent e) {
         if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
         RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
-        if (player.getName().equals("Bysokar")) dataLoader.execute();
     }
     
     @SubscribeEvent

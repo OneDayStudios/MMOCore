@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.mmocore;
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.MultiWorldAPI;
 import com.mmocore.api.NpcAPI;
@@ -170,7 +171,10 @@ public class MMOCore {
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
-            WarpDriveAPI.onServerStarted();        
+            WarpDriveAPI.onServerStarted();       
+            DictionaryAPI.loadNpcFactions();
+            DictionaryAPI.loadNpcs();
+            DictionaryAPI.loadGameEvents();
        }
    }
    

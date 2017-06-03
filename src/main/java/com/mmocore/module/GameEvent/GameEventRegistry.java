@@ -38,26 +38,7 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     @Override
     public void initialise() {
         if (ForgeAPI.isServer()) {
-            RegisterableNpcFaction faction = new RegisterableNpcFaction("Goauld");
-            faction.setDefaultPoints(0);
-            MMOCore.getNpcFactionRegistry().register(faction);
-            ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-            RegisterableNpc npc = new RegisterableNpc("Jaffa Soldier", "Goauld Loyal Jaffa", NpcTexture.JAFFA_SOLDIER, NpcModifier.RANGED_SOLDIER, NpcSpawnMethod.Static, faction);
-            NpcHeldItemSet weapons = npc.getRangedHeldItems();
-            NpcItem heldItem = new NpcItem("flansmod", "maTokStaff", 1, 0);
-            weapons.setMainHand(heldItem);
-            npc.setRangedHeldItems(weapons);
-            npc.setPassiveHeldItems(weapons);
-            NpcCombatOptions cOpts = npc.getCombatOptions();
-            cOpts.setFireWeaponSound(NpcSound.MatokStaff);
-            cOpts.setProjectile(NpcProjectile.GOLD_PLASMA);
-            npc.setCombatOptions(cOpts);
-            npcs.add(npc);
-            RandomSpawnEvent gameEvent = new RandomSpawnEvent("Test Random Spawn", npcs);
-            RandomSpawnEventOptions options = gameEvent.getOptions();
-            options.addSpawnDimension(UniverseAPI.getDimension("P1V-513"));
-            gameEvent.setOptions(options);
-            this.register(gameEvent);
+
         }
         // Not required.
     }
