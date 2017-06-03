@@ -18,6 +18,7 @@ import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.options.NpcBaseOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,9 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static RegisterableNpc simpleClone(RegisterableNpc clonedNpc, NpcSpawnMethod method, uPosition position) {
         RegisterableNpc clone = new RegisterableNpc(clonedNpc.getBaseOptions().getName(), clonedNpc.getBaseOptions().getTitle(), clonedNpc.getBaseOptions().getTexture(), clonedNpc.getBaseOptions().getModifier(), method, position, clonedNpc.getBaseOptions().getFaction());
-        clone.setBaseOptions(clonedNpc.getBaseOptions());
+        NpcBaseOptions opts = clonedNpc.getBaseOptions();
+        opts.setSpawnPosition(position);
+        clone.setBaseOptions(opts);
         clone.setCombatOptions(clonedNpc.getCombatOptions());
         clone.setInteractOptions(clonedNpc.getInteractOptions());
         clone.setArmor(clonedNpc.getArmor());
