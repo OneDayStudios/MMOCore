@@ -9,6 +9,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.module.Galaxy.*;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
@@ -50,6 +51,7 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     public void tickForDimension(RegisterableDimension dimension) {
         Collection<GameEvent> events = this.getRegistered().values();
         for (GameEvent event : events) {
+            ForgeAPI.sendConsoleEntry("Ticking event : " + event.getIdentifier() + " for world : " + dimension.getName(), ConsoleMessageType.FINE);
             event.tickForDimension(dimension);
         }
     }
