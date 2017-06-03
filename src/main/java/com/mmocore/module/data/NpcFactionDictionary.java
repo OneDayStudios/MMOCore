@@ -7,6 +7,7 @@ package com.mmocore.module.data;
 
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.factions.Goauld;
+import com.mmocore.module.data.factions.StargateCommand;
 
 /**
  *
@@ -14,7 +15,8 @@ import com.mmocore.module.data.factions.Goauld;
  */
 public enum NpcFactionDictionary {
 
-    GOAULD(new Goauld());
+    GOAULD(new Goauld()),
+    STARGATE_COMMAND(new StargateCommand());
     
     private final RegisterableNpcFaction faction;
     

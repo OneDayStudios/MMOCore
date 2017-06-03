@@ -13,7 +13,8 @@ public enum NpcSound {
     
     NONE("NONE"),
     P90("flansmod:p90"),
-    MatokStaff("flansmod:staffShoot");
+    MatokStaff("flansmod:staffShoot"),
+    M9("flansmod:M9Shoot");
     
     private String type;
 
