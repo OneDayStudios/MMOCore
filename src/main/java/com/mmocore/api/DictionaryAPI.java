@@ -16,20 +16,24 @@ import com.mmocore.module.data.NpcFactionDictionary;
  */
 public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
+    private static NpcDictionary[ ] npcs = NpcDictionary.values(); 
+    private static NpcFactionDictionary[ ] factions = NpcFactionDictionary.values(); 
+    private static GameEventDictionary[ ] events = GameEventDictionary.values(); 
+    
     public static void loadNpcs() {
-        for (NpcDictionary npc : NpcDictionary.values()) {
+        for (NpcDictionary npc : npcs) {
            if (npc.get().getBaseOptions().getSpawnPosition() != null) MMOCore.getNpcRegistry().register(npc.get());
         }
     }
     
     public static void loadNpcFactions() {
-        for (NpcFactionDictionary faction : NpcFactionDictionary.values()) {
+        for (NpcFactionDictionary faction : factions) {
             MMOCore.getNpcFactionRegistry().register(faction.get());
         }
     }
     
     public static void loadGameEvents() {
-        for (GameEventDictionary definedEvent : GameEventDictionary.values()) {
+        for (GameEventDictionary definedEvent : events) {
             MMOCore.getGameEventRegistry().register(definedEvent.get());
         }
     }
