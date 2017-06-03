@@ -78,19 +78,19 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         double origY = oldPosition.getDPosY();
         Block block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)origY, (int)tempZ);
         double tempY = origY;
-        while (isBlockLiquid(block) || !isBlockAir(block) && tempY < 256) {
+        while ((isBlockLiquid(block) || !isBlockAir(block)) && tempY < 256) {
                 block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
                 tempY +=1;
         }
         if (tempY  == 256) {
             tempY = origY;        
-            while (isBlockLiquid(block) || !isBlockAir(block) && tempY > 0) {
+            while ((isBlockLiquid(block) || !isBlockAir(block)) && tempY > 0) {
                 block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
                 tempY -= 1;
             }
         }        
         uPosition newPosition = new uPosition(tempX, tempY+1, tempZ, position.getDimension());
-        if (origY >= 256 || origY <= 0 || ForgeAPI.distance(oldPosition.getDPosX(), oldPosition.getDPosY(), oldPosition.getDPosZ(), newPosition.getDPosX(), newPosition.getDPosY(), newPosition.getDPosZ()) > 128) return getRandomNearbyPosition(oldPosition, minDistance, maxDistance);
+        if (origY >= 256 || origY <= 0 || ForgeAPI.distance(oldPosition.getDPosX(), oldPosition.getDPosY(), oldPosition.getDPosZ(), newPosition.getDPosX(), newPosition.getDPosY(), newPosition.getDPosZ()) > 128) return null;
         return newPosition;
     }
 

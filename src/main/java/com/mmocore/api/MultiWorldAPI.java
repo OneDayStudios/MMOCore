@@ -5,12 +5,10 @@
  */
 package com.mmocore.api;
 
-import com.mmocore.MMOCore;
 import fabricator77.multiworld.DimensionControl;
 import fabricator77.multiworld.ModSettings;
 import fabricator77.multiworld.MultiWorld;
 import fabricator77.multiworld.WorldProviderSimple;
-import fabricator77.multiworld.api.TeleporterAPI;
 import net.minecraftforge.common.DimensionManager;
 
 /**

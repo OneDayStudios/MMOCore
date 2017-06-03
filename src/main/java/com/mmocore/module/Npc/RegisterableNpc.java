@@ -126,6 +126,7 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         bOptions.setSpawnMethod(method);
         bOptions.setName(name);
         bOptions.setTexture(texture);
+        bOptions.setModifier(modifier);
         bOptions.setTitle(title);
         bOptions.setFaction(faction);
         this.setBaseOptions(bOptions);
@@ -148,6 +149,7 @@ public final class RegisterableNpc extends AbstractRegisterable<RegisterableNpc,
         bOptions.setTitle(title);
         bOptions.setFaction(faction);
         bOptions.setSpawnPosition(position);
+        bOptions.setModifier(modifier);
         this.setBaseOptions(bOptions);
         NpcCombatOptions cOptions = new NpcCombatOptions();
         cOptions.setExplosionResistance(modifier.getExplosiveResistance());

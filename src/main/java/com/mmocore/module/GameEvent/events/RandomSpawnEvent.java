@@ -62,6 +62,10 @@ public class RandomSpawnEvent extends GameEvent {
         if (!this.shouldSpawn(position)) return false;            
         uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 64, 128);
         if (getOptions().getMode().equals(RandomSpawnMode.SingleFromGroup)) {
+            if (origSpawnPos == null) {
+                ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
+                return false;
+            }
             RegisterableNpc toSpawn = getRandomNpc();
             toSpawn.setCreator(this.getClass().getName());
             NpcAPI.simpleClone(toSpawn, NpcSpawnMethod.Random, origSpawnPos);
@@ -72,6 +76,10 @@ public class RandomSpawnEvent extends GameEvent {
             uPosition prevSpawnPos = actualSpawnPos;
             for (RegisterableNpc npc : storedNpcs) {                
                 actualSpawnPos = UniverseAPI.getRandomNearbyPosition(prevSpawnPos, getOptions().getMinSpawnSpread(), getOptions().getMaxSpawnSpread());
+                if (actualSpawnPos == null) {
+                    ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
+                    continue;
+                }
                 RegisterableNpc toSpawn = NpcAPI.simpleClone(npc, NpcSpawnMethod.Random, actualSpawnPos);
                 toSpawn.setCreator(this.getClass().getName());
                 MMOCore.getNpcRegistry().register(toSpawn);
