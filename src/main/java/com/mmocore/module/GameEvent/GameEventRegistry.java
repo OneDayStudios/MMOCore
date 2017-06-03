@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author draks
  */
-public class GameEventRegistry extends AbstractRegistry<GalaxyRegistry, String, GameEvent> {
+public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, String, GameEvent> {
 
     @Override
     public void initialise() {
