@@ -68,8 +68,8 @@ public class RandomSpawnEvent extends GameEvent {
             }
             RegisterableNpc toSpawn = getRandomNpc();
             toSpawn.setCreator(this.getClass().getName());
-            NpcAPI.simpleClone(toSpawn, NpcSpawnMethod.Random, origSpawnPos);
-            MMOCore.getNpcRegistry().register(toSpawn);
+            RegisterableNpc actualSpawner = NpcAPI.simpleClone(toSpawn, NpcSpawnMethod.Random, origSpawnPos);
+            MMOCore.getNpcRegistry().register(actualSpawner);
             return true;
         } else {
             uPosition actualSpawnPos = UniverseAPI.getRandomNearbyPosition(origSpawnPos, getOptions().getMinSpawnSpread(), getOptions().getMaxSpawnSpread());
