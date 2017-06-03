@@ -103,7 +103,7 @@ public class RandomSpawnEvent extends GameEvent {
     
     private RegisterableNpc getRandomNpc() {
         Random r = new Random();
-        RegisterableNpc npc = storedNpcs.get(r.nextInt(storedNpcs.size()));
+        RegisterableNpc npc = NpcAPI.clone(storedNpcs.get(r.nextInt(storedNpcs.size())));
         return npc;
     }
     
