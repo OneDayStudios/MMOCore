@@ -12,7 +12,8 @@ package com.mmocore.constants;
 public enum NpcSound {
     
     NONE("NONE"),
-    P90("flansmod:p90");
+    P90("flansmod:p90"),
+    MatokStaff("flansmod:staffShoot");
     
     private String type;
 

@@ -13,7 +13,8 @@ package com.mmocore.constants;
 public enum NpcTexture{
     SGC_SOLDIER("customnpcs:textures/entity/stargate/Tauri/tauri_sg_team_member.png", NpcTextureType.Resource),
     TAURI_EVERETT_YOUNG("customnpcs:textures/entity/stargate/Tauri/tauri_everett_young.png", NpcTextureType.Resource),
-    WRAITH_SOLDIER("customnpcs:textures/entity/stargate/Wraith/wraith_soldier.png", NpcTextureType.Resource);
+    WRAITH_SOLDIER("customnpcs:textures/entity/stargate/Wraith/wraith_soldier.png", NpcTextureType.Resource), 
+    JAFFA_SOLDIER("customnpcs:textures/entity/stargate/Jaffa/jaffa_serpent_guard.png", NpcTextureType.Resource);
 
     private String value;
     private NpcTextureType type;

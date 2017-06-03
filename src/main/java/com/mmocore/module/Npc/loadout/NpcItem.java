@@ -14,13 +14,17 @@ import net.minecraft.item.ItemStack;
 public class NpcItem {
     
     private ItemStack item;
-
+    
     public NpcItem() {
         
     }
     
-    NpcItem(NpcItem item) {
+    public NpcItem(NpcItem item) {
         this.item = item.item;
+    }
+    
+    public NpcItem(String ModName, String ModItemName, int numberOf, int damage) {
+        this.item = ForgeAPI.getItemStackFromValues(ModName,ModItemName, numberOf, damage);
     }
     
     public void setItem(ItemStack stack) {

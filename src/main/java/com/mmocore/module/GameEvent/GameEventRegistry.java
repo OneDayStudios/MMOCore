@@ -11,6 +11,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.module.AbstractRegistry;
@@ -18,7 +19,11 @@ import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.events.RandomSpawnEvent;
 import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
 import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
+import com.mmocore.module.Npc.loadout.NpcItem;
+import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,16 +37,22 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     @Override
     public void initialise() {
         if (ForgeAPI.isServer()) {
-            RegisterableNpcFaction faction = new RegisterableNpcFaction("Test");
-            faction.setFriendlyPoints(1499);
-            faction.setDefaultPoints(1500);
+            RegisterableNpcFaction faction = new RegisterableNpcFaction("Goauld");
+            faction.setDefaultPoints(0);
             MMOCore.getNpcFactionRegistry().register(faction);
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-            RegisterableNpc npc = new RegisterableNpc("Everett Young", "Commander of the Destiny", NpcTexture.TAURI_EVERETT_YOUNG, NpcModifier.RANGED_COMMANDER, NpcSpawnMethod.Static, faction);
+            RegisterableNpc npc = new RegisterableNpc("Jaffa Soldier", "Goauld Loyal Jaffa", NpcTexture.JAFFA_SOLDIER, NpcModifier.RANGED_SOLDIER, NpcSpawnMethod.Static, faction);
+            NpcHeldItemSet weapons = npc.getRangedHeldItems();
+            NpcItem heldItem = new NpcItem("flansmod", "maTokStaff", 1, 0);
+            weapons.setMainHand(heldItem);
+            npc.setRangedHeldItems(weapons);
+            npc.setPassiveHeldItems(weapons);
+            NpcCombatOptions cOpts = npc.getCombatOptions();
+            cOpts.setFireWeaponSound(NpcSound.MatokStaff);
             npcs.add(npc);
             RandomSpawnEvent gameEvent = new RandomSpawnEvent("Test Random Spawn", npcs);
             RandomSpawnEventOptions options = gameEvent.getOptions();
-            options.addSpawnDimension(UniverseAPI.getDimension("P2X-3YZ"));
+            options.addSpawnDimension(UniverseAPI.getDimension("P1V-513"));
             gameEvent.setOptions(options);
             this.register(gameEvent);
         }

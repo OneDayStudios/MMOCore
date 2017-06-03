@@ -52,6 +52,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         clone.setMovementOptions(clonedNpc.getMovementOptions());
         clone.setBehaviourOptions(clonedNpc.getBehaviourOptions());
         clone.setRespawnOptions(clonedNpc.getRespawnOptions());
+        clone.setCreator(clonedNpc.getCreator());
         return clone;
     }
     
@@ -121,6 +122,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static RegisterableNpc clone(RegisterableNpc npc) {
         RegisterableNpc clone = new RegisterableNpc(npc);
+        clone.setCreator(npc.getCreator());
         return clone;        
     }
     
