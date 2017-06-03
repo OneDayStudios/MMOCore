@@ -17,7 +17,6 @@ public class StargateCommand extends RegisterableNpcFaction {
     public StargateCommand() {
         super("Stargate Command");
         this.setDefaultPoints(1500);
-        this.addHostileFaction(NpcFactionDictionary.STARGATE_COMMAND.get(), true);
     }
     
 }
