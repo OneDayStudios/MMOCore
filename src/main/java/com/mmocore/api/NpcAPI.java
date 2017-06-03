@@ -70,8 +70,9 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     public static ArrayList<RegisterableNpc> getAllReadOnlyCreatedBy(RegisterableDimension dimension, Class creator) {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
-            if (npc.getRegisteredObject().getWorldName().equals(dimension.getName()) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
+            if (npc.getRegisteredObject().equals(dimension.getName()) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
+        ForgeAPI.sendConsoleEntry("Found : " + npcs.size() + " npcs!", ConsoleMessageType.FINE);
         return new ArrayList<RegisterableNpc>(npcs);
     }
     
@@ -80,6 +81,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
             if (npc.getUPosition().getGalaxy().equals(galaxy.getIdentifier()) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
+        ForgeAPI.sendConsoleEntry("Found : " + npcs.size() + " npcs!", ConsoleMessageType.FINE);
         return new ArrayList<RegisterableNpc>(npcs);
     }
     
@@ -118,7 +120,8 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     }
     
     public static RegisterableNpc clone(RegisterableNpc npc) {
-        return new RegisterableNpc(npc);
+        RegisterableNpc clone = new RegisterableNpc(npc);
+        return clone;        
     }
     
     public static boolean setLegItem(String mod, String item, int dmg, RegisterableNpc npc) {

@@ -14,11 +14,22 @@ import com.mmocore.constants.DimensionType;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import net.minecraft.block.*;
 import java.util.ArrayList;
+import net.minecraft.block.material.Material;
 import java.util.Collection;
 import java.util.Random;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidBlock;
-
+import net.minecraft.world.chunk.*;
+import net.minecraft.block.*;
+import net.minecraft.init.*;
+import net.minecraft.nbt.*;
+import net.minecraft.world.gen.structure.*;
+import cpw.mods.fml.common.IWorldGenerator;
+import java.util.Random;
+import net.minecraft.block.*;
+import net.minecraft.init.*;
+import net.minecraft.world.*;
+import net.minecraft.world.chunk.*;
 /**
  *
  * @author draks
@@ -78,13 +89,13 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         double origY = oldPosition.getDPosY();
         Block block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)origY, (int)tempZ);
         double tempY = origY;
-        while ((isBlockLiquid(block) || !isBlockAir(block)) && tempY < 256) {
+        while (!isBlockSolid(block) && tempY < 256) {
                 block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
                 tempY +=1;
         }
         if (tempY  == 256) {
             tempY = origY;        
-            while ((isBlockLiquid(block) || !isBlockAir(block)) && tempY > 0) {
+            while (!isBlockSolid(block) && tempY > 0) {
                 block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY, (int)tempZ);
                 tempY -= 1;
             }
@@ -94,8 +105,8 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return newPosition;
     }
 
-    private static boolean isBlockAir(Block block) {
-        return (block instanceof BlockAir);
+    private static boolean isBlockSolid(Block block) {
+        return block.getMaterial().isSolid();
     }
 
     private static boolean isBlockLiquid(Block block) {
