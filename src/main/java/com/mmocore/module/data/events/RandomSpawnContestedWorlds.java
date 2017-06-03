@@ -26,7 +26,7 @@ public class RandomSpawnContestedWorlds {
     public static GameEvent get() {
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
             npcs.add(NpcDictionary.FREE_JAFFA_SOLDIER.get());
-            npcs.add(NpcDictionary.GOAULD_JAFFA_SOLDIER.get());
+            //npcs.add(NpcDictionary.GOAULD_JAFFA_SOLDIER.get());
             npcs.add(NpcDictionary.SGC_SOLDIER.get());
             RandomSpawnEvent gameEvent = new RandomSpawnEvent("Random Spawn - Uncontrolled Worlds", npcs);
             RandomSpawnEventOptions options = gameEvent.getOptions();

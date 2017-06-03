@@ -6,12 +6,7 @@
 package com.mmocore.module.data;
 
 import com.mmocore.module.GameEvent.GameEvent;
-import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
-import com.mmocore.module.data.npcs.FreeJaffaSoldier;
-import com.mmocore.module.data.npcs.GeneralLandry;
-import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
 
 /**
  *

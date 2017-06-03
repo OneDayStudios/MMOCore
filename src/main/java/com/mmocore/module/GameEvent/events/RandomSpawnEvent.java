@@ -35,7 +35,7 @@ public class RandomSpawnEvent extends GameEvent {
         this.storedNpcs = npcs;
     }
     
-    public boolean shouldSpawn(uPosition position) {
+    private boolean shouldSpawn(uPosition position) {
         ForgeAPI.sendConsoleEntry("Checking shouldSpawn", ConsoleMessageType.FINE);
         if (!getOptions().spawnEnabled()) return false;        
         ForgeAPI.sendConsoleEntry("Spawn Enabled!", ConsoleMessageType.FINE);
@@ -58,7 +58,7 @@ public class RandomSpawnEvent extends GameEvent {
         return true;
     }
     
-    public boolean spawn(uPosition position) {
+    private boolean spawn(uPosition position) {
         if (!this.shouldSpawn(position)) return false;            
         uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 64, 128);
         if (getOptions().getMode().equals(RandomSpawnMode.SingleFromGroup)) {
