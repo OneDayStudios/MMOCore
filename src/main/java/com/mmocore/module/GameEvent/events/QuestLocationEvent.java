@@ -12,7 +12,6 @@ import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.Gui.GuiElement;
-import com.mmocore.module.Gui.RegisterableGui;
 import com.mmocore.module.Player.RegisterablePlayer;
 import java.util.ArrayList;
 
