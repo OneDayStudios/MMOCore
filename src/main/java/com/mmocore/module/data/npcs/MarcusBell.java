@@ -5,23 +5,17 @@
  */
 package com.mmocore.module.data.npcs;
 
-import com.mmocore.MMOCore;
-import com.mmocore.api.DialogAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.api.UniverseAPI;
-import com.mmocore.constants.DialogChatColor;
-import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcRotation;
-import com.mmocore.constants.NpcRotationType;
 import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;
-import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -48,7 +42,7 @@ public class MarcusBell extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-136.0,52.0,-641.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-132.0,51.0,-641.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
