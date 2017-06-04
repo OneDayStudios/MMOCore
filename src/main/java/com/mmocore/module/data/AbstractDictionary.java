@@ -44,7 +44,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<AbstractRegisterable> getAll() {
-        return new ArrayList<AbstractRegisterable>(objects);
+        return objects;
     }
     
     public static ArrayList<RegisterableNpcFaction> getFactions() {
