@@ -28,7 +28,7 @@ public class WelcomeToTheSGC extends RegisterableDialog {
         DialogConversationOptions opts = this.getConversationOptions();
         DialogConversationOption conversationOption = new DialogConversationOption();
         RegisterableDialog dialog = DialogAPI.getRegistered("Lets Get Started", "Tutorial");
-        if (dialog != null) conversationOption.setDialogOption("How do we get started?", dialog, DialogChatColor.RED);
+        conversationOption.setDialogOption("How do we get started?", dialog, DialogChatColor.RED);
         opts.setDialogOne(conversationOption);
         this.setBaseOptions(options);
     }

@@ -13,16 +13,21 @@ import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.AbstractDictionary;
-
 /**
  *
  * @author draks
  */
 public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
+    public static void init() {        
+        AbstractDictionary.loadNpcFactions();
+        AbstractDictionary.loadDialogs();
+        AbstractDictionary.loadNpcs();
+        AbstractDictionary.loadGameEvents();
+    }
+    
     public static void loadDialogs() {
         ForgeAPI.sendConsoleEntry("Loading statically configure dialogs....", ConsoleMessageType.FINE);
-        AbstractDictionary.loadDialogs();
         for (RegisterableDialog dialog : AbstractDictionary.getDialogs()) {
             RegisterableDialog registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
             if (registered != null) {
@@ -41,7 +46,6 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void loadNpcs() {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Npcs...", ConsoleMessageType.FINE);
-        AbstractDictionary.loadNpcs();
         for (RegisterableNpc npc : AbstractDictionary.getNpcs()) {
             if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null) {
                 ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
@@ -52,7 +56,6 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void loadNpcFactions() {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Factions...", ConsoleMessageType.FINE);
-        AbstractDictionary.loadNpcFactions();
         for (RegisterableNpcFaction faction : AbstractDictionary.getFactions()) {
             RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.getName());
             if (registered == null) MMOCore.getNpcFactionRegistry().register(faction);
@@ -61,7 +64,6 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void loadGameEvents() {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Events...", ConsoleMessageType.FINE);
-        AbstractDictionary.loadGameEvents();
         for (GameEvent definedEvent : AbstractDictionary.getEvents()) {
             ForgeAPI.sendConsoleEntry("Loading Event: " + definedEvent.getIdentifier(), ConsoleMessageType.FINE);
             MMOCore.getGameEventRegistry().register(definedEvent);

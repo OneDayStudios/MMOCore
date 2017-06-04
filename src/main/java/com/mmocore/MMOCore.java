@@ -172,6 +172,7 @@ public class MMOCore {
             MMOCore.getNpcRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
             WarpDriveAPI.onServerStarted();       
+            DictionaryAPI.init();
             DictionaryAPI.loadNpcFactions();
             DictionaryAPI.loadDialogs();
             DictionaryAPI.loadNpcs();

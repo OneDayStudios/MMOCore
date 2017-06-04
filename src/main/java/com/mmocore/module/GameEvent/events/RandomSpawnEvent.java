@@ -35,6 +35,8 @@ public class RandomSpawnEvent extends GameEvent {
     }
     
     private boolean shouldSpawn(uPosition position) {
+        ForgeAPI.sendConsoleEntry("Checking npc count", ConsoleMessageType.FINE);
+        if (this.storedNpcs.isEmpty()) return false;
         ForgeAPI.sendConsoleEntry("Checking shouldSpawn", ConsoleMessageType.FINE);
         if (!getOptions().spawnEnabled()) return false;        
         ForgeAPI.sendConsoleEntry("Spawn Enabled!", ConsoleMessageType.FINE);

@@ -38,7 +38,6 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<RegisterableNpcFaction> getFactions() {
-        loadNpcFactions();
         ArrayList<RegisterableNpcFaction> factions = new ArrayList<RegisterableNpcFaction>();
         for (AbstractRegisterable r : getAll()) {
             if (r instanceof RegisterableNpcFaction) factions.add((RegisterableNpcFaction)r);
