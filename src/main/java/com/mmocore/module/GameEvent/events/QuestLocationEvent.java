@@ -104,6 +104,10 @@ public class QuestLocationEvent extends GameEvent {
         return this.exitGui;
     }
     
+    public void setCompletedGui(GuiElement element) {
+        this.completeLocationGui = element;
+    }
+    
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
         if (!getPosition().getDimension().equals(dimension)) return;

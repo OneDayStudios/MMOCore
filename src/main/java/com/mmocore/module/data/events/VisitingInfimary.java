@@ -6,8 +6,10 @@
 package com.mmocore.module.data.events;
 
 import com.mmocore.api.UniverseAPI;
+import com.mmocore.constants.GuiSlot;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
+import com.mmocore.module.Gui.GuiElement;
 
 /**
  *
@@ -22,6 +24,8 @@ public class VisitingInfimary extends QuestLocationEvent {
         5,
         5
         );
+        GuiElement element = new GuiElement(GuiSlot.Toast, "Completed : " + this.getName(), "Location Objective Achieved", "", 255, 255, 255);
+        this.setCompletedGui(element);
     }
     
 }
