@@ -51,7 +51,7 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
     private QuestRewardOptions rewardOptions = new QuestRewardOptions();
     private QuestObjectiveOptions objectiveOptions = new QuestObjectiveOptions();
         
-    private void pushToGame() {
+    public void pushToGame() {
         if (this.getID() == -1) return;
         if (this.actualQuest == null) this.actualQuest = new Quest();
         if (this.actualQuest.id != this.getID()) this.actualQuest.id = this.getID();

@@ -175,6 +175,7 @@ public class MMOCore {
             DictionaryAPI.init();
             DictionaryAPI.loadNpcFactions();
             DictionaryAPI.loadDialogs();
+            DictionaryAPI.loadQuests();
             DictionaryAPI.loadNpcs();
             DictionaryAPI.loadGameEvents();
 

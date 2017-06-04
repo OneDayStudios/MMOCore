@@ -12,6 +12,7 @@ import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.AbstractDictionary;
 /**
  *
@@ -21,9 +22,28 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void init() {        
         AbstractDictionary.loadNpcFactions();
+        AbstractDictionary.loadQuests();
         AbstractDictionary.loadDialogs();
         AbstractDictionary.loadNpcs();
         AbstractDictionary.loadGameEvents();
+    }
+    
+    public static void loadQuests() {
+        ForgeAPI.sendConsoleEntry("Loading statically configure quests....", ConsoleMessageType.FINE);
+        for (RegisterableQuest quest : AbstractDictionary.getQuests()) {
+            RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
+            if (registered != null) {
+                RegisterableQuest temp = quest;
+                temp.setID(registered.getID());
+                MMOCore.getQuestRegistry().replaceOrUpdate(temp, temp.getID());
+                registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
+                registered.pushToGame();
+                ForgeAPI.sendConsoleEntry("Loading Already initialised quest: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+            } else {
+                ForgeAPI.sendConsoleEntry("Loading uninitialised quest: " + quest.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+                MMOCore.getQuestRegistry().register(quest);
+            }
+        }
     }
     
     public static void loadDialogs() {
