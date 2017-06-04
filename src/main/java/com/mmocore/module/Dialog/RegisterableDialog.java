@@ -168,23 +168,23 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         count = 0;
         for (RegisterableDialog Dialog : this.getAvailabilityOptions().getDialogAvailability().keySet()) {
             if (count > 3) continue;
-            if (!Dialog.isRegistered()) MMOCore.getDialogRegistry().register(Dialog);
+            RegisterableDialog dialog = DialogAPI.getRegistered(Dialog.getBaseOptions().getTitle(), Dialog.getBaseOptions().getCategory());
             DialogAvailability avail = this.getAvailabilityOptions().getDialogAvailability().get(Dialog);
             switch (count) {
                 case 0:
-                    actualDialog.availability.dialogId = Dialog.getIdentifier();
+                    actualDialog.availability.dialogId = dialog.getIdentifier();
                     if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.Before;
                     if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.After;
                 case 1:
-                    actualDialog.availability.dialog2Id = Dialog.getIdentifier();
+                    actualDialog.availability.dialog2Id = dialog.getIdentifier();
                     if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog2Available = EnumAvailabilityDialog.Before;
                     if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog2Available = EnumAvailabilityDialog.After;
                 case 2:
-                    actualDialog.availability.dialog3Id = Dialog.getIdentifier();
+                    actualDialog.availability.dialog3Id = dialog.getIdentifier();
                     if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog3Available = EnumAvailabilityDialog.Before;
                     if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog3Available = EnumAvailabilityDialog.After;
                 case 3:
-                    actualDialog.availability.dialog4Id = Dialog.getIdentifier();
+                    actualDialog.availability.dialog4Id = dialog.getIdentifier();
                     if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Before;
                     if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.After;
             }
