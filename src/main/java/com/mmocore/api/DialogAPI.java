@@ -71,7 +71,6 @@ public class DialogAPI extends AbstractAPI<DialogAPI> {
     }
     
     public static RegisterableDialog getRegistered(String name, String category) {
-        AbstractDictionary.loadDialogs();
         for (RegisterableDialog d : MMOCore.getDialogRegistry().getRegistered().values()) {
             if (d.getBaseOptions().getTitle().equals(name) && d.getBaseOptions().getCategory().equals(category)) return d;
         }
