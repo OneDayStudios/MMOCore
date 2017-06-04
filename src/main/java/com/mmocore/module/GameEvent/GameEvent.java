@@ -24,6 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, GameEvent> {
     
     private String name;
+    private boolean flaggedForRemoval = false;
     
     public GameEvent(String name) {
         this.name = name;
@@ -32,6 +33,14 @@ public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, 
     @Override
     public void tick() {
         
+    }
+    
+    public void setFlaggedForRemoval() {
+        this.flaggedForRemoval = true;
+    }
+    
+    public boolean getFlaggedForRemoval() {
+        return this.flaggedForRemoval;
     }
     
     public abstract void tickForDimension(RegisterableDimension dimension);
