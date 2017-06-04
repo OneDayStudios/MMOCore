@@ -115,26 +115,22 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         if (this.getAvailabilityOptions().getAvailableDay() && !this.getAvailabilityOptions().getAvailableNight()) actualDialog.availability.daytime = EnumDayTime.Night;
         if (this.getAvailabilityOptions().getAvailableNight() && !this.getAvailabilityOptions().getAvailableDay()) actualDialog.availability.daytime = EnumDayTime.Day;
         if (this.getAvailabilityOptions().getAvailableNight() && this.getAvailabilityOptions().getAvailableDay()) actualDialog.availability.daytime = EnumDayTime.Always;        
-        if (this.getAvailabilityOptions().getQuestAvailability().isEmpty()) {
-            actualDialog.availability.questId = -1;
-            actualDialog.availability.questAvailable = EnumAvailabilityQuest.Always;
-            actualDialog.availability.quest2Id = -1;
-            actualDialog.availability.quest2Available = EnumAvailabilityQuest.Always;
-            actualDialog.availability.quest3Id = -1;
-            actualDialog.availability.quest3Available = EnumAvailabilityQuest.Always;
-            actualDialog.availability.quest4Id = -1;
-            actualDialog.availability.quest4Available = EnumAvailabilityQuest.Always;
-        }
-        if (this.getAvailabilityOptions().getDialogAvailability().isEmpty()) {
-            actualDialog.availability.dialogId = -1;
-            actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.Always;
-            actualDialog.availability.dialog2Id = -1;
-            actualDialog.availability.dialog2Available = EnumAvailabilityDialog.Always;
-            actualDialog.availability.dialog3Id = -1;
-            actualDialog.availability.dialog3Available = EnumAvailabilityDialog.Always;
-            actualDialog.availability.dialog4Id = -1;
-            actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Always;
-        }
+        actualDialog.availability.questId = -1;
+        actualDialog.availability.questAvailable = EnumAvailabilityQuest.Always;
+        actualDialog.availability.quest2Id = -1;
+        actualDialog.availability.quest2Available = EnumAvailabilityQuest.Always;
+        actualDialog.availability.quest3Id = -1;
+        actualDialog.availability.quest3Available = EnumAvailabilityQuest.Always;
+        actualDialog.availability.quest4Id = -1;
+        actualDialog.availability.quest4Available = EnumAvailabilityQuest.Always;
+        actualDialog.availability.dialogId = -1;
+        actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.Always;
+        actualDialog.availability.dialog2Id = -1;
+        actualDialog.availability.dialog2Available = EnumAvailabilityDialog.Always;
+        actualDialog.availability.dialog3Id = -1;
+        actualDialog.availability.dialog3Available = EnumAvailabilityDialog.Always;
+        actualDialog.availability.dialog4Id = -1;
+        actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Always;
         int count = 0;
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
             if (count > 3) continue;
