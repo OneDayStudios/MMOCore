@@ -13,6 +13,7 @@ import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.dialogs.LetsGetStarted;
 import com.mmocore.module.data.dialogs.WelcomeToTheSGC;
+import com.mmocore.module.data.dialogs.WhereAmI;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.StargateCommand;
