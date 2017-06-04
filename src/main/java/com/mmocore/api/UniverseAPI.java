@@ -51,8 +51,8 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         return MMOCore.getGalaxyRegistry().getRegisteredReadOnly().values();
     }
     
-    public static ArrayList<RegisterableDimension> getDimensions() {
-        return (ArrayList)MMOCore.getDimensionRegistry().getRegisteredReadOnly().values();
+    public static Collection<RegisterableDimension> getDimensions() {
+        return MMOCore.getDimensionRegistry().getRegistered().values();
     }
     
     public static ArrayList<RegisterableDimension> getDimensions(DimensionType type) {
