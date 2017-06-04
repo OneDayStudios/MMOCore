@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.data.dialogs;
+package com.mmocore.module.data.dialogs.GeneralHammond;
 
 import com.mmocore.api.DialogAPI;
 import com.mmocore.constants.DialogChatColor;

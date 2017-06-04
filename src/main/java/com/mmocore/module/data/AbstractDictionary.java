@@ -11,15 +11,18 @@ import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
-import com.mmocore.module.data.dialogs.LetsGetStarted;
-import com.mmocore.module.data.dialogs.WelcomeToTheSGC;
-import com.mmocore.module.data.dialogs.WhereAmI;
+import com.mmocore.module.data.dialogs.GeneralHammond.LetsGetStarted;
+import com.mmocore.module.data.dialogs.GeneralHammond.WelcomeToTheSGC;
+import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
+import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
 import com.mmocore.module.data.events.VisitingInfimary;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
 import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
+import com.mmocore.module.data.npcs.JanetFraser;
+import com.mmocore.module.data.npcs.MarcusBell;
 import com.mmocore.module.data.npcs.StargateCommandSoldier;
 import com.mmocore.module.data.quests.VisitingTheInfirmary;
 import java.util.ArrayList;
@@ -124,6 +127,7 @@ public class AbstractDictionary {
         add(new LetsGetStarted());
         add(new WelcomeToTheSGC());
         add(new WhereAmI());
+        add(new JanetFraserWelcome());
     }
 
     public static void loadNpcFactions() {
@@ -135,6 +139,8 @@ public class AbstractDictionary {
         add(new GeneralHammond());
         add(new StargateCommandSoldier());
         add(new GoauldJaffaSoldier());
+        add(new JanetFraser());
+        add(new MarcusBell());
     }
 
     public static void loadGameEvents() {

@@ -17,10 +17,10 @@ public class VisitingInfimary extends QuestLocationEvent {
     
     public VisitingInfimary() {
         super("Visiting Infirmary",
-        new uPosition(-126.0,15.0,-620.0,UniverseAPI.getDimension("P2X-3YZ")),
-        5,
-        5,
-        5
+        new uPosition(-136.0,51.0,-638.0,UniverseAPI.getDimension("P2X-3YZ")),
+        8,
+        3,
+        8
         );
     }
     

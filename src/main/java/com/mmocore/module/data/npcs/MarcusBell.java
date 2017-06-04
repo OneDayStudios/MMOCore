@@ -15,6 +15,7 @@ import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcRotation;
+import com.mmocore.constants.NpcRotationType;
 import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
@@ -33,13 +34,13 @@ import com.mmocore.module.Npc.options.NpcMovementOptions;
  *
  * @author draks
  */
-public class GeneralHammond extends RegisterableNpc {
+public class MarcusBell extends RegisterableNpc {
     
-    public GeneralHammond() {
-        super(  "George Hammond",
-                "Brigadier General",
-                NpcTexture.TAURI_GENERAL_HAMMOND,
-                NpcModifier.RANGED_BOSS,
+    public MarcusBell() {
+        super(  "Marcus Bell",
+                "Captain",
+                NpcTexture.TAURI_SOLDIER_1,
+                NpcModifier.CIVILIAN,
                 NpcSpawnMethod.Static,
                 NpcFactionAPI.getRegistered("Stargate Command")
         );
@@ -47,13 +48,13 @@ public class GeneralHammond extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-135.0,15.0,-610.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-136.0,52.0,-641.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
         NpcMovementOptions opts = this.getMovementOptions();
-        opts.setRotation(NpcRotation.EAST);
-        opts.setMovingAnimation(NpcMovementAnimation.Sitting);
+        opts.setRotation(NpcRotation.SOUTH);
+        opts.setMovingAnimation(NpcMovementAnimation.Lying);
         this.setMovementOptions(opts);
         this.setBaseOptions(options);
         weapons.setMainHand(heldItem);
@@ -63,10 +64,7 @@ public class GeneralHammond extends RegisterableNpc {
         cOpts.setProjectile(NpcProjectile.PISTOL_BULLET);
         this.setCombatOptions(cOpts);
         NpcInteractOptions interactOptions = this.getInteractOptions();
-        RegisterableDialog dialog = DialogAPI.getRegistered("Welcome to the SGC", "Tutorial");
-        DialogConversationOption opt = new DialogConversationOption();
-        opt.setDialogOption("Welcome", dialog, DialogChatColor.WHITE);
-        interactOptions.addDialog(opt);
+        interactOptions.addInteractLine("Janet is one of the best Docs around, I swear...");
         this.setInteractOptions(interactOptions);
     }
 }

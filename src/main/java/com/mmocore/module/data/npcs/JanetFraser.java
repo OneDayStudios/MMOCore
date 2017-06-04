@@ -33,13 +33,13 @@ import com.mmocore.module.Npc.options.NpcMovementOptions;
  *
  * @author draks
  */
-public class GeneralHammond extends RegisterableNpc {
+public class JanetFraser extends RegisterableNpc {
     
-    public GeneralHammond() {
-        super(  "George Hammond",
-                "Brigadier General",
-                NpcTexture.TAURI_GENERAL_HAMMOND,
-                NpcModifier.RANGED_BOSS,
+    public JanetFraser() {
+        super(  "Janet Fraser",
+                "Physician",
+                NpcTexture.DOCTORSTEPHANIE,
+                NpcModifier.CIVILIAN,
                 NpcSpawnMethod.Static,
                 NpcFactionAPI.getRegistered("Stargate Command")
         );
@@ -47,13 +47,13 @@ public class GeneralHammond extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-135.0,15.0,-610.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-138.0,51.0,-640.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
         NpcMovementOptions opts = this.getMovementOptions();
-        opts.setRotation(NpcRotation.EAST);
-        opts.setMovingAnimation(NpcMovementAnimation.Sitting);
+        opts.setRotation(NpcRotation.SOUTH);
+        opts.setMovingAnimation(NpcMovementAnimation.None);
         this.setMovementOptions(opts);
         this.setBaseOptions(options);
         weapons.setMainHand(heldItem);
@@ -63,9 +63,10 @@ public class GeneralHammond extends RegisterableNpc {
         cOpts.setProjectile(NpcProjectile.PISTOL_BULLET);
         this.setCombatOptions(cOpts);
         NpcInteractOptions interactOptions = this.getInteractOptions();
-        RegisterableDialog dialog = DialogAPI.getRegistered("Welcome to the SGC", "Tutorial");
+        RegisterableDialog dialog = DialogAPI.getRegistered("Janet Fraser Welcome", "Tutorial");
         DialogConversationOption opt = new DialogConversationOption();
         opt.setDialogOption("Welcome", dialog, DialogChatColor.WHITE);
+        interactOptions.addInteractLine("Cant you see I am busy here?");
         interactOptions.addDialog(opt);
         this.setInteractOptions(interactOptions);
     }

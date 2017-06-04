@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.data.dialogs;
+package com.mmocore.module.data.dialogs.GeneralHammond;
 
 import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.QuestAvailability;
@@ -22,23 +22,18 @@ import java.util.HashMap;
 public class LetsGetStarted extends RegisterableDialog {
     
     public LetsGetStarted() {
-        super("Lets Get Started", "Tutorial");
+        super("Janet Fraser Welcome", "Tutorial");
         DialogBaseOptions options = this.getBaseOptions();
         options.setText(
-                "Very well, right to the point, I like it.\n "
-                + "Well I'm not going to beat around the bush here, we have an SG team offworld who need some assistance.\n"
-                + "First though, we will need to clear you for offworld travel.\n\n"
-                + "Please speak with Doctor Fraser on Level 26 to have her examine you to confirm you are fit for service."
+                "Cant you see I am busy here? What can I do for you? Quickly?\n "
         );
         this.setBaseOptions(options);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
         HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.Before);
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
         opts.setQuestAvailability(availability);
         this.setAvailabilityOptions(opts);
-        DialogActionOptions actionOptions = this.getActionOptions();
-        actionOptions.setQuest(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"));
-        this.setActionOptions(actionOptions);
     }
     
 }
