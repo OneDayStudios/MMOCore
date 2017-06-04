@@ -11,14 +11,14 @@ package com.mmocore.constants;
  */
 public enum NpcRotation {
     
-    NORTH(0),
-    SOUTH(180),
+    NORTH(180),
+    SOUTH(0),
     EAST(270),
     WEST(90),
-    NNE(45),
-    SSE(75),
-    NNW(185),
-    SSW(65);
+    NNE(225),
+    SSE(315),
+    NNW(135),
+    SSW(45);
     
     private final int degree;
     
