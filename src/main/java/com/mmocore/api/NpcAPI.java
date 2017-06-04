@@ -42,6 +42,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         RegisterableNpc clone = new RegisterableNpc(clonedNpc.getBaseOptions().getName(), clonedNpc.getBaseOptions().getTitle(), clonedNpc.getBaseOptions().getTexture(), clonedNpc.getBaseOptions().getModifier(), method, position, clonedNpc.getBaseOptions().getFaction());
         NpcBaseOptions opts = clonedNpc.getBaseOptions();
         opts.setSpawnPosition(position);
+        opts.setSpawnMethod(method);
         clone.setBaseOptions(opts);
         clone.setCombatOptions(clonedNpc.getCombatOptions());
         clone.setInteractOptions(clonedNpc.getInteractOptions());

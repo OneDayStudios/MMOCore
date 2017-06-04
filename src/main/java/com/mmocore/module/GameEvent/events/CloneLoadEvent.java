@@ -68,8 +68,7 @@ public class CloneLoadEvent extends GameEvent {
                 ForgeAPI.sendConsoleEntry("Processing: " + pos.getDisplayString(), ConsoleMessageType.FINE);
                 if (pos.getDimension().equals(dimension)) {
                     ForgeAPI.sendConsoleEntry("Dimension match!", ConsoleMessageType.FINE);
-                    uPosition actualSpawn = new uPosition(pos.getDPosX(), pos.getDPosY(), pos.getDPosZ(), dimension);
-                    RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, actualSpawn);
+                    RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, pos);
                     NpcMovementOptions opts = npc.getMovementOptions();
                     opts.setRotation(getPositions().get(pos));
                     npc.setMovementOptions(opts);

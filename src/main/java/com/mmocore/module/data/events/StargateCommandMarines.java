@@ -19,17 +19,12 @@ public class StargateCommandMarines extends CloneLoadEvent {
     
     public StargateCommandMarines() {
         super("Stargate Command Marine Spawns");
-        this.addSpawningNpc(new StargateCommandSoldier());
-        uPosition spawnLoc = new uPosition(-142.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
-        this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
-        spawnLoc = new uPosition(-138.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
-        this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
-        spawnLoc = new uPosition(-144.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ"));
-        this.addSpawnLocation(NpcRotation.NORTH, spawnLoc);
-        spawnLoc = new uPosition(-140.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ"));
-        this.addSpawnLocation(NpcRotation.NORTH, spawnLoc);
-        spawnLoc = new uPosition(-132.0, 6.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
-        this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
+        addSpawningNpc(new StargateCommandSoldier());
+        this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-142.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-138.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-144.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-140.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-132.0, 6.0, -627.0, UniverseAPI.getDimension("P2X-3YZ")));
     }
     
 }
