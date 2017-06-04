@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author draks
  */
-@SideOnly(Side.CLIENT)
+
 public class GuiElement extends Gui {
 
     private int width = 0;
