@@ -42,13 +42,13 @@ public class MarcusBell extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-80.0,51.0,-626.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-124.0,15.0,-602.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
         NpcMovementOptions opts = this.getMovementOptions();
-        opts.setRotation(NpcRotation.SOUTH);
-        opts.setMovingAnimation(NpcMovementAnimation.Lying);
+        opts.setRotation(NpcRotation.WEST);
+        opts.setMovingAnimation(NpcMovementAnimation.Sitting);
         this.setMovementOptions(opts);
         this.setBaseOptions(options);
         weapons.setMainHand(heldItem);
@@ -58,7 +58,7 @@ public class MarcusBell extends RegisterableNpc {
         cOpts.setProjectile(NpcProjectile.PISTOL_BULLET);
         this.setCombatOptions(cOpts);
         NpcInteractOptions interactOptions = this.getInteractOptions();
-        interactOptions.addInteractLine("Janet is one of the best Docs around, I swear...");
+        interactOptions.addInteractLine("What?...");
         this.setInteractOptions(interactOptions);
     }
 }

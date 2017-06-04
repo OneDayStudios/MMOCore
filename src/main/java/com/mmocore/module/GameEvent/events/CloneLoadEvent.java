@@ -71,7 +71,7 @@ public class CloneLoadEvent extends GameEvent {
                     uPosition actualSpawn = new uPosition(pos.getDPosX(), pos.getDPosY(), pos.getDPosZ(), dimension);
                     RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, actualSpawn);
                     NpcMovementOptions opts = npc.getMovementOptions();
-                    opts.setRotation(getPositionsReadOnly().get(pos));
+                    opts.setRotation(getPositions().get(pos));
                     npc.setMovementOptions(opts);
                     MMOCore.getNpcRegistry().register(npc);
                     spawned.add(pos);
