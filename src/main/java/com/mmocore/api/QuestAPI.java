@@ -6,6 +6,8 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.module.GameEvent.events.QuestLocationEvent;
+import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import noppes.npcs.controllers.Quest;
 import noppes.npcs.controllers.QuestCategory;
 import noppes.npcs.controllers.QuestController;
 import noppes.npcs.controllers.QuestData;
+import noppes.npcs.quests.QuestLocation;
 
 /**
  *
@@ -48,6 +51,52 @@ public class QuestAPI extends AbstractAPI<QuestAPI> {
         PlayerData data = PlayerDataController.instance.getDataFromUsername(playerName);
         for (QuestData qd : data.questData.activeQuests.values()) {
             if (qd.quest.title.equals(questTitle) && !qd.isCompleted) return true;
+        }
+        return false;
+    }
+
+    public static boolean playerHasLocationQuestForLocation(RegisterablePlayer player, QuestLocationEvent event) {
+        PlayerData data = PlayerDataController.instance.getPlayerData(player.getRegisteredObject());
+        for (Integer i : data.questData.activeQuests.keySet()) {
+            QuestData qdata = data.questData.activeQuests.get(i);
+            if (qdata.quest.questInterface instanceof QuestLocation) {
+                QuestLocation qloc = (QuestLocation)qdata.quest.questInterface;
+                if (qloc.location.equals(event.getName()) || qloc.location2.equals(event.getName()) || qloc.location3.equals(event.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }    
+
+    public static boolean hasPlayerCompletedLocation(RegisterablePlayer player, QuestLocationEvent event) {
+        PlayerData data = PlayerDataController.instance.getPlayerData(player.getRegisteredObject());
+        for (Integer i : data.questData.activeQuests.keySet()) {
+            QuestData qdata = data.questData.activeQuests.get(i);
+            if (qdata.quest.questInterface instanceof QuestLocation) {
+                QuestLocation qloc = (QuestLocation)qdata.quest.questInterface;
+                if (qloc.getFound(qdata, 1) && qloc.location.equals(event.getName()) || qloc.getFound(qdata, 2) && qloc.location2.equals(event.getName()) || qloc.getFound(qdata, 3) && qloc.location3.equals(event.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public static boolean completePlayerLocation(RegisterablePlayer player, QuestLocationEvent event) {
+        PlayerData data = PlayerDataController.instance.getPlayerData(player.getRegisteredObject());
+        for (Integer i : data.questData.activeQuests.keySet()) {
+            QuestData qdata = data.questData.activeQuests.get(i);
+            if (qdata.quest.questInterface instanceof QuestLocation) {
+                QuestLocation qloc = (QuestLocation)qdata.quest.questInterface;
+                if (!qloc.getFound(qdata, 1) && qloc.location.equals(event.getName()) || !qloc.getFound(qdata, 2) && qloc.location2.equals(event.getName()) || !qloc.getFound(qdata, 3) && qloc.location3.equals(event.getName())) {
+                    qloc.setFound(qdata, event.getName());
+                    if (qloc.getFound(qdata, 0)) {
+                        qdata.quest.complete( player.getRegisteredObject(), qdata);
+                    }
+                    return true;
+                }
+            }
         }
         return false;
     }

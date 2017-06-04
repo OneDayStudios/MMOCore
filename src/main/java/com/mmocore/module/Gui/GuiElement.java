@@ -42,6 +42,18 @@ public class GuiElement extends Gui {
         this.subtitleColor = subTitleColor;
     }
     
+    public int getTitleColor() {
+        return this.titleColor;
+    }
+    
+    public int getSubTitleColor() {
+        return this.subtitleColor;
+    }
+    
+    public int getDescriptionColor() {
+        return this.descriptionColor;
+    }
+    
     public String getTitle() {
         return this.title;
     }

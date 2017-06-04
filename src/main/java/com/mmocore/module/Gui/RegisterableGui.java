@@ -21,6 +21,10 @@ public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSl
     private GuiSlot slot;
     private GuiElement gui;
     
+    public long getDuration() {
+        return this.milliseconds;
+    }
+    
     public RegisterableGui(GuiElement gui, long lifeTimeMs) {
         this.milliseconds = lifeTimeMs;
         this.gui = gui;        
