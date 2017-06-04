@@ -8,6 +8,7 @@ package com.mmocore.module.Dialog;
 import com.mmocore.MMOCore;
 import com.mmocore.api.DialogAPI;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
@@ -137,33 +138,35 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         int count = 0;
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
             if (count > 3) continue;
-            if (!quest.isRegistered()) MMOCore.getQuestRegistry().register(quest);
-            QuestAvailability avail = this.getAvailabilityOptions().getQuestAvailability().get(quest);
-            switch (count) {
-                case 0:
-                    actualDialog.availability.questId = quest.getIdentifier();
-                    if (avail.equals(QuestAvailability.During)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.Active;
-                    if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.NotActive;
-                    if (avail.equals(QuestAvailability.Before)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.Before;
-                    if (avail.equals(QuestAvailability.After)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.After;
-                case 1:
-                    actualDialog.availability.quest2Id = quest.getIdentifier();
-                    if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Active;
-                    if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.NotActive;
-                    if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Before;
-                    if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.After;
-                case 2:
-                    actualDialog.availability.quest3Id = quest.getIdentifier();
-                    if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Active;
-                    if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.NotActive;
-                    if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Before;
-                    if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.After;
-                case 3:
-                    actualDialog.availability.quest4Id = quest.getIdentifier();
-                    if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Active;
-                    if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.NotActive;
-                    if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Before;
-                    if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.After;
+            RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
+            if (registered != null) {
+                QuestAvailability avail = this.getAvailabilityOptions().getQuestAvailability().get(quest);
+                switch (count) {
+                    case 0:
+                        actualDialog.availability.questId = quest.getIdentifier();
+                        if (avail.equals(QuestAvailability.During)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.Active;
+                        if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.NotActive;
+                        if (avail.equals(QuestAvailability.Before)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.Before;
+                        if (avail.equals(QuestAvailability.After)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.After;
+                    case 1:
+                        actualDialog.availability.quest2Id = quest.getIdentifier();
+                        if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Active;
+                        if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.NotActive;
+                        if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Before;
+                        if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.After;
+                    case 2:
+                        actualDialog.availability.quest3Id = quest.getIdentifier();
+                        if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Active;
+                        if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.NotActive;
+                        if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Before;
+                        if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.After;
+                    case 3:
+                        actualDialog.availability.quest4Id = quest.getIdentifier();
+                        if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Active;
+                        if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.NotActive;
+                        if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Before;
+                        if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.After;
+                }
             }
             count++;
         }
