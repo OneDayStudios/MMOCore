@@ -31,7 +31,7 @@ public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
             npcs.add(new StargateCommandSoldier());
             npcs.add(new GoauldJaffaSoldier());
             RandomSpawnEventOptions options = this.getOptions();
-            for (RegisterableDimension dimension : UniverseAPI.getDimensionsReadOnly()) {
+            for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
             this.setOptions(options);

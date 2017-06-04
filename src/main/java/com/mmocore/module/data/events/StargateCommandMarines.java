@@ -9,7 +9,6 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.NpcRotation;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.events.CloneLoadEvent;
-import com.mmocore.module.data.AbstractDictionary;
 import com.mmocore.module.data.npcs.StargateCommandSoldier;
 
 /**
@@ -21,15 +20,15 @@ public class StargateCommandMarines extends CloneLoadEvent {
     public StargateCommandMarines() {
         super("Stargate Command Marine Spawns");
         this.addSpawningNpc(new StargateCommandSoldier());
-        uPosition spawnLoc = new uPosition(-141.0, 4.0, -626.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnLoc = new uPosition(-142.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
         this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
-        spawnLoc = new uPosition(-137.0, 4.0, -626.0, UniverseAPI.getDimension("P2X-3YZ"));
+        spawnLoc = new uPosition(-138.0, 4.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
         this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
-        spawnLoc = new uPosition(-139.0, 4.0, -615.0, UniverseAPI.getDimension("P2X-3YZ"));
+        spawnLoc = new uPosition(-144.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ"));
         this.addSpawnLocation(NpcRotation.NORTH, spawnLoc);
-        spawnLoc = new uPosition(-143.0, 4.0, -615.0, UniverseAPI.getDimension("P2X-3YZ"));
+        spawnLoc = new uPosition(-140.0, 4.0, -616.0, UniverseAPI.getDimension("P2X-3YZ"));
         this.addSpawnLocation(NpcRotation.NORTH, spawnLoc);
-        spawnLoc = new uPosition(-131.0, 6.0, -626.0, UniverseAPI.getDimension("P2X-3YZ"));
+        spawnLoc = new uPosition(-132.0, 6.0, -627.0, UniverseAPI.getDimension("P2X-3YZ"));
         this.addSpawnLocation(NpcRotation.SOUTH, spawnLoc);
     }
     

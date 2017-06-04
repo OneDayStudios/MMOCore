@@ -36,8 +36,7 @@ public class StargateCommandSoldier extends RegisterableNpc {
         );
         
         NpcHeldItemSet weapons = this.getRangedHeldItems();
-        NpcItem heldItem = new NpcItem("flansmod", "P90", 1, 0);
-        NpcBaseOptions options = this.getBaseOptions();
+        NpcItem heldItem = new NpcItem("flansmod", "p90", 1, 0);
         weapons.setMainHand(heldItem);
         this.setRangedHeldItems(weapons);
         this.setPassiveHeldItems(weapons);
