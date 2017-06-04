@@ -133,7 +133,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Always;
         int count = 0;
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
-            if (count > 3) continue;
+            if (quest == null || count > 3) continue;
             RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
             if (registered != null) {
                 QuestAvailability avail = this.getAvailabilityOptions().getQuestAvailability().get(quest);

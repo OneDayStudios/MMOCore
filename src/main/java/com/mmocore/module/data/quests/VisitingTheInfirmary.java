@@ -19,13 +19,14 @@ public class VisitingTheInfirmary extends RegisterableQuest {
     
     public VisitingTheInfirmary() {
         super(
-        "Visiting the Infirmary",
+        "Visiting The Infirmary",
         "Tutorial"
         );
         QuestObjectiveOptions opts = this.getObjectiveOptions();
         ArrayList<QuestLocationEvent> events = new ArrayList<QuestLocationEvent>();
         events.add((QuestLocationEvent)EventAPI.getRegistered("Visiting Infirmary"));
         opts.setOrUpdateQuestTypeLocation(events);
+        this.setObjectiveOptions(opts);
     }
     
 }
