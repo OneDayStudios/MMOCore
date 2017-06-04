@@ -67,7 +67,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             if (opt.getType().equals(DialogType.Quit)) dialogOption.optionType = EnumOptionType.QuitOption;
             dialogOption.title = opt.getTitle();
             dialogOption.optionColor = opt.getColor().getNumber();
-            if (opt.getDialog() != null) {
+            if (opt.getDialog() != null && opt.getType().equals(DialogType.Dialog)) {
                 RegisterableDialog registered = DialogAPI.getRegistered(opt.getDialog().getBaseOptions().getTitle(), opt.getDialog().getBaseOptions().getCategory());
                 if (registered == null) {
                     dialogOption.dialogId = -1;
@@ -77,7 +77,6 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                 }
             } else {
                 dialogOption.dialogId = -1;
-                dialogOption.optionType = EnumOptionType.QuitOption;
             }
             dialogOption.command = opt.getCommand();
             return dialogOption;
