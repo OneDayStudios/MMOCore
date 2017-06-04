@@ -120,6 +120,7 @@ public class AbstractDictionary {
     public static void loadDialogs() {
         add(new LetsGetStarted());
         add(new WelcomeToTheSGC());
+        add(new WhereAmI());
     }
 
     public static void loadNpcFactions() {
