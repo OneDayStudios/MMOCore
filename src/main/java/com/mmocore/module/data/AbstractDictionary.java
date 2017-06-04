@@ -39,11 +39,7 @@ public class AbstractDictionary {
     private static ArrayList<AbstractRegisterable> objects = new ArrayList<AbstractRegisterable>();    
         
     public AbstractDictionary() {
-        AbstractDictionary.loadNpcFactions();
-        AbstractDictionary.loadDialogs();
-        AbstractDictionary.loadQuests();
-        AbstractDictionary.loadNpcs();
-        AbstractDictionary.loadGameEvents();
+
     }
     
     public static void add(AbstractRegisterable object) {
@@ -51,7 +47,13 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<AbstractRegisterable> getAll() {
-        if (objects.isEmpty()) DictionaryAPI.init();
+        if (objects.isEmpty()) {
+                AbstractDictionary.loadNpcFactions();
+                AbstractDictionary.loadDialogs();
+                AbstractDictionary.loadQuests();
+                AbstractDictionary.loadNpcs();
+                AbstractDictionary.loadGameEvents();
+        }
         return new ArrayList<AbstractRegisterable>(objects);
     }
     
