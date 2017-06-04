@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.data;
 
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.GameEvent.GameEvent;
@@ -16,6 +17,7 @@ import com.mmocore.module.data.dialogs.GeneralHammond.WelcomeToTheSGC;
 import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
 import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
+import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.VisitingInfimary;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.StargateCommand;
@@ -41,6 +43,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<AbstractRegisterable> getAll() {
+        if (objects.isEmpty()) DictionaryAPI.init();
         return new ArrayList<AbstractRegisterable>(objects);
     }
     
@@ -148,6 +151,7 @@ public class AbstractDictionary {
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
         add(new VisitingInfimary());
+        add(new StargateCommandMarines());
     }
 
     public static void loadQuests() {

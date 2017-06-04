@@ -29,7 +29,7 @@ public class StargateCommandSoldier extends RegisterableNpc {
     public StargateCommandSoldier() {
         super(  "SGC Soldier",
                 "Stargate Command",
-                NpcTexture.TAURI_SOLDIER1,
+                NpcTexture.TAURI_MARINE,
                 NpcModifier.RANGED_SOLDIER,
                 NpcSpawnMethod.Static,
                 NpcFactionAPI.getRegistered("Stargate Command")

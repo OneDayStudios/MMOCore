@@ -19,5 +19,6 @@ public enum NpcSpawnMethod {
     Random,
     Incursion, 
     Quest,
+    Clone,
     Location;
 }
