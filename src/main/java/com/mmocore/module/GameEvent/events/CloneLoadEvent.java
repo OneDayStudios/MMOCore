@@ -64,12 +64,13 @@ public class CloneLoadEvent extends GameEvent {
     public void tickForDimension(RegisterableDimension dimension) {
         if (!getPositions().isEmpty()) return;
         for (uPosition pos : getPositionsReadOnly().keySet()) {
-            if (pos.getDimension().equals(dimension)) {
-                RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, pos);
+            if (pos.getDimension().getName().equals(dimension.getName())) {
+                uPosition actualSpawn = new uPosition(pos.getDPosX(), pos.getDPosY(), pos.getDPosZ(), dimension);
+                RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, actualSpawn);
                 NpcMovementOptions opts = npc.getMovementOptions();
                 opts.setRotation(getPositionsReadOnly().get(pos));
                 npc.setMovementOptions(opts);
-                if (npc != null) MMOCore.getNpcRegistry().register(npc);
+                MMOCore.getNpcRegistry().register(npc);
             }
             getPositions().remove(pos);            
         }

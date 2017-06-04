@@ -38,6 +38,14 @@ public class AbstractDictionary {
     
     private static ArrayList<AbstractRegisterable> objects = new ArrayList<AbstractRegisterable>();    
         
+    public AbstractDictionary() {
+        AbstractDictionary.loadNpcFactions();
+        AbstractDictionary.loadDialogs();
+        AbstractDictionary.loadQuests();
+        AbstractDictionary.loadNpcs();
+        AbstractDictionary.loadGameEvents();
+    }
+    
     public static void add(AbstractRegisterable object) {
      if (!objects.contains(object)) objects.add(object);
     }
