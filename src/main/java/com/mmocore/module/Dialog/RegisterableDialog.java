@@ -135,7 +135,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
             if (count > 3) continue;
             RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
-            QuestAvailability avail = this.getAvailabilityOptions().getQuestAvailability().get(registered);
+            QuestAvailability avail = this.getAvailabilityOptions().getQuestAvailability().get(quest);
             switch (count) {
                 case 0:
                     actualDialog.availability.questId = registered.getIdentifier();
