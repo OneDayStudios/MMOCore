@@ -32,6 +32,7 @@ public class CloneLoadEvent extends GameEvent {
     
     private HashMap<uPosition, NpcRotation> positionAndOrientation = new HashMap<uPosition, NpcRotation>();
     private ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
+    private ArrayList<uPosition> spawned = new ArrayList<uPosition>();
     
     public CloneLoadEvent(String name) {
         super(name);
@@ -63,18 +64,25 @@ public class CloneLoadEvent extends GameEvent {
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
         if (!getPositions().isEmpty()) {
-            for (uPosition pos : getPositionsReadOnly().keySet()) {
-                if (pos.getDimension().getName().equals(dimension.getName())) {
+            for (uPosition pos : getPositions().keySet()) {                    
+                ForgeAPI.sendConsoleEntry("Processing: " + pos.getDisplayString(), ConsoleMessageType.FINE);
+                if (pos.getDimension().equals(dimension)) {
+                    ForgeAPI.sendConsoleEntry("Dimension match!", ConsoleMessageType.FINE);
                     uPosition actualSpawn = new uPosition(pos.getDPosX(), pos.getDPosY(), pos.getDPosZ(), dimension);
                     RegisterableNpc npc = NpcAPI.simpleClone(getRandom(), NpcSpawnMethod.Clone, actualSpawn);
                     NpcMovementOptions opts = npc.getMovementOptions();
                     opts.setRotation(getPositionsReadOnly().get(pos));
                     npc.setMovementOptions(opts);
                     MMOCore.getNpcRegistry().register(npc);
-                }
-                getPositions().remove(pos);            
+                    spawned.add(pos);
+                }        
             }
+            for (uPosition sp : spawned) {
+                getPositions().remove(sp);
+            }
+            spawned.clear();
         } else {
+            ForgeAPI.sendConsoleEntry("Flagging for removal", ConsoleMessageType.FINE);
             this.setFlaggedForRemoval();
         }
     }
