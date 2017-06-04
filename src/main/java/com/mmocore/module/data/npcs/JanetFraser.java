@@ -47,8 +47,7 @@ public class JanetFraser extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-136.0,51.0,-637.0, UniverseAPI.getDimension("P2X-3YZ"));
-        options.setBossBarVisible(TextVisibleOption.WhenAttacking);
+        uPosition spawnPos = new uPosition(-151.0,51.0,-636.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
         NpcMovementOptions opts = this.getMovementOptions();
