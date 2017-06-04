@@ -28,6 +28,7 @@ import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcMovementType;
 import com.mmocore.constants.NpcRangedUsage;
 import com.mmocore.constants.NpcRespawnOption;
+import com.mmocore.constants.NpcRotationType;
 import com.mmocore.constants.NpcShelterFromOption;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTacticalOption;
@@ -69,6 +70,7 @@ import noppes.npcs.roles.RoleTrader;
 import net.minecraft.entity.Entity;
 import noppes.npcs.constants.EnumOptionType;
 import static noppes.npcs.constants.EnumOptionType.DialogOption;
+import noppes.npcs.constants.EnumStandingType;
 import noppes.npcs.controllers.DialogOption;
 import noppes.npcs.controllers.FactionController;
 
@@ -296,6 +298,11 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
 
         entity.advanced.orderedLines = (this.getInteractOptions().getSayRandomLines().equals(NpcBoolean.NO));
         
+        if (this.getMovementOptions().getRotationType().equals(NpcRotationType.None)) entity.ai.standingType = EnumStandingType.NoRotation;
+        if (this.getMovementOptions().getRotationType().equals(NpcRotationType.Head)) entity.ai.standingType = EnumStandingType.HeadRotation;
+        if (this.getMovementOptions().getRotationType().equals(NpcRotationType.Body)) entity.ai.standingType = EnumStandingType.RotateBody;
+        if (this.getMovementOptions().getRotationType().equals(NpcRotationType.FollowPlayer)) entity.ai.standingType = EnumStandingType.Stalking;
+
         if (this.getMovementOptions().getFollowPathBehaviour().equals(NpcFollowPathBehaviour.LoopPath)) entity.ai.movingPattern = 0;
         if (this.getMovementOptions().getFollowPathBehaviour().equals(NpcFollowPathBehaviour.Backtrack)) entity.ai.movingPattern = 1;
 
@@ -551,7 +558,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getBaseOptions().getSize().equals(AbstractScale.Lower)) this.entity.display.modelSize = 3;
         if (this.getBaseOptions().getSize().equals(AbstractScale.Lowest)) this.entity.display.modelSize = 1;
         if (this.getBaseOptions().getSize().equals(AbstractScale.None)) this.entity.display.modelSize = 0;
-        
         if (this.getBehaviourOptions().getAvoidsSun().equals(NpcBoolean.YES)) this.entity.ai.avoidsSun = true;
         if (this.getBehaviourOptions().getAvoidsSun().equals(NpcBoolean.NO)) this.entity.ai.avoidsSun = false;
 
@@ -580,7 +586,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getBaseOptions().getMovementSpeed().equals(AbstractScale.Lower)) this.entity.ai.setWalkingSpeed(2);
         if (this.getBaseOptions().getMovementSpeed().equals(AbstractScale.Lowest)) this.entity.ai.setWalkingSpeed(1);
         if (this.getBaseOptions().getMovementSpeed().equals(AbstractScale.None)) this.entity.ai.setWalkingSpeed(0);
-        
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.None)) this.entity.ai.animationType = EnumAnimation.NONE;
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Sneaking)) this.entity.ai.animationType = EnumAnimation.SNEAKING;
         if (this.getMovementOptions().getMovingAnimation().equals(NpcMovementAnimation.Crawling)) this.entity.ai.animationType = EnumAnimation.CRAWLING;

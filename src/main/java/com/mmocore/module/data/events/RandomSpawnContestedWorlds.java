@@ -14,25 +14,24 @@ import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.factions.*;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.data.NpcDictionary;
+import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 
 /**
  *
  * @author draks
  */
-public class RandomSpawnContestedWorlds {
+public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
 
-    public static GameEvent get() {
+    public RandomSpawnContestedWorlds() {
+            super("Random Spawn - Uncontrolled Worlds");
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-            npcs.add(NpcDictionary.GOAULD_JAFFA_SOLDIER.get());
-            RandomSpawnEvent gameEvent = new RandomSpawnEvent("Random Spawn - Uncontrolled Worlds", npcs);
-            RandomSpawnEventOptions options = gameEvent.getOptions();
+            npcs.add(AbstractDictionary.getNpcByName("Jaffa Soldier","Goauld Loyal Jaffa"));
+            npcs.add(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
+            RandomSpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensionsReadOnly()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
-            gameEvent.setOptions(options);
-            return gameEvent;
+            this.setOptions(options);
     }
-    
 }

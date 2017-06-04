@@ -98,7 +98,7 @@ public class NpcInteractOptions {
     public List<String> getWorldLines() {
         ArrayList<String> defaultLines = new ArrayList<String>();
         defaultLines.add("Hmmmmm.....");
-        defaultLines.add("Hello there, @dp!");
+        defaultLines.add("Hello there, {player}!");
         if (this.worldLines.isEmpty()) return defaultLines;
         return this.worldLines;
     }

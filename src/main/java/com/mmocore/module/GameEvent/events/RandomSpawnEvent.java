@@ -30,9 +30,8 @@ public class RandomSpawnEvent extends GameEvent {
     private ArrayList<RegisterableNpc> storedNpcs = new ArrayList<RegisterableNpc>();
     private RandomSpawnEventOptions randomOptions = new RandomSpawnEventOptions();
     
-    public RandomSpawnEvent(String name, ArrayList<RegisterableNpc> npcs) {
+    public RandomSpawnEvent(String name) {
         super(name);
-        this.storedNpcs = npcs;
     }
     
     private boolean shouldSpawn(uPosition position) {

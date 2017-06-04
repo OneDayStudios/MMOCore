@@ -10,6 +10,7 @@ import com.mmocore.constants.NpcFollowPathBehaviour;
 import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcMovementType;
 import com.mmocore.constants.NpcRotation;
+import com.mmocore.constants.NpcRotationType;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +25,7 @@ public class NpcMovementOptions {
     private AbstractScale wanderingRadius = AbstractScale.None;
     private ArrayList<int[]> pathCoordinates = new ArrayList<int[]>();
     private NpcFollowPathBehaviour pathBehaviour = NpcFollowPathBehaviour.LoopPath;
+    private NpcRotationType rotationType = NpcRotationType.None;
 
     public NpcMovementOptions() {
         
@@ -36,6 +38,15 @@ public class NpcMovementOptions {
         this.wanderingRadius = movementOptions.wanderingRadius;
         this.pathCoordinates = new ArrayList<int[]>(movementOptions.pathCoordinates);
         this.pathBehaviour = movementOptions.pathBehaviour;
+        this.rotationType = movementOptions.rotationType;
+    }
+    
+    public NpcRotationType getRotationType() {
+        return this.rotationType;
+    }
+    
+    public void setRotationType(NpcRotationType type) {
+        this.rotationType = type;
     }
     
     public NpcRotation getRotation() {

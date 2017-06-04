@@ -5,6 +5,9 @@
  */
 package com.mmocore.api;
 
+import com.mmocore.MMOCore;
+import com.mmocore.module.Quest.RegisterableQuest;
+import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
@@ -47,6 +50,19 @@ public class QuestAPI extends AbstractAPI<QuestAPI> {
             if (qd.quest.title.equals(questTitle) && !qd.isCompleted) return true;
         }
         return false;
+    }
+    
+    public static RegisterableQuest getRegistered(String name, String chain) {
+        for (RegisterableQuest q : MMOCore.getQuestRegistry().getRegistered().values()) {
+            if (q.getBaseOptions().getTitle().equals(name) && q.getBaseOptions().getQuestChain().equals(chain)) return q;
+        }
+        for (RegisterableQuest q : AbstractDictionary.getQuests()) {
+            if (q.getBaseOptions().getTitle().equals(name) && q.getBaseOptions().getQuestChain().equals(chain)) {
+                MMOCore.getQuestRegistry().register(q);
+                return getRegistered(name,chain);
+            }
+        }
+        return null;
     }
     
     public static boolean questCategoryExists(String title) {

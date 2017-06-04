@@ -45,7 +45,7 @@ import noppes.npcs.constants.EnumQuestType;
  */
 public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
     
-    private Quest actualQuest;
+    private Quest actualQuest = new Quest();
     private int id = -1;
     private QuestBaseOptions baseOptions = new QuestBaseOptions();
     private QuestRewardOptions rewardOptions = new QuestRewardOptions();
@@ -54,7 +54,7 @@ public final class RegisterableQuest extends AbstractRegisterable<RegisterableQu
     private void pushToGame() {
         if (this.getID() == -1) return;
         if (this.actualQuest.id != this.getID()) this.actualQuest.id = this.getID();
-        if (!this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
+        if (this.actualQuest.category == null || !this.getBaseOptions().getQuestChain().equals(this.actualQuest.category.title)) {
             this.setQuestCategory(this.getBaseOptions().getQuestChain());
         }
         if (!this.getBaseOptions().getTitle().equals(actualQuest.title)) actualQuest.title = this.getBaseOptions().getTitle();

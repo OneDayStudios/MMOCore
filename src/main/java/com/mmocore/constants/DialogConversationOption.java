@@ -5,6 +5,7 @@
  */
 package com.mmocore.constants;
 
+import com.mmocore.MMOCore;
 import com.mmocore.constants.DialogChatColor;
 import com.mmocore.constants.DialogType;
 import com.mmocore.module.Dialog.RegisterableDialog;

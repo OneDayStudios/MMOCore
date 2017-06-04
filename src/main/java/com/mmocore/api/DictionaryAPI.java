@@ -6,10 +6,13 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.constants.NpcSpawnMethod;
+import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.GameEvent.GameEvent;
+import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.data.GameEventDictionary;
-import com.mmocore.module.data.NpcDictionary;
-import com.mmocore.module.data.NpcFactionDictionary;
+import com.mmocore.module.data.AbstractDictionary;
 
 /**
  *
@@ -17,22 +20,51 @@ import com.mmocore.module.data.NpcFactionDictionary;
  */
 public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
+    public static void loadDialogs() {
+        ForgeAPI.sendConsoleEntry("Loading statically configure dialogs....", ConsoleMessageType.FINE);
+        AbstractDictionary.loadDialogs();
+        for (RegisterableDialog dialog : AbstractDictionary.getDialogs()) {
+            RegisterableDialog registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
+            if (registered != null) {
+                RegisterableDialog temp = dialog;
+                temp.setID(registered.getID());
+                MMOCore.getDialogRegistry().replaceOrUpdate(temp, temp.getID());
+                registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
+                registered.pushToGame();
+                ForgeAPI.sendConsoleEntry("Loading Already initialised dialog: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+            } else {
+                ForgeAPI.sendConsoleEntry("Loading uninitialised dialog: " + dialog.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+                MMOCore.getDialogRegistry().register(dialog);
+            }
+        }
+    }
+    
     public static void loadNpcs() {
-        for (NpcDictionary npc : NpcDictionary.values()) {
-           if (npc.get().getBaseOptions().getSpawnPosition() != null) MMOCore.getNpcRegistry().register(npc.get());
+        ForgeAPI.sendConsoleEntry("Loading Statically configured Npcs...", ConsoleMessageType.FINE);
+        AbstractDictionary.loadNpcs();
+        for (RegisterableNpc npc : AbstractDictionary.getNpcs()) {
+            if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null) {
+                ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+                MMOCore.getNpcRegistry().register(npc);
+            }
         }
     }
     
     public static void loadNpcFactions() {
-        for (NpcFactionDictionary faction : NpcFactionDictionary.values()) {
-            RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.get().getName());
-            if (registered == null) MMOCore.getNpcFactionRegistry().register(faction.get());
+        ForgeAPI.sendConsoleEntry("Loading Statically configured Factions...", ConsoleMessageType.FINE);
+        AbstractDictionary.loadNpcFactions();
+        for (RegisterableNpcFaction faction : AbstractDictionary.getFactions()) {
+            RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.getName());
+            if (registered == null) MMOCore.getNpcFactionRegistry().register(faction);
         }
     }
     
     public static void loadGameEvents() {
-        for (GameEventDictionary definedEvent : GameEventDictionary.values()) {
-            MMOCore.getGameEventRegistry().register(definedEvent.get());
+        ForgeAPI.sendConsoleEntry("Loading Statically configured Events...", ConsoleMessageType.FINE);
+        AbstractDictionary.loadGameEvents();
+        for (GameEvent definedEvent : AbstractDictionary.getEvents()) {
+            ForgeAPI.sendConsoleEntry("Loading Event: " + definedEvent.getIdentifier(), ConsoleMessageType.FINE);
+            MMOCore.getGameEventRegistry().register(definedEvent);
         }
     }
     

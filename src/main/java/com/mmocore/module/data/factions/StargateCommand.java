@@ -6,7 +6,6 @@
 package com.mmocore.module.data.factions;
 
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
-import com.mmocore.module.data.NpcFactionDictionary;
 
 /**
  *

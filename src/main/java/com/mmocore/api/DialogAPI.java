@@ -5,7 +5,10 @@
  */
 package com.mmocore.api;
 
+import com.mmocore.MMOCore;
+import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Player.RegisterablePlayer;
+import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 import java.util.Collection;
 import noppes.npcs.controllers.Dialog;
@@ -19,7 +22,7 @@ import noppes.npcs.controllers.PlayerDataController;
  * @author draks
  */
 public class DialogAPI extends AbstractAPI<DialogAPI> {
-    
+        
     public static boolean hasPlayerRead(RegisterablePlayer player, String dialogTitle) {
         PlayerData data = PlayerDataController.instance.getDataFromUsername(player.getName());
         for (Integer dialogId : data.dialogData.dialogsRead) {
@@ -63,6 +66,19 @@ public class DialogAPI extends AbstractAPI<DialogAPI> {
     public static Dialog get(int id) {
         for (Dialog d : DialogController.instance.dialogs.values()) {
             if (d.id == id) return d;
+        }
+        return null;
+    }
+    
+    public static RegisterableDialog getRegistered(String name, String category) {
+        for (RegisterableDialog d : MMOCore.getDialogRegistry().getRegistered().values()) {
+            if (d.getBaseOptions().getTitle().equals(name) && d.getBaseOptions().getCategory().equals(category)) return d;
+        }
+        for (RegisterableDialog d : AbstractDictionary.getDialogs()) {
+            if (d.getBaseOptions().getTitle().equals(name) && d.getBaseOptions().getCategory().equals(category)) {
+                MMOCore.getDialogRegistry().register(d);
+                return getRegistered(name,category);
+            }
         }
         return null;
     }
