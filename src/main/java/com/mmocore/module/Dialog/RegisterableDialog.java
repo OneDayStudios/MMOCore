@@ -44,7 +44,7 @@ import noppes.npcs.controllers.QuestController;
  */
 public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog, Integer, Dialog> {
     
-    private Dialog actualDialog = new Dialog();
+    private Dialog actualDialog;
     private int id = -1;
     private DialogBaseOptions baseOptions = new DialogBaseOptions();    
     private DialogConversationOptions conversationOptions = new DialogConversationOptions();
@@ -77,6 +77,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     
     public void pushToGame() {
         if (this.getID() == -1) return;
+        if (actualDialog == null) actualDialog = new Dialog();
         if (this.actualDialog.id != this.getID()) this.actualDialog.id = this.getID();
         if (this.actualDialog.category == null || !this.getBaseOptions().getCategory().equals(this.actualDialog.category.title)) {
             this.setDialogCategory(this.getBaseOptions().getCategory());

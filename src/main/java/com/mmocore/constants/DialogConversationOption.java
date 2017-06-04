@@ -65,6 +65,7 @@ public class DialogConversationOption {
         this.clearOptions();
         this.color = color;
         this.text = dialogText;
+        this.type = DialogType.Dialog;
         this.dialogOption = dialog;
     }
     
