@@ -17,14 +17,14 @@ import com.mmocore.module.Dialog.RegisterableDialog;
 public class DialogConversationOption {
     
     private DialogType type = DialogType.Disabled;
-    private DialogChatColor color = DialogChatColor.RED;    
+    private DialogChatColor color = DialogChatColor.WHITE;    
     private RegisterableDialog dialogOption;
     private String command = "NONE";
     private String text = "No Text";
     
     private void clearOptions() {
         this.command = "NONE";
-        this.color = DialogChatColor.RED;
+        this.color = DialogChatColor.WHITE;
         this.dialogOption = null;
         this.type = DialogType.Disabled;
         this.text = "No Text";

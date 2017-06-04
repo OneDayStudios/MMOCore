@@ -65,7 +65,7 @@ public class GeneralHammond extends RegisterableNpc {
         NpcInteractOptions interactOptions = this.getInteractOptions();
         RegisterableDialog dialog = DialogAPI.getRegistered("Welcome to the SGC", "Tutorial");
         DialogConversationOption opt = new DialogConversationOption();
-        opt.setDialogOption("Welcome", dialog, DialogChatColor.RED);
+        opt.setDialogOption("Welcome", dialog, DialogChatColor.WHITE);
         interactOptions.addDialog(opt);
     }
 }

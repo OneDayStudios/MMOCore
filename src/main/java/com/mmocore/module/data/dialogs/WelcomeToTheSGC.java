@@ -25,11 +25,17 @@ public class WelcomeToTheSGC extends RegisterableDialog {
                 "Welcome to Stargate Command, {player}... \n"
                 + "I'm very glad to have you with us."
         );
+        options.setHasDialogWheel(true);
         DialogConversationOptions opts = this.getConversationOptions();
         DialogConversationOption conversationOption = new DialogConversationOption();
         RegisterableDialog dialog = DialogAPI.getRegistered("Lets Get Started", "Tutorial");
-        conversationOption.setDialogOption("How do we get started?", dialog, DialogChatColor.RED);
+        conversationOption.setDialogOption("How do we get started?", dialog, DialogChatColor.DARK_GREEN);
         opts.setDialogOne(conversationOption);
+        conversationOption = new DialogConversationOption();
+        dialog = DialogAPI.getRegistered("Where Am I", "Tutorial");
+        conversationOption.setDialogOption("Where exactly am I?", dialog, DialogChatColor.WHITE);
+        opts.setDialogThree(conversationOption);
+        this.setConversationOptions(opts);
         this.setBaseOptions(options);
     }
     
