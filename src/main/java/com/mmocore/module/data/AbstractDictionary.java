@@ -36,24 +36,14 @@ import java.util.ArrayList;
  */
 public class AbstractDictionary {
     
-    private static ArrayList<AbstractRegisterable> objects = new ArrayList<AbstractRegisterable>();    
+    private static ArrayList<AbstractRegisterable> objects = new ArrayList<AbstractRegisterable>();   
         
-    public AbstractDictionary() {
-
-    }
     
     public static void add(AbstractRegisterable object) {
      if (!objects.contains(object)) objects.add(object);
     }
     
     public static ArrayList<AbstractRegisterable> getAll() {
-        if (objects.isEmpty()) {
-                AbstractDictionary.loadNpcFactions();
-                AbstractDictionary.loadDialogs();
-                AbstractDictionary.loadQuests();
-                AbstractDictionary.loadNpcs();
-                AbstractDictionary.loadGameEvents();
-        }
         return new ArrayList<AbstractRegisterable>(objects);
     }
     

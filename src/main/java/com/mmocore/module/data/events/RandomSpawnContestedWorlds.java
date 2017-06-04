@@ -15,6 +15,8 @@ import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.factions.*;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.AbstractDictionary;
+import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
+import com.mmocore.module.data.npcs.StargateCommandSoldier;
 import java.util.ArrayList;
 
 /**
@@ -26,8 +28,8 @@ public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
     public RandomSpawnContestedWorlds() {
             super("Random Spawn - Uncontrolled Worlds");
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-            npcs.add(AbstractDictionary.getNpcByName("Jaffa Soldier","Goauld Loyal Jaffa"));
-            npcs.add(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
+            npcs.add(new StargateCommandSoldier());
+            npcs.add(new GoauldJaffaSoldier());
             RandomSpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensionsReadOnly()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
