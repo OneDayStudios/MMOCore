@@ -67,6 +67,16 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             if (opt.getType().equals(DialogType.Quit)) dialogOption.optionType = EnumOptionType.QuitOption;
             dialogOption.title = opt.getTitle();
             dialogOption.optionColor = opt.getColor().getNumber();
+            if (opt.getDialog() != null) {
+                RegisterableDialog registered = DialogAPI.getRegistered(opt.getDialog().getBaseOptions().getTitle(), opt.getDialog().getBaseOptions().getCategory());
+                if (registered == null) {
+                    dialogOption.dialogId = -1;
+                } else {
+                    dialogOption.dialogId = registered.getID();
+                }
+            } else {
+                dialogOption.dialogId = -1;
+            }
             if (!opt.getType().equals(DialogType.Dialog) || !MMOCore.getDialogRegistry().isRegistered(opt.getDialog().getIdentifier())) dialogOption.dialogId = -1;
             if (opt.getType().equals(DialogType.Dialog) && !MMOCore.getDialogRegistry().isRegistered(opt.getDialog().getIdentifier())) MMOCore.getDialogRegistry().register(opt.getDialog());
             if (opt.getType().equals(DialogType.Dialog) && MMOCore.getDialogRegistry().isRegistered(opt.getDialog().getIdentifier())) dialogOption.dialogId = opt.getDialog().getIdentifier();
