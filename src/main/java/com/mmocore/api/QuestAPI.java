@@ -108,7 +108,7 @@ public class QuestAPI extends AbstractAPI<QuestAPI> {
         for (RegisterableQuest q : AbstractDictionary.getQuests()) {
             if (q.getBaseOptions().getTitle().equals(name) && q.getBaseOptions().getQuestChain().equals(chain)) {
                 MMOCore.getQuestRegistry().register(q);
-                return getRegistered(name,chain);
+                return q;
             }
         }
         return null;

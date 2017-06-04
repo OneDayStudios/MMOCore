@@ -15,11 +15,13 @@ import com.mmocore.module.data.dialogs.LetsGetStarted;
 import com.mmocore.module.data.dialogs.WelcomeToTheSGC;
 import com.mmocore.module.data.dialogs.WhereAmI;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
+import com.mmocore.module.data.events.VisitingInfimary;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
 import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
 import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.quests.VisitingTheInfirmary;
 import java.util.ArrayList;
 
 /**
@@ -137,9 +139,10 @@ public class AbstractDictionary {
 
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
+        add(new VisitingInfimary());
     }
 
     public static void loadQuests() {
-
+        add(new VisitingTheInfirmary());
     }
 }

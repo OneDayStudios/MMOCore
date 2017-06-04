@@ -43,7 +43,7 @@ import noppes.npcs.constants.EnumQuestType;
  *
  * @author Drakster
  */
-public final class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
+public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, Integer, Quest> {
     
     private Quest actualQuest;
     private int id = -1;
