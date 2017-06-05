@@ -17,6 +17,7 @@ import com.mmocore.constants.QuestCompletionType;
 import com.mmocore.constants.QuestRepeatType;
 import com.mmocore.constants.QuestRewardType;
 import com.mmocore.constants.QuestType;
+import com.mmocore.module.GameEvent.events.QuestLocationEvent;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Quest.options.QuestObjectiveOptions;
 import com.mmocore.module.Quest.options.QuestRewardOptions;
@@ -180,26 +181,20 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             iface.questId = getID();
             this.actualQuest.type = EnumQuestType.Location;           
             ForgeAPI.sendConsoleEntry("Objectives size: " + this.getObjectiveOptions().getLocationObjectives().size(), ConsoleMessageType.FINE);
-            if (!this.getObjectiveOptions().getLocationObjectives().isEmpty() && this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
-                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(0).getName(), ConsoleMessageType.FINE);
-                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getName();
-            } else {
-                iface.location = "";
+            int count = 0;
+            for (QuestLocationEvent event : this.getObjectiveOptions().getLocationObjectives()) {
+                QuestLocationEvent registered = (QuestLocationEvent) EventAPI.getRegistered(event.getName());
+                if (registered != null) {
+                    if (count == 0) iface.location = registered.getName();
+                    if (count == 1) iface.location2 = registered.getName();
+                    if (count == 2) iface.location3 = registered.getName();
+                    count += 1;
+                } else {
+                    if (count == 0) iface.location = "";
+                    if (count == 1) iface.location2 = "";
+                    if (count == 2) iface.location3 = "";
+                }
             }
-            
-            if (this.getObjectiveOptions().getLocationObjectives().size() > 1 && this.getObjectiveOptions().getLocationObjectives().get(1) != null) {
-                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(1).getName(), ConsoleMessageType.FINE);
-                iface.location2 = this.getObjectiveOptions().getLocationObjectives().get(1).getIdentifier();
-            } else {
-                iface.location2 = "";
-            }
-            
-            if (this.getObjectiveOptions().getLocationObjectives().size() > 2 && this.getObjectiveOptions().getLocationObjectives().get(2) != null) {
-                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(2).getName(), ConsoleMessageType.FINE);
-                iface.location3 = this.getObjectiveOptions().getLocationObjectives().get(2).getIdentifier();
-            } else {
-                iface.location3 = "";
-            }            
             ForgeAPI.sendConsoleEntry("Objectives: " + iface.location + ", " +iface.location2 + "," + iface.location3, ConsoleMessageType.FINE);
             actualQuest.questInterface = iface;
         }
