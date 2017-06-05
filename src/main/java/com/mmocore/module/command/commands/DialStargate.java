@@ -53,9 +53,15 @@ public class DialStargate extends RegisterableCommand {
         String npcTitle = parameters[3];
         String playerId = parameters[4];
         RegisterablePlayer player = PlayerAPI.getForName(parameters[4]);
-        if (player == null) return;
+        if (player == null) {
+            ForgeAPI.sendConsoleEntry("Couldnt find Player", ConsoleMessageType.FINE);
+            return;
+        }
         RegisterableNpc npc = NpcAPI.get(npcName, npcTitle);
-        if (npc == null) return;
+        if (npc == null) {
+            ForgeAPI.sendConsoleEntry("Couldnt find NPC", ConsoleMessageType.FINE);
+            return;
+        }
         try {
             SGBaseTE source = SGAddressing.findAddressedStargate(sourceAddress, npc.getEntity().worldObj);
             try {
