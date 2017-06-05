@@ -98,7 +98,7 @@ public class TransitionListener extends RegisterableListener {
             if (position.isInUniverse() && position.getDPosY() >= 500 && !position.isInSpace() && !position.isInHyperSpace()) {
                 Trans3 source = new Trans3(vehicle.posX, vehicle.posY, vehicle.posZ);
                 Trans3 destination = new Trans3(position.getDimension().getPosition().getDPosX(), 50, position.getDimension().getPosition().getDPosZ());
-                SGBaseTE.teleportEntityAndRider(entity, source, source, position.getSystem().getId(), false);
+                SGBaseTE.teleportEntityAndRider(vehicle, source, source, position.getSystem().getId(), false);
                 List<Entity> entities = ForgeAPI.getEntitiesInArea(position.getDPosX()-25, position.getDPosY()-25, position.getDPosZ()-25, position.getDPosX()+25, position.getDPosY()+25, position.getDPosZ()+25, position.getDimension());
                 for (Entity ent : entities) {
                    if (ent instanceof MCH_EntitySeat) {
