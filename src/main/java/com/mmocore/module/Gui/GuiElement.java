@@ -135,9 +135,9 @@ public class GuiElement extends Gui {
     }
 
     private void renderAsSmallToast() {
-        this.drawScaledString(title, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) - (this.getScaledHeight() / 15), titleColor, (float)1.0, true);
-        this.drawScaledString(subtitle, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) - (this.getScaledHeight() / 20), subtitleColor, (float)0.75, true);
-        this.drawScaledString(description, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) + (this.getScaledHeight() / 25), descriptionColor, (float)0.5, true);
+        this.drawScaledString(title, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 4) - (this.getScaledHeight() / 10), titleColor, (float)1.0, true);
+        this.drawScaledString(subtitle, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 4), subtitleColor, (float)0.5, true);
+        this.drawScaledString(description, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 4) + (this.getScaledHeight() / 20), descriptionColor, (float)0.25, true);
     }
     
     private void renderAsToast() {
