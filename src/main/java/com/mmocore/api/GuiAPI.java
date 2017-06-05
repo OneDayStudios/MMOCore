@@ -8,6 +8,7 @@ package com.mmocore.api;
 import com.mmocore.MMOCore;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.constants.GuiSlot;
+import com.mmocore.constants.ServerGui;
 import com.mmocore.module.Gui.GuiElement;
 import com.mmocore.module.Gui.RegisterableGui;
 import cpw.mods.fml.relauncher.Side;
@@ -24,6 +25,10 @@ public class GuiAPI extends AbstractAPI<GuiAPI> {
         if (player != null) MMOCore.getInstance().getChannel().sendGuiElementToClient(player.getRegisteredObject(), slot, title, subTitle, description, titlecolor, subtitlecolor, descColor, milliseconds);
     }
     
+    @SideOnly(Side.SERVER)
+    public static void sendGuiElementToClient(RegisterablePlayer player, ServerGui gui) {
+        if (player != null) MMOCore.getChannel().sendGuiElementToClient(player.getRegisteredObject(), gui.getSlot(), gui.getTitle(), gui.getSubTitle(), gui.getDescription(), gui.getTitleColor().getNumber(), gui.getSubTitleColor().getNumber(), gui.getDescriptionColor().getNumber(), gui.getDuration());
+    }
     @SideOnly(Side.SERVER)
     public static void sendGuiElementToClient(RegisterablePlayer player, GuiElement gui, long milliseconds) {
         if (player != null) MMOCore.getInstance().getChannel().sendGuiElementToClient(player.getRegisteredObject(), gui.getSlot(), gui.getTitle(), gui.getSubTitle(), gui.getDescription(), gui.getTitleColor(), gui.getSubTitleColor(), gui.getDescriptionColor(), milliseconds);

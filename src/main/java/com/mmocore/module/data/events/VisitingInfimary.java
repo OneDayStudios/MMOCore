@@ -6,6 +6,9 @@
 package com.mmocore.module.data.events;
 
 import com.mmocore.api.UniverseAPI;
+import com.mmocore.constants.DialogChatColor;
+import com.mmocore.constants.GuiSlot;
+import com.mmocore.constants.ServerGui;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
 
@@ -22,6 +25,10 @@ public class VisitingInfimary extends QuestLocationEvent {
         3,
         8
         );
+        ServerGui enterGui = new ServerGui("SGC Infirmary", "Level X","Stargate Command", (long)2000, GuiSlot.Toast);
+        this.setEnterGui(enterGui);
+        ServerGui completeGui = new ServerGui("Infirmary Located", "Level X","Quest Objective Achieved", (long)2000, GuiSlot.Toast);
+        this.setCompletedGui(completeGui);
     }
     
 }

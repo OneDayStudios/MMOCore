@@ -8,6 +8,7 @@ package com.mmocore.module.GameEvent.events;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.PlayerAPI;
 import com.mmocore.api.QuestAPI;
+import com.mmocore.constants.ServerGui;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.GameEvent;
@@ -27,9 +28,9 @@ public class QuestLocationEvent extends GameEvent {
     private int radiusX = 0;
     private int radiusZ = 0;
     private int radiusY = 0;
-    private GuiElement enterGui = null;
-    private GuiElement completeLocationGui = null;
-    private GuiElement exitGui = null;
+    private ServerGui enterGui = null;
+    private ServerGui completeLocationGui = null;
+    private ServerGui exitGui = null;
     
     public QuestLocationEvent(String name, uPosition position, int radiusX, int radiusY, int radiusZ) {
         super(name);
@@ -92,19 +93,27 @@ public class QuestLocationEvent extends GameEvent {
         return new ArrayList<RegisterablePlayer>(players);
     }
     
-    public GuiElement getEnterGui() {
+    public ServerGui getEnterGui() {
         return this.enterGui;
     }
     
-    public GuiElement getCompletionGui() {
+    public ServerGui getCompletionGui() {
         return this.completeLocationGui;
     }
     
-    public GuiElement getExitGui() {
+    public ServerGui getExitGui() {
         return this.exitGui;
     }
     
-    public void setCompletedGui(GuiElement element) {
+    public void setEnterGui(ServerGui element) {
+        this.enterGui = element;
+    }
+    
+    public void setExitGui(ServerGui element) {
+        this.exitGui = element;
+    }
+    
+    public void setCompletedGui(ServerGui element) {
         this.completeLocationGui = element;
     }
     
@@ -120,7 +129,7 @@ public class QuestLocationEvent extends GameEvent {
     private void grantCreditIfRequired() {
         for (RegisterablePlayer p : this.getPlayersInArea()) {
             if (QuestAPI.playerHasLocationQuestForLocation(p, this) && !QuestAPI.hasPlayerCompletedLocation(p, this)) {
-                if (this.getCompletionGui() != null) GuiAPI.sendGuiElementToClient(p, getCompletionGui(), 2000);
+                if (this.getCompletionGui() != null) GuiAPI.sendGuiElementToClient(p, getCompletionGui());
                 QuestAPI.completePlayerLocation(p, this);
             }
         }
@@ -129,7 +138,7 @@ public class QuestLocationEvent extends GameEvent {
     private void load(ArrayList<RegisterablePlayer> players) {
         for (RegisterablePlayer p : players) {
             if (!playerInArea(p)) {
-                if (this.getEnterGui() != null) GuiAPI.sendGuiElementToClient(p, getEnterGui(), 2000);
+                if (this.getEnterGui() != null) GuiAPI.sendGuiElementToClient(p, getEnterGui());
                 addPlayer(p);
             }
         }
@@ -138,7 +147,7 @@ public class QuestLocationEvent extends GameEvent {
     private void cleanup(ArrayList<RegisterablePlayer> players) {
         for (RegisterablePlayer p : getPlayersInAreaReadOnly()) {
             if (!players.contains(p)) {
-                if (this.getExitGui() != null) GuiAPI.sendGuiElementToClient(p, getExitGui(), 2000);
+                if (this.getExitGui() != null) GuiAPI.sendGuiElementToClient(p, getExitGui());
                 removePlayer(p);
             }
         }
