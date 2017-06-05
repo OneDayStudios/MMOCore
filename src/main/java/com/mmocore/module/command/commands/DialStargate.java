@@ -48,12 +48,12 @@ public class DialStargate extends RegisterableCommand {
 
     @Override
     public void processCommandForConsole(String[] parameters) {
-        String sourceAddress = parameters[0];
-        String destinationAddress = parameters[1];
-        String npcName = parameters[2];
-        String npcTitle = parameters[3];
-        String playerId = parameters[4];
-        RegisterablePlayer player = PlayerAPI.getForName(parameters[4]);
+        String sourceAddress = parameters[1];
+        String destinationAddress = parameters[2];
+        String npcName = parameters[3].replace("_", " ");
+        String npcTitle = parameters[4].replace("_", " ");
+        String playerId = parameters[5];
+        RegisterablePlayer player = PlayerAPI.getForName(playerId);
         ForgeAPI.sendConsoleEntry("Command passed as: " + Arrays.toString(parameters), ConsoleMessageType.WARNING);                
         if (player == null) {
             ForgeAPI.sendConsoleEntry("Couldnt find Player", ConsoleMessageType.FINE);
