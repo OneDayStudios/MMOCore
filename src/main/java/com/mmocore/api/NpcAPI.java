@@ -18,7 +18,15 @@ import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
+import com.mmocore.module.Npc.loadout.NpcWornItemSet;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
+import com.mmocore.module.Npc.options.NpcBehaviourOptions;
+import com.mmocore.module.Npc.options.NpcCombatOptions;
+import com.mmocore.module.Npc.options.NpcInteractOptions;
+import com.mmocore.module.Npc.options.NpcLootOptions;
+import com.mmocore.module.Npc.options.NpcMovementOptions;
+import com.mmocore.module.Npc.options.NpcRespawnOptions;
 import cpw.mods.fml.common.registry.GameRegistry;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,19 +48,19 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static RegisterableNpc simpleClone(RegisterableNpc clonedNpc, NpcSpawnMethod method, uPosition position) {
         RegisterableNpc clone = new RegisterableNpc(clonedNpc.getBaseOptions().getName(), clonedNpc.getBaseOptions().getTitle(), clonedNpc.getBaseOptions().getTexture(), clonedNpc.getBaseOptions().getModifier(), method, position, clonedNpc.getBaseOptions().getFaction());
-        NpcBaseOptions opts = clonedNpc.getBaseOptions();
+        NpcBaseOptions opts = new NpcBaseOptions(clonedNpc.getBaseOptions());
         opts.setSpawnPosition(position);
         opts.setSpawnMethod(method);
         clone.setBaseOptions(opts);
-        clone.setCombatOptions(clonedNpc.getCombatOptions());
-        clone.setInteractOptions(clonedNpc.getInteractOptions());
-        clone.setArmor(clonedNpc.getArmor());
-        clone.setPassiveHeldItems(clonedNpc.getPassiveHeldItems());
-        clone.setRangedHeldItems(clonedNpc.getRangedHeldItems());
-        clone.setLootOptions(clonedNpc.getLootOptions());
-        clone.setMovementOptions(clonedNpc.getMovementOptions());
-        clone.setBehaviourOptions(clonedNpc.getBehaviourOptions());
-        clone.setRespawnOptions(clonedNpc.getRespawnOptions());
+        clone.setCombatOptions(new NpcCombatOptions(clonedNpc.getCombatOptions()));
+        clone.setInteractOptions(new NpcInteractOptions(clonedNpc.getInteractOptions()));
+        clone.setArmor(new NpcWornItemSet(clonedNpc.getArmor()));
+        clone.setPassiveHeldItems(new NpcHeldItemSet(clonedNpc.getPassiveHeldItems()));
+        clone.setRangedHeldItems(new NpcHeldItemSet(clonedNpc.getRangedHeldItems()));
+        clone.setLootOptions(new NpcLootOptions(clonedNpc.getLootOptions()));
+        clone.setMovementOptions(new NpcMovementOptions(clonedNpc.getMovementOptions()));
+        clone.setBehaviourOptions(new NpcBehaviourOptions(clonedNpc.getBehaviourOptions()));
+        clone.setRespawnOptions(new NpcRespawnOptions(clonedNpc.getRespawnOptions()));
         clone.setCreator(clonedNpc.getCreator());
         return clone;
     }
