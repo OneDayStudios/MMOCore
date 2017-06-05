@@ -103,8 +103,8 @@ public class TransitionListener extends RegisterableListener {
                 for (Entity ent : entities) {
                    if (ent instanceof MCH_EntitySeat) {
                        MCH_EntitySeat seat = (MCH_EntitySeat)ent;
-                       if (seat.getParent() != null && seat.getParent().equals(entity)) {
-                            SGBaseTE.teleportEntityAndRider(ent, source, destination, position.getSystem().getId(), false);
+                       if (seat.getParent() != null && seat.getParent().equals(vehicle)) {
+                            SGBaseTE.teleportEntityAndRider(seat, source, destination, position.getSystem().getId(), false);
                        }
                    }
                 }
