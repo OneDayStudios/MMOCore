@@ -6,6 +6,7 @@
 package com.mmocore.module.Quest;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.EventAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.QuestAPI;
@@ -177,7 +178,8 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             actualQuest.questInterface = new QuestLocation();
             QuestLocation iface = (QuestLocation)actualQuest.questInterface;
             iface.questId = getID();
-            this.actualQuest.type = EnumQuestType.Location;
+            this.actualQuest.type = EnumQuestType.Location;           
+            ForgeAPI.sendConsoleEntry("Objectives size: " + this.getObjectiveOptions().getLocationObjectives().size(), ConsoleMessageType.FINE);
             if (!this.getObjectiveOptions().getLocationObjectives().isEmpty() && this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
                 iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getIdentifier();
             } else {
