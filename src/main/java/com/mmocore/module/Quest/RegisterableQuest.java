@@ -186,6 +186,10 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             iface.location2 = "";
             iface.location3 = "";
             for (QuestLocationEvent event : this.getObjectiveOptions().getLocationObjectives()) {
+                if (event == null) {
+                    ForgeAPI.sendConsoleEntry("Found null event for quest: " + this.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+                    continue;
+                }
                 QuestLocationEvent registered = (QuestLocationEvent) EventAPI.getRegistered(event.getName());
                 if (registered != null) {
                     if (count == 0) iface.location = registered.getName();
