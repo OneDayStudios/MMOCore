@@ -92,8 +92,8 @@ public class TransitionListener extends RegisterableListener {
     public void onLivingUpdate(LivingUpdateEvent e) {
 //        // If the entity is not a player, do nothing.
         EntityLivingBase entity = e.entityLiving;
-        if (entity instanceof EntityPlayer && entity.ridingEntity != null && entity.ridingEntity instanceof MCH_EntityVehicle) {
-            MCH_EntityVehicle vehicle = (MCH_EntityVehicle)entity.ridingEntity;
+        if (entity instanceof EntityPlayer && entity.ridingEntity != null && entity.ridingEntity instanceof MCH_EntityAircraft) {
+            MCH_EntityAircraft vehicle = (MCH_EntityAircraft)entity.ridingEntity;
             uPosition position = new uPosition(vehicle.posX, vehicle.posY, vehicle.posZ, MMOCore.getDimensionRegistry().getRegistered(vehicle.worldObj.provider.dimensionId));
             if (position.isInUniverse() && position.getDPosY() >= 500 && !position.isInSpace() && !position.isInHyperSpace()) {
                 Trans3 source = new Trans3(vehicle.posX, vehicle.posY, vehicle.posZ);
