@@ -43,7 +43,6 @@ import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
-import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
 import com.mmocore.module.Npc.options.NpcStateOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -97,7 +96,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcCombatOptions combatOptions = new NpcCombatOptions();
-    private RandomSpawnEventOptions randomSpawnOptions = new RandomSpawnEventOptions();
     private NpcInteractOptions interactions = new NpcInteractOptions();
     private NpcWornItemSet armor = new NpcWornItemSet();
     private NpcHeldItemSet passiveHeld = new NpcHeldItemSet();
@@ -942,14 +940,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
 //    }
 //    
     
-    
-   public RandomSpawnEventOptions getRandomSpawnOptions() {
-       return this.randomSpawnOptions;
-   }
-   
-   public void setRandomSpawnOptions(RandomSpawnEventOptions rOptions) {
-       this.randomSpawnOptions = rOptions;
-   }
    
    public void tellNear(String message) {
         Line line = new Line(message);
