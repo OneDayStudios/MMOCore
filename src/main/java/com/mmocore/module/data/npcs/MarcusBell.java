@@ -42,12 +42,12 @@ public class MarcusBell extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "m9", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition spawnPos = new uPosition(-136.0,52.0,-641.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition spawnPos = new uPosition(-137.0,52.0,-642.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setBossBarVisible(TextVisibleOption.WhenAttacking);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         options.setSpawnPosition(spawnPos);
         NpcMovementOptions opts = this.getMovementOptions();
-        opts.setRotation(NpcRotation.SOUTH);
+        opts.setRotation(NpcRotation.EAST);
         opts.setMovingAnimation(NpcMovementAnimation.Lying);
         this.setMovementOptions(opts);
         this.setBaseOptions(options);
