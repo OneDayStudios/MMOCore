@@ -178,7 +178,6 @@ public class MMOCore {
             DictionaryAPI.loadQuests();
             DictionaryAPI.loadNpcs();
             DictionaryAPI.loadGameEvents();
-
        }
    }
    

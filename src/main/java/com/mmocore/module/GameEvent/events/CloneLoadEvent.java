@@ -8,19 +8,14 @@ package com.mmocore.module.GameEvent.events;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
-import com.mmocore.api.PlayerAPI;
-import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcRotation;
 import com.mmocore.constants.NpcSpawnMethod;
-import com.mmocore.constants.RandomSpawnMode;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
-import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
-import com.mmocore.module.Player.RegisterablePlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -72,6 +67,7 @@ public class CloneLoadEvent extends GameEvent {
                     NpcMovementOptions opts = npc.getMovementOptions();
                     opts.setRotation(getPositions().get(pos));
                     npc.setMovementOptions(opts);
+                    ForgeAPI.sendConsoleEntry("Adding npc: " + npc.getName() + " with facing : " + opts.getRotation().name(), ConsoleMessageType.FINE);
                     MMOCore.getNpcRegistry().register(npc);
                     spawned.add(pos);
                 }        

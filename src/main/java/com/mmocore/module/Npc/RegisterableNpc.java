@@ -1008,6 +1008,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     @Override
     public void finalise() {
         ForgeAPI.sendConsoleEntry("Unloading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Name: " + this.getBaseOptions().getName() + ", Last known coordinates: " + this.getStateOptions().getPosition().getDisplayString(), ConsoleMessageType.FINE);
         this.despawn();
     }
     
