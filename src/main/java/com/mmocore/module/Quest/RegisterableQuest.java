@@ -182,16 +182,15 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             this.actualQuest.type = EnumQuestType.Location;           
             ForgeAPI.sendConsoleEntry("Objectives size: " + this.getObjectiveOptions().getLocationObjectives().size(), ConsoleMessageType.FINE);
             int count = 0;
+            iface.location = "";
+            iface.location2 = "";
+            iface.location3 = "";
             for (QuestLocationEvent event : this.getObjectiveOptions().getLocationObjectives()) {
                 QuestLocationEvent registered = (QuestLocationEvent) EventAPI.getRegistered(event.getName());
                 if (registered != null) {
                     if (count == 0) iface.location = registered.getName();
                     if (count == 1) iface.location2 = registered.getName();
                     if (count == 2) iface.location3 = registered.getName();
-                } else {
-                    if (count == 0) iface.location = "";
-                    if (count == 1) iface.location2 = "";
-                    if (count == 2) iface.location3 = "";
                 }
                 count++;
             }
