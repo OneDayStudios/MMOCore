@@ -88,6 +88,22 @@ import mcheli.weapon.MCH_WeaponSet;
  */
 public class TransitionListener extends RegisterableListener {
     
+    static void extractEntityFromWorld(World world, Entity entity) {
+        // Immediately remove entity from world without calling setDead(), which has
+        // undesirable side effects on some entities.
+        if (entity instanceof EntityPlayer) {
+            world.playerEntities.remove(entity);
+            world.updateAllPlayersSleepingFlag();
+        }
+        int i = entity.chunkCoordX;
+        int j = entity.chunkCoordZ;
+        if (entity.addedToChunk && world.getChunkProvider().chunkExists(i, j))
+            world.getChunkFromChunkCoords(i, j).removeEntity(entity);
+        world.loadedEntityList.remove(entity);
+        //BaseReflectionUtils.call(world, onEntityRemoved, entity);
+        world.onEntityRemoved(entity);
+    }
+    
     @SubscribeEvent
     public void onLivingUpdate(LivingUpdateEvent e) {
 //        // If the entity is not a player, do nothing.
@@ -98,16 +114,11 @@ public class TransitionListener extends RegisterableListener {
             if (position.isInUniverse() && position.getDPosY() >= 500 && !position.isInSpace() && !position.isInHyperSpace()) {
                 Trans3 source = new Trans3(vehicle.posX, vehicle.posY, vehicle.posZ);
                 Trans3 destination = new Trans3(position.getDimension().getPosition().getDPosX(), 50, position.getDimension().getPosition().getDPosZ());
-                SGBaseTE.teleportEntityAndRider(vehicle, source, source, position.getSystem().getId(), false);
-                List<Entity> entities = ForgeAPI.getEntitiesInArea(position.getDPosX()-25, position.getDPosY()-25, position.getDPosZ()-25, position.getDPosX()+25, position.getDPosY()+25, position.getDPosZ()+25, position.getDimension());
-                for (Entity ent : entities) {
-                   if (ent instanceof MCH_EntitySeat) {
-                       MCH_EntitySeat seat = (MCH_EntitySeat)ent;
-                       if (seat.getParent() != null && seat.getParent().equals(vehicle)) {
-                            SGBaseTE.teleportEntityAndRider(seat, source, destination, position.getSystem().getId(), false);
-                       }
-                   }
-                }
+                NBTTagCompound nbt = new NBTTagCompound();
+                vehicle.writeToNBT(nbt);
+                Entity newEntity = SGBaseTE.teleportEntityAndRider(vehicle, source, source, position.getSystem().getId(), false);
+                MCH_EntityAircraft aircraft = (MCH_EntityAircraft)newEntity;
+                aircraft.readFromNBT(nbt);
             }
         }
     }
