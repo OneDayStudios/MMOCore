@@ -22,6 +22,7 @@ import com.mmocore.module.command.RegisterableCommand;
 import gcewing.sg.SGAddressing;
 import gcewing.sg.SGBaseTE;
 import gcewing.sg.SGState;
+import java.util.Arrays;
 import java.util.UUID;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -53,6 +54,7 @@ public class DialStargate extends RegisterableCommand {
         String npcTitle = parameters[3];
         String playerId = parameters[4];
         RegisterablePlayer player = PlayerAPI.getForName(parameters[4]);
+        ForgeAPI.sendConsoleEntry("Command passed as: " + Arrays.toString(parameters), ConsoleMessageType.WARNING);                
         if (player == null) {
             ForgeAPI.sendConsoleEntry("Couldnt find Player", ConsoleMessageType.FINE);
             return;
