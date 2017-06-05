@@ -93,6 +93,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     private UUID uuid;
     // This stores the class that spawns the Npc.
     private String createdBy = null;
+    private boolean hasTicked = false;
     
     private NpcBaseOptions baseInfo = new NpcBaseOptions();
     private NpcCombatOptions combatOptions = new NpcCombatOptions();
@@ -851,9 +852,14 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
             switchHeldItemsIfNeeded();
             updateStateData();
             ForgeAPI.sendConsoleEntry("Finished Ticking NPC: " + this.getUniqueID() + " at " + this.getUPosition().getDisplayString(), ConsoleMessageType.DEBUG);
+            if (!this.hasTicked) this.hasTicked = true;
         } else {
-            ForgeAPI.sendConsoleEntry("Terminating NPC: " + this.getUniqueID(), ConsoleMessageType.FINE);;
-            this.setMarkedForRemoval();
+            if (this.hasTicked) {
+                ForgeAPI.sendConsoleEntry("Terminating NPC: " + this.getUniqueID(), ConsoleMessageType.FINE);;
+                this.setMarkedForRemoval();
+            } else {
+                this.spawn();
+            }
         }
     }
 
@@ -1007,8 +1013,8 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
 
     @Override
     public void finalise() {
-        ForgeAPI.sendConsoleEntry("Unloading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("Name: " + this.getBaseOptions().getName() + ", Last known coordinates: " + this.getStateOptions().getPosition().getDisplayString(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Unloading Npc: " + this.getIdentifier() + " ( " + this.getBaseOptions().getName() + " ) ...", ConsoleMessageType.FINE);
+        if (this.getStateOptions().getPosition() != null) ForgeAPI.sendConsoleEntry("Position : " + this.getStateOptions().getPosition().getDisplayString(), ConsoleMessageType.FINE);
         this.despawn();
     }
     
