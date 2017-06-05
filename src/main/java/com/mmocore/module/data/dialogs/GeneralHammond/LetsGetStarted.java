@@ -33,9 +33,12 @@ public class LetsGetStarted extends RegisterableDialog {
         this.setBaseOptions(options);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
         HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.NotDuring);
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.Before);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.NotDuring);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.Before);
         opts.setQuestAvailability(availability);
+        DialogActionOptions actions = this.getActionOptions();
+        actions.setQuest(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"));
+        this.setActionOptions(actions);
         this.setAvailabilityOptions(opts);
     }
     

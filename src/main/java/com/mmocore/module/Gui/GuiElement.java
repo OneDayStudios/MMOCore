@@ -131,6 +131,13 @@ public class GuiElement extends Gui {
     public void render() {
         if (getSlot().equals(GuiSlot.Toast)) renderAsToast();
         if (getSlot().equals(GuiSlot.TopLeft)) renderAsTopLeft();
+        if (getSlot().equals(GuiSlot.MissionObjective)) renderAsSmallToast();
+    }
+
+    private void renderAsSmallToast() {
+        this.drawScaledString(title, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) - (this.getScaledHeight() / 15), titleColor, (float)1.0, true);
+        this.drawScaledString(subtitle, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) - (this.getScaledHeight() / 20), subtitleColor, (float)0.75, true);
+        this.drawScaledString(description, (this.getScaledWidth() / 2),  + (this.getScaledHeight() / 2) + (this.getScaledHeight() / 25), descriptionColor, (float)0.5, true);
     }
     
     private void renderAsToast() {

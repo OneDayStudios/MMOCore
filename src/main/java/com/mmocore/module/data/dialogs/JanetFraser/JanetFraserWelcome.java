@@ -7,6 +7,7 @@ package com.mmocore.module.data.dialogs.JanetFraser;
 
 import com.mmocore.module.data.dialogs.GeneralHammond.*;
 import com.mmocore.api.DialogAPI;
+import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.DialogChatColor;
 import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.QuestAvailability;
@@ -33,8 +34,8 @@ public class JanetFraserWelcome extends RegisterableDialog {
         options.setHasDialogWheel(true);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
         HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
         opts.setQuestAvailability(availability);
         this.setAvailabilityOptions(opts);
         this.setBaseOptions(options);
