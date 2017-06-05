@@ -179,22 +179,23 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             iface.questId = getID();
             this.actualQuest.type = EnumQuestType.Location;
             if (!this.getObjectiveOptions().getLocationObjectives().isEmpty() && this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
-                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getName();
+                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getIdentifier();
             } else {
                 iface.location = "";
             }
             
             if (this.getObjectiveOptions().getLocationObjectives().size() > 1 && this.getObjectiveOptions().getLocationObjectives().get(1) != null) {
-                iface.location2 = this.getObjectiveOptions().getLocationObjectives().get(1).getName();
+                iface.location2 = this.getObjectiveOptions().getLocationObjectives().get(1).getIdentifier();
             } else {
                 iface.location2 = "";
             }
             
             if (this.getObjectiveOptions().getLocationObjectives().size() > 2 && this.getObjectiveOptions().getLocationObjectives().get(2) != null) {
-                iface.location3 = this.getObjectiveOptions().getLocationObjectives().get(2).getName();
+                iface.location3 = this.getObjectiveOptions().getLocationObjectives().get(2).getIdentifier();
             } else {
                 iface.location3 = "";
             }            
+            ForgeAPI.sendConsoleEntry("Objectives: " + iface.location + ", " +iface.location2 + "," + iface.location3, ConsoleMessageType.FINE);
             actualQuest.questInterface = iface;
         }
         
