@@ -9,9 +9,14 @@ import com.mmocore.module.data.dialogs.GeneralHammond.*;
 import com.mmocore.api.DialogAPI;
 import com.mmocore.constants.DialogChatColor;
 import com.mmocore.constants.DialogConversationOption;
+import com.mmocore.constants.QuestAvailability;
 import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.Dialog.options.DialogAvailabilityOptions;
 import com.mmocore.module.Dialog.options.DialogBaseOptions;
 import com.mmocore.module.Dialog.options.DialogConversationOptions;
+import com.mmocore.module.Quest.RegisterableQuest;
+import com.mmocore.module.data.AbstractDictionary;
+import java.util.HashMap;
 
 /**
  *
@@ -26,6 +31,12 @@ public class JanetFraserWelcome extends RegisterableDialog {
                 "I'm pretty busy here.. what can I do for you? Quickly? \n"
         );
         options.setHasDialogWheel(true);
+        DialogAvailabilityOptions opts = this.getAvailabilityOptions();
+        HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
+        opts.setQuestAvailability(availability);
+        this.setAvailabilityOptions(opts);
         this.setBaseOptions(options);
     }
     

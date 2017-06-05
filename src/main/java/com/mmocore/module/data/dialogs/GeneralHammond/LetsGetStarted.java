@@ -22,16 +22,19 @@ import java.util.HashMap;
 public class LetsGetStarted extends RegisterableDialog {
     
     public LetsGetStarted() {
-        super("Janet Fraser Welcome", "Tutorial");
+        super("Lets Get Started", "Tutorial");
         DialogBaseOptions options = this.getBaseOptions();
         options.setText(
-                "Cant you see I am busy here? What can I do for you? Quickly?\n "
+                "Very well, right to the point, I like it.\n "  
+                + "Well I'm not going to beat around the bush here, we have an SG team offworld who need some assistance.\n"  
+                + "First though, we will need to clear you for offworld travel.\n\n"  
+                + "Please speak with Doctor Fraser on Level X to have her examine you to confirm you are fit for service." 
         );
         this.setBaseOptions(options);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
         HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
-        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.NotDuring);
+        availability.put(AbstractDictionary.getQuestByName("Visiting The Infirmary", "Tutorial"), QuestAvailability.Before);
         opts.setQuestAvailability(availability);
         this.setAvailabilityOptions(opts);
     }
