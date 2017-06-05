@@ -188,12 +188,12 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
                     if (count == 0) iface.location = registered.getName();
                     if (count == 1) iface.location2 = registered.getName();
                     if (count == 2) iface.location3 = registered.getName();
-                    count += 1;
                 } else {
                     if (count == 0) iface.location = "";
                     if (count == 1) iface.location2 = "";
                     if (count == 2) iface.location3 = "";
                 }
+                count++;
             }
             ForgeAPI.sendConsoleEntry("Objectives: " + iface.location + ", " +iface.location2 + "," + iface.location3, ConsoleMessageType.FINE);
             actualQuest.questInterface = iface;
