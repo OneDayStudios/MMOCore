@@ -6,7 +6,6 @@
 package com.mmocore.module.data.events;
 
 import com.mmocore.api.UniverseAPI;
-import com.mmocore.constants.DialogChatColor;
 import com.mmocore.constants.GuiSlot;
 import com.mmocore.constants.ServerGui;
 import com.mmocore.constants.uPosition;
