@@ -16,6 +16,7 @@ import com.mmocore.module.data.AbstractDictionary;
 public class EventAPI extends AbstractAPI<EventAPI> {
     
     public static GameEvent getRegistered(String name) {
+        if (AbstractDictionary.getEvents().isEmpty()) AbstractDictionary.loadGameEvents();
         for (GameEvent e : MMOCore.getGameEventRegistry().getRegistered().values()) {
             if (e.getIdentifier().equals(name)) return e;
         }
