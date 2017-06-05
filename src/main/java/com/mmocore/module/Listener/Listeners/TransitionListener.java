@@ -46,7 +46,7 @@ import com.mmocore.constants.IntegratedMod;
 import com.mmocore.constants.uPosition;
 import org.apache.logging.log4j.*;
 import io.netty.channel.*;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.block.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.player.*;
@@ -74,6 +74,7 @@ import gcewing.sg.Vector3;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import mcheli.aircraft.MCH_EntityAircraft;
@@ -239,6 +240,10 @@ public class TransitionListener extends RegisterableListener {
                         this.performTeleportForPlayer(mcPlayer, destination);
                     } else {
                         if (player.getPosition().getDPosY() >= 500) {
+                            List<Entity> entities = ForgeAPI.getEntitiesInArea(player.getPosition().getDPosX()-50, player.getPosition().getDPosY()-50, player.getPosition().getDPosZ()-50, player.getPosition().getDPosX()+50, player.getPosition().getDPosY()+50, player.getPosition().getDPosZ()+50, player.getPosition().getDimension());
+                            for (Entity ent : entities) {
+                                ForgeAPI.sendConsoleEntry("Entity nearby: " + ent.getClass().getName(), ConsoleMessageType.FINE);
+                            }
                             uPosition destination = new uPosition(player.getPosition().getCelestialBody().getPosition().getDPosX(), 5, player.getPosition().getCelestialBody().getPosition().getDPosZ(), player.getPosition().getSystem());
                             this.performTeleportForPlayer(mcPlayer, destination);
                         }

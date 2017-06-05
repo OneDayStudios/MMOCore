@@ -33,7 +33,9 @@ import net.minecraftforge.common.network.ForgeMessage;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.util.EnumChatFormatting;
-
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.util.AxisAlignedBB;
 /**
  *
  * @author draks
@@ -58,6 +60,11 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
     
     public static boolean isClient() {
         return !isServer();
+    }
+    
+    public static List<Entity> getEntitiesInArea(double x1, double y1, double z1, double x2, double y2, double z2, RegisterableDimension dimension) {
+        AxisAlignedBB box = AxisAlignedBB.getBoundingBox(x1, y1, z1, x2, y2, z2);
+        return dimension.getRegisteredObject().getEntitiesWithinAABB(Entity.class, box);
     }
     
     public static boolean isServer() {
