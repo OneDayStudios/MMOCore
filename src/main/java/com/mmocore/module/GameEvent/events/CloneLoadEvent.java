@@ -67,7 +67,7 @@ public class CloneLoadEvent extends GameEvent {
                     NpcMovementOptions opts = npc.getMovementOptions();
                     opts.setRotation(getPositions().get(pos));
                     npc.setMovementOptions(opts);
-                    ForgeAPI.sendConsoleEntry("Adding npc: " + npc.getName() + " with facing : " + opts.getRotation().name(), ConsoleMessageType.FINE);
+                    ForgeAPI.sendConsoleEntry("Adding npc: " + npc.getBaseOptions().getName() + " with facing : " + opts.getRotation().name(), ConsoleMessageType.FINE);
                     MMOCore.getNpcRegistry().register(npc);
                     spawned.add(pos);
                 }        
