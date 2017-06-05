@@ -181,18 +181,21 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
             this.actualQuest.type = EnumQuestType.Location;           
             ForgeAPI.sendConsoleEntry("Objectives size: " + this.getObjectiveOptions().getLocationObjectives().size(), ConsoleMessageType.FINE);
             if (!this.getObjectiveOptions().getLocationObjectives().isEmpty() && this.getObjectiveOptions().getLocationObjectives().get(0) != null) {
-                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getIdentifier();
+                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(0).getName(), ConsoleMessageType.FINE);
+                iface.location = this.getObjectiveOptions().getLocationObjectives().get(0).getName();
             } else {
                 iface.location = "";
             }
             
             if (this.getObjectiveOptions().getLocationObjectives().size() > 1 && this.getObjectiveOptions().getLocationObjectives().get(1) != null) {
+                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(1).getName(), ConsoleMessageType.FINE);
                 iface.location2 = this.getObjectiveOptions().getLocationObjectives().get(1).getIdentifier();
             } else {
                 iface.location2 = "";
             }
             
             if (this.getObjectiveOptions().getLocationObjectives().size() > 2 && this.getObjectiveOptions().getLocationObjectives().get(2) != null) {
+                ForgeAPI.sendConsoleEntry("Getting name : " + this.getObjectiveOptions().getLocationObjectives().get(2).getName(), ConsoleMessageType.FINE);
                 iface.location3 = this.getObjectiveOptions().getLocationObjectives().get(2).getIdentifier();
             } else {
                 iface.location3 = "";
