@@ -45,6 +45,13 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
         player.getRegisteredObject().addChatMessage(new ChatComponentText(message));
     }
     
+    public static RegisterablePlayer getForName(String name) {
+        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {
+            if (player.getName().equals(name)) return player;
+        }
+        return null;
+    }
+    
     public static ArrayList<RegisterablePlayer> getForDimension(RegisterableDimension dimension) {
         ArrayList<RegisterablePlayer> players = new ArrayList<RegisterablePlayer>();
         for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {

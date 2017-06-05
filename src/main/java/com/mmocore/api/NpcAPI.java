@@ -64,10 +64,13 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         clone.setCreator(clonedNpc.getCreator());
         return clone;
     }
-    
     public static boolean exists(String name, String title, RegisterableNpcFaction faction) {
         return (get(name,title,faction) != null);
     }
+    public static boolean exists(String name, String title) {
+        return (get(name,title) != null);
+    }
+    
     public static ArrayList<RegisterableNpc> getRandomReadOnly(RegisterableDimension dimension) {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
@@ -116,6 +119,13 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     }
     
     public static RegisterableNpc get(String name, String title, RegisterableNpcFaction faction) {
+        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
+            if (npc.getRegisteredObject().getBaseOptions().getName().equals(name) && npc.getBaseOptions().getFaction().equals(faction) && npc.getRegisteredObject().getBaseOptions().getTitle().equals(title)) return npc;
+        }
+        return null;
+    }
+    
+    public static RegisterableNpc get(String name, String title) {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
             if (npc.getRegisteredObject().getBaseOptions().getName().equals(name) && npc.getRegisteredObject().getBaseOptions().getTitle().equals(title)) return npc;
         }
