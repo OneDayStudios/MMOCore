@@ -90,7 +90,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     private boolean markedForRemoval = false;
     // This stores the UUID for the RegisterableNpc.    
     private UUID uuid;
-    // This stores the class that spawns the Npc.
+    // This stores the class that spawns the Npc if it is not Statically set.
     private String createdBy = null;
     private boolean hasTicked = false;
     
