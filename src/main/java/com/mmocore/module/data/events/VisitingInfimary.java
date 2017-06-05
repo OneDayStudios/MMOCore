@@ -24,9 +24,9 @@ public class VisitingInfimary extends QuestLocationEvent {
         3,
         8
         );
-        ServerGui enterGui = new ServerGui("SGC Infirmary", "Level X","Stargate Command", (long)50000, GuiSlot.Toast);
+        ServerGui enterGui = new ServerGui("SGC Infirmary", "Level X","Stargate Command", (long)5000, GuiSlot.Toast);
         this.setEnterGui(enterGui);
-        ServerGui completeGui = new ServerGui("Infirmary Located", "Level X","Quest Objective Achieved", (long)50000, GuiSlot.MissionObjective);
+        ServerGui completeGui = new ServerGui("Infirmary Located", "Level X","Quest Objective Achieved", (long)5000, GuiSlot.MissionObjective);
         this.setCompletedGui(completeGui);
     }
     

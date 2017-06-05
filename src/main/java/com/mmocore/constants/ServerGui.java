@@ -24,7 +24,7 @@ public class ServerGui {
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;
-        this.duration = duration;
+        this.duration = durationms;
         this.slot = slot;
     }
     
