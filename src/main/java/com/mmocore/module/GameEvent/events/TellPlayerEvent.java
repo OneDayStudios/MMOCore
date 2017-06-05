@@ -22,6 +22,9 @@ public class TellPlayerEvent extends GameEvent {
     
     public TellPlayerEvent(String name, RegisterableNpc npc, RegisterablePlayer player, String message) {
         super(name);
+        this.npc = npc;
+        this.player = player;
+        this.message = message;
     }
 
     @Override
