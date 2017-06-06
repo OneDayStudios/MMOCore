@@ -8,6 +8,7 @@ package com.mmocore.module.data.npcs;
 import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.AbstractScale;
+import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcSound;
@@ -49,6 +50,7 @@ public class GoauldJaffaSoldier extends RegisterableNpc {
         NpcMovementOptions mOpts = this.getMovementOptions();
         mOpts.setMovementTypeWandering(AbstractScale.Medium);
         this.setMovementOptions(mOpts);
+        cOpts.setAttacksHostileFactions(NpcBoolean.YES);
         this.setCombatOptions(cOpts);
     }
 }

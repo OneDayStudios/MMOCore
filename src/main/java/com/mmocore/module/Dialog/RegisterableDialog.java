@@ -134,9 +134,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         int count = 0;
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
             ForgeAPI.sendConsoleEntry("Processing Quest availability for : " + quest.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
-            if (count > 3) continue;
             RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
-            if (registered != null) {
                 for (QuestAvailability avail : this.getAvailabilityOptions().getQuestAvailability().get(quest)) {
                     ForgeAPI.sendConsoleEntry("Processing Quest availability option: " + avail.name() + " for : " + quest.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
                     switch (count) {
@@ -166,17 +164,14 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                             if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.After;
                     }
                 count++;
-                }
             }
         }
         count = 0;
         for (RegisterableDialog Dialog : this.getAvailabilityOptions().getDialogAvailability().keySet()) {
-            if (count > 3) continue;
             ForgeAPI.sendConsoleEntry("Processing Dialog availability for : " + Dialog.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
             RegisterableDialog dialog = DialogAPI.getRegistered(Dialog.getBaseOptions().getTitle(), Dialog.getBaseOptions().getCategory());
             for (DialogAvailability avail : this.getAvailabilityOptions().getDialogAvailability().get(Dialog)) {
                 ForgeAPI.sendConsoleEntry("Processing Dialog availability option: " + avail.name() + " for : " + Dialog.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
-                if (dialog != null) {
                     switch (count) {
                         case 0:
                             actualDialog.availability.dialogId = dialog.getIdentifier();
@@ -197,7 +192,6 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                     }
                 }
                 count++;
-            }
         }
         
         if (this.getActionOptions().getPrimaryFactionAction() != null) {

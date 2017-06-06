@@ -358,11 +358,26 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.None) && this.entity.ai.doorInteract != 2) this.entity.ai.doorInteract = 2;
         if (this.getBehaviourOptions().getDoorBehaviour().equals(NpcDoorInteraction.Break) && this.entity.ai.doorInteract != 0) this.entity.ai.doorInteract = 0;
 
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Absolute)) this.entity.stats.attackSpeed = 30;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Highest)) this.entity.stats.attackSpeed = 25;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Higher)) this.entity.stats.attackSpeed = 20;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.High)) this.entity.stats.attackSpeed = 15;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Medium)) this.entity.stats.attackSpeed = 10;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Low)) this.entity.stats.attackSpeed = 5;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Lower)) this.entity.stats.attackSpeed = 3;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Lowest)) this.entity.stats.attackSpeed = 1;
+        if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.None)) this.entity.stats.attackSpeed = 0;
+        
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
             this.entity.stats.pRender3D = true;
             this.entity.stats.pSpin = this.getCombatOptions().getProjectile().getSpins();
             this.entity.stats.pStick = this.getCombatOptions().getProjectile().getSticks();
+            this.entity.stats.fireRate = this.getCombatOptions().getProjectile().getFireRate();
+            this.entity.stats.minDelay = this.getCombatOptions().getProjectile().getMinDelay();
+            this.entity.stats.maxDelay = this.getCombatOptions().getProjectile().getMaxDelay();
+            this.entity.stats.burstCount = this.getCombatOptions().getProjectile().getBurstCount();
+            this.entity.stats.shotCount = this.getCombatOptions().getProjectile().getShotCount();
             this.entity.stats.pTrail = this.getCombatOptions().getProjectile().getTrail();
             this.entity.stats.pSpeed = this.getCombatOptions().getProjectile().getSpeed();
             this.entity.stats.pSize = this.getCombatOptions().getProjectile().getSize();

@@ -44,6 +44,7 @@ public class NpcCombatOptions {
     private NpcFireIndirectlyOption fireIndirectly = NpcFireIndirectlyOption.Never;
     private NpcBoolean canAttackInvisibleTargets = NpcBoolean.NO;
     private NpcSound fireWeaponSound = NpcSound.NONE;
+    private AbstractScale attackSpeed = AbstractScale.Medium;
 
     public NpcCombatOptions() {
         
@@ -73,10 +74,15 @@ public class NpcCombatOptions {
         this.fireIndirectly = combatOptions.fireIndirectly;
         this.canAttackInvisibleTargets = combatOptions.canAttackInvisibleTargets;
         this.fireWeaponSound = combatOptions.fireWeaponSound;
+        this.attackSpeed = combatOptions.attackSpeed;
     }
     
     public NpcSound getFireWeaponSound() {
         return this.fireWeaponSound;
+    }
+    
+    public void setAttackSpeed(AbstractScale scale) {
+        this.attackSpeed = scale;
     }
     
     public void setFireWeaponSound(NpcSound sound) {
@@ -265,5 +271,9 @@ public class NpcCombatOptions {
     
     public void setProjectile(NpcProjectile projectile) {
         this.projectile = projectile;
+    }
+
+    public AbstractScale getAttackSpeed() {
+        return this.attackSpeed;
     }
 }
