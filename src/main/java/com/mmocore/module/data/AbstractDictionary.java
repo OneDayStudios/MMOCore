@@ -152,6 +152,7 @@ public class AbstractDictionary {
         add(new RandomSpawnContestedWorlds());
         add(new SGCInfirmary());
         add(new StargateCommandMarines());
+        add(new StargateCommand());
     }
 
     public static void loadQuests() {
