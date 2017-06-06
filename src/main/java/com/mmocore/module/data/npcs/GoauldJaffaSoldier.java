@@ -19,6 +19,7 @@ import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
+import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import java.util.Random;
@@ -51,6 +52,11 @@ public class GoauldJaffaSoldier extends RegisterableNpc {
         mOpts.setMovementTypeWandering(AbstractScale.Medium);
         this.setMovementOptions(mOpts);
         cOpts.setAttacksHostileFactions(NpcBoolean.YES);
+        NpcLootOptions lOpts = this.getLootOptions();
+        NpcItem item = new NpcItem();
+        item.setItem("flansmod", "maTokStaff", 1, 0);
+        lOpts.addToLootTable(50, item);
+        this.setLootOptions(lOpts);
         this.setCombatOptions(cOpts);
     }
 }
