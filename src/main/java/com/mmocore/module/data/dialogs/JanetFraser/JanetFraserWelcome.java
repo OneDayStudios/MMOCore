@@ -17,6 +17,7 @@ import com.mmocore.module.Dialog.options.DialogBaseOptions;
 import com.mmocore.module.Dialog.options.DialogConversationOptions;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.AbstractDictionary;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -33,9 +34,11 @@ public class JanetFraserWelcome extends RegisterableDialog {
         );
         options.setHasDialogWheel(true);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
-        HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.After);
-        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.During);
+        HashMap<RegisterableQuest, ArrayList<QuestAvailability>> availability = new HashMap<RegisterableQuest, ArrayList<QuestAvailability>>();
+        ArrayList<QuestAvailability> availOptions = new ArrayList<QuestAvailability>();
+        availOptions.add(QuestAvailability.During);
+        availOptions.add(QuestAvailability.After);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), availOptions);
         opts.setQuestAvailability(availability);
         this.setAvailabilityOptions(opts);
         this.setBaseOptions(options);

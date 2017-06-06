@@ -13,6 +13,7 @@ import com.mmocore.module.Dialog.options.DialogAvailabilityOptions;
 import com.mmocore.module.Dialog.options.DialogBaseOptions;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.AbstractDictionary;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -32,9 +33,11 @@ public class LetsGetStarted extends RegisterableDialog {
         );
         this.setBaseOptions(options);
         DialogAvailabilityOptions opts = this.getAvailabilityOptions();
-        HashMap<RegisterableQuest, QuestAvailability> availability = new HashMap<RegisterableQuest, QuestAvailability>();
-        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.NotDuring);
-        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), QuestAvailability.Before);
+        HashMap<RegisterableQuest, ArrayList<QuestAvailability>> availability = new HashMap<RegisterableQuest, ArrayList<QuestAvailability>>();
+        ArrayList<QuestAvailability> availOptions = new ArrayList<QuestAvailability>();
+        availOptions.add(QuestAvailability.NotDuring);
+        availOptions.add(QuestAvailability.Before);
+        availability.put(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"), availOptions);
         opts.setQuestAvailability(availability);
         DialogActionOptions actions = this.getActionOptions();
         actions.setQuest(QuestAPI.getRegistered("Visiting The Infirmary", "Tutorial"));

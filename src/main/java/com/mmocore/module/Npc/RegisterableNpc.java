@@ -45,6 +45,7 @@ import com.mmocore.module.Npc.options.NpcLootOptions;
 import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.Npc.options.NpcStateOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import com.mmocore.module.Player.RegisterablePlayer;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -947,6 +948,13 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         line.sound = "";
         if (entity != null) entity.saySurrounding(line);
     }
+   
+   public void tellPlayer(RegisterablePlayer player, String message) {
+        Line line = new Line(message);
+        line.hideText = true;
+        line.sound = "";
+        if (entity != null && player.isOnline()) entity.say(player.getRegisteredObject(), line);
+   }
     
     public void despawn() {
         if (existsInGame())  entity.delete();

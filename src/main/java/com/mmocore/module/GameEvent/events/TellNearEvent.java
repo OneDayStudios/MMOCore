@@ -14,23 +14,21 @@ import com.mmocore.module.Player.RegisterablePlayer;
  *
  * @author draks
  */
-public class TellPlayerEvent extends GameEvent {
+public class TellNearEvent extends GameEvent {
 
-    private RegisterablePlayer player;
     private String message;
     private RegisterableNpc npc;
     
-    public TellPlayerEvent(String name, RegisterableNpc npc, RegisterablePlayer player, String message) {
+    public TellNearEvent(String name, RegisterableNpc npc, String message) {
         super(name);
         this.npc = npc;
-        this.player = player;
         this.message = message;
     }
 
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
-        if (player.getPosition().getDimension().equals(dimension)) {
-            npc.tellPlayer(player, message);
+        if (npc.getUPosition().getDimension().equals(dimension)) {
+            npc.tellNear(message);
             this.setFlaggedForRemoval();
         }
     }

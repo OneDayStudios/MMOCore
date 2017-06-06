@@ -9,6 +9,7 @@ import com.mmocore.constants.DialogAvailability;
 import com.mmocore.constants.QuestAvailability;
 import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Quest.RegisterableQuest;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -17,8 +18,8 @@ import java.util.HashMap;
  */
 public class DialogAvailabilityOptions {
     
-    private HashMap<RegisterableDialog, DialogAvailability> dialogs = new HashMap<RegisterableDialog, DialogAvailability>();
-    private HashMap<RegisterableQuest, QuestAvailability> quests = new HashMap<RegisterableQuest, QuestAvailability>();
+    private HashMap<RegisterableDialog, ArrayList<DialogAvailability>> dialogs = new HashMap<RegisterableDialog, ArrayList<DialogAvailability>>();
+    private HashMap<RegisterableQuest, ArrayList<QuestAvailability>> quests = new HashMap<RegisterableQuest, ArrayList<QuestAvailability>>();
     private int availableLevel = 0;
     private boolean availableDay = true;
     private boolean availableNight = true;
@@ -48,28 +49,28 @@ public class DialogAvailabilityOptions {
     }
     
     public void clearQuestAvailability() {
-        this.quests = new HashMap<RegisterableQuest, QuestAvailability>();
+        this.quests = new HashMap<RegisterableQuest, ArrayList<QuestAvailability>>();
     }
     
-    public void setQuestAvailability(HashMap<RegisterableQuest, QuestAvailability> questAvailability) {
+    public void setQuestAvailability(HashMap<RegisterableQuest, ArrayList<QuestAvailability>> questAvailability) {
         if (questAvailability.size() > 4) return;
         this.quests = questAvailability;
     }
     
-    public HashMap<RegisterableQuest, QuestAvailability> getQuestAvailability() {
+    public HashMap<RegisterableQuest, ArrayList<QuestAvailability>> getQuestAvailability() {
         return this.quests;
     }
     
     public void clearDialogAvailability() {
-        this.dialogs = new HashMap<RegisterableDialog, DialogAvailability>();
+        this.dialogs = new HashMap<RegisterableDialog, ArrayList<DialogAvailability>>();
     }
     
-    public void setDialogAvailability(HashMap<RegisterableDialog, DialogAvailability> DialogAvailability) {
+    public void setDialogAvailability(HashMap<RegisterableDialog, ArrayList<DialogAvailability>> DialogAvailability) {
         if (DialogAvailability.size() > 4) return;
         this.dialogs = DialogAvailability;
     }
     
-    public HashMap<RegisterableDialog, DialogAvailability> getDialogAvailability() {
+    public HashMap<RegisterableDialog, ArrayList<DialogAvailability>> getDialogAvailability() {
         return this.dialogs;
     }
 }
