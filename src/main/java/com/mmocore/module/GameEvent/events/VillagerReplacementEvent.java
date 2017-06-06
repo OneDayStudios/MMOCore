@@ -25,12 +25,12 @@ import java.util.Random;
  *
  * @author draks
  */
-public class RandomSpawnEvent extends GameEvent {
+public class VillagerReplacementEvent extends GameEvent {
     
     private ArrayList<RegisterableNpc> storedNpcs = new ArrayList<RegisterableNpc>();
-    private SpawnEventOptions randomOptions = new SpawnEventOptions();
+    private SpawnEventOptions villagerReplacementOptions = new SpawnEventOptions();
     
-    public RandomSpawnEvent(String name) {
+    public VillagerReplacementEvent(String name) {
         super(name);
     }
     
@@ -59,9 +59,9 @@ public class RandomSpawnEvent extends GameEvent {
         return true;
     }
     
-    private boolean spawn(uPosition position) {
+    public boolean spawn(uPosition position) {
         if (!this.shouldSpawn(position)) return false;            
-        uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 64, 128);
+        uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 16, 32);
         if (getOptions().getMode().equals(RandomSpawnMode.SingleFromGroup)) {
             if (origSpawnPos == null) {
                 ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
@@ -99,7 +99,7 @@ public class RandomSpawnEvent extends GameEvent {
     }
     
     public SpawnEventOptions getOptions() {
-        return this.randomOptions;
+        return this.villagerReplacementOptions;
     }
     
     private RegisterableNpc getRandomNpc() {
@@ -109,14 +109,12 @@ public class RandomSpawnEvent extends GameEvent {
     }
     
     public void setOptions(SpawnEventOptions options) {
-        this.randomOptions = options;
+        this.villagerReplacementOptions = options;
     }
 
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
-        for (RegisterablePlayer p : PlayerAPI.getForDimension(dimension)) {
-            spawn(p.getPosition());
-        }
+        // This does not tick, it is instead called each time a villager attempts to spawn.
     }
     
 }

@@ -9,7 +9,9 @@ import com.mmocore.MMOCore;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
+import com.mmocore.module.GameEvent.events.VillagerReplacementEvent;
 import com.mmocore.module.data.AbstractDictionary;
+import java.util.ArrayList;
 
 /**
  *
@@ -29,6 +31,16 @@ public class EventAPI extends AbstractAPI<EventAPI> {
             }
         }
         return null;
+    }
+    
+    public static ArrayList<VillagerReplacementEvent> getVillagerReplacementEvents() {
+        ArrayList<VillagerReplacementEvent> events = new ArrayList<VillagerReplacementEvent>();
+        for (GameEvent event : MMOCore.getGameEventRegistry().getRegistered().values()) {
+            if (event instanceof VillagerReplacementEvent) {
+                events.add((VillagerReplacementEvent)event);
+            }
+        }
+        return events;
     }
     
     public static boolean isAreaProtected(uPosition position) {

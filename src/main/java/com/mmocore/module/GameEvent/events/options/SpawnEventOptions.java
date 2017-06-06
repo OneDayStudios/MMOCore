@@ -21,7 +21,7 @@ import java.util.Random;
  *
  * @author draks
  */
-public class RandomSpawnEventOptions {
+public class SpawnEventOptions {
     
     // This field is responsible for globally enabling or disabling spawning via this NpcSpawnOptions class.
     private boolean enabled = true;

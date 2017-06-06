@@ -166,12 +166,18 @@ public class QuestLocationEvent extends GameEvent {
 
     public boolean containsPosition(uPosition position) {
         if (!this.getPosition().getDimension().equals(position.getDimension())) return false;
-        double distanceX = Math.abs(position.getDPosX() - this.getPosition().getDPosX());
-        double distanceY = Math.abs(position.getDPosY() - this.getPosition().getDPosY());
-        double distanceZ = Math.abs(position.getDPosZ() - this.getPosition().getDPosZ());
-        if (Math.abs(distanceX) > this.getRadiusX()) return false;
-        if (Math.abs(distanceY) > this.getRadiusY()) return false;
-        if (Math.abs(distanceZ) > this.getRadiusZ()) return false;
+        double distanceX = 0;
+        double distanceZ = 0;
+        double distanceY = 0;
+        if (this.getPosition().getDPosX() > position.getDPosX()) distanceX = this.getPosition().getDPosX() - position.getDPosX();
+        if (this.getPosition().getDPosX() < position.getDPosX()) distanceX = position.getDPosX() - this.getPosition().getDPosX();
+        if (this.getPosition().getDPosY() > position.getDPosY()) distanceY = this.getPosition().getDPosY() - position.getDPosY();
+        if (this.getPosition().getDPosY() < position.getDPosY()) distanceY = position.getDPosY() - this.getPosition().getDPosY();
+        if (this.getPosition().getDPosZ() > position.getDPosZ()) distanceZ = this.getPosition().getDPosZ() - position.getDPosZ();
+        if (this.getPosition().getDPosZ() < position.getDPosZ()) distanceZ = position.getDPosZ() - this.getPosition().getDPosZ();
+        if (distanceX > this.getRadiusX()) return false;
+        if (distanceY > this.getRadiusY()) return false;
+        if (distanceZ > this.getRadiusZ()) return false;
         return true;
     }
 }

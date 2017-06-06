@@ -18,7 +18,7 @@ import com.mmocore.constants.NpcTexture;
 import com.mmocore.module.AbstractRegistry;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.events.RandomSpawnEvent;
-import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
+import com.mmocore.module.GameEvent.events.options.SpawnEventOptions;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;

@@ -10,7 +10,7 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.GameEvent.events.RandomSpawnEvent;
-import com.mmocore.module.GameEvent.events.options.RandomSpawnEventOptions;
+import com.mmocore.module.GameEvent.events.options.SpawnEventOptions;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.factions.*;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
@@ -30,7 +30,7 @@ public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
             ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
             npcs.add(new StargateCommandSoldier());
             npcs.add(new GoauldJaffaSoldier());
-            RandomSpawnEventOptions options = this.getOptions();
+            SpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
