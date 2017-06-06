@@ -167,7 +167,7 @@ public class QuestLocationEvent extends GameEvent {
 
     public boolean containsPosition(uPosition position) {
         ForgeAPI.sendConsoleEntry("Checking dimension", ConsoleMessageType.FINE);
-        if (!this.getPosition().getDimension().getIdentifier().equals(position.getDimension().getIdentifier())) return false;
+        if (!this.getPosition().getDimension().equals(position.getDimension())) return false;
         double distanceX = 0;
         double distanceZ = 0;
         double distanceY = 0;

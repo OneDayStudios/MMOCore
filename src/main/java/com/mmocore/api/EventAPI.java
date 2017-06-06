@@ -6,6 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.GameEvent;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
@@ -44,9 +45,10 @@ public class EventAPI extends AbstractAPI<EventAPI> {
     }
     
     public static boolean isAreaProtected(uPosition position) {
-        for (GameEvent event : MMOCore.getGameEventRegistry().getRegisteredReadOnly().values()) {
+        for (GameEvent event : MMOCore.getGameEventRegistry().getRegistered().values()) {
             if (event instanceof QuestLocationEvent) {
                 QuestLocationEvent location = (QuestLocationEvent)event;
+                ForgeAPI.sendConsoleEntry("Found event: " + location.getName() + " and is protected: " + location.isProtected(), ConsoleMessageType.FINE);
                 if (location.isProtected() && location.containsPosition(position)) return true;
             }
         }
