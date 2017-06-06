@@ -145,29 +145,30 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                             if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.NotActive;
                             if (avail.equals(QuestAvailability.Before)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.Before;
                             if (avail.equals(QuestAvailability.After)) actualDialog.availability.questAvailable = EnumAvailabilityQuest.After;
-                            count++;
+                            break;
                         case 1:
                             actualDialog.availability.quest2Id = registered.getIdentifier();
                             if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Active;
                             if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.NotActive;
                             if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.Before;
                             if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest2Available = EnumAvailabilityQuest.After;
-                            count++;
+                            break;
                         case 2:
                             actualDialog.availability.quest3Id = registered.getIdentifier();
                             if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Active;
                             if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.NotActive;
                             if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.Before;
                             if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest3Available = EnumAvailabilityQuest.After;
-                            count++;
+                            break;
                         case 3:
                             actualDialog.availability.quest4Id = registered.getIdentifier();
                             if (avail.equals(QuestAvailability.During)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Active;
                             if (avail.equals(QuestAvailability.NotDuring)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.NotActive;
                             if (avail.equals(QuestAvailability.Before)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.Before;
                             if (avail.equals(QuestAvailability.After)) actualDialog.availability.quest4Available = EnumAvailabilityQuest.After;
-                            count++;
+                            break;
                     }
+                    count++;
             }
         }
         count = 0;
@@ -182,23 +183,24 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                             actualDialog.availability.dialogId = dialog.getIdentifier();
                             if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.Before;
                             if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialogAvailable = EnumAvailabilityDialog.After;
-                            count++;
+                            break;
                         case 1:
                             actualDialog.availability.dialog2Id = dialog.getIdentifier();
                             if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog2Available = EnumAvailabilityDialog.Before;
                             if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog2Available = EnumAvailabilityDialog.After;
-                            count++;
+                            break;
                         case 2:
                             actualDialog.availability.dialog3Id = dialog.getIdentifier();
                             if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog3Available = EnumAvailabilityDialog.Before;
                             if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog3Available = EnumAvailabilityDialog.After;
-                            count++;
+                            break;
                         case 3:
                             actualDialog.availability.dialog4Id = dialog.getIdentifier();
                             if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Before;
                             if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.After;
-                            count++;
+                            break;
                     }
+                count++;
             }
         }
         
