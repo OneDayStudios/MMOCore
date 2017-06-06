@@ -15,9 +15,9 @@ import com.mmocore.module.GameEvent.events.QuestLocationEvent;
  *
  * @author draks
  */
-public class StargateCommand extends QuestLocationEvent {
+public class LocStargateCommand extends QuestLocationEvent {
     
-    public StargateCommand() {
+    public LocStargateCommand() {
         super("Stargate Command",
         new uPosition(-127.0,100.0,-598.0,UniverseAPI.getDimension("P2X-3YZ")),
         250,

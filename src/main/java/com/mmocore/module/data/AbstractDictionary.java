@@ -16,6 +16,7 @@ import com.mmocore.module.data.dialogs.GeneralHammond.LetsGetStarted;
 import com.mmocore.module.data.dialogs.GeneralHammond.WelcomeToTheSGC;
 import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
 import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
+import com.mmocore.module.data.events.LocStargateCommand;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
 import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.SGCInfirmary;
@@ -153,7 +154,7 @@ public class AbstractDictionary {
         add(new RandomSpawnContestedWorlds());
         add(new SGCInfirmary());
         add(new StargateCommandMarines());
-        add(new StargateCommand());
+        add(new LocStargateCommand());
         add(new VillagerSpawnContestedWorlds());
     }
 
