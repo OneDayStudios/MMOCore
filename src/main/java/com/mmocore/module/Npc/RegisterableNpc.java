@@ -380,7 +380,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         try {
             this.entity.modelData.setEntityClass(this.getBaseOptions().getModelType().getClassName());
         } catch (Exception e) {
-            ForgeAPI.sendConsoleEntry("Failed to set model data on : " + this.getBaseOptions().getName() + " to " + this.getBaseOptions().getModelType().name(), entity);
+            ForgeAPI.sendConsoleEntry("Failed to set model data on : " + this.getBaseOptions().getName() + " to " + this.getBaseOptions().getModelType().name(), ConsoleMessageType.WARNING);
         }
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());

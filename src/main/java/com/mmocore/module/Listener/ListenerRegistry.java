@@ -12,7 +12,6 @@ import com.mmocore.module.Listener.Listeners.BorderListener;
 import com.mmocore.module.Listener.Listeners.GuiListener;
 import com.mmocore.module.Listener.Listeners.PlayerListener;
 import com.mmocore.module.Listener.Listeners.ProtectionListener;
-import com.mmocore.module.Listener.Listeners.TransitionListener;
 import com.mmocore.module.Listener.Listeners.VillagerSpawnListener;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +33,6 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
     private void initServerListeners() {
         MMOCore.getListenerRegistry().register(new WorldListener());
         MMOCore.getListenerRegistry().register(new PlayerListener());
-        MMOCore.getListenerRegistry().register(new TransitionListener());
         MMOCore.getListenerRegistry().register(new BorderListener());
         MMOCore.getListenerRegistry().register(new ProtectionListener());
         MMOCore.getListenerRegistry().register(new VillagerSpawnListener());
