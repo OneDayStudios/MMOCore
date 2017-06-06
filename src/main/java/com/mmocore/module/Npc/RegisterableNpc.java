@@ -23,6 +23,7 @@ import com.mmocore.constants.NpcFireIndirectlyOption;
 import com.mmocore.constants.NpcFollowPathBehaviour;
 import com.mmocore.constants.NpcGender;
 import com.mmocore.constants.NpcLootMode;
+import com.mmocore.constants.NpcModelType;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcMovementType;
@@ -376,7 +377,11 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Lower)) this.entity.stats.attackSpeed = 3;
         if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.Lowest)) this.entity.stats.attackSpeed = 1;
         if (this.getCombatOptions().getAttackSpeed().equals(AbstractScale.None)) this.entity.stats.attackSpeed = 0;
-        
+        try {
+            this.entity.modelData.setEntityClass(this.getBaseOptions().getModelType().getClassName());
+        } catch (Exception e) {
+            ForgeAPI.sendConsoleEntry("Failed to set model data on : " + this.getBaseOptions().getName() + " to " + this.getBaseOptions().getModelType().name(), entity);
+        }
         if (!this.getCombatOptions().getProjectile().getItem().equals(this.entity.inventory.getProjectile())) {
             this.entity.inventory.setProjectile(this.getCombatOptions().getProjectile().getItem());
             this.entity.stats.pRender3D = true;

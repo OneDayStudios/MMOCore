@@ -9,6 +9,7 @@ import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.constants.NpcGender;
+import com.mmocore.constants.NpcModelType;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
@@ -39,6 +40,7 @@ public class NpcBaseOptions {
     private AbstractScale size = AbstractScale.Medium;
     private NpcModifier modifier = null;
     private NpcSpawnMethod method = null;
+    private NpcModelType modelType = NpcModelType.NONE;
 
     public NpcBaseOptions() {
         
@@ -58,6 +60,15 @@ public class NpcBaseOptions {
         this.size = baseOptions.size;
         this.modifier = baseOptions.modifier;
         this.method = baseOptions.method;
+        this.modelType = baseOptions.modelType;
+    }
+    
+    public void setModelType(NpcModelType type) {
+        this.modelType = type;
+    }
+    
+    public NpcModelType getModelType() {
+        return this.modelType;
     }
     
     public NpcSpawnMethod getSpawnMethod() {
