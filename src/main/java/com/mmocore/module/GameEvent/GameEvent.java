@@ -47,7 +47,7 @@ public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, 
     
     @Override
     public String getIdentifier() {
-        return this.name;
+        return this.getClass().getName();
     }
     
     @Override
