@@ -51,6 +51,16 @@ public class SpawnEventOptions {
     private List<RegisterableNpcFaction> factions = new ArrayList<RegisterableNpcFaction>();
     // Sets whether or not this NPC will spawn on Contested worlds. This defaults to true but can be disabled if factions are defined above.
     private boolean spawnsOnContestedWorlds = true;
+    // Sets if this NPC set requires an atmosphere or not.
+    private boolean requiresAtmosphere = true;
+    
+    public void setRequiresAtmosphere(boolean value) {
+        this.requiresAtmosphere = value;
+    }
+    
+    public boolean getRequiresAtmosphere() {
+        return this.requiresAtmosphere;
+    }
     
     public int getMaxSpawnSpread() {
         return this.maxSpread;

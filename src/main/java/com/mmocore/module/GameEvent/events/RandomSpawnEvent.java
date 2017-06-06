@@ -41,6 +41,8 @@ public class RandomSpawnEvent extends GameEvent {
         if (!getOptions().spawnEnabled()) return false;        
         ForgeAPI.sendConsoleEntry("Spawn Enabled!", ConsoleMessageType.FINE);
         if (!getOptions().chancePassed()) return false;
+        ForgeAPI.sendConsoleEntry("Checking atmosphere", ConsoleMessageType.FINE);
+        if (getOptions().getRequiresAtmosphere() && !position.getDimension().hasAtmopshere()) return false;
         ForgeAPI.sendConsoleEntry("Chance Passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnGalaxies().isEmpty() && !getOptions().getSpawnGalaxies().contains(position.getGalaxy())) return false;
         ForgeAPI.sendConsoleEntry("Galaxy check passed", ConsoleMessageType.FINE);

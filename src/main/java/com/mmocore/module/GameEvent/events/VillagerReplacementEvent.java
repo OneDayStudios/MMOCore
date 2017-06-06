@@ -40,6 +40,8 @@ public class VillagerReplacementEvent extends GameEvent {
         ForgeAPI.sendConsoleEntry("Checking shouldSpawn", ConsoleMessageType.FINE);
         if (!getOptions().spawnEnabled()) return false;        
         ForgeAPI.sendConsoleEntry("Spawn Enabled!", ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Checking atmosphere", ConsoleMessageType.FINE);
+        if (getOptions().getRequiresAtmosphere() && !position.getDimension().hasAtmopshere()) return false;
         if (!getOptions().chancePassed()) return false;
         ForgeAPI.sendConsoleEntry("Chance Passed", ConsoleMessageType.FINE);
         if (!getOptions().getSpawnGalaxies().isEmpty() && !getOptions().getSpawnGalaxies().contains(position.getGalaxy())) return false;
