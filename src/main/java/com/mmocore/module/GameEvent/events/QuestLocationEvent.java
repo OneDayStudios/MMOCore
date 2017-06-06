@@ -131,7 +131,7 @@ public class QuestLocationEvent extends GameEvent {
     
     private void grantCreditIfRequired() {
         for (RegisterablePlayer p : this.getPlayersInArea()) {
-            if (!p.isOnline()) continue;
+            if (p == null || !p.isOnline()) continue;
             if (QuestAPI.playerHasLocationQuestForLocation(p, this) && !QuestAPI.hasPlayerCompletedLocation(p, this)) {
                 if (this.getCompletionGui() != null) GuiAPI.sendGuiElementToClient(p, getCompletionGui());
                 QuestAPI.completePlayerLocation(p, this);
