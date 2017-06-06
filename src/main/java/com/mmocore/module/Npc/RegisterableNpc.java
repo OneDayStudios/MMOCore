@@ -324,15 +324,18 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
             DialogOption dialogOption = new DialogOption();
             dialogOption.optionType = EnumOptionType.DialogOption;
             dialogOption.optionColor = dialog.getColor().getNumber();
-            RegisterableDialog registered = DialogAPI.getRegistered(dialog.getDialog().getBaseOptions().getTitle(), dialog.getDialog().getBaseOptions().getCategory());
-            if (registered != null) {
-                ForgeAPI.sendConsoleEntry("Assigning dialog: " + registered.getBaseOptions().getTitle() + " and id: " + registered.getID() + " and title " + registered.getBaseOptions().getTitle(), ConsoleMessageType.INFO);
-                dialogOption.dialogId = registered.getIdentifier();
-                dialogOption.title = dialog.getTitle();
+            if (dialog.getDialog() != null) {
+                RegisterableDialog registered = DialogAPI.getRegistered(dialog.getDialog().getBaseOptions().getTitle(), dialog.getDialog().getBaseOptions().getCategory());
+                if (registered != null) {
+                    ForgeAPI.sendConsoleEntry("Assigning dialog: " + registered.getBaseOptions().getTitle() + " and id: " + registered.getID() + " and title " + registered.getBaseOptions().getTitle(), ConsoleMessageType.INFO);
+                    dialogOption.dialogId = registered.getIdentifier();
+                } else {
+                    dialogOption.dialogId = -1;
+                }
             } else {
                 dialogOption.dialogId = -1;
-                dialogOption.title = "Error loading dialog";
             }
+            dialogOption.title = dialog.getTitle();
             dialogOption.command = dialog.getCommand();
             entity.dialogs.put(position, dialogOption);
             position++;
