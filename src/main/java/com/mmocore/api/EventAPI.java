@@ -6,7 +6,9 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.GameEvent;
+import com.mmocore.module.GameEvent.events.QuestLocationEvent;
 import com.mmocore.module.data.AbstractDictionary;
 
 /**
@@ -27,5 +29,15 @@ public class EventAPI extends AbstractAPI<EventAPI> {
             }
         }
         return null;
+    }
+    
+    public static boolean isAreaProtected(uPosition position) {
+        for (GameEvent event : MMOCore.getGameEventRegistry().getRegisteredReadOnly().values()) {
+            if (event instanceof QuestLocationEvent) {
+                QuestLocationEvent location = (QuestLocationEvent)event;
+                if (location.isProtected() && location.containsPosition(position)) return true;
+            }
+        }
+        return false;
     }
 }

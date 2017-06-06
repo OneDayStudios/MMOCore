@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.GameEvent.events;
 
+import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.PlayerAPI;
 import com.mmocore.api.QuestAPI;
@@ -31,6 +32,7 @@ public class QuestLocationEvent extends GameEvent {
     private ServerGui enterGui = null;
     private ServerGui completeLocationGui = null;
     private ServerGui exitGui = null;
+    private boolean isProtected;
     
     public QuestLocationEvent(String name, uPosition position, int radiusX, int radiusY, int radiusZ) {
         super(name);
@@ -152,5 +154,24 @@ public class QuestLocationEvent extends GameEvent {
                 removePlayer(p);
             }
         }
+    }
+
+    public void setProtected(boolean value) {
+        this.isProtected = value;
+    }
+    
+    public boolean isProtected() {
+        return this.isProtected;
+    }
+
+    public boolean containsPosition(uPosition position) {
+        if (!this.getPosition().getDimension().equals(position.getDimension())) return false;
+        double distanceX = Math.abs(position.getDPosX() - this.getPosition().getDPosX());
+        double distanceY = Math.abs(position.getDPosY() - this.getPosition().getDPosY());
+        double distanceZ = Math.abs(position.getDPosZ() - this.getPosition().getDPosZ());
+        if (distanceX > this.getRadiusX()) return false;
+        if (distanceY > this.getRadiusY()) return false;
+        if (distanceZ > this.getRadiusZ()) return false;
+        return true;
     }
 }

@@ -18,7 +18,7 @@ import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
 import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
 import com.mmocore.module.data.events.StargateCommandMarines;
-import com.mmocore.module.data.events.VisitingInfimary;
+import com.mmocore.module.data.events.SGCInfirmary;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
@@ -150,7 +150,7 @@ public class AbstractDictionary {
     
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
-        add(new VisitingInfimary());
+        add(new SGCInfirmary());
         add(new StargateCommandMarines());
     }
 
