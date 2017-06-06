@@ -190,8 +190,8 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                             if (avail.equals(DialogAvailability.Before)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Before;
                             if (avail.equals(DialogAvailability.After)) actualDialog.availability.dialog4Available = EnumAvailabilityDialog.After;
                     }
-                }
                 count++;
+            }
         }
         
         if (this.getActionOptions().getPrimaryFactionAction() != null) {
