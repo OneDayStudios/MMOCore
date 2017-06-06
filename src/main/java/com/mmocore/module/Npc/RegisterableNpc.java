@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Npc;
 import com.mmocore.MMOCore;
+import com.mmocore.api.DialogAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
@@ -323,10 +324,15 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
             DialogOption dialogOption = new DialogOption();
             dialogOption.optionType = EnumOptionType.DialogOption;
             dialogOption.optionColor = dialog.getColor().getNumber();
-            if (!dialog.getDialog().isRegistered()) MMOCore.getDialogRegistry().register(dialog.getDialog());
-            ForgeAPI.sendConsoleEntry("Assigning dialog: " + dialog.getTitle() + " and id: " + dialog.getDialog().getID() + " and title " + dialog.getDialog().getBaseOptions().getTitle(), ConsoleMessageType.INFO);
-            dialogOption.dialogId = dialog.getDialog().getIdentifier();
-            dialogOption.title = dialog.getTitle();
+            RegisterableDialog registered = DialogAPI.getRegistered(dialog.getDialog().getBaseOptions().getTitle(), dialog.getDialog().getBaseOptions().getCategory());
+            if (registered != null) {
+                ForgeAPI.sendConsoleEntry("Assigning dialog: " + registered.getBaseOptions().getTitle() + " and id: " + registered.getID() + " and title " + registered.getBaseOptions().getTitle(), ConsoleMessageType.INFO);
+                dialogOption.dialogId = registered.getIdentifier();
+                dialogOption.title = dialog.getTitle();
+            } else {
+                dialogOption.dialogId = -1;
+                dialogOption.title = "Error loading dialog";
+            }
             dialogOption.command = dialog.getCommand();
             entity.dialogs.put(position, dialogOption);
             position++;
