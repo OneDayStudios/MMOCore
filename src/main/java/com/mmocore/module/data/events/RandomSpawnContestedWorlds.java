@@ -33,6 +33,7 @@ public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
+            options.setDimensionDensity(25);
             this.setOptions(options);
     }
 }

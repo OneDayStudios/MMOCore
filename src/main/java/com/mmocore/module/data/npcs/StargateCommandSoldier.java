@@ -7,6 +7,7 @@ package com.mmocore.module.data.npcs;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
+import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcSound;
@@ -17,6 +18,7 @@ import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
+import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import java.util.Random;
 
@@ -43,6 +45,9 @@ public class StargateCommandSoldier extends RegisterableNpc {
         NpcCombatOptions cOpts = this.getCombatOptions();
         cOpts.setFireWeaponSound(NpcSound.P90);
         cOpts.setProjectile(NpcProjectile.MACHINEGUN_BULLET);
+        NpcMovementOptions mOpts = this.getMovementOptions();
+        mOpts.setMovementTypeWandering(AbstractScale.Medium);
+        this.setMovementOptions(mOpts);
         this.setCombatOptions(cOpts);
     }
 }

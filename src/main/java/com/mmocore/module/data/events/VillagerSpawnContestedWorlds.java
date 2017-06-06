@@ -28,13 +28,13 @@ public class VillagerSpawnContestedWorlds extends VillagerReplacementEvent {
 
     public VillagerSpawnContestedWorlds() {
             super("Villager Spawn - Uncontrolled Worlds");
-            ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-            npcs.add(new StargateCommandSoldier());
-            npcs.add(new GoauldJaffaSoldier());
+            this.addNpc(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
+            this.addNpc(AbstractDictionary.getNpcByName("Jaffa Soldier", "Goauld Loyal Jaffa"));
             SpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
+            options.setDimensionDensity(20);
             this.setOptions(options);
     }
 }

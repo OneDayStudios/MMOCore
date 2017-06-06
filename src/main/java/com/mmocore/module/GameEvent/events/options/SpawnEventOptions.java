@@ -35,8 +35,6 @@ public class SpawnEventOptions {
     private int dimensionDensity = 5;    
     // This field is responsible for creating a hard-cap of the number of this NPC that spawns within a single galaxy. It will cancel spawns if this limit is reached.
     private int galaxyDensity = 5;    
-    // This field is responsible for controlling how many NPCs will spawn at once regardless of the location.
-    private int numberOf = 1;
     // This field is responsible for determining if the npcs should all spawn toghether or not.
     private RandomSpawnMode spawnMode = RandomSpawnMode.SingleFromGroup;
     // This field is responsibly for controlling how closely together the NPCs spawn if they spawn together.
@@ -156,14 +154,6 @@ public class SpawnEventOptions {
     public void addSpawnPosition(uPosition pos) {
         if (positions.contains(pos)) ForgeAPI.sendConsoleEntry("Something attempted to add a spawn position to an NPC twice.", ConsoleMessageType.DEBUG);
         if (!positions.contains(pos)) positions.add(pos);
-    }
-    
-    public void setNumber(int numberOf) {
-        this.numberOf = numberOf;
-    }
-    
-    public int getNumberOf() {
-        return this.numberOf;
     }
     
     public int getSpawnChance() {
