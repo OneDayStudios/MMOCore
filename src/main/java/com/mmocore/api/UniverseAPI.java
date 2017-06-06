@@ -111,13 +111,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     }
 
     private static boolean isBlockLiquid(Block block) {
-        if(block instanceof IFluidBlock) {
-            IFluidBlock fb = (IFluidBlock)block;
-            Fluid fl = fb.getFluid();
-            return !fl.isGaseous();
-        } else {
-            return true;
-        }
+         return block.getMaterial().isLiquid();
     }
     
     public static RegisterableDimension getDimension(uPosition pos) {
