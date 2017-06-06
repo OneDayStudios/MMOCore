@@ -16,7 +16,7 @@ public enum NpcModifier {
     MELEE_COMMANDER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
     RANGED_COMMANDER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
     MELEE_SOLDIER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
-    RANGED_SOLDIER(AbstractScale.Medium,AbstractScale.Medium,AbstractScale.Medium,AbstractScale.Medium,AbstractScale.Medium,AbstractScale.Medium,AbstractScale.Medium),
+    RANGED_SOLDIER(AbstractScale.Low,AbstractScale.Low,AbstractScale.Low,AbstractScale.Low,AbstractScale.Low,AbstractScale.Low,AbstractScale.Low),
     CIVILIAN(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High),
     CRITTER(AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.Absolute,AbstractScale.High,AbstractScale.High,AbstractScale.High,AbstractScale.High);
 
