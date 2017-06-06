@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class JanetFraserWelcome extends RegisterableDialog {
     
     public JanetFraserWelcome() {
-        super("Welcome to the Infirmary", "Tutorial");
+        super("Janet Fraser Welcome", "Tutorial");
         DialogBaseOptions options = this.getBaseOptions();
         options.setText(
                 "I'm pretty busy here.. what can I do for you? Quickly? \n"
