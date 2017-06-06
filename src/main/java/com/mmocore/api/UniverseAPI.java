@@ -102,10 +102,15 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         }        
         uPosition newPosition = new uPosition(tempX, tempY+1, tempZ, position.getDimension());
         if (isBlockLiquid(block)) return null;
+        block = position.getDimension().getRegisteredObject().getBlock((int)tempX, (int)tempY+1, (int)tempZ);
+        if (isBlockLiquid(block)) return null;
         if (origY >= 256 || origY <= 0 || ForgeAPI.distance(oldPosition.getDPosX(), oldPosition.getDPosY(), oldPosition.getDPosZ(), newPosition.getDPosX(), newPosition.getDPosY(), newPosition.getDPosZ()) > 128) return null;
         return newPosition;
     }
 
+    private static boolean isBlockGas(Block b) {
+        return (!isBlockSolid(b) && !isBlockLiquid(b));
+    }
     private static boolean isBlockSolid(Block block) {
         return block.getMaterial().isSolid();
     }
