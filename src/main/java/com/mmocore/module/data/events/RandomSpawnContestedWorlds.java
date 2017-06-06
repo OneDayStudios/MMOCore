@@ -27,8 +27,8 @@ public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
 
     public RandomSpawnContestedWorlds() {
             super("Random Spawn - Uncontrolled Worlds");
-            this.addNpc(new StargateCommandSoldier());
-            this.addNpc(new GoauldJaffaSoldier());
+            this.addNpc(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
+            this.addNpc(AbstractDictionary.getNpcByName("Jaffa Soldier", "Goauld Loyal Jaffa"));
             SpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);

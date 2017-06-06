@@ -152,9 +152,9 @@ public class AbstractDictionary {
     
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
+        add(new LocStargateCommand());
         add(new SGCInfirmary());
         add(new StargateCommandMarines());
-        add(new LocStargateCommand());
         add(new VillagerSpawnContestedWorlds());
     }
 
