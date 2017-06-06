@@ -52,7 +52,7 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
             WorldServer worldToProcess = MinecraftServer.getServer().worldServers[id];
             List<EntityPlayer> players = worldToProcess.playerEntities;
             for (EntityPlayer player : players) {
-                if (player.getGameProfile().getName().equals(name)) return player;
+                if (player != null && player.getGameProfile().getName().equals(name)) return player;
             }
         }
         return null;
@@ -89,7 +89,7 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
             WorldServer worldToProcess = MinecraftServer.getServer().worldServers[id];
             List<EntityPlayer> players = worldToProcess.playerEntities;
             for (EntityPlayer player : players) {
-                if (player.getUniqueID().equals(uuid)) return player;
+                if (player != null && player.getUniqueID().equals(uuid)) return player;
             }
         }
         return null;
