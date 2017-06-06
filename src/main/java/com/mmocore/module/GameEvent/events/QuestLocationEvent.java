@@ -169,9 +169,9 @@ public class QuestLocationEvent extends GameEvent {
         double distanceX = Math.abs(position.getDPosX() - this.getPosition().getDPosX());
         double distanceY = Math.abs(position.getDPosY() - this.getPosition().getDPosY());
         double distanceZ = Math.abs(position.getDPosZ() - this.getPosition().getDPosZ());
-        if (distanceX > this.getRadiusX()) return false;
-        if (distanceY > this.getRadiusY()) return false;
-        if (distanceZ > this.getRadiusZ()) return false;
+        if (Math.abs(distanceX) > this.getRadiusX()) return false;
+        if (Math.abs(distanceY) > this.getRadiusY()) return false;
+        if (Math.abs(distanceZ) > this.getRadiusZ()) return false;
         return true;
     }
 }
