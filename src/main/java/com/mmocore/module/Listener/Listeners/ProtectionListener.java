@@ -45,6 +45,7 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.IntegratedMod;
 import com.mmocore.constants.uPosition;
+import cpw.mods.fml.common.eventhandler.Event;
 import org.apache.logging.log4j.*;
 import io.netty.channel.*;
 
@@ -90,13 +91,25 @@ public class ProtectionListener extends RegisterableListener {
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.PlaceEvent event) {
         uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
-        if (EventAPI.isAreaProtected(position)) event.setCanceled(true);
+        if (EventAPI.isAreaProtected(position)) {
+            ForgeAPI.sendConsoleEntry("Cancelling place event", ConsoleMessageType.FINE);
+            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
+        } else {
+          ForgeAPI.sendConsoleEntry("Not cancelling place event", ConsoleMessageType.FINE);
+        }
     }
     
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
-        if (EventAPI.isAreaProtected(position)) event.setCanceled(true); 
+        if (EventAPI.isAreaProtected(position)) {
+            ForgeAPI.sendConsoleEntry("Cancelling break event", ConsoleMessageType.FINE);
+            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
+        } else {
+          ForgeAPI.sendConsoleEntry("Not cancelling break event", ConsoleMessageType.FINE);
+        }
    }
     
 }
