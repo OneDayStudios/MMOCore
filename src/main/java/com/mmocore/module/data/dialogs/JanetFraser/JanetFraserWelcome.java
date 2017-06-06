@@ -5,18 +5,12 @@
  */
 package com.mmocore.module.data.dialogs.JanetFraser;
 
-import com.mmocore.module.data.dialogs.GeneralHammond.*;
-import com.mmocore.api.DialogAPI;
 import com.mmocore.api.QuestAPI;
-import com.mmocore.constants.DialogChatColor;
-import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.QuestAvailability;
 import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Dialog.options.DialogAvailabilityOptions;
 import com.mmocore.module.Dialog.options.DialogBaseOptions;
-import com.mmocore.module.Dialog.options.DialogConversationOptions;
 import com.mmocore.module.Quest.RegisterableQuest;
-import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 import java.util.HashMap;
 
