@@ -91,6 +91,7 @@ public class ProtectionListener extends RegisterableListener {
     @SubscribeEvent
     public void onBlockPlace(BlockEvent.PlaceEvent event) {
         uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
+        if (event.player != null & event.player.capabilities.isCreativeMode) return;
         if (EventAPI.isAreaProtected(position)) {
             ForgeAPI.sendConsoleEntry("Cancelling place event", ConsoleMessageType.FINE);
             event.setCanceled(true);
@@ -102,6 +103,10 @@ public class ProtectionListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
+        if (event.getPlayer() != null) {
+            EntityPlayer player = (EntityPlayer)event.getPlayer();
+            if (player.capabilities.isCreativeMode) return;
+        }
         uPosition position = new uPosition(event.x,event.y,event.z,MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
         if (EventAPI.isAreaProtected(position)) {
             ForgeAPI.sendConsoleEntry("Cancelling break event", ConsoleMessageType.FINE);
