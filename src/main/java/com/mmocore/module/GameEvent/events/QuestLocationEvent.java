@@ -9,6 +9,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.PlayerAPI;
 import com.mmocore.api.QuestAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.ServerGui;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
@@ -165,18 +166,22 @@ public class QuestLocationEvent extends GameEvent {
     }
 
     public boolean containsPosition(uPosition position) {
-        if (!this.getPosition().getDimension().equals(position.getDimension())) return false;
+        ForgeAPI.sendConsoleEntry("Checking dimension", ConsoleMessageType.FINE);
+        if (!this.getPosition().getDimension().getIdentifier().equals(position.getDimension().getIdentifier())) return false;
         double distanceX = 0;
         double distanceZ = 0;
         double distanceY = 0;
+        ForgeAPI.sendConsoleEntry("Checking X", ConsoleMessageType.FINE);
         if (this.getPosition().getDPosX() > position.getDPosX()) distanceX = this.getPosition().getDPosX() - position.getDPosX();
         if (this.getPosition().getDPosX() < position.getDPosX()) distanceX = position.getDPosX() - this.getPosition().getDPosX();
+        if (distanceX > this.getRadiusX()) return false;
+        ForgeAPI.sendConsoleEntry("Checking Y", ConsoleMessageType.FINE);
         if (this.getPosition().getDPosY() > position.getDPosY()) distanceY = this.getPosition().getDPosY() - position.getDPosY();
         if (this.getPosition().getDPosY() < position.getDPosY()) distanceY = position.getDPosY() - this.getPosition().getDPosY();
+        if (distanceY > this.getRadiusY()) return false;
         if (this.getPosition().getDPosZ() > position.getDPosZ()) distanceZ = this.getPosition().getDPosZ() - position.getDPosZ();
         if (this.getPosition().getDPosZ() < position.getDPosZ()) distanceZ = position.getDPosZ() - this.getPosition().getDPosZ();
-        if (distanceX > this.getRadiusX()) return false;
-        if (distanceY > this.getRadiusY()) return false;
+        ForgeAPI.sendConsoleEntry("Checking Z", ConsoleMessageType.FINE);
         if (distanceZ > this.getRadiusZ()) return false;
         return true;
     }
