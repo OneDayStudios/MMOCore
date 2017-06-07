@@ -47,9 +47,6 @@ public class StargateCommandSoldier extends RegisterableNpc {
         NpcCombatOptions cOpts = this.getCombatOptions();
         cOpts.setFireWeaponSound(NpcSound.P90);
         cOpts.setProjectile(NpcProjectile.MACHINEGUN_BULLET);
-        NpcMovementOptions mOpts = this.getMovementOptions();
-        mOpts.setMovementTypeWandering(AbstractScale.Medium);
-        this.setMovementOptions(mOpts);
         cOpts.setAttacksHostileFactions(NpcBoolean.YES);
         NpcLootOptions lOpts = this.getLootOptions();
         NpcItem item = new NpcItem();
