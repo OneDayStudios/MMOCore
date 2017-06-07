@@ -77,7 +77,11 @@ import mcheli.aircraft.MCH_EntityAircraft;
 import mcheli.aircraft.MCH_ItemAircraft;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ChunkEvent;
-
+import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraft.entity.Entity; 
+import net.minecraft.world.ChunkPosition; 
+import net.minecraft.world.Explosion; 
+import net.minecraft.world.World; 
 /**
  *
  * @author draks
@@ -86,6 +90,37 @@ public class ProtectionListener extends RegisterableListener {
     
     public ProtectionListener() {
         
+    }
+    
+    @SubscribeEvent
+    public void onExplosionStart(ExplosionEvent.Start event) {
+        if (event.explosion != null && event.explosion instanceof Explosion) {
+            Explosion explosion = (Explosion)event.explosion;
+                uPosition position = new uPosition(explosion.explosionX, explosion.explosionY, explosion.explosionZ, MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
+                if (EventAPI.isAreaProtected(position)) {
+                    event.setCanceled(true);
+                    event.setResult(Event.Result.DENY);
+                    ForgeAPI.sendConsoleEntry("Cancelled explosion triggering.", ConsoleMessageType.FINE);
+                }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onExplosionDetonate(ExplosionEvent.Detonate event) {
+        ArrayList<ChunkPosition> blockPositions = new ArrayList<ChunkPosition>();
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+        if (event.explosion != null && event.explosion instanceof Explosion) {
+            for (ChunkPosition pos : event.getAffectedBlocks()) {
+                uPosition position = new uPosition(pos.chunkPosX, pos.chunkPosY, pos.chunkPosZ, MMOCore.getDimensionRegistry().getRegistered(event.world.provider.dimensionId));
+                if (EventAPI.isAreaProtected(position)) blockPositions.add(pos);
+            }
+            for (Entity entity : event.getAffectedEntities()) {
+                uPosition position = new uPosition(entity.posX, entity.posY, entity.posZ, MMOCore.getDimensionRegistry().getRegistered(entity.worldObj.provider.dimensionId));
+                if (EventAPI.isAreaProtected(position)) entities.add(entity);
+            }
+        }
+        event.getAffectedBlocks().removeAll(blockPositions);
+        event.getAffectedEntities().removeAll(entities);
     }
     
     @SubscribeEvent

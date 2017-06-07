@@ -26,6 +26,9 @@ public class StargateCommandMarines extends CloneLoadEvent {
         this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-140.0, 5.0, -616.0, UniverseAPI.getDimension("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-138.0, 5.0, -627.0, UniverseAPI.getDimension("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-142.0, 5.0, -627.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.WEST, new uPosition(-124.0, 15.0, -618.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.WEST, new uPosition(-126.0, 15.0, -610.0, UniverseAPI.getDimension("P2X-3YZ")));
+        this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-129.0, 15.0, -596.0, UniverseAPI.getDimension("P2X-3YZ")));
     }
     
 }
