@@ -12,7 +12,9 @@ import com.mmocore.constants.DialogChatColor;
 import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcModifier;
+import com.mmocore.constants.NpcMovementAnimation;
 import com.mmocore.constants.NpcProjectile;
+import com.mmocore.constants.NpcRotationType;
 import com.mmocore.constants.NpcSound;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
@@ -25,6 +27,7 @@ import com.mmocore.module.Npc.options.NpcBaseOptions;
 import com.mmocore.module.Npc.options.NpcCombatOptions;
 import com.mmocore.module.Npc.options.NpcInteractOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
+import com.mmocore.module.Npc.options.NpcMovementOptions;
 
 /**
  *
@@ -42,7 +45,7 @@ public class JaffaMarketeer extends RegisterableNpc {
         );
         
         NpcHeldItemSet weapons = this.getRangedHeldItems();
-        NpcItem heldItem = new NpcItem("flansmod", "maTokStaff", 1, 0);
+        NpcItem heldItem = new NpcItem("flansmod", "zatGun", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
         uPosition position = new uPosition(-132.0,28.0,-616.0, UniverseAPI.getDimension("P2X-3YZ"));
         options.setSpawnPosition(position);
@@ -58,6 +61,10 @@ public class JaffaMarketeer extends RegisterableNpc {
         cOpts.setProjectile(NpcProjectile.WHITE_PLASMA);
         cOpts.setAttacksHostileFactions(NpcBoolean.YES);
         NpcLootOptions lOpts = this.getLootOptions();
+        NpcMovementOptions movingOpts = this.getMovementOptions();
+        movingOpts.setRotationType(NpcRotationType.None);
+        movingOpts.setMovingAnimation(NpcMovementAnimation.Sitting);
+        this.setMovementOptions(movingOpts);
         DialogConversationOption convoOpt = new DialogConversationOption();
         RegisterableDialog dialog = DialogAPI.getRegistered("Jaffa Marketeer Intro", "Economy");
         NpcInteractOptions intOpts = this.getInteractOptions();
