@@ -15,6 +15,7 @@ import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.data.dialogs.GeneralHammond.LetsGetStarted;
 import com.mmocore.module.data.dialogs.GeneralHammond.WelcomeToTheSGC;
 import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
+import com.mmocore.module.data.dialogs.JaffaMarketeer.JaffaMarketeerIntro;
 import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.LocStargateCommand;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
@@ -22,9 +23,11 @@ import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.SGCInfirmary;
 import com.mmocore.module.data.events.VillagerSpawnContestedWorlds;
 import com.mmocore.module.data.factions.Goauld;
+import com.mmocore.module.data.factions.JaffaMarketeers;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
 import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
+import com.mmocore.module.data.npcs.JaffaMarketeer;
 import com.mmocore.module.data.npcs.JanetFraser;
 import com.mmocore.module.data.npcs.MarcusBell;
 import com.mmocore.module.data.npcs.StargateCommandSoldier;
@@ -134,11 +137,13 @@ public class AbstractDictionary {
         add(new WelcomeToTheSGC());
         add(new WhereAmI());
         add(new JanetFraserWelcome());
+        add(new JaffaMarketeerIntro());
     }
 
     public static void loadNpcFactions() {
         add(new Goauld());
         add(new StargateCommand());
+        add(new JaffaMarketeers());
     }
 
     public static void loadNpcs() {
@@ -148,6 +153,7 @@ public class AbstractDictionary {
         add(new JanetFraser());
         add(new MarcusBell());
         add(new WalterHarriman());
+        add(new JaffaMarketeer());
     }
     
     public static void loadGameEvents() {
