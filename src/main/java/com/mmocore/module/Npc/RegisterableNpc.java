@@ -199,6 +199,15 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         return this.markedForRemoval;
     }
     
+    public boolean hasDialog(RegisterableDialog d) {
+        for (DialogConversationOption opt : this.getInteractOptions().getDialogs()) {
+            if (opt.getDialog() != null && DialogAPI.getRegistered(opt.getDialog().getBaseOptions().getTitle(), opt.getDialog().getBaseOptions().getCategory()).equals(d)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void setMarkedForRemoval() {
         this.markedForRemoval = true;
     }
