@@ -8,6 +8,7 @@ package com.mmocore.module.Dialog;
 import com.mmocore.MMOCore;
 import com.mmocore.api.DialogAPI;
 import com.mmocore.api.ForgeAPI;
+import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.AbstractScale;
 import com.mmocore.module.AbstractRegisterable;
@@ -15,11 +16,13 @@ import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.DialogAvailability;
 import com.mmocore.constants.DialogConversationOption;
 import com.mmocore.constants.DialogType;
+import com.mmocore.constants.FactionRelationType;
 import com.mmocore.constants.QuestAvailability;
 import com.mmocore.module.Dialog.options.DialogActionOptions;
 import com.mmocore.module.Dialog.options.DialogAvailabilityOptions;
 import com.mmocore.module.Dialog.options.DialogBaseOptions;
 import com.mmocore.module.Dialog.options.DialogConversationOptions;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import java.util.Random;
 import noppes.npcs.VersionCompatibility;
@@ -131,7 +134,66 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         actualDialog.availability.dialog3Available = EnumAvailabilityDialog.Always;
         actualDialog.availability.dialog4Id = -1;
         actualDialog.availability.dialog4Available = EnumAvailabilityDialog.Always;
+        
+        actualDialog.availability.factionId = -1;
+        actualDialog.availability.faction2Id = -1;        
+        actualDialog.availability.factionAvailable = EnumAvailabilityFactionType.Always;
+        actualDialog.availability.faction2Available = EnumAvailabilityFactionType.Always;
+        actualDialog.availability.factionStance = EnumAvailabilityFaction.Friendly;
+        actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Friendly;
         int count = 0;
+        if (!this.getAvailabilityOptions().getFactionAvailability().keySet().isEmpty()) {
+            for (RegisterableNpcFaction faction : this.getAvailabilityOptions().getFactionAvailability().keySet()) {
+                RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.getName());
+                if (registered != null) {
+                    switch (count) {
+                        case 0:
+                            boolean notHostile = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            boolean notFriendly = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            boolean notNeutral = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE));
+                            boolean isFriendly = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY));
+                            boolean isNeutral = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            boolean isHostile = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE));
+                            actualDialog.availability.factionId = registered.getID();
+                            if (notHostile || notFriendly || notNeutral) {
+                                actualDialog.availability.factionAvailable = EnumAvailabilityFactionType.IsNot;
+                                if (notHostile) actualDialog.availability.factionStance = EnumAvailabilityFaction.Hostile;
+                                if (notFriendly) actualDialog.availability.factionStance = EnumAvailabilityFaction.Friendly;
+                                if (notNeutral) actualDialog.availability.factionStance = EnumAvailabilityFaction.Neutral;
+                            } else {
+                                actualDialog.availability.factionAvailable = EnumAvailabilityFactionType.Is;
+                                if (isHostile) actualDialog.availability.factionStance = EnumAvailabilityFaction.Hostile;
+                                if (isFriendly) actualDialog.availability.factionStance = EnumAvailabilityFaction.Friendly;
+                                if (isNeutral) actualDialog.availability.factionStance = EnumAvailabilityFaction.Neutral;
+                            }
+                            count++;
+                            break;
+                        case 1:
+                            notHostile = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            notFriendly = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            notNeutral = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY) && this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE));
+                            isFriendly = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.FRIENDLY));
+                            isNeutral = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.NEUTRAL));
+                            isHostile = (this.getAvailabilityOptions().getFactionAvailability().get(faction).contains(FactionRelationType.HOSTILE));
+                            actualDialog.availability.faction2Id = registered.getID();
+                            if (notHostile || notFriendly || notNeutral) {
+                                actualDialog.availability.faction2Available = EnumAvailabilityFactionType.IsNot;
+                                if (notHostile) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Hostile;
+                                if (notFriendly) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Friendly;
+                                if (notNeutral) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Neutral;
+                            } else {
+                                actualDialog.availability.faction2Available = EnumAvailabilityFactionType.Is;
+                                if (isHostile) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Hostile;
+                                if (isFriendly) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Friendly;
+                                if (isNeutral) actualDialog.availability.faction2Stance = EnumAvailabilityFaction.Neutral;
+                            }
+                            count++;
+                            break;
+                    }
+                }
+            }
+        }
+        count = 0;
         for (RegisterableQuest quest : this.getAvailabilityOptions().getQuestAvailability().keySet()) {
             ForgeAPI.sendConsoleEntry("Processing Quest availability for : " + quest.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
             RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());

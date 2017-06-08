@@ -6,8 +6,10 @@
 package com.mmocore.module.Dialog.options;
 
 import com.mmocore.constants.DialogAvailability;
+import com.mmocore.constants.FactionRelationType;
 import com.mmocore.constants.QuestAvailability;
 import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class DialogAvailabilityOptions {
     private int availableLevel = 0;
     private boolean availableDay = true;
     private boolean availableNight = true;
+    private HashMap<RegisterableNpcFaction, ArrayList<FactionRelationType>> factions = new HashMap<RegisterableNpcFaction, ArrayList<FactionRelationType>>();
     
     public void setAvailableLevel(int level) {
         this.availableLevel = level;
@@ -47,14 +50,24 @@ public class DialogAvailabilityOptions {
     public boolean getAvailableDay() {
         return this.availableDay;
     }
-    
     public void clearQuestAvailability() {
         this.quests = new HashMap<RegisterableQuest, ArrayList<QuestAvailability>>();
     }
-    
+    public void clearFactionAvailability() {
+        this.factions = new HashMap<RegisterableNpcFaction, ArrayList<FactionRelationType>>();
+    }
     public void setQuestAvailability(HashMap<RegisterableQuest, ArrayList<QuestAvailability>> questAvailability) {
         if (questAvailability.size() > 4) return;
         this.quests = questAvailability;
+    }
+    
+    public void setFactionAvailability(HashMap<RegisterableNpcFaction, ArrayList<FactionRelationType>> factionAvailability) {
+        if (factionAvailability.size() > 4) return;
+        this.factions = factionAvailability;
+    }
+    
+    public HashMap<RegisterableNpcFaction, ArrayList<FactionRelationType>> getFactionAvailability() {
+        return this.factions;
     }
     
     public HashMap<RegisterableQuest, ArrayList<QuestAvailability>> getQuestAvailability() {
