@@ -31,7 +31,6 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
             EntityPlayer e = (EntityPlayer)entity;
             uPosition entityPos = new uPosition(e.posX,e.posY,e.posZ,position.getDimension());
             RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(e.getUniqueID());
-            ForgeAPI.sendConsoleEntry("Considering: " + player.getName() + " at " + entityPos.getDisplayString(), ConsoleMessageType.FINE);
             if (ForgeAPI.distance(entityPos.getDPosX(), entityPos.getDPosY(), entityPos.getDPosZ(), position.getDPosX(), position.getDPosY(),position.getDPosZ()) <= distance) rPlayers.add(player);
         }
         return rPlayers;
