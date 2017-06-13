@@ -91,7 +91,6 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
             if (npc.getUPosition() != null && npc.getUPosition().getDimension().equals(dimension) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
-        ForgeAPI.sendConsoleEntry("Found : " + npcs.size() + " npcs!", ConsoleMessageType.FINE);
         return new ArrayList<RegisterableNpc>(npcs);
     }
     
@@ -100,7 +99,6 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
             if (npc.getUPosition() != null && npc.getUPosition().getGalaxy().equals(galaxy) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
-        ForgeAPI.sendConsoleEntry("Found : " + npcs.size() + " npcs!", ConsoleMessageType.FINE);
         return new ArrayList<RegisterableNpc>(npcs);
     }
     
