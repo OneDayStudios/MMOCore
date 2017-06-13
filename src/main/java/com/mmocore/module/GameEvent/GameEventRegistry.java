@@ -48,7 +48,6 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
         ArrayList<String> eventsToRemove = new ArrayList<String>();
         for (GameEvent event : events) {
             if (!event.getFlaggedForRemoval()) {            
-                ForgeAPI.sendConsoleEntry("Ticking event : " + event.getIdentifier() + " for world : " + dimension.getName(), ConsoleMessageType.FINE);
                 event.tickForDimension(dimension);
             } else {
                 eventsToRemove.add(event.getIdentifier());

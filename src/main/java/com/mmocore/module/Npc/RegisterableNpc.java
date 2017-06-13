@@ -890,14 +890,12 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     
     @Override
     public void tick() {
-        ForgeAPI.sendConsoleEntry("Ticking NPC: " + this.getUniqueID() + " at " + this.getUPosition().getDisplayString(), ConsoleMessageType.DEBUG);
         EntityCustomNpc foundNpc = this.findCustomNpcInGame();
         if (foundNpc != null) {
             this.entity = foundNpc;
             if (this.markedForUpdate) this.pushOptionsToEntity();            
             switchHeldItemsIfNeeded();
             updateStateData();
-            ForgeAPI.sendConsoleEntry("Finished Ticking NPC: " + this.getUniqueID() + " at " + this.getUPosition().getDisplayString(), ConsoleMessageType.DEBUG);
             if (!this.hasTicked) this.hasTicked = true;
         } else {
             if (this.hasTicked) {
