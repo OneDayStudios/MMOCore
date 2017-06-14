@@ -185,4 +185,14 @@ public class QuestLocationEvent extends GameEvent {
         if (distanceZ > this.getRadiusZ()) return false;
         return true;
     }
+
+    @Override
+    public boolean ticksForDimension(RegisterableDimension dimension) {
+        return (this.getPosition().getDimension().equals(dimension));
+    }
+
+    @Override
+    public void cleanup() {
+        // This doesnt clean anything up, yet!
+    }
 }

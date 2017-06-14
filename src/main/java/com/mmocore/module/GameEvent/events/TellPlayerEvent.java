@@ -34,5 +34,15 @@ public class TellPlayerEvent extends GameEvent {
             this.setFlaggedForRemoval();
         }
     }
+
+    @Override
+    public boolean ticksForDimension(RegisterableDimension dimension) {
+        return this.npc.getUPosition().getDimension().equals(dimension);
+    }
+
+    @Override
+    public void cleanup() {
+        // No cleanup needed.
+    }
     
 }

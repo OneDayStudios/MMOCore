@@ -6,6 +6,7 @@
 package com.mmocore.module.GameEvent;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.EventAPI;
 import com.mmocore.module.Galaxy.*;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
@@ -46,7 +47,7 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     public void tickForDimension(RegisterableDimension dimension) {
         Collection<GameEvent> events = this.getRegistered().values();
         ArrayList<String> eventsToRemove = new ArrayList<String>();
-        for (GameEvent event : events) {
+        for (GameEvent event : EventAPI.getEventsForDimension(dimension)) {
             if (!event.getFlaggedForRemoval()) {            
                 event.tickForDimension(dimension);
             } else {

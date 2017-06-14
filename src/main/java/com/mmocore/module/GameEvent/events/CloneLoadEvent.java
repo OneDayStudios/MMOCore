@@ -81,5 +81,18 @@ public class CloneLoadEvent extends GameEvent {
             this.setFlaggedForRemoval();
         }
     }
+
+    @Override
+    public boolean ticksForDimension(RegisterableDimension dimension) {
+       for (uPosition pos : this.getPositions().keySet()) {
+           if (pos.getDimension().equals(dimension)) return true;
+       }
+       return false;
+    }
+
+    @Override
+    public void cleanup() {
+        // This event does not clean up anything.
+    }
     
 }

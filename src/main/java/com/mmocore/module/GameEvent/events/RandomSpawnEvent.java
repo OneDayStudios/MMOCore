@@ -108,5 +108,15 @@ public class RandomSpawnEvent extends GameEvent {
             spawn(p.getPosition());
         }
     }
+
+    @Override
+    public boolean ticksForDimension(RegisterableDimension dimension) {
+        return getOptions().getSpawnDimensions().contains(dimension) || this.getOptions().getSpawnGalaxies().contains(UniverseAPI.getGalaxy(dimension));
+    }
+
+    @Override
+    public void cleanup() {
+        // This event doesnt clean anything up, Random Npcs despawn naturally.
+    }
     
 }

@@ -44,6 +44,8 @@ public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, 
     }
     
     public abstract void tickForDimension(RegisterableDimension dimension);
+    public abstract boolean ticksForDimension(RegisterableDimension dimension);
+    public abstract void cleanup();
     
     @Override
     public String getIdentifier() {

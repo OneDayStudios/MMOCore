@@ -106,5 +106,15 @@ public class VillagerReplacementEvent extends GameEvent {
     public void tickForDimension(RegisterableDimension dimension) {
         // This does not tick, it is instead called each time a villager attempts to spawn.
     }
+
+    @Override
+    public boolean ticksForDimension(RegisterableDimension dimension) {
+        return false;
+    }
+
+    @Override
+    public void cleanup() {
+        // No cleanup required.
+    }
     
 }
