@@ -51,7 +51,7 @@ public class VillagerReplacementEvent extends GameEvent {
     
     public boolean spawn(uPosition position) {
         if (!this.shouldSpawn(position)) return false;            
-        uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 16, 32);
+        uPosition origSpawnPos = position;
         if (getOptions().getMode().equals(RandomSpawnMode.SingleFromGroup)) {
             if (origSpawnPos == null) {
                 ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
