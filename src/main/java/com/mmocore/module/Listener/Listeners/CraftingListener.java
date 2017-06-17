@@ -5,14 +5,14 @@
  */
 package com.mmocore.module.Listener.Listeners;
 
-import com.mmocore.api.ForgeAPI;
-import com.mmocore.constants.ConsoleMessageType;
+import com.mmocore.module.GameEvent.events.FakeCraftEvent;
 import com.mmocore.module.Listener.RegisterableListener;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.bukkit.Bukkit;
 /**
  *
  * @author draks
@@ -23,6 +23,11 @@ public class CraftingListener extends RegisterableListener {
    public void onItemCraft(ItemCraftedEvent e) {
        ItemStack stack = (ItemStack)e.crafting;
        EntityPlayer p = (EntityPlayer)e.player;
-       ForgeAPI.sendConsoleEntry("Crafted item: " + stack.getDisplayName() + " by " + p.getDisplayName(), ConsoleMessageType.FINE);
+       FakeCraftEvent fakeEvent = new FakeCraftEvent(p.getUniqueID(), stack);
+       Bukkit.getServer().getPluginManager().callEvent(fakeEvent);
+       if (fakeEvent.isCancelled()) {
+           e.setCanceled(true);
+           e.setResult(cpw.mods.fml.common.eventhandler.Event.Result.DENY);
+       }
    }
 }
