@@ -16,9 +16,9 @@ import net.minecraft.item.ItemStack;
  *
  * @author draks
  */
-public class FakeCraftEvent extends org.bukkit.event.Event implements Cancellable {
+    public class FakeCraftEvent extends org.bukkit.event.Event implements Cancellable {
     
-    HandlerList handlers = new HandlerList();
+    static HandlerList handlers = new HandlerList();
     private UUID player;
     private ItemStack stack;    
     private boolean cancelled;
@@ -51,4 +51,7 @@ public class FakeCraftEvent extends org.bukkit.event.Event implements Cancellabl
         this.cancelled = bln;
     }
     
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }
