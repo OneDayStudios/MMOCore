@@ -36,6 +36,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
+
 /**
  *
  * @author draks
@@ -60,6 +65,25 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
     
     public static boolean isClient() {
         return !isServer();
+    }
+    
+    public static void removeRecipesFor(ItemStack stack) {        
+        ArrayList<?> recipes = (ArrayList<?>) CraftingManager.getInstance().getRecipeList();        
+        stack.stackSize = 1;        
+        for (int scan = 0; scan < recipes.size(); scan++) {            
+            IRecipe tmpRecipe = (IRecipe) recipes.get(scan);            
+            if (tmpRecipe == null) continue;            
+            ItemStack recipeResult = tmpRecipe.getRecipeOutput();     
+            if (recipeResult != null) {
+                ForgeAPI.sendConsoleEntry("Processing item: " + recipeResult.getDisplayName() + " and comparing to : " + stack.getDisplayName(), ConsoleMessageType.FINE);
+                recipeResult.stackSize = 1; 
+                if (ItemStack.areItemStacksEqual(recipeResult, stack)) {
+                    ForgeAPI.sendConsoleEntry("Processed item: " + recipeResult.getDisplayName() + " and comparing to : " + stack.getDisplayName(), ConsoleMessageType.FINE);
+                    recipes.remove(tmpRecipe);
+                }
+            }
+            
+        }    
     }
     
     public static List<Entity> getEntitiesInArea(double x1, double y1, double z1, double x2, double y2, double z2, RegisterableDimension dimension) {
