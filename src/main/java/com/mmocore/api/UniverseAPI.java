@@ -159,7 +159,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static String getLocationMessage(uPosition pos) {
         String location = null;
-        if (pos == null || pos.getDimension() == null || pos.getDimension().getRegisteredObject() == null) return "Initialising HUD...";
+        if (pos == null || pos.getDimension() == null || pos.getDimension().getRegisteredObject() == null) return "Initialising Location...";
         if (isOnPlanet(pos)) location = pos.getDimension().getDisplayName();
         if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getSystem().getDisplayName();
         if (location == null && isInStellarSpace(pos)) location = "Space";
@@ -171,6 +171,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static String getConditionsMessage(uPosition pos) {
         String conditions = null;
+        if (pos == null || pos.getDimension() == null || pos.getDimension().getRegisteredObject() == null) return "Initialising Conditions...";
         if (conditions == null && isOnPlanet(pos)) conditions = pos.getDimension().getConditions().name();
         if (conditions == null && isInStellarSpace(pos)) conditions = "Space";
         if (conditions == null && isInOrbitOf(pos)) conditions = pos.getCelestialBody().getConditions().name();

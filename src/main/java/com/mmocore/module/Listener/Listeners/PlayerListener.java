@@ -65,6 +65,7 @@ public class PlayerListener extends RegisterableListener {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
         if (rPlayer.hasTicked()) {
+            if (rPlayer.getPosition() == null || rPlayer.getPosition().getDimension() == null || rPlayer.getPosition().getDimension().getRegisteredObject() == null) return;
             GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
             NpcAPI.spawnRandomNpcs(rPlayer);
         } else {
