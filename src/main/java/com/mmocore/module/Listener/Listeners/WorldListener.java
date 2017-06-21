@@ -45,19 +45,23 @@ public class WorldListener extends RegisterableListener {
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         World w = (World)e.world;
-        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-        MMOCore.getNpcRegistry().cleanup(dimension, true);
-        MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(false);
+        if (MMOCore.getDimensionRegistry().isRegistered(w.provider.dimensionId)) {
+            RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+            MMOCore.getNpcRegistry().cleanup(dimension, true);
+            MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(false);
+        }
     }
     
     @SubscribeEvent
     public void onWorldTick(TickEvent.WorldTickEvent e) {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
-        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-        dimension.setLastTick(System.currentTimeMillis());
-        MMOCore.getNpcRegistry().tickForDimension(dimension);
-        MMOCore.getGameEventRegistry().tickForDimension(dimension);
+        if (MMOCore.getDimensionRegistry().isRegistered(w.provider.dimensionId)) {
+            RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+            dimension.setLastTick(System.currentTimeMillis());
+            MMOCore.getNpcRegistry().tickForDimension(dimension);
+            MMOCore.getGameEventRegistry().tickForDimension(dimension);
+        }
     }
     
 }
