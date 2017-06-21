@@ -10,6 +10,7 @@ import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.GameEvent.GameEvent;
+import com.mmocore.module.GameEvent.events.NpcSpawnEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
@@ -69,7 +70,8 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
         for (RegisterableNpc npc : AbstractDictionary.getNpcs()) {
             if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null) {
                 ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
-                MMOCore.getNpcRegistry().register(npc);
+                GameEvent npcSpawn = new NpcSpawnEvent(npc);
+                MMOCore.getGameEventRegistry().register(npcSpawn);
             }
         }
     }
