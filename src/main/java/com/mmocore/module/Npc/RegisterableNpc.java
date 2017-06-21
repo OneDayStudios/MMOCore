@@ -41,6 +41,7 @@ import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Npc.loadout.NpcItem;
 import com.mmocore.module.Npc.options.NpcBehaviourOptions;
 import com.mmocore.module.Npc.options.NpcLootOptions;
@@ -1047,11 +1048,16 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
 
     @Override
     public void initialise() {
-        this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
-        this.setPosition(this.getBaseOptions().getSpawnPosition());
-        this.setUniqueID(this.entity.getUniqueID());
-        this.spawn();
-        ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+        if (this.getBaseOptions().getSpawnPosition().getDimension() == null || !this.getBaseOptions().getSpawnPosition().getDimension().getIsLoaded()) {
+            ForgeAPI.sendConsoleEntry("Not loading NPC as its spawn location doesnt exist: " + this.getBaseOptions().getName(), ConsoleMessageType.FINE);
+            this.setMarkedForRemoval();
+        } else {
+            this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
+            this.setPosition(this.getBaseOptions().getSpawnPosition());
+            this.setUniqueID(this.entity.getUniqueID());
+            this.spawn();
+            ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
+        }
     }
 
     @Override

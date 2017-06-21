@@ -266,6 +266,10 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         return ForgeAPI.getForgeWorld(dimensionId);
     }
 
+    public boolean getIsLoaded() {
+        return this.loaded;
+    }
+    
     public void setIsLoaded(boolean b) {
         this.loaded = b;
     }
