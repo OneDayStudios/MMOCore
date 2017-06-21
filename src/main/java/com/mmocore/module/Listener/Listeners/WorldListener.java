@@ -32,13 +32,15 @@ public class WorldListener extends RegisterableListener {
     public void onWorldLoad(WorldEvent.Load e) {
         World w = (World)e.world;
         int dimensionId = w.provider.dimensionId;
-        
+        ForgeAPI.sendConsoleEntry("Loading Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
             RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
             dimension.setIsLoaded(true);
             MMOCore.getDimensionRegistry().register(dimension);    
+            ForgeAPI.sendConsoleEntry("Registering Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
         } else {
             MMOCore.getDimensionRegistry().getRegistered(dimensionId).setIsLoaded(true);
+            ForgeAPI.sendConsoleEntry("Activating Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
         }
     }
     
@@ -49,6 +51,7 @@ public class WorldListener extends RegisterableListener {
             RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
             MMOCore.getNpcRegistry().cleanup(dimension, true);
             MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(false);
+            ForgeAPI.sendConsoleEntry("Deactivating Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
         }
     }
     
@@ -61,6 +64,9 @@ public class WorldListener extends RegisterableListener {
             dimension.setLastTick(System.currentTimeMillis());
             MMOCore.getNpcRegistry().tickForDimension(dimension);
             MMOCore.getGameEventRegistry().tickForDimension(dimension);
+        } else {
+            ForgeAPI.sendConsoleEntry("Ticking deactivated dimension Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
+            MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(true);
         }
     }
     

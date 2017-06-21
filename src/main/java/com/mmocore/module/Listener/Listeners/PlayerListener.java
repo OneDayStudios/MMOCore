@@ -56,9 +56,8 @@ public class PlayerListener extends RegisterableListener {
         EntityPlayer player = (EntityPlayer)e.player;
         World w = ForgeAPI.getForgeWorld(e.toDim);
         RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        if (rPlayer.getPosition().getDimension() != null && rPlayer.getPosition().getDimension().getRegisteredObject() != null) {
-            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
-        }
+        if (rPlayer.getPosition() == null || rPlayer.getPosition().getDimension() == null || rPlayer.getPosition().getDimension().getRegisteredObject() == null) return;
+        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
     }
     
     @SideOnly(Side.SERVER)
