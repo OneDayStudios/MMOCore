@@ -187,12 +187,12 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-        if (isFake) return 0;
+        if (isFake || !loaded) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
     public int getSpawnY() {
-        if (isFake) return 0;
+        if (isFake || !loaded) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnY();
     }
     
@@ -202,7 +202,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnZ() {
-        if (isFake) return 0;
+        if (isFake || !loaded) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
