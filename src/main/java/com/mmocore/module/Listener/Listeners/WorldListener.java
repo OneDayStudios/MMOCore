@@ -35,7 +35,10 @@ public class WorldListener extends RegisterableListener {
         
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
             RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
-            MMOCore.getDimensionRegistry().register(dimension);
+            dimension.setIsLoaded(true);
+            MMOCore.getDimensionRegistry().register(dimension);    
+        } else {
+            MMOCore.getDimensionRegistry().getRegistered(dimensionId).setIsLoaded(true);
         }
     }
     
@@ -44,7 +47,7 @@ public class WorldListener extends RegisterableListener {
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
         MMOCore.getNpcRegistry().cleanup(dimension, true);
-        MMOCore.getDimensionRegistry().deregister(dimension.getIdentifier());
+        MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(false);
     }
     
     @SubscribeEvent
