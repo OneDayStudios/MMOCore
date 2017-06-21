@@ -34,7 +34,7 @@ public class NpcSpawnEvent extends GameEvent {
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
-        return this.npc.getUPosition().getDimension().equals(dimension);
+        return this.npc.getBaseOptions().getSpawnPosition().getDimension().equals(dimension);
     }
 
     @Override
