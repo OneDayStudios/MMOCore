@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer, UUID, EntityPlayer> {
     
     private UUID uuid;
+    private boolean hasTicked = false;
     
     public RegisterablePlayer(UUID playerUUID) {
         this.uuid = playerUUID;        
@@ -39,6 +40,15 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     public UUID getIdentifier() {
         return this.uuid;
     }
+    
+    public boolean hasTicked() {
+        return this.hasTicked;
+    }
+    
+    public void setHasTicked(boolean val) {
+        this.hasTicked = val;
+    }
+    
     
     public uPosition getPosition() {
         return new uPosition((int)getPlayer().posX, (int)getPlayer().posY, (int)getPlayer().posZ, UniverseAPI.getDimension(getWorld().getWorldInfo().getWorldName()));

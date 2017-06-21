@@ -54,7 +54,7 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
     public static ArrayList<RegisterablePlayer> getForDimension(RegisterableDimension dimension) {
         ArrayList<RegisterablePlayer> players = new ArrayList<RegisterablePlayer>();
         for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {
-            if (player.getPosition().getDimension().equals(dimension)) players.add(player);
+            if (player.hasTicked() && player.getPosition().getDimension().equals(dimension)) players.add(player);
         }
         return players;
     }
