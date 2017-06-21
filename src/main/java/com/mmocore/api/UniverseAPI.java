@@ -122,7 +122,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     public static RegisterableDimension getDimension(uPosition pos) {
         ArrayList<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();
         for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegisteredReadOnly().values()) {
-            if (dim.isFake() || dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
+            if (!dim.getIsLoaded() || dim.isFake() || dim.getType().equals(DimensionType.Hyperspace) || dim.getType().equals(DimensionType.StarSystem)) continue;
             if (distanceBetweenUPositions(dim.getPosition(), pos) < dim.getRadiusBorderX()) dimensions.add(dim);
         }
         if (dimensions.isEmpty()) return null;
@@ -159,6 +159,7 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
     
     public static String getLocationMessage(uPosition pos) {
         String location = null;
+        if (pos == null || pos.getDimension() == null || pos.getDimension().getRegisteredObject() == null) return "Initialising HUD...";
         if (isOnPlanet(pos)) location = pos.getDimension().getDisplayName();
         if (getSystem(pos) != null && pos.getCelestialBody() == null) location = pos.getSystem().getDisplayName();
         if (location == null && isInStellarSpace(pos)) location = "Space";
