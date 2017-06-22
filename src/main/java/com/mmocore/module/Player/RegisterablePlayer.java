@@ -73,7 +73,6 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public void initialise() {
         ForgeAPI.sendConsoleEntry("Initialising player: " + getName() + " (UUID: " + this.getIdentifier() + ")" , ConsoleMessageType.FINE);
-        ForgeAPI.registerAllDimensionsFor(this);
     }
 
     @Override
