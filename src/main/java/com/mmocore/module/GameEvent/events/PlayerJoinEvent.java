@@ -32,7 +32,7 @@ public class PlayerJoinEvent extends GameEvent {
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
-        return this.player.getPosition() != null && this.player.getPosition().getDimension().equals(dimension);
+        return this.player.getWorld() != null && this.player.getPosition() != null && this.player.getPosition().getDimension().equals(dimension);
     }
 
     @Override
