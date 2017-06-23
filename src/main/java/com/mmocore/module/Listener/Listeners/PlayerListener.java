@@ -19,6 +19,9 @@ import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.TextVisibleOption;
+import com.mmocore.module.Dimension.RegisterableDimension;
+import com.mmocore.module.GameEvent.events.PlayerChangeDimensionEvent;
+import com.mmocore.module.GameEvent.events.PlayerJoinEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -42,8 +45,11 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent e) {
-        if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
-        RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
+        if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) {
+            RegisterablePlayer player = new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID());
+            PlayerJoinEvent joinEvent = new PlayerJoinEvent(player);
+            MMOCore.getGameEventRegistry().register(joinEvent);
+        }
     }
     
     @SubscribeEvent
@@ -56,8 +62,9 @@ public class PlayerListener extends RegisterableListener {
         EntityPlayer player = (EntityPlayer)e.player;
         World w = ForgeAPI.getForgeWorld(e.toDim);
         RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        if (rPlayer.getPosition() == null || rPlayer.getPosition().getDimension() == null || rPlayer.getPosition().getDimension().getRegisteredObject() == null) return;
-        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+        PlayerChangeDimensionEvent changeEvent = new PlayerChangeDimensionEvent(rPlayer, dimension);
+        MMOCore.getGameEventRegistry().register(changeEvent);
     }
     
     @SideOnly(Side.SERVER)
@@ -65,12 +72,11 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
-        if (rPlayer.hasTicked()) {
-            if (rPlayer.getPosition() == null || rPlayer.getPosition().getDimension() == null || rPlayer.getPosition().getDimension().getRegisteredObject() == null) return;
+        if (rPlayer.getPosition().getDimension().getIsLoaded()) {
             GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
             NpcAPI.spawnRandomNpcs(rPlayer);
         } else {
-            rPlayer.setHasTicked(true);
+            ForgeAPI.sendConsoleEntry("Waiting for dimension to load before ticking: " + rPlayer.getName(), ConsoleMessageType.FINE);
         }
     }
 }

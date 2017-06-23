@@ -59,7 +59,7 @@ public class WorldListener extends RegisterableListener {
     public void onWorldTick(TickEvent.WorldTickEvent e) {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
-        if (MMOCore.getDimensionRegistry().isRegistered(w.provider.dimensionId)) {
+        if (MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).getIsLoaded()) {
             RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
             dimension.setLastTick(System.currentTimeMillis());
             MMOCore.getNpcRegistry().tickForDimension(dimension);
