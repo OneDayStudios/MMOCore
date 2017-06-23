@@ -56,8 +56,10 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     }
 
     public World getWorld() {
+        if (getPlayer() == null || getPlayer().worldObj == null) return null;
         return getPlayer().worldObj;
     }
+    
     public boolean isOnline() {
         return (uuid != null && getPlayer() != null);
     }
