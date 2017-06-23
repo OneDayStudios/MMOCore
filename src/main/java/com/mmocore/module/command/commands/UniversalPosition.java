@@ -44,7 +44,7 @@ public class UniversalPosition extends RegisterableCommand {
 
     @Override
     public void processCommandForConsole(String[] parameters) {
-        ForgeAPI.sendConsoleEntry("This ia test command!", ConsoleMessageType.FINE);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     

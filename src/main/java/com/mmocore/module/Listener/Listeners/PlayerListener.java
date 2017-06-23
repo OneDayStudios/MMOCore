@@ -20,8 +20,6 @@ import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.TextVisibleOption;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmocore.module.GameEvent.events.PlayerChangeDimensionEvent;
-import com.mmocore.module.GameEvent.events.PlayerJoinEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -45,16 +43,12 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent e) {
-        if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) {
-            RegisterablePlayer player = new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID());
-            PlayerJoinEvent joinEvent = new PlayerJoinEvent(player);
-            MMOCore.getGameEventRegistry().register(joinEvent);
-        }
+        // No code here anymore, because worlds are not loaded before players log in.
     }
     
     @SubscribeEvent
     public void onPlayerLeave(PlayerLoggedOutEvent e) {
-        if (MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().deregister(((EntityPlayer)e.player).getUniqueID());
+        if (MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().deregister(((EntityPlayer)e.player).getUniqueID());
     }
     
     @SubscribeEvent
@@ -63,8 +57,11 @@ public class PlayerListener extends RegisterableListener {
         World w = ForgeAPI.getForgeWorld(e.toDim);
         RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-        PlayerChangeDimensionEvent changeEvent = new PlayerChangeDimensionEvent(rPlayer, dimension);
-        MMOCore.getGameEventRegistry().register(changeEvent);
+        if (dimension.getIsLoaded()) {
+            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
+        } else {
+            ForgeAPI.sendConsoleEntry("Skipping PlayerChangeDimensionEvent for player: " + rPlayer.getName() + " as  the world is not yet loaded.", ConsoleMessageType.FINE);
+        }
     }
     
     @SideOnly(Side.SERVER)
@@ -79,8 +76,10 @@ public class PlayerListener extends RegisterableListener {
             } else {
                 ForgeAPI.sendConsoleEntry("Waiting for dimension to load before ticking: " + rPlayer.getName(), ConsoleMessageType.FINE);
             }
-        } else {
-            ForgeAPI.sendConsoleEntry("Attempting to tick unregistered player: " + player.getUniqueID(), ConsoleMessageType.FINE);
+        } else {            
+            ForgeAPI.sendConsoleEntry("Registering player: " + player.getUniqueID() + " as  it is their first tick since logging in.", ConsoleMessageType.FINE);
+            rPlayer = new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID());
+            MMOCore.getPlayerRegistry().register(rPlayer);
         }
     }
 }
