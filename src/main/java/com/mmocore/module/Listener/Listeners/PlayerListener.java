@@ -72,7 +72,8 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
-        if (rPlayer.getPosition().getDimension().getIsLoaded()) {
+        if (rPlayer == null) ForgeAPI.sendConsoleEntry("Attempting to tick unregistered player: " + player.getUniqueID(), ConsoleMessageType.FINE);
+        if (rPlayer.getPosition() != null && rPlayer.getPosition().getDimension() != null && rPlayer.getPosition().getDimension().getIsLoaded()) {
             GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
             NpcAPI.spawnRandomNpcs(rPlayer);
         } else {
