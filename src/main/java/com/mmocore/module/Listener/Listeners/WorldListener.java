@@ -69,6 +69,11 @@ public class WorldListener extends RegisterableListener {
                 ForgeAPI.sendConsoleEntry("Reactivating deactivated dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
                 MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(true);
             }
+        } else {
+            dimension = new RegisterableDimension(WarpDriveAPI.getName(w.provider.dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(w.provider.dimensionId), WarpDriveAPI.hasBreathableAtmosphere(w.provider.dimensionId), WarpDriveAPI.getBorderX(w.provider.dimensionId), WarpDriveAPI.getBorderZ(w.provider.dimensionId), WarpDriveAPI.getPosInParentX(w.provider.dimensionId), WarpDriveAPI.getPosInParentZ(w.provider.dimensionId), WarpDriveAPI.getSpawnX(w.provider.dimensionId), WarpDriveAPI.getSpawnZ(w.provider.dimensionId), WarpDriveAPI.getConditions(w.provider.dimensionId), w.provider.dimensionId, WarpDriveAPI.getParentId(w.provider.dimensionId));
+            dimension.setIsLoaded(true);
+            MMOCore.getDimensionRegistry().register(dimension);    
+            ForgeAPI.sendConsoleEntry("Registering Dimension on first tick: " + w.provider.dimensionId, ConsoleMessageType.FINE);
         }
     }
     
