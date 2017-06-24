@@ -111,7 +111,7 @@ public class RandomSpawnEvent extends GameEvent {
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
-        return getOptions().getSpawnDimensions().contains(dimension) || this.getOptions().getSpawnGalaxies().contains(UniverseAPI.getGalaxy(dimension));
+        return (dimension != null && dimension.getIsLoaded()) && (getOptions().getSpawnDimensions().contains(dimension) || this.getOptions().getSpawnGalaxies().contains(UniverseAPI.getGalaxy(dimension)));
     }
 
     @Override
