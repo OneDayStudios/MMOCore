@@ -59,14 +59,16 @@ public class WorldListener extends RegisterableListener {
     public void onWorldTick(TickEvent.WorldTickEvent e) {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
-        if (MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).getIsLoaded()) {
-            RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-            dimension.setLastTick(System.currentTimeMillis());
-            MMOCore.getNpcRegistry().tickForDimension(dimension);
-            MMOCore.getGameEventRegistry().tickForDimension(dimension);
-        } else {
-            ForgeAPI.sendConsoleEntry("Ticking deactivated dimension Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
-            MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(true);
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+        if (dimension != null) {
+            if (MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).getIsLoaded()) {
+                dimension.setLastTick(System.currentTimeMillis());
+                MMOCore.getNpcRegistry().tickForDimension(dimension);
+                MMOCore.getGameEventRegistry().tickForDimension(dimension);
+            } else {
+                ForgeAPI.sendConsoleEntry("Reactivating deactivated dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
+                MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(true);
+            }
         }
     }
     
