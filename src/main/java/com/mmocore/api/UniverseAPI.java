@@ -42,7 +42,12 @@ public class UniverseAPI extends AbstractAPI<UniverseAPI> {
         }
         return null;
     }
-    
+    public static RegisterableDimension getDimensionByDisplayName(String displayName) {
+        for (RegisterableDimension d : getDimensionsReadOnly()) {
+            if (d.getDisplayName().equals(displayName)) return d;
+        }
+        return null;
+    }
     public static Collection<RegisterableDimension> getDimensionsReadOnly() {
         return MMOCore.getDimensionRegistry().getRegisteredReadOnly().values();
     }

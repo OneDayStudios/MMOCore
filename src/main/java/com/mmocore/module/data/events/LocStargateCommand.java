@@ -19,7 +19,7 @@ public class LocStargateCommand extends QuestLocationEvent {
     
     public LocStargateCommand() {
         super("Stargate Command (SGC)",
-        new uPosition(-127.0,100.0,-598.0,UniverseAPI.getDimension("P2X-3YZ")),
+        new uPosition(-127.0,100.0,-598.0,UniverseAPI.getDimensionByDisplayName("P2X-3YZ")),
         250,
         100,
         250

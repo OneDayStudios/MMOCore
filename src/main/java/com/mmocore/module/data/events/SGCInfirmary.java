@@ -19,7 +19,7 @@ public class SGCInfirmary extends QuestLocationEvent {
     
     public SGCInfirmary() {
         super("Visiting Infirmary",
-        new uPosition(-136.0,51.0,-638.0,UniverseAPI.getDimension("P2X-3YZ")),
+        new uPosition(-136.0,51.0,-638.0,UniverseAPI.getDimensionByDisplayName("P2X-3YZ")),
         16,
         3,
         8
