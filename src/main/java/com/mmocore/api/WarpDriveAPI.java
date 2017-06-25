@@ -166,11 +166,6 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
                 if (o.isVirtual) {
                     RegisterableDimension dim = new RegisterableDimension(o.name, WarpDriveAPI.getFakeType(o.setRenderData), o.borderRadiusX, o.borderRadiusZ, o.parentCenterX, o.parentCenterZ, WarpDriveAPI.getConditionsForRenderData(o.setRenderData), o.parentDimensionId);
                     MMOCore.getDimensionRegistry().register(dim);
-                } else {
-                    if (!MMOCore.getDimensionRegistry().isRegistered(o.dimensionId)) {
-                        RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(o.dimensionId), o.name, WarpDriveAPI.getType(o.dimensionId), WarpDriveAPI.hasBreathableAtmosphere(o.dimensionId), WarpDriveAPI.getBorderX(o.dimensionId), WarpDriveAPI.getBorderZ(o.dimensionId), WarpDriveAPI.getPosInParentX(o.dimensionId), WarpDriveAPI.getPosInParentZ(o.dimensionId), WarpDriveAPI.getSpawnX(o.dimensionId), WarpDriveAPI.getSpawnZ(o.dimensionId), WarpDriveAPI.getConditions(o.dimensionId), o.dimensionId, WarpDriveAPI.getParentId(o.dimensionId));
-                        MMOCore.getDimensionRegistry().register(dimension);
-                    }
                 }
             }
         }
