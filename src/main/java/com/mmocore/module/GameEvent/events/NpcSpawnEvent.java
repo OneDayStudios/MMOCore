@@ -26,7 +26,7 @@ public class NpcSpawnEvent extends GameEvent {
 
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
-        if (npc.getUPosition().getDimension().equals(dimension)) {
+        if (npc.getUPosition().isValid() && npc.getUPosition().getDimension().equals(dimension)) {
             MMOCore.getNpcRegistry().register(npc);
             this.setFlaggedForRemoval();
         }
