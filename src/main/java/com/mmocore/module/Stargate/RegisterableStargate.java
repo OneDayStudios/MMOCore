@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Stargate;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.uPosition;
@@ -75,5 +76,10 @@ public class RegisterableStargate extends AbstractRegisterable<RegisterableStarg
             } catch (Exception e) {
                 return null;
             }
+    }
+
+    @Override
+    public boolean canRegister() {
+        return (this.dimension != null && MMOCore.getDimensionRegistry().isRegistered(this.dimension.getForgeId()));
     }
 }

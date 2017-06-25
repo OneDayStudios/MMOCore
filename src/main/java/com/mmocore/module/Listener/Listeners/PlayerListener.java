@@ -53,15 +53,15 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerChangeDimension(PlayerChangedDimensionEvent e) {
-        EntityPlayer player = (EntityPlayer)e.player;
-        World w = ForgeAPI.getForgeWorld(e.toDim);
-        RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-        if (dimension.getIsLoaded()) {
-            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
-        } else {
-            ForgeAPI.sendConsoleEntry("Skipping PlayerChangeDimensionEvent for player: " + rPlayer.getName() + " as  the world is not yet loaded.", ConsoleMessageType.FINE);
-        }
+//        EntityPlayer player = (EntityPlayer)e.player;
+//        World w = ForgeAPI.getForgeWorld(e.toDim);
+//        RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
+//        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+//        if (dimension.getIsLoaded()) {
+//            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
+//        } else {
+//            ForgeAPI.sendConsoleEntry("Skipping PlayerChangeDimensionEvent for player: " + rPlayer.getName() + " as  the world is not yet loaded.", ConsoleMessageType.FINE);
+//        }
     }
     
     @SideOnly(Side.SERVER)
@@ -72,7 +72,7 @@ public class PlayerListener extends RegisterableListener {
         if (rPlayer != null) {
             if (rPlayer.getPosition() != null && rPlayer.getPosition().getDimension() != null && rPlayer.getPosition().getDimension().getIsLoaded()) {
                 GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
-                NpcAPI.spawnRandomNpcs(rPlayer);
+                //NpcAPI.spawnRandomNpcs(rPlayer);
             } else {
                 ForgeAPI.sendConsoleEntry("Waiting for dimension to load before ticking: " + rPlayer.getName(), ConsoleMessageType.FINE);
             }

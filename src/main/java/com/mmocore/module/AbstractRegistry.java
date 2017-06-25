@@ -5,6 +5,8 @@
  */
 package com.mmocore.module;
 
+import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +20,12 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
     
     public void register(J object) {
         if (isRegistered((U)object.getIdentifier())) this.deregister((U)object.getIdentifier());        
-        object.initialise();
-        objects.put((U)object.getIdentifier(), object);
+        if (object.canRegister()) {
+            object.initialise();
+            objects.put((U)object.getIdentifier(), object);
+        } else {
+            ForgeAPI.sendConsoleEntry("AbstractRegistry: Failed to register object due to canRegister failing, class: " + object.getClass().getName(), ConsoleMessageType.FINE);
+        }
     }
     
     public void replaceOrUpdate(J Object, U identifier) {

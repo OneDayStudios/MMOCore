@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.GameEvent;
 
+import com.mmocore.MMOCore;
 import com.mmocore.module.Galaxy.*;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
@@ -65,5 +66,10 @@ public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, 
     @Override
     public GameEvent getRegisteredObject() {
         return this;
+    }
+    
+    @Override
+    public boolean canRegister() {
+        return (this != null);
     }
 }

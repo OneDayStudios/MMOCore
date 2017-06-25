@@ -73,4 +73,9 @@ public class RegisterableGalaxy extends AbstractRegisterable<RegisterableGalaxy,
     public RegisterableGalaxy getRegisteredObject() {
         return this;
     }
+
+    @Override
+    public boolean canRegister() {
+        return (this != null);
+    }
 }

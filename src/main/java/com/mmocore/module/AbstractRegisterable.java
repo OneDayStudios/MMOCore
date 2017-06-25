@@ -16,5 +16,7 @@ public abstract class AbstractRegisterable<T extends AbstractRegisterable, U, O 
     public abstract U getIdentifier();
     
     public abstract O getRegisteredObject();
-
+    
+    public abstract boolean canRegister();
+    
 }

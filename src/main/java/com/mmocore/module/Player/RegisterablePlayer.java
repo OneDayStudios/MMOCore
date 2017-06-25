@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Player;
 
+import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.uPosition;
@@ -77,5 +78,10 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public EntityPlayer getRegisteredObject() {
         return ForgeAPI.getForgePlayer(this.getIdentifier());
+    }
+
+    @Override
+    public boolean canRegister() {
+        return (this.getRegisteredObject() != null && this.getWorld() != null && MMOCore.getDimensionRegistry().isRegistered(getWorld().provider.dimensionId));
     }
 }

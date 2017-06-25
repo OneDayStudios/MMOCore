@@ -48,7 +48,6 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
         Collection<GameEvent> events = this.getRegistered().values();
         ArrayList<String> eventsToRemove = new ArrayList<String>();
         for (GameEvent event : EventAPI.getEventsForDimension(dimension)) {
-            if (dimension.getRegisteredObject() == null || !dimension.getIsLoaded() || dimension.isFake()) continue;
             if (!event.getFlaggedForRemoval()) {            
                 event.tickForDimension(dimension);
             } else {

@@ -61,4 +61,9 @@ public abstract class RegisterableCommand extends AbstractRegisterable<Registera
     public String getIdentifier() {
         return this.name;
     }
+    
+    @Override
+    public boolean canRegister() {
+        return (this != null);
+    }
 }

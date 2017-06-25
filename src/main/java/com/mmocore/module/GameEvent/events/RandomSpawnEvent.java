@@ -105,7 +105,7 @@ public class RandomSpawnEvent extends GameEvent {
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
         for (RegisterablePlayer p : PlayerAPI.getForDimension(dimension)) {
-            spawn(p.getPosition());
+            if (p.getRegisteredObject() != null && p.getPosition() != null) spawn(p.getPosition());
         }
     }
 

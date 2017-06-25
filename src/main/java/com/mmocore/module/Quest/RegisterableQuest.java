@@ -391,4 +391,9 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
     public String getCategoryName() {
         return this.actualQuest.category.title;
     }
+
+    @Override
+    public boolean canRegister() {
+        return (this.actualQuest != null);
+    }
 }

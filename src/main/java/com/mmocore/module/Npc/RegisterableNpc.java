@@ -1066,5 +1066,10 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getStateOptions().getPosition() != null) ForgeAPI.sendConsoleEntry("Position : " + this.getStateOptions().getPosition().getDisplayString(), ConsoleMessageType.FINE);
         this.despawn();
     }
+
+    @Override
+    public boolean canRegister() {
+        return (this.getBaseOptions().getSpawnPosition() != null && MMOCore.getDimensionRegistry().isRegistered(this.getBaseOptions().getSpawnPosition().getDimension().getId()));
+    }
     
 }

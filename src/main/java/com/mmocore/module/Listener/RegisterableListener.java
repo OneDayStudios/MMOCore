@@ -55,4 +55,9 @@ public class RegisterableListener extends AbstractRegisterable<RegisterableListe
     public RegisterableListener getRegisteredObject() {
         return this;
     }
+
+    @Override
+    public boolean canRegister() {
+        return (this != null);
+    }
 }

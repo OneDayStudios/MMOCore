@@ -153,4 +153,9 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     public Faction getRegisteredObject() {
         return this.actualFaction;
     }
+
+    @Override
+    public boolean canRegister() {
+        return getRegisteredObject() != null;
+    }
 }
