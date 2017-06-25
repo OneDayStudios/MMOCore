@@ -24,54 +24,67 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     private double dPosZ;
     private RegisterableDimension dimension;
     private double dPosY;
+    private boolean isValid = true;
     
     public uPosition(double dPosX, double dPosY, double dPosZ, RegisterableDimension dimension) {
         this.dimension = dimension;
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;        
-        // If a position is in hyperspace, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
-            this.uPosX = this.dPosX;
-            this.uPosZ = this.dPosZ;
+        if (this.getDimension() != null && MMOCore.getDimensionRegistry().isRegistered(this.getDimension().getIdentifier())) {
+            // If a position is in hyperspace, this is how we calculate it.
+            if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
+                this.uPosX = this.dPosX;
+                this.uPosZ = this.dPosZ;
+            }
+
+            // If a position is in space, this is how we calculate it.
+            if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
+                this.uPosX = this.getDimension().getPosXInParent(dPosX);
+                this.uPosZ = this.getDimension().getPosZInParent(dPosZ);
+            }
+
+            // If a position is on a planet, or is on a celestial body, this is how we calculate it.
+            if (this.getDimension().getType().equals(DimensionType.Planet) || this.getDimension().isFake()) {
+                this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent(dPosX));
+                this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent(dPosZ));
+            }            
+        } else {
+            this.isValid = false;
         }
-        
-        // If a position is in space, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
-            this.uPosX = this.getDimension().getPosXInParent(dPosX);
-            this.uPosZ = this.getDimension().getPosZInParent(dPosZ);
-        }
-        
-        // If a position is on a planet, or is on a celestial body, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.Planet) || this.getDimension().isFake()) {
-            this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent(dPosX));
-            this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent(dPosZ));
-        }
-  
+    }
+    
+    public boolean isValid() {
+        return this.isValid;
     }
     
     public boolean isInSpace() {
+        if (!isValid()) return false;
         return (this.dimension.getType().equals(DimensionType.StarSystem));
     }
     
     public RegisterableDimension getCelestialBody() {
+        if (!isValid()) return null;
         return UniverseAPI.getCelestialBody(this);
     }
     
     public RegisterableDimension getSystem() {
+        if (!isValid()) return null;
         return UniverseAPI.getSystem(this);
     }
     
     public RegisterableDimension getDimension() {
+        if (!isValid()) return null;
         return this.dimension;
     }
     
     public boolean isInHyperSpace() {
+        if (!isValid()) return false;
         return (this.dimension.getType().equals(DimensionType.Hyperspace));
     }
     
     public boolean isInUniverse() {
-        return (this.dimension != null && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderX() && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderZ());
+        return (this.isValid && this.dimension != null && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderX() && ForgeAPI.distance(dPosX, 0, dPosZ, getDimension().getSpawnX(), 0, getDimension().getSpawnZ()) < dimension.getRadiusBorderZ());
     }
     
     public double getDPosX() {
@@ -96,6 +109,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     }
     
     public RegisterableGalaxy getGalaxy() {
+        if (!isValid()) return null;
         return UniverseAPI.getGalaxy(this);
     }
     
