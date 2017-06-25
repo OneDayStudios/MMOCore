@@ -32,27 +32,19 @@ public class WorldListener extends RegisterableListener {
     public void onWorldLoad(WorldEvent.Load e) {
         World w = (World)e.world;
         int dimensionId = w.provider.dimensionId;
-        ForgeAPI.sendConsoleEntry("Loading Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
+        
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
             RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
-            dimension.setIsLoaded(true);
-            MMOCore.getDimensionRegistry().register(dimension);    
-            ForgeAPI.sendConsoleEntry("Registering Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
-        } else {
-            MMOCore.getDimensionRegistry().getRegistered(dimensionId).setIsLoaded(true);
-            ForgeAPI.sendConsoleEntry("Activating Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
+            MMOCore.getDimensionRegistry().register(dimension);
         }
     }
     
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload e) {
         World w = (World)e.world;
-        if (MMOCore.getDimensionRegistry().isRegistered(w.provider.dimensionId)) {
-            RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-            MMOCore.getNpcRegistry().cleanup(dimension, true);
-            MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(false);
-            ForgeAPI.sendConsoleEntry("Deactivating Dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
-        }
+        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+        MMOCore.getNpcRegistry().cleanup(dimension, true);
+        MMOCore.getDimensionRegistry().deregister(dimension.getIdentifier());
     }
     
     @SubscribeEvent
@@ -60,21 +52,9 @@ public class WorldListener extends RegisterableListener {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-        if (dimension != null) {
-            if (MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).getIsLoaded()) {
-                dimension.setLastTick(System.currentTimeMillis());
-                MMOCore.getNpcRegistry().tickForDimension(dimension);
-                MMOCore.getGameEventRegistry().tickForDimension(dimension);
-            } else {
-                ForgeAPI.sendConsoleEntry("Reactivating deactivated dimension: " + w.provider.dimensionId, ConsoleMessageType.FINE);
-                MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId).setIsLoaded(true);
-            }
-        } else {
-            dimension = new RegisterableDimension(WarpDriveAPI.getName(w.provider.dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(w.provider.dimensionId), WarpDriveAPI.hasBreathableAtmosphere(w.provider.dimensionId), WarpDriveAPI.getBorderX(w.provider.dimensionId), WarpDriveAPI.getBorderZ(w.provider.dimensionId), WarpDriveAPI.getPosInParentX(w.provider.dimensionId), WarpDriveAPI.getPosInParentZ(w.provider.dimensionId), WarpDriveAPI.getSpawnX(w.provider.dimensionId), WarpDriveAPI.getSpawnZ(w.provider.dimensionId), WarpDriveAPI.getConditions(w.provider.dimensionId), w.provider.dimensionId, WarpDriveAPI.getParentId(w.provider.dimensionId));
-            dimension.setIsLoaded(true);
-            MMOCore.getDimensionRegistry().register(dimension);    
-            ForgeAPI.sendConsoleEntry("Registering Dimension on first tick: " + w.provider.dimensionId, ConsoleMessageType.FINE);
-        }
+        dimension.setLastTick(System.currentTimeMillis());
+        MMOCore.getNpcRegistry().tickForDimension(dimension);
+        MMOCore.getGameEventRegistry().tickForDimension(dimension);
     }
     
 }

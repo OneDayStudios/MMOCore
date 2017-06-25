@@ -5,7 +5,6 @@
  */
 package com.mmocore.module.Player;
 
-import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.uPosition;
@@ -39,20 +38,15 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public UUID getIdentifier() {
         return this.uuid;
-    }    
+    }
     
     public uPosition getPosition() {
-        if (getWorld() == null) {
-            ForgeAPI.sendConsoleEntry("Attempted to locate player on world that is no loaded", ConsoleMessageType.FINE);
-            return null;
-        }
         return new uPosition((int)getPlayer().posX, (int)getPlayer().posY, (int)getPlayer().posZ, UniverseAPI.getDimension(getWorld().getWorldInfo().getWorldName()));
     }
 
     public World getWorld() {
         return getPlayer().worldObj;
     }
-    
     public boolean isOnline() {
         return (uuid != null && getPlayer() != null);
     }
@@ -68,6 +62,7 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public void initialise() {
         ForgeAPI.sendConsoleEntry("Initialising player: " + getName() + " (UUID: " + this.getIdentifier() + ")" , ConsoleMessageType.FINE);
+        ForgeAPI.registerAllDimensionsFor(this);
     }
 
     @Override
@@ -78,10 +73,5 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     @Override
     public EntityPlayer getRegisteredObject() {
         return ForgeAPI.getForgePlayer(this.getIdentifier());
-    }
-
-    @Override
-    public boolean canRegister() {
-        return (this.getRegisteredObject() != null && this.getWorld() != null && MMOCore.getDimensionRegistry().isRegistered(getWorld().provider.dimensionId));
     }
 }

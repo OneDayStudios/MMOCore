@@ -44,7 +44,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private String displayName;
     private boolean isFake = false;
     private FakeDimensionType fakeType;
-    private boolean loaded = false;
     
     public RegisterableDimension(String name, FakeDimensionType type, int borderX, int borderZ, int posX, int posZ, DimensionConditions conditions, int parentId) {
         this.isFake = true;
@@ -76,6 +75,16 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.conditions = conditions;
         this.dimensionId = dimensionId;
         this.parentId = parentId;
+        if (!WarpDriveAPI.isMapped(dimensionId)) {
+            ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn configuration mismatch with WarpDrive... attempting to match it...", ConsoleMessageType.WARNING);
+            try {
+                getRegisteredObject().setSpawnLocation(spawnX, this.getSpawnY(), spawnZ);
+                ForgeAPI.sendConsoleEntry("Spawn reconfigured for dimension: " + name + " to: " + spawnX + "," + this.getSpawnY() + "," + spawnZ + "!", ConsoleMessageType.FINE);
+            } catch (Exception e) {
+                ForgeAPI.sendConsoleEntry("Failed to re-set spawn for dimension: " + name + ", please adjust Warpdrive configuration!", ConsoleMessageType.SEVERE);
+            }
+        }
+        if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration (Configured X: " + spawnX + ", actual: " + this.getSpawnX() + ", Configured Z: " + spawnZ + ", actual: " + this.getSpawnZ() + ")!", ConsoleMessageType.WARNING);
     }
     
     @Override
@@ -187,12 +196,12 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-        if (isFake || !loaded) return 0;
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
     public int getSpawnY() {
-        if (isFake || !loaded) return 0;
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnY();
     }
     
@@ -202,7 +211,7 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnZ() {
-        if (isFake || !loaded) return 0;
+        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
@@ -264,18 +273,5 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     @Override
     public World getRegisteredObject() {
         return ForgeAPI.getForgeWorld(dimensionId);
-    }
-
-    public boolean getIsLoaded() {
-        return this.loaded;
-    }
-    
-    public void setIsLoaded(boolean b) {
-        this.loaded = b;
-    }
-
-    @Override
-    public boolean canRegister() {
-       return (this.getRegisteredObject() != null || this.isFake());
     }
 }

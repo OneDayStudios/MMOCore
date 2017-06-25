@@ -45,7 +45,7 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
     }
     
     public static RegisterablePlayer getForName(String name) {
-        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegistered().values()) {
+        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {
             if (player.getName().equals(name)) return player;
         }
         return null;
@@ -53,8 +53,7 @@ public class PlayerAPI extends AbstractAPI<PlayerAPI> {
     
     public static ArrayList<RegisterablePlayer> getForDimension(RegisterableDimension dimension) {
         ArrayList<RegisterablePlayer> players = new ArrayList<RegisterablePlayer>();
-        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegistered().values()) {
-            if (player.getWorld() == null || player.getPosition() == null || player.getPosition().getDimension() == null || !player.getPosition().getDimension().getIsLoaded()) continue;
+        for (RegisterablePlayer player : MMOCore.getPlayerRegistry().getRegisteredReadOnly().values()) {
             if (player.getPosition().getDimension().equals(dimension)) players.add(player);
         }
         return players;

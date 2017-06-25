@@ -19,7 +19,6 @@ import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.TextVisibleOption;
-import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcItem;
@@ -43,25 +42,21 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent e) {
-        // No code here anymore, because worlds are not loaded before players log in.
+        if (!MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getPlayerRegistry().register(new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID()));
+        RegisterablePlayer player = MMOCore.getPlayerRegistry().getRegistered(((EntityPlayer)e.player).getUniqueID());
     }
     
     @SubscribeEvent
     public void onPlayerLeave(PlayerLoggedOutEvent e) {
-        if (MMOCore.getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().deregister(((EntityPlayer)e.player).getUniqueID());
+        if (MMOCore.getInstance().getPlayerRegistry().isRegistered(((EntityPlayer)e.player).getUniqueID())) MMOCore.getInstance().getPlayerRegistry().deregister(((EntityPlayer)e.player).getUniqueID());
     }
     
     @SubscribeEvent
     public void onPlayerChangeDimension(PlayerChangedDimensionEvent e) {
-//        EntityPlayer player = (EntityPlayer)e.player;
-//        World w = ForgeAPI.getForgeWorld(e.toDim);
-//        RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-//        RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
-//        if (dimension.getIsLoaded()) {
-//            GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
-//        } else {
-//            ForgeAPI.sendConsoleEntry("Skipping PlayerChangeDimensionEvent for player: " + rPlayer.getName() + " as  the world is not yet loaded.", ConsoleMessageType.FINE);
-//        }
+        EntityPlayer player = (EntityPlayer)e.player;
+        World w = ForgeAPI.getForgeWorld(e.toDim);
+        RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
+        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
     }
     
     @SideOnly(Side.SERVER)
@@ -69,17 +64,7 @@ public class PlayerListener extends RegisterableListener {
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
         EntityPlayer player = (EntityPlayer)e.player;
         RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
-        if (rPlayer != null) {
-            if (rPlayer.getPosition() != null && rPlayer.getPosition().getDimension() != null && rPlayer.getPosition().getDimension().getIsLoaded()) {
-                GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
-                //NpcAPI.spawnRandomNpcs(rPlayer);
-            } else {
-                ForgeAPI.sendConsoleEntry("Waiting for dimension to load before ticking: " + rPlayer.getName(), ConsoleMessageType.FINE);
-            }
-        } else {            
-            ForgeAPI.sendConsoleEntry("Registering player: " + player.getUniqueID() + " as  it is their first tick since logging in.", ConsoleMessageType.FINE);
-            rPlayer = new RegisterablePlayer(((EntityPlayer)e.player).getUniqueID());
-            MMOCore.getPlayerRegistry().register(rPlayer);
-        }
+        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
+        NpcAPI.spawnRandomNpcs(rPlayer);
     }
 }

@@ -53,7 +53,6 @@ public class NpcRegistry extends AbstractRegistry<NpcRegistry, UUID, Registerabl
     }
     
     public void cleanup(RegisterableDimension dimension, boolean registeredToo) {
-        if (dimension.isFake() || !dimension.getIsLoaded() || ForgeAPI.getForgeWorld(dimension) == null) return;
         List<Entity> entities = ForgeAPI.getForgeWorld(dimension).loadedEntityList; 
         for (Entity entity : entities) {
             if (entity instanceof EntityCustomNpc) {

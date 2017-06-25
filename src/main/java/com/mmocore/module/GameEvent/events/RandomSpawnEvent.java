@@ -105,13 +105,13 @@ public class RandomSpawnEvent extends GameEvent {
     @Override
     public void tickForDimension(RegisterableDimension dimension) {
         for (RegisterablePlayer p : PlayerAPI.getForDimension(dimension)) {
-            if (p.getRegisteredObject() != null && p.getPosition() != null) spawn(p.getPosition());
+            spawn(p.getPosition());
         }
     }
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
-        return (dimension != null && dimension.getIsLoaded()) && (getOptions().getSpawnDimensions().contains(dimension) || this.getOptions().getSpawnGalaxies().contains(UniverseAPI.getGalaxy(dimension)));
+        return getOptions().getSpawnDimensions().contains(dimension) || this.getOptions().getSpawnGalaxies().contains(UniverseAPI.getGalaxy(dimension));
     }
 
     @Override

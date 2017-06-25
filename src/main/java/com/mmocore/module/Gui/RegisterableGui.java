@@ -61,9 +61,4 @@ public class RegisterableGui extends AbstractRegisterable<RegisterableGui, GuiSl
     public GuiElement getRegisteredObject() {
         return this.gui;
     }
-
-    @Override
-    public boolean canRegister() {
-        return (this.getRegisteredObject() != null);
-    }
 }

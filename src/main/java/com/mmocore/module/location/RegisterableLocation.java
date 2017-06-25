@@ -5,7 +5,6 @@
  */
 package com.mmocore.module.location;
 
-import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.GuiAPI;
 import com.mmocore.api.NpcFactionAPI;
@@ -147,11 +146,6 @@ public class RegisterableLocation extends AbstractRegisterable<RegisterableLocat
     @Override
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean canRegister() {
-        return (this.position != null && this.position.getDimension() != null && MMOCore.getDimensionRegistry().isRegistered(this.position.getDimension().getIdentifier()));
     }
     
     

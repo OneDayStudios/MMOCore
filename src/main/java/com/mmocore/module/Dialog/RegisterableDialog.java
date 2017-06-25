@@ -432,9 +432,4 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     public Dialog getRegisteredObject() {
         return this.actualDialog;
     }
-
-    @Override
-    public boolean canRegister() {
-        return (this.actualDialog != null);
-    }
 }
