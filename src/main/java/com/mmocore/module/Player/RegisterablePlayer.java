@@ -41,6 +41,10 @@ public class RegisterablePlayer extends AbstractRegisterable<RegisterablePlayer,
     }    
     
     public uPosition getPosition() {
+        if (getWorld() == null) {
+            ForgeAPI.sendConsoleEntry("Attempted to locate player on world that is no loaded", ConsoleMessageType.FINE);
+            return null;
+        }
         return new uPosition((int)getPlayer().posX, (int)getPlayer().posY, (int)getPlayer().posZ, UniverseAPI.getDimension(getWorld().getWorldInfo().getWorldName()));
     }
 

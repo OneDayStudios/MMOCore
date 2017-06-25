@@ -24,10 +24,6 @@ public class MultiWorldAPI extends AbstractAPI<MultiWorldAPI> {
         try {
             if (Class.forName("fabricator77.multiworld.DimensionControl") != null) {
                 DimensionControl.fullOverworldList = new boolean[1000];
-                //DimensionManager.unregisterProviderType(ModSettings.providerId);
-               // MultiWorld.instance.unregisterDimensions();
-                //DimensionManager.registerProviderType(ModSettings.providerId, WorldProviderSimple.class, true);
-                //MultiWorld.instance.registerDimensions();
                 ForgeAPI.sendConsoleEntry("Successfully patched MultiWorld mod.", ConsoleMessageType.FINE);
             } else {
                 ForgeAPI.sendConsoleEntry("Skipped patching MultiWorld mod, it isnt installed.", ConsoleMessageType.FINE);
