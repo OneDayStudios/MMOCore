@@ -109,7 +109,7 @@ public class VillagerReplacementEvent extends GameEvent {
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
-        return false;
+        return true;
     }
 
     @Override

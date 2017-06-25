@@ -70,6 +70,9 @@ public abstract class GameEvent extends AbstractRegisterable<GameEvent, String, 
     
     @Override
     public boolean canRegister() {
-        return (this != null);
+        for (RegisterableDimension dim : MMOCore.getDimensionRegistry().getRegistered().values()) {
+            if (ticksForDimension(dim)) return true;
+        }
+        return false;
     }
 }

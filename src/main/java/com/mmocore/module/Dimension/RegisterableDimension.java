@@ -276,6 +276,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
 
     @Override
     public boolean canRegister() {
-       return (this.getRegisteredObject() != null);
+       return (this.getRegisteredObject() != null || this.isFake());
     }
 }
