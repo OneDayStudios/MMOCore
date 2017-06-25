@@ -47,7 +47,7 @@ public class JaffaMarketeer extends RegisterableNpc {
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "zatGun", 1, 0);
         NpcBaseOptions options = this.getBaseOptions();
-        uPosition position = new uPosition(-132.0,28.0,-616.0, UniverseAPI.getDimension("P2X-3YZ"));
+        uPosition position = new uPosition(-132.0,28.0,-616.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ"));
         options.setSpawnPosition(position);
         options.setSpawnMethod(NpcSpawnMethod.Static);
         weapons.setMainHand(heldItem);
