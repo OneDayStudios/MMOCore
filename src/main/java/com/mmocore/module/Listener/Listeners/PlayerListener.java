@@ -53,18 +53,18 @@ public class PlayerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onPlayerChangeDimension(PlayerChangedDimensionEvent e) {
-        EntityPlayer player = (EntityPlayer)e.player;
-        World w = ForgeAPI.getForgeWorld(e.toDim);
-        RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
-        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
+        //EntityPlayer player = (EntityPlayer)e.player;
+        //World w = ForgeAPI.getForgeWorld(e.toDim);
+        //RegisterablePlayer rPlayer = MMOCore.getInstance().getPlayerRegistry().getRegistered(player.getUniqueID());
+        //GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.Toast, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier(), 500, 500, 500, 2500);        
     }
     
     @SideOnly(Side.SERVER)
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent e) {
-        EntityPlayer player = (EntityPlayer)e.player;
-        RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
-        GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
-        NpcAPI.spawnRandomNpcs(rPlayer);
+        //EntityPlayer player = (EntityPlayer)e.player;
+        //RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
+        //GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.TopLeft, UniverseAPI.getLocationMessage(rPlayer.getPosition()), UniverseAPI.getConditionsMessage(rPlayer.getPosition()), UniverseAPI.getGalaxy(rPlayer.getPosition()).getIdentifier() , 500, 500, 500, 1000);
+        //NpcAPI.spawnRandomNpcs(rPlayer);
     }
 }
