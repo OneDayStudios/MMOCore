@@ -14,8 +14,6 @@ import com.mmocore.module.Dimension.RegisterableDimension;
 import cr0s.warpdrive.config.CelestialObjectManager;
 import cr0s.warpdrive.data.CelestialObject;
 import cr0s.warpdrive.data.CelestialObject.RenderData;
-import java.util.HashMap;
-import java.util.Random;
 import java.util.Set;
 /**
  *
@@ -24,24 +22,20 @@ import java.util.Set;
 public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static boolean isUniverseLoaded() {
-        return !CelestialObjectManager.getCelestialObjectsReadOnly().isEmpty();
+        return CelestialObjectManager.celestialObjects.length != 0;
     }
     
     private static CelestialObject getUniverse() {
-        for (String s : getReadOnly().keySet()) {
-            for (CelestialObject o : getReadOnly().get(s).values()) {
-                if (o.dimensionId == o.parentDimensionId) return o;
-            }
+        for (CelestialObject s : getReadOnly()) {
+                if (s .dimensionId == s.parentDimensionId) return s;
         }
         return null;
     }
     
-    private static HashMap<String, HashMap<String, CelestialObject>> getReadOnly() {
-        HashMap<String, HashMap<String, CelestialObject>> cachedCopy = CelestialObjectManager.getCelestialObjectsReadOnly();
-        for (String s : cachedCopy.keySet()) {
-            for (CelestialObject c : cachedCopy.get(s).values()) {
-                c.resolveParent();
-            }
+    private static CelestialObject[] getReadOnly() {
+        CelestialObject[] cachedCopy = CelestialObjectManager.celestialObjects;
+        for (CelestialObject c : cachedCopy) {
+            c.resolveParent();
         }
         return cachedCopy;
     }
@@ -107,11 +101,9 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     private static CelestialObject getForDimId(int dimensionId) {
-        for (String s : getReadOnly().keySet()) {
-            for (CelestialObject object : getReadOnly().get(s).values()) {
+            for (CelestialObject object : getReadOnly()) {
                 if (object.dimensionId == dimensionId) return object;
             }
-        }
         return null;
     }
     
@@ -158,8 +150,7 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     public static void onServerStarted() {
-        for (String s : getReadOnly().keySet()) {
-            for (CelestialObject o : getReadOnly().get(s).values()) {
+            for (CelestialObject o : getReadOnly()) {
                 if (!o.isVirtual && ForgeAPI.getForgeWorld(o.dimensionId) == null) {
                     ForgeAPI.sendConsoleEntry("Error, WarpDrive dimension ID:" + o.dimensionId + " (" + o.name + ") is not mapped to a real dimension! It will not be visitable as a result!", ConsoleMessageType.FINE);
                 }
@@ -168,7 +159,6 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
                     MMOCore.getDimensionRegistry().register(dim);
                 }
             }
-        }
     }
     
     public static boolean isHyperspace(int dimensionId) {
