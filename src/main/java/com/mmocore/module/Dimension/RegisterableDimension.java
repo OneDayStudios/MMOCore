@@ -8,7 +8,6 @@ package com.mmocore.module.Dimension;
 import com.mmocore.MMOCore;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
-import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
@@ -75,16 +74,6 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.conditions = conditions;
         this.dimensionId = dimensionId;
         this.parentId = parentId;
-        if (!WarpDriveAPI.isMapped(dimensionId)) {
-            ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn configuration mismatch with WarpDrive... attempting to match it...", ConsoleMessageType.WARNING);
-            try {
-                getRegisteredObject().setSpawnLocation(spawnX, this.getSpawnY(), spawnZ);
-                ForgeAPI.sendConsoleEntry("Spawn reconfigured for dimension: " + name + " to: " + spawnX + "," + this.getSpawnY() + "," + spawnZ + "!", ConsoleMessageType.FINE);
-            } catch (Exception e) {
-                ForgeAPI.sendConsoleEntry("Failed to re-set spawn for dimension: " + name + ", please adjust Warpdrive configuration!", ConsoleMessageType.SEVERE);
-            }
-        }
-        if (this.getSpawnX() != spawnX || this.getSpawnZ() != spawnZ) ForgeAPI.sendConsoleEntry("Dimension: " + name + " has a spawn that does not match configuration (Configured X: " + spawnX + ", actual: " + this.getSpawnX() + ", Configured Z: " + spawnZ + ", actual: " + this.getSpawnZ() + ")!", ConsoleMessageType.WARNING);
     }
     
     @Override

@@ -6,7 +6,6 @@
 package com.mmocore;
 import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
-import com.mmocore.api.MultiWorldAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
@@ -131,47 +130,46 @@ public class MMOCore {
    @Mod.EventHandler
    public void preLoad(FMLPreInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       MMOCore.channel = new DataChannel(MMOCore.MODID);       
+       MMOCore.channel = new DataChannel(MMOCore.MODID);     
    }
    
    @Mod.EventHandler
    public void load(FMLInitializationEvent event) {
-       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);       
-       MultiWorldAPI.fixProviderType();
+       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);      
    }
    
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       MMOCore.getListenerRegistry().initialise();
+       //MMOCore.getListenerRegistry().initialise();
    }
    
    @Mod.EventHandler
    public void onServerStarting(FMLServerStartingEvent e) {       
-    e.registerServerCommand(new BaseCommand());
+    //e.registerServerCommand(new BaseCommand());
    }
    
    @Mod.EventHandler
    public void onServerStopping(FMLServerStoppingEvent e) {       
-    if (ForgeAPI.isServer()) NpcAPI.deregisterAll();
+    //if (ForgeAPI.isServer()) NpcAPI.deregisterAll();
    }
    
    @Mod.EventHandler
    public void onServerStarted(FMLServerStartedEvent e) {       
        if (ForgeAPI.isClient()) {
-           MMOCore.getGuiRegistry().initialise();
+//           MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {
-            MMOCore.getDimensionRegistry().initialise();
-            MMOCore.getGalaxyRegistry().initialise();       
-            MMOCore.getPlayerRegistry().initialise();
-            MMOCore.getDialogRegistry().initialise();       
-            MMOCore.getCommandRegistry().initialise();
-            MMOCore.getQuestRegistry().initialise();
-            MMOCore.getNpcFactionRegistry().initialise();
-            MMOCore.getNpcRegistry().initialise();  
-            MMOCore.getGameEventRegistry().initialise();
-            WarpDriveAPI.onServerStarted();       
+//            MMOCore.getDimensionRegistry().initialise();
+//            MMOCore.getGalaxyRegistry().initialise();       
+//            MMOCore.getPlayerRegistry().initialise();
+//            MMOCore.getDialogRegistry().initialise();       
+//            MMOCore.getCommandRegistry().initialise();
+//            MMOCore.getQuestRegistry().initialise();
+//            MMOCore.getNpcFactionRegistry().initialise();
+//            MMOCore.getNpcRegistry().initialise();  
+//            MMOCore.getGameEventRegistry().initialise();
+            //WarpDriveAPI.onServerStarted();       
 //            DictionaryAPI.init();
 //            DictionaryAPI.loadNpcFactions();
 //            DictionaryAPI.loadDialogs();

@@ -71,7 +71,7 @@ public class DatabaseAPI extends AbstractAPI<DatabaseAPI> {
         try {
             return DatabaseAPI.getConnection() != null && !DatabaseAPI.getConnection().isClosed();
         } catch (SQLException e) {
-            ForgeAPI.sendConsoleEntry("Failed to check database connectivity, error: " + e.getMessage(), ConsoleMessageType.FATAL);
+            ForgeAPI.sendConsoleEntry("Failed to check database connectivity, error: " + e.getMessage(), ConsoleMessageType.WARNING);
         }
         return false;
     }
