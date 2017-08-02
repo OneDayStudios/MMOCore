@@ -39,11 +39,9 @@ public class VillagerReplacementEvent extends GameEvent {
         if (!getOptions().spawnEnabled()) return false;        
         if (getOptions().getRequiresAtmosphere() && !position.getDimension().hasAtmopshere()) return false;
         if (!getOptions().chancePassed()) return false;
-        if (!getOptions().getSpawnGalaxies().isEmpty() && !getOptions().getSpawnGalaxies().contains(position.getGalaxy())) return false;
         if (!getOptions().getSpawnDimensions().isEmpty() && !getOptions().getSpawnDimensions().contains(position.getDimension())) return false;
         if (!getOptions().getSpawnFactions().isEmpty() && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
         if (getOptions().getDimensionDensity() < NpcAPI.getAllReadOnlyCreatedBy(position.getDimension(), this.getClass()).size()) return false;
-        if (getOptions().getGalaxyDensity() < NpcAPI.getAllReadOnlyCreatedBy(position.getGalaxy(), this.getClass()).size()) return false;
         if (!getOptions().getSpawnsOnContestedWorlds() && position.getDimension().getFaction() == null) return false;
         if (!getOptions().getSpawnFactions().isEmpty() && position.getDimension().getFaction() != null && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
         return true;

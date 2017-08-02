@@ -6,11 +6,12 @@
 package com.mmocore.constants;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.AdvancedRocketryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.module.AbstractObjectCore;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmocore.module.Galaxy.RegisterableGalaxy;
+import zmaster587.advancedRocketry.api.stations.ISpaceObject;
 
 /**
  *
@@ -31,43 +32,68 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;        
         // If a position is in hyperspace, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
-            this.uPosX = this.dPosX;
-            this.uPosZ = this.dPosZ;
+        if (!this.getDimension().getType().equals(DimensionType.StarSystem)){
+            this.uPosX = dimension.getX();
+            this.uPosZ = dimension.getZ();
+            if (this.dPosX > dimension.getSpawnX()) {
+                this.uPosX = dimension.getX() + (dPosX - dimension.getSpawnX());
+            }
+            if (this.dPosX < dimension.getSpawnX()) {
+                this.uPosX = dimension.getX() - (dimension.getSpawnX() - dPosX);
+            }
+            if (this.dPosZ > dimension.getSpawnZ()) {
+                this.uPosZ = dimension.getZ() + (dPosZ - dimension.getSpawnZ());
+            }
+            if (this.dPosZ < dimension.getSpawnZ()) {
+                this.uPosZ = dimension.getZ() - (dimension.getSpawnZ() - dPosZ);
+            }
+        } else {
+                ISpaceObject object = AdvancedRocketryAPI.getSpaceObjectForCoordinates((int)dPosX, (int)dPosZ);
+                if (object.getOrbitingPlanetId() != -1) {
+                    RegisterableDimension orbitingDimension = UniverseAPI.getDimension(object.getOrbitingPlanetId());
+                    this.uPosX = orbitingDimension.getX();
+                    this.uPosZ = orbitingDimension.getZ();
+                    if (this.dPosX > dimension.getSpawnX()) {
+                        this.uPosX = orbitingDimension.getX() + (dPosX - dimension.getSpawnX());
+                    }
+                    if (this.dPosX < dimension.getSpawnX()) {
+                        this.uPosX = orbitingDimension.getX() - (dimension.getSpawnX() - dPosX);
+                    }
+                    if (this.dPosZ > dimension.getSpawnZ()) {
+                        this.uPosZ = orbitingDimension.getZ() + (dPosZ - dimension.getSpawnZ());
+                    }
+                    if (this.dPosZ < dimension.getSpawnZ()) {
+                        this.uPosZ = orbitingDimension.getZ() - (dimension.getSpawnZ() - dPosZ);
+                    }
+                } else {
+                    this.uPosX = Double.POSITIVE_INFINITY;
+                    this.uPosZ = Double.POSITIVE_INFINITY;
+                }
         }
-        
-        // If a position is in space, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.StarSystem)) {
-            this.uPosX = this.getDimension().getPosXInParent(dPosX);
-            this.uPosZ = this.getDimension().getPosZInParent(dPosZ);
-        }
-        
-        // If a position is on a planet, or is on a celestial body, this is how we calculate it.
-        if (this.getDimension().getType().equals(DimensionType.Planet) || this.getDimension().isFake()) {
-            this.uPosX = this.getDimension().getParent().getPosXInParent(this.getDimension().getPosXInParent(dPosX));
-            this.uPosZ = this.getDimension().getParent().getPosZInParent(this.getDimension().getPosZInParent(dPosZ));
-        }
-  
     }
     
     public boolean isInSpace() {
         return (this.dimension.getType().equals(DimensionType.StarSystem));
     }
     
+    // This obtains the planet that the position is in orbit of, or on. Returns null otherwise.
     public RegisterableDimension getCelestialBody() {
-        return UniverseAPI.getCelestialBody(this);
-    }
-    
-    public RegisterableDimension getSystem() {
-        return UniverseAPI.getSystem(this);
+        if (this.dimension.getType().equals(DimensionType.StarSystem)) {
+            ISpaceObject object = AdvancedRocketryAPI.getSpaceObjectForCoordinates((int)dPosX, (int)dPosZ);
+            if (object.getOrbitingPlanetId() != -1) {
+                RegisterableDimension orbitingDimension = UniverseAPI.getDimension(object.getOrbitingPlanetId());
+                if (orbitingDimension != null) return orbitingDimension;
+                return null;
+            } else {
+                return null;
+            }
+        } else {
+            return this.dimension;
+        }
     }
     
     public RegisterableDimension getDimension() {
         return this.dimension;
-    }
-    
-    public boolean isInHyperSpace() {
-        return (this.dimension.getType().equals(DimensionType.Hyperspace));
     }
     
     public boolean isInUniverse() {
@@ -93,10 +119,6 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     
     public double getUPosZ() {
         return this.uPosZ;
-    }
-    
-    public RegisterableGalaxy getGalaxy() {
-        return UniverseAPI.getGalaxy(this);
     }
     
     @Override

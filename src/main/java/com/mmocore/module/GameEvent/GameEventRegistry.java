@@ -7,7 +7,6 @@ package com.mmocore.module.GameEvent;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.EventAPI;
-import com.mmocore.module.Galaxy.*;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.ConsoleMessageType;

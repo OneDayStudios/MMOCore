@@ -7,10 +7,8 @@ package com.mmocore;
 import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
-import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
-import com.mmocore.module.Galaxy.GalaxyRegistry;
 import com.mmocore.module.Gui.GuiRegistry;
 import com.mmocore.module.Listener.ListenerRegistry;
 import com.mmocore.module.Npc.NpcRegistry;
@@ -39,7 +37,7 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
  * @author Drakster
  */
 
-@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = MMOCore.MODVER, dependencies = "after:WarpDrive;" )
+@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = "*", dependencies = "after:WarpDrive;" )
 
 public class MMOCore {
     
@@ -48,14 +46,13 @@ public class MMOCore {
     
    public static final String MODID = "mmocore";
    public static final String MODNAME = "MMOCore";
-   public static final String MODVER = "1.0.5";
+   public static final String MODVER = "1.0.6";
 
    private static GuiRegistry guiRegistry;
    private static DimensionRegistry dimensionRegistry;
    private static ListenerRegistry listenerRegistry;
    private static PlayerRegistry playerRegistry;
    private static DialogRegistry dialogRegistry;
-   private static GalaxyRegistry galaxyRegistry;
    private static NpcFactionRegistry npcFactionRegistry;
    private static NpcRegistry npcRegistry;
    private static GameEventRegistry gameEventRegistry;
@@ -75,11 +72,6 @@ public class MMOCore {
    public static GameEventRegistry getGameEventRegistry() {
        if (gameEventRegistry == null) gameEventRegistry = new GameEventRegistry();
        return gameEventRegistry;
-   }
-   
-   public static GalaxyRegistry getGalaxyRegistry() {
-       if (galaxyRegistry == null) galaxyRegistry = new GalaxyRegistry();
-       return galaxyRegistry;
    }
    
    public static GuiRegistry getGuiRegistry() {
@@ -161,7 +153,6 @@ public class MMOCore {
        }
        if (ForgeAPI.isServer()) {
 //            MMOCore.getDimensionRegistry().initialise();
-//            MMOCore.getGalaxyRegistry().initialise();       
 //            MMOCore.getPlayerRegistry().initialise();
 //            MMOCore.getDialogRegistry().initialise();       
 //            MMOCore.getCommandRegistry().initialise();

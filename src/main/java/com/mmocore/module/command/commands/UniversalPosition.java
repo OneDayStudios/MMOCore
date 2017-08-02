@@ -34,7 +34,6 @@ public class UniversalPosition extends RegisterableCommand {
         PlayerAPI.sendMessage(player, "Universal Coordinates: " + player.getPosition().getUPosX() + "," + player.getPosition().getUPosZ());
         if (player.getPosition().getDimension() != null) PlayerAPI.sendMessage(player, "Dimension:" + player.getPosition().getDimension().getName());
         if (player.getPosition().getCelestialBody() != null) PlayerAPI.sendMessage(player, "Celestial Body:" + player.getPosition().getCelestialBody().getName());
-        if (player.getPosition().getSystem() != null) PlayerAPI.sendMessage(player, "System:" + player.getPosition().getSystem().getName());
     }
 
     @Override
@@ -44,7 +43,7 @@ public class UniversalPosition extends RegisterableCommand {
 
     @Override
     public void processCommandForConsole(String[] parameters) {
-        ForgeAPI.sendConsoleEntry("This ia test command!", ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("This must be run by players!", ConsoleMessageType.FINE);
     }
 
     

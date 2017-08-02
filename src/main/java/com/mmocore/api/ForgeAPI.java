@@ -160,7 +160,9 @@ public class ForgeAPI extends AbstractAPI<ForgeAPI> {
     }
     
     public static World getForgeWorld(int id) {
-        return (World)DimensionManager.getWorld(id);
+        MinecraftServer server = MinecraftServer.getServer();
+        WorldServer world = server.worldServerForDimension(id);
+        return (World)world;
     }
     
     public static World getForgeWorld(RegisterableDimension dimension) {

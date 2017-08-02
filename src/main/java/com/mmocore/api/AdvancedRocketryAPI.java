@@ -6,6 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.api.ForgeAPI;
+import java.util.HashMap;
 import zmaster587.advancedRocketry.api.dimension.solar.StellarBody;
 import zmaster587.advancedRocketry.api.stations.ISpaceObject;
 import zmaster587.advancedRocketry.dimension.DimensionManager;
@@ -60,19 +61,47 @@ public class AdvancedRocketryAPI {
         return null;
     }
     
-    public double getDistanceBetweenStellarBodies(int idSource, int idDest) {
-        DimensionProperties source = DimensionManager.getInstance().getDimensionProperties(idSource);
-        DimensionProperties dest = DimensionManager.getInstance().getDimensionProperties(idDest);
-        // IF the source or destination is invalid, travel is free.
-        if (source == null || dest == null) return 0.0;
-        double distance = dest.getOrbitalDist() + source.getOrbitalDist(); // OrbitalDist is a max of 200.
-        if (source.getStar() != dest.getStar()) {
-            double sourceX = source.getStar().getPosX()*1000; //Multiplying Star coordinates by 1000 to guarrantee we have room for all the planets!
-            double sourceZ = source.getStar().getPosZ()*1000; //Multiplying Star coordinates by 1000 to guarrantee we have room for all the planets!
-            double destX = dest.getStar().getPosX()*1000; //Multiplying Star coordinates by 1000 to guarrantee we have room for all the planets!
-            double destZ = dest.getStar().getPosZ()*1000; //Multiplying Star coordinates by 1000 to guarrantee we have room for all the planets!
-            distance += ForgeAPI.distance(sourceX, 0, sourceZ, destX, 0, destZ);
+    public static boolean hasBreathableAtmosphere(int dimensionId) {
+        return (getAtmosphere(dimensionId) >= 75);
+    }
+    
+    public static double getBorder(int dimensionId) {
+        DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimensionId);
+        if (properties != null) return (1000 + ((int)properties.getGravitationalMultiplier() * 25));
+        return 0.0;
+    }
+    
+    public static int getAtmosphere(int dimensionId) {
+        DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimensionId);
+        if (properties != null) return properties.getAtmosphereDensity();
+        return 0;
+    }
+    
+    public static float getGravity(int dimensionId) {
+        DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimensionId);
+        if (properties != null) return properties.getGravitationalMultiplier();
+        return 0;
+    }
+    
+    public static String getName(int dimensionId) {
+        DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimensionId);
+        if (properties != null) return properties.getName();
+        return "Unknown";
+    }
+    
+    public static HashMap<String,Double> getPlanetPosition(int dimension) {        
+        HashMap<String, Double> position = new HashMap<String,Double>();
+        if (AdvancedRocketryAPI.isInSpace(dimension)) {
+                position.put("x", Double.POSITIVE_INFINITY);
+                position.put("z", Double.POSITIVE_INFINITY);
+                return position;
+        } else {
+            DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimension);
+            double posX = ((Math.cos(properties.getOrbitalDist() * properties.getOrbitTheta()) * properties.getOrbitalDist()) * 1000) + (properties.getStar().getPosX()*10000);
+            double posZ = ((Math.sin(properties.getOrbitalDist() * properties.getOrbitTheta()) * properties.getOrbitalDist()) * 1000) + (properties.getStar().getPosZ()*10000);
+            position.put("x", posX);
+            position.put("z", posZ);
+            return position;
         }
-        return distance;
     }
 }

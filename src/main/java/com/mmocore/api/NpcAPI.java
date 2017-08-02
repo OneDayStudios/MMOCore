@@ -16,7 +16,6 @@ import com.mmocore.constants.NpcTexture;
 import com.mmocore.constants.NpcVisibleOption;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.Npc.loadout.NpcHeldItemSet;
 import com.mmocore.module.Npc.loadout.NpcWornItemSet;
@@ -90,14 +89,6 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
             if (npc.getUPosition() != null && npc.getUPosition().getDimension().equals(dimension) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
-        }
-        return new ArrayList<RegisterableNpc>(npcs);
-    }
-    
-    public static ArrayList<RegisterableNpc> getAllReadOnlyCreatedBy(RegisterableGalaxy galaxy, Class creator) {
-        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-        for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegistered().values()) {
-            if (npc.getUPosition() != null && npc.getUPosition().getGalaxy().equals(galaxy) && npc.getCreator() != null && npc.getCreator().equals(creator.getName())) npcs.add(npc);
         }
         return new ArrayList<RegisterableNpc>(npcs);
     }
@@ -213,7 +204,6 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
 //        for (RegisterableNpc npc : npcs) {
 //            if (!npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static)) continue;
 //            if (!npc.getRandomSpawnOptions().getSpawnDimensions().contains(player.getPosition().getDimension()) && !npc.getRandomSpawnOptions().getSpawnDimensions().isEmpty()) continue;
-//            if (!npc.getRandomSpawnOptions().getSpawnGalaxies().contains(player.getPosition().getGalaxy()) && !npc.getRandomSpawnOptions().getSpawnGalaxies().isEmpty()) continue;
 //            if (!npc.getRandomSpawnOptions().)
 //            
 //        }

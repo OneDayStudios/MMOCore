@@ -6,6 +6,7 @@
 package com.mmocore.module.Dimension;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.AdvancedRocketryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.uPosition;
@@ -32,48 +33,25 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     private DimensionType type = DimensionType.Unknown;
     private DimensionConditions conditions = DimensionConditions.Unknown;
     private boolean hasAtmosphere = false;
-    private int posX;
-    private int posZ;
+    private double posX;
+    private double posZ;
     private long lastTick;
     private RegisterableNpcFaction faction;
     private int dimensionId;
-    private int borderX;
-    private int borderZ;
-    private int parentId;
+    private double borderX;
+    private double borderZ;
     private String displayName;
-    private boolean isFake = false;
-    private FakeDimensionType fakeType;
     
-    public RegisterableDimension(String name, FakeDimensionType type, int borderX, int borderZ, int posX, int posZ, DimensionConditions conditions, int parentId) {
-        this.isFake = true;
-        this.name = name;
-        this.displayName = name;
-        this.fakeType = type;
-        this.borderX = borderX;
-        this.borderZ = borderZ;
-        this.posX = posX;
-        this.posZ = posZ;        
-        Random random = new Random();
-        this.dimensionId = random.nextInt(100000) + 5000;
-        while (MMOCore.getDimensionRegistry().getRegistered(dimensionId) != null) {
-            this.dimensionId = random.nextInt(100000) + 5000;
-        }
-        this.conditions = conditions;
-        this.parentId = parentId;
-    }
-    
-    public RegisterableDimension(String displayName, String name, DimensionType type, boolean hasAtmosphere, int borderX, int borderZ, int posX, int posZ, int spawnX, int spawnZ, DimensionConditions conditions, int dimensionId, int parentId) {
+    public RegisterableDimension(String displayName, String name, DimensionType type, boolean hasAtmosphere, double border, double posX, double posZ, int dimensionId) {
         this.type = type;      
         this.displayName = displayName;
         this.name = name;
-        this.borderX = borderX;
-        this.borderZ = borderZ;
+        this.borderX = border;
+        this.borderZ = border;
         this.hasAtmosphere = hasAtmosphere;
         this.posX = posX;
         this.posZ = posZ;
-        this.conditions = conditions;
         this.dimensionId = dimensionId;
-        this.parentId = parentId;
     }
     
     @Override
@@ -81,42 +59,8 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         // This Object doesnt tick.
     }
     
-    public int getParentId() {
-        return this.parentId;
-    }
-    
     public boolean hasAtmopshere() {
         return this.hasAtmosphere;
-    }
-    
-    private boolean isParentLoaded() {
-        return MMOCore.getDimensionRegistry().getRegistered(parentId) != null;
-    }
-    
-    public double getPosXInParent(double x) {        
-        boolean isSubtracting = (this.getSpawnX() > x);
-        double difference = 0;
-        if (isSubtracting) difference = (this.getSpawnX() - x);
-        if (!isSubtracting) difference = (x - this.getSpawnX());
-        if (isSubtracting) return (this.getX() - difference);
-        return (this.getX() + difference);
-    }
-    
-    // .getZ() returns the coord in the parent dimension for this dimension.
-    // .getSpawnZ() returns the centre of this dimension.
-    // Goal is to find the equivalent position on the Z axis for the parent dimension, by saying .getZ() == .getSpawnZ() and figuring out the distance between that and Z.
-    public double getPosZInParent(double z) {        
-        boolean isSubtracting = (this.getSpawnZ() > z);
-        double difference = 0;    
-        if (isSubtracting) difference = (this.getSpawnZ() - z);
-        if (!isSubtracting) difference = (z - this.getSpawnZ());
-        if (isSubtracting) return (this.getZ() - difference);
-        return (this.getZ() + difference);
-    }
-    
-    public RegisterableDimension getParent() {
-        if (!this.isParentLoaded()) return null;
-        return MMOCore.getDimensionRegistry().getRegistered(getParentId());
     }
     
     public String getName() {
@@ -131,19 +75,19 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         this.conditions = conditions;
     }
     
-    public long getRadiusBorderZ() {
+    public double getRadiusBorderZ() {
         return this.borderZ;
     }
     
-    public long getRadiusBorderX() {
+    public double getRadiusBorderX() {
         return this.borderX;
     }
     
-    public void setPosX(int posX) {
+    public void setPosX(double posX) {
         this.posX = posX;        
     }
     
-    public void setPosZ(int posZ) {
+    public void setPosZ(double posZ) {
         this.posZ = posZ;        
     }
     
@@ -164,19 +108,11 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         return this.type;
     }
     
-    public FakeDimensionType getFakeType() {
-        return this.fakeType;
-    }
-    
-    public boolean isFake() {
-        return this.isFake;
-    }
-    
-    public int getX() {
+    public double getX() {
         return this.posX;
     }
     
-    public int getZ() {
+    public double getZ() {
         return this.posZ;
     }
     
@@ -185,22 +121,18 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public int getSpawnX() {
-        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnX();
     }
     
     public int getSpawnY() {
-        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnY();
     }
     
     public int getForgeId() {
-        if (isFake) return dimensionId;
         return getRegisteredObject().provider.dimensionId;
     }
     
     public int getSpawnZ() {
-        if (isFake) return 0;
         return getRegisteredObject().getWorldInfo().getSpawnZ();
     }
     
@@ -209,16 +141,15 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
     }
     
     public uPosition getPosition() {
-        return new uPosition(this.posX, 0, this.posZ, this.getParent());
+        return new uPosition(this.getX(), 0, this.getZ(), this);
     }
     
     public DimensionConditions getConditions() {
         return this.conditions;
     }
     
-    public double getGravity() {
-        if (isFake) return 0;
-        return WarpDriveAPI.getGravity(this.dimensionId);
+    public float getGravity() {
+        return AdvancedRocketryAPI.getCelestialForDimId(this.dimensionId).getGravitationalMultiplier();
     }
     
     public void setFaction(String name) {
@@ -242,16 +173,13 @@ public class RegisterableDimension extends AbstractRegisterable<RegisterableDime
         ForgeAPI.sendConsoleEntry("Loading Dimension: " + this.getName() + "...", ConsoleMessageType.FINE);   
         ForgeAPI.sendConsoleEntry("DisplayName: " + this.getDisplayName()+ "...", ConsoleMessageType.FINE);  
         ForgeAPI.sendConsoleEntry("Conditions: " + this.getConditions(), ConsoleMessageType.FINE);
-        if (!isFake()) ForgeAPI.sendConsoleEntry("Type: " + this.getType(), ConsoleMessageType.FINE);
-        if (isFake()) ForgeAPI.sendConsoleEntry("FakeType: " + this.getFakeType(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Type: " + this.getType(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosX: " + this.getX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("PosZ: " + this.getZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("BorderX: " + this.getRadiusBorderX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("BorderZ: " + this.getRadiusBorderZ(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("SpawnX: " + this.getSpawnX(), ConsoleMessageType.FINE);
         ForgeAPI.sendConsoleEntry("SpawnZ: " + this.getSpawnZ(), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("Parent: " + this.getParentId(), ConsoleMessageType.FINE);
-        ForgeAPI.sendConsoleEntry("IsFake: " + this.isFake(), ConsoleMessageType.FINE);
     }
 
     @Override

@@ -7,7 +7,6 @@ package com.mmocore.module.GameEvent.events.options;
 
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.module.Dimension.RegisterableDimension;
-import com.mmocore.module.Galaxy.RegisterableGalaxy;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.constants.ConsoleMessageType;
@@ -25,8 +24,6 @@ public class SpawnEventOptions {
     
     // This field is responsible for globally enabling or disabling spawning via this NpcSpawnOptions class.
     private boolean enabled = true;
-    // This field is responsible for the galaxies that this NPC can spawn in. This allows the NPC to spawn in all dimensions in that galaxy.
-    private List<RegisterableGalaxy> galaxies = new ArrayList<RegisterableGalaxy>();    
     // This field is responsible for the dimensions that this NPC can spawn in. This does not need to include any dimension inside a galaxy listed above.
     private List<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();    
     // This field is responsible for specific spawn positions that this NPC will spawn at. This will ignore all dimension, galaxy and territory restrictions above.
@@ -138,16 +135,7 @@ public class SpawnEventOptions {
         if (quests.contains(quest)) ForgeAPI.sendConsoleEntry("Something attempted to add a spawn quest to an NPC twice.", ConsoleMessageType.DEBUG);
         if (!quests.contains(quest)) quests.add(quest);
     }
-    
-    public List<RegisterableGalaxy> getSpawnGalaxies() {
-        return this.galaxies;
-    }
-    
-    public void addSpawnGalaxy(RegisterableGalaxy Galaxy) {
-        if (galaxies.contains(Galaxy)) ForgeAPI.sendConsoleEntry("Something attempted to add a spawn Galaxy to an NPC twice.", ConsoleMessageType.DEBUG);
-        if (!galaxies.contains(Galaxy)) galaxies.add(Galaxy);
-    }
-    
+
     public List<RegisterableDimension> getSpawnDimensions() {
         return this.dimensions;
     }
