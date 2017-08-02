@@ -138,12 +138,12 @@ public class MMOCore {
    
    @Mod.EventHandler
    public void onServerStarting(FMLServerStartingEvent e) {       
-    //e.registerServerCommand(new BaseCommand());
+    e.registerServerCommand(new BaseCommand());
    }
    
    @Mod.EventHandler
    public void onServerStopping(FMLServerStoppingEvent e) {       
-    //if (ForgeAPI.isServer()) NpcAPI.deregisterAll();
+    if (ForgeAPI.isServer()) NpcAPI.deregisterAll();
    }
    
    @Mod.EventHandler
@@ -152,21 +152,18 @@ public class MMOCore {
 //           MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {
-//            MMOCore.getDimensionRegistry().initialise();
-//            MMOCore.getPlayerRegistry().initialise();
-//            MMOCore.getDialogRegistry().initialise();       
-//            MMOCore.getCommandRegistry().initialise();
-//            MMOCore.getQuestRegistry().initialise();
-//            MMOCore.getNpcFactionRegistry().initialise();
-//            MMOCore.getNpcRegistry().initialise();  
-//            MMOCore.getGameEventRegistry().initialise();
-            //WarpDriveAPI.onServerStarted();       
-//            DictionaryAPI.init();
-//            DictionaryAPI.loadNpcFactions();
-//            DictionaryAPI.loadDialogs();
-//            DictionaryAPI.loadQuests();
-//            DictionaryAPI.loadNpcs();
-//            DictionaryAPI.loadGameEvents();
+            MMOCore.getDimensionRegistry().initialise();
+            MMOCore.getPlayerRegistry().initialise();
+            MMOCore.getDialogRegistry().initialise();       
+            MMOCore.getCommandRegistry().initialise();
+            MMOCore.getQuestRegistry().initialise();
+            MMOCore.getNpcFactionRegistry().initialise();
+            MMOCore.getNpcRegistry().initialise();  
+            MMOCore.getGameEventRegistry().initialise();
+            DictionaryAPI.init();
+            DictionaryAPI.loadNpcFactions();
+            DictionaryAPI.loadDialogs();
+            DictionaryAPI.loadQuests();
        }
    }
    

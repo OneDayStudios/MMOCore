@@ -7,6 +7,7 @@ package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.AdvancedRocketryAPI;
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.constants.ConsoleMessageType;
@@ -43,7 +44,9 @@ public class WorldListener extends RegisterableListener {
                     AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("x"), 
                     AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("z"), 
                     AdvancedRocketryAPI.getBorder(dimensionId), dimensionId);
-            MMOCore.getDimensionRegistry().register(dimension);
+                    MMOCore.getDimensionRegistry().register(dimension);
+                    DictionaryAPI.loadNpcs(dimension);
+                    DictionaryAPI.loadGameEvents(dimension);
         }
     }
     
