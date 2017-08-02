@@ -133,11 +133,11 @@ public class AbstractDictionary {
     }
     
     public static void loadDialogs() {
-        add(new LetsGetStarted());
-        add(new WelcomeToTheSGC());
-        add(new WhereAmI());
-        add(new JanetFraserWelcome());
-        add(new JaffaMarketeerIntro());
+        //add(new LetsGetStarted());
+        //add(new WelcomeToTheSGC());
+        //add(new WhereAmI());
+        //add(new JanetFraserWelcome());
+        //add(new JaffaMarketeerIntro());
     }
 
     public static void loadNpcFactions() {
@@ -147,20 +147,20 @@ public class AbstractDictionary {
     }
 
     public static void loadNpcs() {
-        add(new GeneralHammond());
+        //add(new GeneralHammond());
         add(new StargateCommandSoldier());
         add(new GoauldJaffaSoldier());
-        add(new JanetFraser());
-        add(new MarcusBell());
-        add(new WalterHarriman());
-        add(new JaffaMarketeer());
+        //add(new JanetFraser());
+        //add(new MarcusBell());
+        //add(new WalterHarriman());
+        //add(new JaffaMarketeer());
     }
     
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
-        add(new LocStargateCommand());
-        add(new SGCInfirmary());
-        add(new StargateCommandMarines());
+        //add(new LocStargateCommand());
+        //add(new SGCInfirmary());
+        //add(new StargateCommandMarines());
         add(new VillagerSpawnContestedWorlds());
     }
 
