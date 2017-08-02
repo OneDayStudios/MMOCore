@@ -165,6 +165,6 @@ public class AbstractDictionary {
     }
 
     public static void loadQuests() {
-        add(new VisitingTheInfirmary());
+        //add(new VisitingTheInfirmary());
     }
 }
