@@ -23,17 +23,16 @@ import java.util.ArrayList;
  *
  * @author draks
  */
-public class RandomSpawnContestedWorlds extends RandomSpawnEvent {
+public class RandomSpawnCommanders extends RandomSpawnEvent {
 
-    public RandomSpawnContestedWorlds() {
-            super("Random Spawn Soldiers - Uncontrolled Worlds");
-            this.addNpc(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
-            this.addNpc(AbstractDictionary.getNpcByName("Jaffa Soldier", "Goauld Loyal Jaffa"));
+    public RandomSpawnCommanders() {
+            super("Random Spawn Commanders - Uncontrolled Worlds");
+            this.addNpc(AbstractDictionary.getNpcByName("Goauld First Prime", "Goauld Loyal Jaffa"));
             SpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
-            options.setDimensionDensity(25);
+            options.setDimensionDensity(5);
             this.setOptions(options);
     }
 }

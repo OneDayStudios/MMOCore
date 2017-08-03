@@ -18,6 +18,7 @@ import com.mmocore.module.data.dialogs.GeneralHammond.WhereAmI;
 import com.mmocore.module.data.dialogs.JaffaMarketeer.JaffaMarketeerIntro;
 import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.LocStargateCommand;
+import com.mmocore.module.data.events.RandomSpawnCommanders;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
 import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.SGCInfirmary;
@@ -26,6 +27,7 @@ import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.JaffaMarketeers;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
+import com.mmocore.module.data.npcs.GoauldFirstPrime;
 import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
 import com.mmocore.module.data.npcs.JaffaMarketeer;
 import com.mmocore.module.data.npcs.JanetFraser;
@@ -150,6 +152,7 @@ public class AbstractDictionary {
     public static void loadNpcs() {
         //add(new GeneralHammond());
         add(new StargateCommandSoldier());
+        add(new GoauldFirstPrime());
         add(new GoauldJaffaSoldier());
         //add(new JanetFraser());
         //add(new MarcusBell());
@@ -159,6 +162,7 @@ public class AbstractDictionary {
     
     public static void loadGameEvents() {
         add(new RandomSpawnContestedWorlds());
+        add(new RandomSpawnCommanders());
         //add(new LocStargateCommand());
         //add(new SGCInfirmary());
         //add(new StargateCommandMarines());
