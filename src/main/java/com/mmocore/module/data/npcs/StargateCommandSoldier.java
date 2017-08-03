@@ -54,5 +54,8 @@ public class StargateCommandSoldier extends RegisterableNpc {
         lOpts.addToLootTable(50, item);
         this.setLootOptions(lOpts);
         this.setCombatOptions(cOpts);
+        NpcMovementOptions mOpts = this.getMovementOptions();
+        mOpts.setMovementTypeWandering(AbstractScale.Medium);
+        this.setMovementOptions(mOpts);
     }
 }
