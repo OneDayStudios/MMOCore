@@ -30,7 +30,7 @@ public class NpcCombatOptions {
     private AbstractScale health = AbstractScale.Medium;
     private AbstractScale aggroRadius = AbstractScale.Medium;
     private AbstractScale passiveRegen = AbstractScale.Medium;
-    private AbstractScale combatRegen = AbstractScale.Medium;
+    private AbstractScale combatRegen = AbstractScale.Lowest;
     private AbstractScale projectileResistance = AbstractScale.Medium;
     private AbstractScale knockBackResistance = AbstractScale.Medium;
     private AbstractScale meleeResistance = AbstractScale.Medium;
