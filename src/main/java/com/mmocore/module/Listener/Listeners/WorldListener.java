@@ -45,8 +45,14 @@ public class WorldListener extends RegisterableListener {
                     AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("z"), 
                     AdvancedRocketryAPI.getBorder(dimensionId), dimensionId);
                     MMOCore.getDimensionRegistry().register(dimension);
-                    DictionaryAPI.loadNpcs(dimension);
-                    DictionaryAPI.loadGameEvents(dimension);
+                    RegisterableDimension registered = MMOCore.getDimensionRegistry().getRegistered(dimensionId);
+                    if (registered != null) {
+                        ForgeAPI.sendConsoleEntry("Registering for dimension: " + dimension.getName(), ConsoleMessageType.FINE);
+                        DictionaryAPI.loadNpcs(registered);
+                        DictionaryAPI.loadGameEvents(registered);
+                    } else {
+                        ForgeAPI.sendConsoleEntry("Error registering for dimension: " + dimension.getName(), ConsoleMessageType.FINE);
+                    }
         }
     }
     

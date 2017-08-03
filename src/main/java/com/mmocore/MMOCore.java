@@ -133,7 +133,7 @@ public class MMOCore {
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       //MMOCore.getListenerRegistry().initialise();
+       MMOCore.getListenerRegistry().initialise();
    }
    
    @Mod.EventHandler
@@ -160,7 +160,6 @@ public class MMOCore {
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
-            DictionaryAPI.init();
             DictionaryAPI.loadNpcFactions();
             DictionaryAPI.loadDialogs();
             DictionaryAPI.loadQuests();

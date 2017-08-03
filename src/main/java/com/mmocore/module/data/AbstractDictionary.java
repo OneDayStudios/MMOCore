@@ -49,6 +49,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<AbstractRegisterable> getAll() {
+        if (objects.isEmpty()) DictionaryAPI.init();
         return objects;
     }
     
