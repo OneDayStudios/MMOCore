@@ -31,7 +31,7 @@ public class UniversalPosition extends RegisterableCommand {
     @Override
     public void processCommandForPlayer(RegisterablePlayer player, String[] parameters) {
         PlayerAPI.sendMessage(player, "Dimension Coordinates: " + player.getPosition().getDPosX() + "," + player.getPosition().getDPosY() + "," + player.getPosition().getDPosZ());
-        PlayerAPI.sendMessage(player, "Universal Coordinates: " + player.getPosition().getUPosX() + "," + player.getPosition().getUPosZ());
+        PlayerAPI.sendMessage(player, "Universal Coordinates: " + Math.round(player.getPosition().getUPosX()) + "," + Math.round(player.getPosition().getUPosZ()));
         if (player.getPosition().getDimension() != null) PlayerAPI.sendMessage(player, "Dimension:" + player.getPosition().getDimension().getName());
         if (player.getPosition().getCelestialBody() != null) PlayerAPI.sendMessage(player, "Celestial Body:" + player.getPosition().getCelestialBody().getName());
     }

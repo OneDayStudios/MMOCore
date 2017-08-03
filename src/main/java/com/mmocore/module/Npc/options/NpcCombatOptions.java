@@ -5,7 +5,9 @@
  */
 package com.mmocore.module.Npc.options;
 
+import com.mmocore.api.ForgeAPI;
 import com.mmocore.constants.AbstractScale;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.constants.NpcBoolean;
 import com.mmocore.constants.NpcCombatResponse;
 import com.mmocore.constants.NpcFireIndirectlyOption;
@@ -50,8 +52,9 @@ public class NpcCombatOptions {
         
     }
     
-    public NpcCombatOptions(NpcCombatOptions combatOptions) {
-        this.attacksHostileFactions = combatOptions.attacksHostileFactions;
+    public NpcCombatOptions(NpcCombatOptions combatOptions) {        
+        ForgeAPI.sendConsoleEntry("Cloning combat options with attacksHostileFactions: " + combatOptions.attacksHostileFactions.name(), ConsoleMessageType.FINE);
+        this.attacksHostileFactions = NpcBoolean.valueOf(combatOptions.attacksHostileFactions.name());
         this.defendFactionMembers = combatOptions.defendFactionMembers;
         this.rangedDamage = combatOptions.rangedDamage;
         this.meleeDamage = combatOptions.meleeDamage;
@@ -73,7 +76,8 @@ public class NpcCombatOptions {
         this.mustSeeTarget = combatOptions.mustSeeTarget;
         this.fireIndirectly = combatOptions.fireIndirectly;
         this.canAttackInvisibleTargets = combatOptions.canAttackInvisibleTargets;
-        this.fireWeaponSound = combatOptions.fireWeaponSound;
+        ForgeAPI.sendConsoleEntry("Cloning combat options with sound: " + combatOptions.fireWeaponSound.name(), ConsoleMessageType.FINE);
+        this.fireWeaponSound = NpcSound.valueOf(combatOptions.fireWeaponSound.name());
         this.attackSpeed = combatOptions.attackSpeed;
     }
     

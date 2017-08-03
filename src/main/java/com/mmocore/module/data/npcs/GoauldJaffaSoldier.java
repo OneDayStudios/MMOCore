@@ -41,7 +41,6 @@ public class GoauldJaffaSoldier extends RegisterableNpc {
         
         NpcHeldItemSet weapons = this.getRangedHeldItems();
         NpcItem heldItem = new NpcItem("flansmod", "maTokStaff", 1, 0);
-        NpcBaseOptions options = this.getBaseOptions();
         weapons.setMainHand(heldItem);
         this.setRangedHeldItems(weapons);
         this.setPassiveHeldItems(weapons);
