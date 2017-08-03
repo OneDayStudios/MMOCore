@@ -31,7 +31,7 @@ import java.util.Random;
 public class GoauldFirstPrime extends RegisterableNpc {
     
     public GoauldFirstPrime() {
-        super(  "Jaffa First Prime",
+        super(  "Goauld First Prime",
                 "Goauld Loyal Jaffa",
                 NpcTexture.JAFFA_FIRST_PRIME,
                 NpcModifier.RANGED_COMMANDER,
