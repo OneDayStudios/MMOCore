@@ -16,6 +16,7 @@ public class Goauld extends RegisterableNpcFaction {
     public Goauld() {
         super("Goauld");
         this.setDefaultPoints(0);
+        this.setAttackedByMobs(true);
     }
     
 }
