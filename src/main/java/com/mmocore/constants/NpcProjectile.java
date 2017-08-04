@@ -21,7 +21,7 @@ public enum NpcProjectile {
     GOLD_PLASMA("IC2", "itemDust2", 4, false, 4, 65, false, true, true, EnumParticleType.None, 10, 18, 15, 1, 2),
     ARROW("minecraft", "arrow", 0, false, 4, 35, false, true, true, EnumParticleType.None, 20, 20, 25, 1, 1),    
     PISTOL_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 45, true, false, false, EnumParticleType.None, 10, 15, 15, 1, 1),
-    SNIPER_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 100, true, false, false, EnumParticleType.None, 1, 1, 20, 1, 1),
+    SNIPER_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 100, true, false, false, EnumParticleType.None, 1, 9, 60, 1, 1),
     MACHINEGUN_BULLET("customnpcs", "npcBlackBullet", 0, false, 1, 65, true, false, false, EnumParticleType.None, 3, 9, 3, 1, 5);
     
     private String mod;
