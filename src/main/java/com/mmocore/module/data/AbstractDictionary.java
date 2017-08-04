@@ -34,6 +34,7 @@ import com.mmocore.module.data.npcs.JanetFraser;
 import com.mmocore.module.data.npcs.MarcusBell;
 import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 import com.mmocore.module.data.npcs.WalterHarriman;
+import com.mmocore.module.data.npcs.mobs.TauriCommander;
 import com.mmocore.module.data.quests.VisitingTheInfirmary;
 import java.util.ArrayList;
 
@@ -154,6 +155,7 @@ public class AbstractDictionary {
         add(new TauriSoldier());
         add(new GoauldCommander());
         add(new GoauldSoldier());
+        add(new TauriCommander());
         //add(new JanetFraser());
         //add(new MarcusBell());
         //add(new WalterHarriman());
