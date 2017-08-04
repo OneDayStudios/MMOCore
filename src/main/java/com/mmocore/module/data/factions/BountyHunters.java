@@ -13,14 +13,14 @@ import com.mmocore.module.data.AbstractDictionary;
  *
  * @author draks
  */
-public class Goauld extends RegisterableNpcFaction {
+public class BountyHunters extends RegisterableNpcFaction {
 
-    public Goauld() {
-        super("Goauld");
+    public BountyHunters() {
+        super("Bounty Hunters");
         this.setDefaultPoints(0);
         this.setAttackedByMobs(true);
         this.addHostileFaction(NpcFactionAPI.getRegistered("Stargate Command"));
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Bounty Hunters"));
+        this.addHostileFaction(NpcFactionAPI.getRegistered("Goauld"));
     }
     
 }

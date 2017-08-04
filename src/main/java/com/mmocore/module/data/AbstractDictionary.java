@@ -24,6 +24,7 @@ import com.mmocore.module.data.events.RandomSpawnSnipers;
 import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.SGCInfirmary;
 import com.mmocore.module.data.events.VillagerSpawnContestedWorlds;
+import com.mmocore.module.data.factions.BountyHunters;
 import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.JaffaMarketeers;
 import com.mmocore.module.data.factions.StargateCommand;
@@ -150,6 +151,7 @@ public class AbstractDictionary {
         add(new Goauld());
         add(new StargateCommand());
         add(new JaffaMarketeers());
+        add(new BountyHunters());
     }
 
     public static void loadNpcs() {
