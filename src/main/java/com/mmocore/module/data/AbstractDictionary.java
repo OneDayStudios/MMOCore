@@ -20,6 +20,7 @@ import com.mmocore.module.data.dialogs.JanetFraser.JanetFraserWelcome;
 import com.mmocore.module.data.events.LocStargateCommand;
 import com.mmocore.module.data.events.RandomSpawnCommanders;
 import com.mmocore.module.data.events.RandomSpawnContestedWorlds;
+import com.mmocore.module.data.events.RandomSpawnSnipers;
 import com.mmocore.module.data.events.StargateCommandMarines;
 import com.mmocore.module.data.events.SGCInfirmary;
 import com.mmocore.module.data.events.VillagerSpawnContestedWorlds;
@@ -35,6 +36,7 @@ import com.mmocore.module.data.npcs.MarcusBell;
 import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 import com.mmocore.module.data.npcs.WalterHarriman;
 import com.mmocore.module.data.npcs.mobs.TauriCommander;
+import com.mmocore.module.data.npcs.mobs.TauriSniper;
 import com.mmocore.module.data.quests.VisitingTheInfirmary;
 import java.util.ArrayList;
 
@@ -160,6 +162,7 @@ public class AbstractDictionary {
         //add(new MarcusBell());
         //add(new WalterHarriman());
         //add(new JaffaMarketeer());
+        add(new TauriSniper());
     }
     
     public static void loadGameEvents() {
@@ -169,6 +172,7 @@ public class AbstractDictionary {
         //add(new SGCInfirmary());
         //add(new StargateCommandMarines());
         add(new VillagerSpawnContestedWorlds());
+        add(new RandomSpawnSnipers());
     }
 
     public static void loadQuests() {
