@@ -52,7 +52,7 @@ public class TauriSniper extends RegisterableNpc {
         cOpts.setRangedDamage(AbstractScale.Highest);
         cOpts.setTacticalDistance(AbstractScale.Highest);
         cOpts.setTacticalBehaviour(NpcTacticalOption.Stalk);
-        cOpts.setFireWeaponSound(NpcSound.P90);
+        cOpts.setFireWeaponSound(NpcSound.Sniper);
         cOpts.setProjectile(NpcProjectile.SNIPER_BULLET);
         cOpts.setAttacksHostileFactions(NpcBoolean.YES);
         NpcLootOptions lOpts = this.getLootOptions();

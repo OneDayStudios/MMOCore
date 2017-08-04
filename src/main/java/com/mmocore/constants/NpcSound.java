@@ -14,6 +14,7 @@ public enum NpcSound {
     NONE("NONE"),
     P90("flansmod:P90Shoot"),
     MatokStaff("flansmod:staffShoot"),
+    Sniper("flansmod:M21Shoot"),
     M9("flansmod:M9Shoot"),
     ZatGun("flansmod:zatShoot");
     

@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.data.factions;
 
+import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 
 /**
@@ -17,6 +18,7 @@ public class StargateCommand extends RegisterableNpcFaction {
         super("Stargate Command");
         this.setDefaultPoints(1000);
         this.setAttackedByMobs(true);
+        this.addHostileFaction(NpcFactionAPI.getRegistered("Goauld"));
     }
     
 }

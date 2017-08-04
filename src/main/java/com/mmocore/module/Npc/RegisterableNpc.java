@@ -123,15 +123,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         this.setPassiveHeldItems(new NpcHeldItemSet(npc.getPassiveHeldItems()));
         this.setRangedHeldItems(new NpcHeldItemSet(npc.getRangedHeldItems()));
         this.setRespawnOptions(new NpcRespawnOptions(npc.getRespawnOptions()));
-        NpcCombatOptions cOptions = this.getCombatOptions();
-        cOptions.setExplosionResistance(npc.getBaseOptions().getModifier().getExplosiveResistance());
-        cOptions.setMeleeResistance(npc.getBaseOptions().getModifier().getMeleeResistance());
-        cOptions.setProjectileResistance(npc.getBaseOptions().getModifier().getProjectileResistance());
-        cOptions.setKnockbackResistance(npc.getBaseOptions().getModifier().getKnockbackResistance());
-        cOptions.setMeleeDamage(npc.getBaseOptions().getModifier().getMeleeDamage());
-        cOptions.setRangedDamage(npc.getBaseOptions().getModifier().getRangedDamage());        
-        cOptions.setHealth(npc.getBaseOptions().getModifier().getHealth());
-        this.setCombatOptions(cOptions);
     }
     
     public RegisterableNpc(String name, String title, NpcTexture texture, NpcModifier modifier, NpcSpawnMethod method, RegisterableNpcFaction faction) {
