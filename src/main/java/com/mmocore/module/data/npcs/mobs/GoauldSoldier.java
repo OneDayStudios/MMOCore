@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.data.npcs;
+package com.mmocore.module.data.npcs.mobs;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
@@ -28,10 +28,10 @@ import java.util.Random;
  *
  * @author draks
  */
-public class GoauldJaffaSoldier extends RegisterableNpc {
+public class GoauldSoldier extends RegisterableNpc {
     
-    public GoauldJaffaSoldier() {
-        super(  "Jaffa Soldier",
+    public GoauldSoldier() {
+        super(  "Goauld Soldier",
                 "Goauld Loyal Jaffa",
                 NpcTexture.JAFFA_SERPENT_GUARD,
                 NpcModifier.RANGED_SOLDIER,

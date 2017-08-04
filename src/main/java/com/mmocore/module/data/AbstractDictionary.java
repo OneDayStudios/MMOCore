@@ -27,12 +27,12 @@ import com.mmocore.module.data.factions.Goauld;
 import com.mmocore.module.data.factions.JaffaMarketeers;
 import com.mmocore.module.data.factions.StargateCommand;
 import com.mmocore.module.data.npcs.GeneralHammond;
-import com.mmocore.module.data.npcs.GoauldFirstPrime;
-import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
+import com.mmocore.module.data.npcs.mobs.GoauldCommander;
+import com.mmocore.module.data.npcs.mobs.GoauldSoldier;
 import com.mmocore.module.data.npcs.JaffaMarketeer;
 import com.mmocore.module.data.npcs.JanetFraser;
 import com.mmocore.module.data.npcs.MarcusBell;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 import com.mmocore.module.data.npcs.WalterHarriman;
 import com.mmocore.module.data.quests.VisitingTheInfirmary;
 import java.util.ArrayList;
@@ -151,9 +151,9 @@ public class AbstractDictionary {
 
     public static void loadNpcs() {
         //add(new GeneralHammond());
-        add(new StargateCommandSoldier());
-        add(new GoauldFirstPrime());
-        add(new GoauldJaffaSoldier());
+        add(new TauriSoldier());
+        add(new GoauldCommander());
+        add(new GoauldSoldier());
         //add(new JanetFraser());
         //add(new MarcusBell());
         //add(new WalterHarriman());

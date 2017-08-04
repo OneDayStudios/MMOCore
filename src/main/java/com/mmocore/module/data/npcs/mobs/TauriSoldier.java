@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.data.npcs;
+package com.mmocore.module.data.npcs.mobs;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
@@ -28,10 +28,10 @@ import java.util.Random;
  *
  * @author draks
  */
-public class StargateCommandSoldier extends RegisterableNpc {
+public class TauriSoldier extends RegisterableNpc {
     
-    public StargateCommandSoldier() {
-        super(  "SGC Soldier",
+    public TauriSoldier() {
+        super(  "Tauri Soldier",
                 "Stargate Command",
                 NpcTexture.TAURI_MARINE,
                 NpcModifier.RANGED_SOLDIER,

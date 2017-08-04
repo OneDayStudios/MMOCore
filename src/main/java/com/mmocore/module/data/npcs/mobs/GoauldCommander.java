@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mmocore.module.data.npcs;
+package com.mmocore.module.data.npcs.mobs;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
@@ -28,10 +28,10 @@ import java.util.Random;
  *
  * @author draks
  */
-public class GoauldFirstPrime extends RegisterableNpc {
+public class GoauldCommander extends RegisterableNpc {
     
-    public GoauldFirstPrime() {
-        super(  "Goauld First Prime",
+    public GoauldCommander() {
+        super(  "Goauld Commander",
                 "Goauld Loyal Jaffa",
                 NpcTexture.JAFFA_FIRST_PRIME,
                 NpcModifier.RANGED_COMMANDER,

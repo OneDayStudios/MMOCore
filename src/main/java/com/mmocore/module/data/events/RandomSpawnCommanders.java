@@ -15,8 +15,8 @@ import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.factions.*;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.AbstractDictionary;
-import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.npcs.mobs.GoauldSoldier;
+import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 import java.util.ArrayList;
 
 /**
@@ -27,12 +27,14 @@ public class RandomSpawnCommanders extends RandomSpawnEvent {
 
     public RandomSpawnCommanders() {
             super("Random Spawn Commanders - Uncontrolled Worlds");
-            this.addNpc(AbstractDictionary.getNpcByName("Goauld First Prime", "Goauld Loyal Jaffa"));
+            this.addNpc(AbstractDictionary.getNpcByName("Goauld Commander", "Goauld Loyal Jaffa"));
+            this.addNpc(AbstractDictionary.getNpcByName("Tauri Commander", "Stargate Command"));
             SpawnEventOptions options = this.getOptions();
             for (RegisterableDimension dimension : UniverseAPI.getDimensions()) {
                 if (dimension.getFaction() == null) options.addSpawnDimension(dimension);
             }
             options.setDimensionDensity(5);
+            options.setSpawnChance(5);
             this.setOptions(options);
     }
 }

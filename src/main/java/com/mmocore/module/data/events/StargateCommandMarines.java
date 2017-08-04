@@ -10,7 +10,7 @@ import com.mmocore.constants.NpcRotation;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.events.CloneLoadEvent;
 import com.mmocore.module.data.AbstractDictionary;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 
 /**
  *

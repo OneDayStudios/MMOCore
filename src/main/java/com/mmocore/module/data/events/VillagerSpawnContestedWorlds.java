@@ -16,8 +16,8 @@ import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.data.factions.*;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.AbstractDictionary;
-import com.mmocore.module.data.npcs.GoauldJaffaSoldier;
-import com.mmocore.module.data.npcs.StargateCommandSoldier;
+import com.mmocore.module.data.npcs.mobs.GoauldSoldier;
+import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 import java.util.ArrayList;
 
 /**
