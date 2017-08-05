@@ -17,10 +17,10 @@ public class Goauld extends RegisterableNpcFaction {
 
     public Goauld() {
         super("Goauld");
-        this.setDefaultPoints(0);
+        this.setDefaultPoints(1000);
         this.setAttackedByMobs(true);
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Stargate Command"));
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Bounty Hunters"));
+        this.addHostileFaction("Stargate Command");
+        this.addHostileFaction("Bounty Hunters");
     }
     
 }

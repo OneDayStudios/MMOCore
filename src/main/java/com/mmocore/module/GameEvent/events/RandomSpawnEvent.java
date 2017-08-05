@@ -6,6 +6,7 @@
 package com.mmocore.module.GameEvent.events;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.AdvancedRocketryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.PlayerAPI;
@@ -43,6 +44,8 @@ public class RandomSpawnEvent extends GameEvent {
         if (!getOptions().getSpawnFactions().isEmpty() && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
         if (getOptions().getDimensionDensity() < NpcAPI.getAllReadOnlyCreatedBy(position.getDimension(), this.getClass()).size()) return false;
         if (!getOptions().getSpawnsOnContestedWorlds() && position.getDimension().getFaction() == null) return false;
+        if (getOptions().getAtmosphereMaximum() < position.getAtmosphericPressure()) return false;
+        if (getOptions().getAtmosphereMinimum() > position.getAtmosphericPressure()) return false;        
         if (!getOptions().getSpawnFactions().isEmpty() && position.getDimension().getFaction() != null && !getOptions().getSpawnFactions().contains(position.getDimension().getFaction())) return false;
         return true;
     }
@@ -52,7 +55,6 @@ public class RandomSpawnEvent extends GameEvent {
         uPosition origSpawnPos = UniverseAPI.getRandomNearbyPosition(position, 64, 128);
         if (getOptions().getMode().equals(RandomSpawnMode.SingleFromGroup)) {
             if (origSpawnPos == null) {
-                ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
                 return false;
             }
             RegisterableNpc toSpawn = getRandomNpc();
@@ -66,7 +68,6 @@ public class RandomSpawnEvent extends GameEvent {
             for (RegisterableNpc npc : storedNpcs) {                
                 actualSpawnPos = UniverseAPI.getRandomNearbyPosition(prevSpawnPos, getOptions().getMinSpawnSpread(), getOptions().getMaxSpawnSpread());
                 if (actualSpawnPos == null) {
-                    ForgeAPI.sendConsoleEntry("Failed to locate spawn location!", ConsoleMessageType.FINE);
                     continue;
                 }
                 RegisterableNpc toSpawn = NpcAPI.simpleClone(npc, NpcSpawnMethod.Random, actualSpawnPos);

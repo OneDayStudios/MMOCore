@@ -19,8 +19,8 @@ public class BountyHunters extends RegisterableNpcFaction {
         super("Bounty Hunters");
         this.setDefaultPoints(0);
         this.setAttackedByMobs(true);
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Stargate Command"));
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Goauld"));
+        this.addHostileFaction("Stargate Command");
+        this.addHostileFaction("Goauld");
     }
     
 }

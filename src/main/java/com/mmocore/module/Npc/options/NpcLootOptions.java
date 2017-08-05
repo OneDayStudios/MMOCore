@@ -47,7 +47,7 @@ public class NpcLootOptions {
         this.primaryFactionValue = value;
     }
     
-    public void secSecondaryFaction(NpcFactionValue value) {
+    public void setSecondaryFaction(NpcFactionValue value) {
         this.secondaryFactionValue = value;
     }
     

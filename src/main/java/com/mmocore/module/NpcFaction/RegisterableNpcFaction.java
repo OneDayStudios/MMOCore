@@ -10,6 +10,7 @@ import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.module.AbstractRegisterable;
 import com.mmocore.constants.ConsoleMessageType;
+import java.util.ArrayList;
 import java.util.Random;
 import noppes.npcs.controllers.Faction;
 import noppes.npcs.controllers.FactionController;
@@ -21,6 +22,7 @@ import noppes.npcs.controllers.FactionController;
 public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpcFaction, Integer, Faction> {
     
     private Faction actualFaction;
+    ArrayList<String> hostileFactions = new ArrayList<String>();
     
     public RegisterableNpcFaction(String name) {
         
@@ -84,6 +86,14 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
         return getRegisteredObject().hideFaction;
     }
     
+    public void addHostileFaction(String name) {
+        if (!this.hostileFactions.contains(name)) this.hostileFactions.add(name);        
+    }
+    
+    public ArrayList<String> getCachedHostileFactions() {
+        return this.hostileFactions;
+    }
+
     public void clearHostileFactions() {
         getRegisteredObject().attackFactions.clear();
     }
@@ -93,8 +103,8 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
             this.save();
     }
     
-    public void addHostileFaction(RegisterableNpcFaction faction) {
-            getRegisteredObject().attackFactions.add(faction.getIdentifier());
+    public void addHostileFaction(int id) {
+            getRegisteredObject().attackFactions.add(id);
             this.save();
     }
     
@@ -127,7 +137,17 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
 
     @Override
     public void tick() {
-
+        for (String faction : this.getCachedHostileFactions()) {
+            RegisterableNpcFaction hostileFaction = NpcFactionAPI.getRegistered(faction);
+            if (hostileFaction != null) {
+                if (!this.getRegisteredObject().attackFactions.contains(hostileFaction.getIdentifier())) {
+                    this.addHostileFaction(hostileFaction.getIdentifier());
+                    this.save();
+                }
+            } else {
+                ForgeAPI.sendConsoleEntry("Could not locate faction : " + faction + " to make enemies with : " + this.getName(), ConsoleMessageType.WARNING);
+            }
+        }
     }
 
     @Override

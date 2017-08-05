@@ -12,6 +12,7 @@ import com.mmocore.module.Listener.Listeners.CraftingListener;
 import com.mmocore.module.Listener.Listeners.GuiListener;
 import com.mmocore.module.Listener.Listeners.PlayerListener;
 import com.mmocore.module.Listener.Listeners.ProtectionListener;
+import com.mmocore.module.Listener.Listeners.ServerListener;
 import com.mmocore.module.Listener.Listeners.VillagerSpawnListener;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -36,6 +37,7 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
         MMOCore.getListenerRegistry().register(new ProtectionListener());
         MMOCore.getListenerRegistry().register(new VillagerSpawnListener());
         MMOCore.getListenerRegistry().register(new CraftingListener());
+        MMOCore.getListenerRegistry().register(new ServerListener());
     }
     private void initClientListeners() {
         MMOCore.getListenerRegistry().register(new GuiListener());

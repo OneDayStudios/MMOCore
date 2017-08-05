@@ -9,6 +9,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcBoolean;
+import com.mmocore.constants.NpcFactionValue;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcSound;
@@ -59,6 +60,8 @@ public class TauriSniper extends RegisterableNpc {
         NpcItem item = new NpcItem();
         item.setItem("flansmod", "m40a3", 1, 0);
         lOpts.addToLootTable(50, item);
+        lOpts.setPrimaryFaction(new NpcFactionValue(NpcFactionAPI.getRegistered("Stargate Command"), AbstractScale.Lower, false));
+        lOpts.setSecondaryFaction(new NpcFactionValue(NpcFactionAPI.getRegistered("Goauld"), AbstractScale.Lower, true));
         this.setLootOptions(lOpts);
         this.setCombatOptions(cOpts);
         NpcMovementOptions mOpts = this.getMovementOptions();

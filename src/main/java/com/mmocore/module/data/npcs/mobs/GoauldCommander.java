@@ -9,6 +9,7 @@ import com.mmocore.MMOCore;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.AbstractScale;
 import com.mmocore.constants.NpcBoolean;
+import com.mmocore.constants.NpcFactionValue;
 import com.mmocore.constants.NpcModifier;
 import com.mmocore.constants.NpcProjectile;
 import com.mmocore.constants.NpcSound;
@@ -52,6 +53,8 @@ public class GoauldCommander extends RegisterableNpc {
         this.setMovementOptions(mOpts);
         cOpts.setAttacksHostileFactions(NpcBoolean.YES);
         NpcLootOptions lOpts = this.getLootOptions();
+        lOpts.setSecondaryFaction(new NpcFactionValue(NpcFactionAPI.getRegistered("Stargate Command"), AbstractScale.Medium, true));
+        lOpts.setPrimaryFaction(new NpcFactionValue(NpcFactionAPI.getRegistered("Goauld"), AbstractScale.Medium, false));
         NpcItem item = new NpcItem();
         item.setItem("flansmod", "maTokStaff", 1, 0);
         lOpts.addToLootTable(50, item);

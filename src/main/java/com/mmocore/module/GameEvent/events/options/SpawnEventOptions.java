@@ -26,6 +26,10 @@ public class SpawnEventOptions {
     private boolean enabled = true;
     // This field is responsible for the dimensions that this NPC can spawn in. This does not need to include any dimension inside a galaxy listed above.
     private List<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();    
+    // This field is responsible for governing how much atmosphere is required for this NPC to spawn. Default is player breathable.
+    private int minimumAtmosphereToSpawn = 75;
+    // This field is responsible for governing how much atmosphere is the limit at which this NPC will spawn. Default is player breathable.
+    private int maximumAtmosphereToSpawn = 110;
     // This field is responsible for specific spawn positions that this NPC will spawn at. This will ignore all dimension, galaxy and territory restrictions above.
     private List<uPosition> positions = new ArrayList<uPosition>();
     // This field is responsible for creating a hard-cap of the number of this NPC that spawns within on a single dimension. It will cancel spawns if this limit is reached.
@@ -57,6 +61,22 @@ public class SpawnEventOptions {
     
     public boolean getRequiresAtmosphere() {
         return this.requiresAtmosphere;
+    }
+    
+    public void setAtmosphereMaximum(int pressure) {
+        this.maximumAtmosphereToSpawn = pressure;
+    }
+    
+    public void setAtmosphereMinimum(int pressure) {
+        this.minimumAtmosphereToSpawn = pressure;
+    }
+    
+    public int getAtmosphereMaximum() {
+        return this.maximumAtmosphereToSpawn;
+    }
+    
+    public int getAtmosphereMinimum() {
+        return this.minimumAtmosphereToSpawn;
     }
     
     public int getMaxSpawnSpread() {

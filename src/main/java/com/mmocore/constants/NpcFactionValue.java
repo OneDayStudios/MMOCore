@@ -19,7 +19,7 @@ public class NpcFactionValue {
     
     public NpcFactionValue(RegisterableNpcFaction faction, AbstractScale scaledPoints, boolean isIncrease) {
         this.faction = faction;
-        this.value = value;
+        this.value = scaledPoints;
         this.isIncrease = isIncrease;
     }
     

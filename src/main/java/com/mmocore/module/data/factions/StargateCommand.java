@@ -18,8 +18,8 @@ public class StargateCommand extends RegisterableNpcFaction {
         super("Stargate Command");
         this.setDefaultPoints(1000);
         this.setAttackedByMobs(true);
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Goauld"));
-        this.addHostileFaction(NpcFactionAPI.getRegistered("Bounty Hunters"));
+        this.addHostileFaction("Goauld");
+        this.addHostileFaction("Bounty Hunters");
     }
     
 }

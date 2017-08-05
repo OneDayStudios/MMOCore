@@ -76,6 +76,12 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         return (this.dimension.getType().equals(DimensionType.StarSystem));
     }
     
+    public int getAtmosphericPressure() {
+        if (AdvancedRocketryAPI.isInSpace(this.getDimension().getIdentifier())) return 0;
+        if (AdvancedRocketryAPI.getCelestialForDimId(this.getDimension().getIdentifier()) == null) return 0;
+        return AdvancedRocketryAPI.getCelestialForDimId(this.getDimension().getIdentifier()).getAtmosphereDensity();
+    }
+    
     // This obtains the planet that the position is in orbit of, or on. Returns null otherwise.
     public RegisterableDimension getCelestialBody() {
         if (this.dimension.getType().equals(DimensionType.StarSystem)) {
@@ -129,8 +135,6 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     @Override
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+    }    
     
 }
