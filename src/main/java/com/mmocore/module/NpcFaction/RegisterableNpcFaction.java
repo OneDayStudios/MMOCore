@@ -22,7 +22,7 @@ import noppes.npcs.controllers.FactionController;
 public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpcFaction, Integer, Faction> {
     
     private Faction actualFaction;
-    ArrayList<String> hostileFactions = new ArrayList<String>();
+    private ArrayList<String> hostileFactions = new ArrayList<String>();
     
     public RegisterableNpcFaction(String name) {
         
@@ -46,6 +46,10 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     
     private void setID(int id) {
         actualFaction.id = id;
+    }
+    
+    public void setHostileFactions(ArrayList<String> hostileFactions) {
+        this.hostileFactions = hostileFactions;
     }
     
     public void setDefaultPoints(int points) {
@@ -87,7 +91,11 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     }
     
     public void addHostileFaction(String name) {
-        if (!this.hostileFactions.contains(name)) this.hostileFactions.add(name);        
+        ForgeAPI.sendConsoleEntry("Processing faction:" + name, ConsoleMessageType.FINE);
+        if (!this.hostileFactions.contains(name)) {
+            ForgeAPI.sendConsoleEntry("Adding faction: " + name, ConsoleMessageType.FINE);
+            this.hostileFactions.add(name);
+        }        
     }
     
     public ArrayList<String> getCachedHostileFactions() {
@@ -137,17 +145,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
 
     @Override
     public void tick() {
-        for (String faction : this.getCachedHostileFactions()) {
-            RegisterableNpcFaction hostileFaction = NpcFactionAPI.getRegistered(faction);
-            if (hostileFaction != null) {
-                if (!this.getRegisteredObject().attackFactions.contains(hostileFaction.getIdentifier())) {
-                    this.addHostileFaction(hostileFaction.getIdentifier());
-                    this.save();
-                }
-            } else {
-                ForgeAPI.sendConsoleEntry("Could not locate faction : " + faction + " to make enemies with : " + this.getName(), ConsoleMessageType.WARNING);
-            }
-        }
+        
     }
 
     @Override
@@ -170,5 +168,23 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     @Override
     public Faction getRegisteredObject() {
         return this.actualFaction;
+    }
+
+    public void updateHostiles() {
+        ForgeAPI.sendConsoleEntry("Processing factions: " + this.hostileFactions.size(), ConsoleMessageType.FINE);
+        for (String faction : this.hostileFactions) {
+            ForgeAPI.sendConsoleEntry("Seeking out faction with name: " + faction, ConsoleMessageType.FINE);
+            RegisterableNpcFaction hostileFaction = NpcFactionAPI.getRegistered(faction);
+            if (hostileFaction != null) {
+                if (!this.getRegisteredObject().attackFactions.contains(hostileFaction.getIdentifier())) {
+                    ForgeAPI.sendConsoleEntry("Updating faction: " + hostileFaction.getIdentifier() + ", " + hostileFaction.getName() + " as hostile to : " + this.getName(), ConsoleMessageType.FINE);
+                    this.addHostileFaction(hostileFaction.getIdentifier());
+                } else {
+                    ForgeAPI.sendConsoleEntry("Not Updating faction: " + hostileFaction.getIdentifier() + ", " + hostileFaction.getName() + " as hostile to : " + this.getName(), ConsoleMessageType.FINE);
+                }
+            } else {
+                ForgeAPI.sendConsoleEntry("Could not locate faction : " + faction + " to make enemies with : " + this.getName(), ConsoleMessageType.WARNING);
+            }
+        }
     }
 }

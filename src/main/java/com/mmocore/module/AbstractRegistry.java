@@ -5,6 +5,8 @@
  */
 package com.mmocore.module;
 
+import com.mmocore.api.ForgeAPI;
+import com.mmocore.constants.ConsoleMessageType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +41,8 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
     }
     
     public void tick() {
-        for (J object : getRegisteredReadOnly().values()) {
+        ForgeAPI.sendConsoleEntry("Ticking: " + this.getClass().getName(), ConsoleMessageType.FINE);
+        for (J object : getRegistered().values()) {
             object.tick();
         }
     }

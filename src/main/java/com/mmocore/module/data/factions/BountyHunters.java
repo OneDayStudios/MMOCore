@@ -8,6 +8,7 @@ package com.mmocore.module.data.factions;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.data.AbstractDictionary;
+import java.util.ArrayList;
 
 /**
  *

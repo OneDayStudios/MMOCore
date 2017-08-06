@@ -16,6 +16,7 @@ import com.mmocore.module.Listener.RegisterableListener;
 import com.mmocore.constants.DimensionConditions;
 import com.mmocore.constants.DimensionType;
 import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import java.util.ArrayList;
@@ -32,7 +33,11 @@ public class ServerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent e) {
-        MMOCore.getNpcFactionRegistry().tick();
+        ForgeAPI.sendConsoleEntry("Ticking server", ConsoleMessageType.FINE);
+        for (RegisterableNpcFaction faction : MMOCore.getNpcFactionRegistry().getRegistered().values()) {
+            ForgeAPI.sendConsoleEntry("Ticking faction for hostiles: " + faction.getName(), ConsoleMessageType.FINE);
+            faction.updateHostiles();
+        }
     }
     
 }

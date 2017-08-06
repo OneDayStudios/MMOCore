@@ -7,6 +7,7 @@ package com.mmocore.module.data.factions;
 
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import java.util.ArrayList;
 
 /**
  *
