@@ -26,6 +26,10 @@ public class SpawnEventOptions {
     private boolean enabled = true;
     // This field is responsible for the dimensions that this NPC can spawn in. This does not need to include any dimension inside a galaxy listed above.
     private List<RegisterableDimension> dimensions = new ArrayList<RegisterableDimension>();    
+    // This field is responsible for governing how much gravity is required for this NPC to spawn. Default is 30% of Earth.
+    private int minimumGravityToSpawn = 30;
+    // This field is responsible for governing how much gravity is the limit at which this NPC will spawn. Default is 105% of Earth (Can still jump!).
+    private int maximumGravityToSpawn = 105;
     // This field is responsible for governing how much atmosphere is required for this NPC to spawn. Default is player breathable.
     private int minimumAtmosphereToSpawn = 75;
     // This field is responsible for governing how much atmosphere is the limit at which this NPC will spawn. Default is player breathable.

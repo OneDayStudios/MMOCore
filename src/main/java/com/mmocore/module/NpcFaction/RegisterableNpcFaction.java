@@ -40,8 +40,6 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
             }
             setID(id);
         }
-        MMOCore.getNpcFactionRegistry().register(this);
-        this.save();
     }    
     
     private void setID(int id) {

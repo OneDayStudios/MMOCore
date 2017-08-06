@@ -80,7 +80,11 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Factions...", ConsoleMessageType.FINE);
         for (RegisterableNpcFaction faction : AbstractDictionary.getFactions()) {
             RegisterableNpcFaction registered = NpcFactionAPI.getRegistered(faction.getName());
-            if (registered == null) MMOCore.getNpcFactionRegistry().register(faction);
+            if (registered == null) {
+                MMOCore.getNpcFactionRegistry().register(faction);
+            } else {
+                MMOCore.getNpcFactionRegistry().replaceOrUpdate(faction, registered.getIdentifier());
+            }
         }
     }
     

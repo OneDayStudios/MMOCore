@@ -54,19 +54,19 @@ public class GeneralHammond extends RegisterableNpc {
         NpcMovementOptions opts = this.getMovementOptions();
         opts.setRotation(NpcRotation.EAST);
         opts.setMovingAnimation(NpcMovementAnimation.Sitting);
-        this.setMovementOptions(opts);
-        this.setBaseOptions(options);
+        super.setMovementOptions(opts);
+        super.setBaseOptions(options);
         weapons.setMainHand(heldItem);
-        this.setRangedHeldItems(weapons);
+        super.setRangedHeldItems(weapons);
         NpcCombatOptions cOpts = this.getCombatOptions();
         cOpts.setFireWeaponSound(NpcSound.M9);
         cOpts.setProjectile(NpcProjectile.PISTOL_BULLET);
-        this.setCombatOptions(cOpts);
+        super.setCombatOptions(cOpts);
         NpcInteractOptions interactOptions = this.getInteractOptions();
         RegisterableDialog dialog = DialogAPI.getRegistered("Welcome to the SGC", "Tutorial");
         DialogConversationOption opt = new DialogConversationOption();
         opt.setDialogOption("Welcome", dialog, DialogChatColor.WHITE);
         interactOptions.addDialog(opt);
-        this.setInteractOptions(interactOptions);
+        super.setInteractOptions(interactOptions);
     }
 }
