@@ -47,6 +47,12 @@ public class WorldListener extends RegisterableListener {
                     MMOCore.getDimensionRegistry().register(dimension);
                     RegisterableDimension registered = MMOCore.getDimensionRegistry().getRegistered(dimensionId);
                     if (registered != null) {
+                        // Now loading Factions etc on overworld load.
+                        if (registered.getIdentifier() == 0) {                            
+                            DictionaryAPI.loadNpcFactions();
+                            DictionaryAPI.loadDialogs();
+                            DictionaryAPI.loadQuests();
+                        }
                         ForgeAPI.sendConsoleEntry("Registering for dimension: " + dimension.getName(), ConsoleMessageType.FINE);
                         DictionaryAPI.loadNpcs(registered);
                         DictionaryAPI.loadGameEvents(registered);

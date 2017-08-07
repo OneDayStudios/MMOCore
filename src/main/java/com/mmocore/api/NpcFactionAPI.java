@@ -6,6 +6,7 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,7 @@ public class NpcFactionAPI extends AbstractAPI<NpcFactionAPI> {
         for (RegisterableNpcFaction f : MMOCore.getNpcFactionRegistry().getRegistered().values()) {
             if (f.getName().equals(name)) return f;
         }
+        ForgeAPI.sendConsoleEntry("Something tried to reference a faction : " + name + " that did not exist.", ConsoleMessageType.FINE);
         return null;
     }
     

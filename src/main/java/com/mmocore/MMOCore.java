@@ -160,7 +160,6 @@ public class MMOCore {
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getGameEventRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();  
-            DictionaryAPI.init();
        }
    }
    

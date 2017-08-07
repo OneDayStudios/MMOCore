@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class EventAPI extends AbstractAPI<EventAPI> {
     
     public static GameEvent getRegistered(String name) {
-        if (AbstractDictionary.getEvents().isEmpty()) AbstractDictionary.loadGameEvents();
+        if (AbstractDictionary.getEvents().isEmpty()) AbstractDictionary.getGameEvents();
         for (GameEvent e : MMOCore.getGameEventRegistry().getRegistered().values()) {
             if (e.getIdentifier().equals(name)) return e;
         }

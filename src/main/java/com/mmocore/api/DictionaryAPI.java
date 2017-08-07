@@ -21,12 +21,6 @@ import com.mmocore.module.data.AbstractDictionary;
  */
 public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
-    public static void init() {        
-        AbstractDictionary.loadFactions();
-        AbstractDictionary.loadQuests();
-        AbstractDictionary.loadDialogs();
-    }
-    
     public static void loadQuests() {
         ForgeAPI.sendConsoleEntry("Loading statically configure quests....", ConsoleMessageType.FINE);
         for (RegisterableQuest quest : AbstractDictionary.getQuests()) {
