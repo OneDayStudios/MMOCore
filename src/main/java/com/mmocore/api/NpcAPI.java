@@ -95,7 +95,7 @@ public class NpcAPI extends AbstractAPI<NpcAPI> {
     
     public static void deregisterAll() {
         for (RegisterableNpc npc : MMOCore.getInstance().getNpcRegistry().getRegisteredReadOnly().values()) {
-            MMOCore.getInstance().getNpcRegistry().deregister(npc.getUniqueID());
+            MMOCore.getNpcRegistry().deregister(npc.getIdentifier());
         }
     }
     

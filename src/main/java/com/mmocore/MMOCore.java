@@ -158,11 +158,9 @@ public class MMOCore {
             MMOCore.getCommandRegistry().initialise();
             MMOCore.getQuestRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();
-            MMOCore.getNpcRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
-            DictionaryAPI.loadNpcFactions();
-            DictionaryAPI.loadDialogs();
-            DictionaryAPI.loadQuests();
+            MMOCore.getNpcRegistry().initialise();  
+            DictionaryAPI.init();
        }
    }
    

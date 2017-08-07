@@ -22,11 +22,9 @@ import com.mmocore.module.data.AbstractDictionary;
 public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     
     public static void init() {        
-        AbstractDictionary.loadNpcFactions();
+        AbstractDictionary.loadFactions();
         AbstractDictionary.loadQuests();
         AbstractDictionary.loadDialogs();
-        AbstractDictionary.loadNpcs();
-        AbstractDictionary.loadGameEvents();
     }
     
     public static void loadQuests() {
@@ -35,8 +33,8 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
             RegisterableQuest registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
             if (registered != null) {
                 RegisterableQuest temp = quest;
-                temp.setID(registered.getID());
-                MMOCore.getQuestRegistry().replaceOrUpdate(temp, temp.getID());
+                temp.setID(registered.getIdentifier());
+                MMOCore.getQuestRegistry().replaceOrUpdate(temp, temp.getIdentifier());
                 registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
                 registered.pushToGame();
                 ForgeAPI.sendConsoleEntry("Loading Already initialised quest: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
@@ -53,8 +51,8 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
             RegisterableDialog registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
             if (registered != null) {
                 RegisterableDialog temp = dialog;
-                temp.setID(registered.getID());
-                MMOCore.getDialogRegistry().replaceOrUpdate(temp, temp.getID());
+                temp.setIdentifier(registered.getIdentifier());
+                MMOCore.getDialogRegistry().replaceOrUpdate(temp, temp.getIdentifier());
                 registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
                 registered.pushToGame();
                 ForgeAPI.sendConsoleEntry("Loading Already initialised dialog: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);

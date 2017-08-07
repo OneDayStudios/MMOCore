@@ -21,15 +21,15 @@ public class NpcFactionRegistry extends AbstractRegistry<NpcFactionRegistry, Int
 
     @Override
     public void initialise() {
-//        ArrayList<String> factionNames = new ArrayList<String>();
-//        for (Faction f : NpcFactionAPI.getAllFactionsReadOnly()) {
-//            factionNames.add(f.name);
-//            ForgeAPI.sendConsoleEntry("Detected existing Npc Faction: " + f.name + ", queuing for initialisation.", ConsoleMessageType.FINE);
-//        }
-//        for (String name : factionNames) {
-//            RegisterableNpcFaction faction = new RegisterableNpcFaction(name);
-//            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
-//        }
+        ArrayList<String> factionNames = new ArrayList<String>();
+        for (Faction f : NpcFactionAPI.getAllFactionsReadOnly()) {
+            factionNames.add(f.name);
+            ForgeAPI.sendConsoleEntry("Detected existing Npc Faction: " + f.name + ", queuing for initialisation.", ConsoleMessageType.FINE);
+        }
+        for (String name : factionNames) {
+            RegisterableNpcFaction faction = new RegisterableNpcFaction(name);
+            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
+        }
     }
 
     @Override

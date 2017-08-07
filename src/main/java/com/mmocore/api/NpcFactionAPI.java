@@ -35,7 +35,7 @@ public class NpcFactionAPI extends AbstractAPI<NpcFactionAPI> {
     }
     
     public static RegisterableNpcFaction getRegistered(String name) {
-        for (RegisterableNpcFaction f : MMOCore.getNpcFactionRegistry().getRegisteredReadOnly().values()) {
+        for (RegisterableNpcFaction f : MMOCore.getNpcFactionRegistry().getRegistered().values()) {
             if (f.getName().equals(name)) return f;
         }
         return null;

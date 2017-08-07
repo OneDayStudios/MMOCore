@@ -327,7 +327,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
             if (dialog.getDialog() != null) {
                 RegisterableDialog registered = DialogAPI.getRegistered(dialog.getDialog().getBaseOptions().getTitle(), dialog.getDialog().getBaseOptions().getCategory());
                 if (registered != null) {
-                    ForgeAPI.sendConsoleEntry("Assigning dialog: " + registered.getBaseOptions().getTitle() + " and id: " + registered.getID() + " and title " + registered.getBaseOptions().getTitle(), ConsoleMessageType.INFO);
+                    ForgeAPI.sendConsoleEntry("Assigning dialog: " + registered.getBaseOptions().getTitle() + " and id: " + registered.getIdentifier() + " and title " + registered.getBaseOptions().getTitle(), ConsoleMessageType.INFO);
                     dialogOption.dialogId = registered.getIdentifier();
                 } else {
                     dialogOption.dialogId = -1;
@@ -353,6 +353,18 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Web)) this.entity.display.skinType = 2;
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Player)) this.entity.display.skinType = 1;
         if (this.getBaseOptions().getTexture().getType().equals(NpcTextureType.Resource)) this.entity.display.skinType = 0;
+        if (this.getBaseOptions().getFaction() == null) {
+            ForgeAPI.sendConsoleEntry("Removing npc as faction no longer exists!", ConsoleMessageType.WARNING);
+            this.setMarkedForRemoval();
+            return;
+        } else {          
+            if (this.getBaseOptions().getFaction().getRegisteredObject() == null) {
+                ForgeAPI.sendConsoleEntry("Updating faction as npc faction was updated!", ConsoleMessageType.WARNING);
+                NpcBaseOptions baseOpts = this.getBaseOptions();        
+                baseOpts.setFaction(MMOCore.getNpcFactionRegistry().getRegistered(baseOpts.getFaction().getIdentifier()));
+                this.setBaseOptions(baseOpts);
+            }
+        }
         if (!this.getBaseOptions().getFaction().getRegisteredObject().equals(entity.getFaction())) this.entity.setFaction(this.getBaseOptions().getFaction().getIdentifier());
         if (this.getBaseOptions().getGender().equals(NpcGender.Male) && this.entity.modelData.breasts != 0) this.entity.modelData.breasts = 0;
         if (this.getBaseOptions().getGender().equals(NpcGender.Female) && this.entity.modelData.breasts != 2) this.entity.modelData.breasts = 2;
@@ -641,7 +653,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         
         if (this.getLootOptions().getSecondaryFaction() != null) {
             this.entity.advanced.factions.decreaseFaction2Points = this.getLootOptions().getSecondaryFaction().isDecrease();
-            this.entity.advanced.factions.faction2Id = this.getLootOptions().getSecondaryFaction().getFaction().getID();
+            this.entity.advanced.factions.faction2Id = this.getLootOptions().getSecondaryFaction().getFaction().getIdentifier();
             if (this.getLootOptions().getSecondaryFaction().getValue().equals(AbstractScale.Absolute)) this.entity.advanced.factions.faction2Points = 250;
             if (this.getLootOptions().getSecondaryFaction().getValue().equals(AbstractScale.Highest)) this.entity.advanced.factions.faction2Points = 100;
             if (this.getLootOptions().getSecondaryFaction().getValue().equals(AbstractScale.Higher)) this.entity.advanced.factions.faction2Points = 50;
@@ -661,7 +673,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         
         if (this.getLootOptions().getPrimaryFaction() != null) {
             this.entity.advanced.factions.decreaseFactionPoints = this.getLootOptions().getPrimaryFaction().isDecrease();
-            this.entity.advanced.factions.factionId = this.getLootOptions().getPrimaryFaction().getFaction().getID();
+            this.entity.advanced.factions.factionId = this.getLootOptions().getPrimaryFaction().getFaction().getIdentifier();
             if (this.getLootOptions().getPrimaryFaction().getValue().equals(AbstractScale.Absolute)) this.entity.advanced.factions.factionPoints = 250;
             if (this.getLootOptions().getPrimaryFaction().getValue().equals(AbstractScale.Highest)) this.entity.advanced.factions.factionPoints = 100;
             if (this.getLootOptions().getPrimaryFaction().getValue().equals(AbstractScale.Higher)) this.entity.advanced.factions.factionPoints = 50;
@@ -845,14 +857,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
         return !isDead();
     }
     
-    public void setUniqueID(UUID id) {
-        this.uuid = id;
-    }
-    
-    public UUID getUniqueID() {
-        return this.uuid;
-    }
-    
     private void spawn() {
         ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()).spawnEntityInWorld(entity);
         entity.setPositionAndUpdate(this.getBaseOptions().getSpawnPosition().getDPosX(), this.getBaseOptions().getSpawnPosition().getDPosY(), this.getBaseOptions().getSpawnPosition().getDPosZ());
@@ -871,7 +875,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     List<Entity> entities = ForgeAPI.getForgeWorld(this.getUPosition().getDimension()).loadedEntityList; 
         for (Entity entity : entities) {
             if (entity instanceof EntityCustomNpc) {
-                if (entity.getUniqueID().equals(this.getUniqueID())) {
+                if (entity.getUniqueID().equals(this.getIdentifier())) {
                     return (EntityCustomNpc)entity;
                 }
             }
@@ -890,7 +894,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
             if (!this.hasTicked) this.hasTicked = true;
         } else {
             if (this.hasTicked) {
-                ForgeAPI.sendConsoleEntry("Terminating NPC: " + this.getUniqueID(), ConsoleMessageType.FINE);;
+                ForgeAPI.sendConsoleEntry("Terminating NPC: " + this.getIdentifier(), ConsoleMessageType.FINE);;
                 this.setMarkedForRemoval();
             } else {
                 this.spawn();
@@ -1027,11 +1031,6 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     }
 
     @Override
-    public UUID getIdentifier() {
-        return this.getUniqueID();
-    }
-
-    @Override
     public RegisterableNpc getRegisteredObject() {
         return this;
     }
@@ -1040,7 +1039,7 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     public void initialise() {
         this.entity = new EntityCustomNpc(ForgeAPI.getForgeWorld(this.getBaseOptions().getSpawnPosition().getDimension()));        
         this.setPosition(this.getBaseOptions().getSpawnPosition());
-        this.setUniqueID(this.entity.getUniqueID());
+        this.setIdentifier(this.entity.getUniqueID());
         this.spawn();
         ForgeAPI.sendConsoleEntry("Loading Npc: " + this.getIdentifier() + "...", ConsoleMessageType.FINE);
     }

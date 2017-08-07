@@ -48,8 +48,7 @@ import java.util.ArrayList;
 public class AbstractDictionary {
     
     private static ArrayList<AbstractRegisterable> objects = new ArrayList<AbstractRegisterable>();   
-        
-    
+
     public static void add(AbstractRegisterable object) {
      if (!objects.contains(object)) objects.add(object);
     }
@@ -60,11 +59,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<RegisterableNpcFaction> getFactions() {
-        ArrayList<RegisterableNpcFaction> factions = new ArrayList<RegisterableNpcFaction>();
-        for (AbstractRegisterable r : getAll()) {
-            if (r instanceof RegisterableNpcFaction) factions.add((RegisterableNpcFaction)r);
-        }
-        return factions;
+        return getNpcFactions();
     }
     
     public static ArrayList<RegisterableQuest> getQuests() {
@@ -76,19 +71,11 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<GameEvent> getEvents() {
-        ArrayList<GameEvent> events = new ArrayList<GameEvent>();
-        for (AbstractRegisterable r : getAll()) {
-            if (r instanceof GameEvent) events.add((GameEvent)r);
-        }
-        return events;
+        return getGameEvents();
     }
             
     public static ArrayList<RegisterableNpc> getNpcs() {
-        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-        for (AbstractRegisterable r : getAll()) {
-            if (r instanceof RegisterableNpc) npcs.add((RegisterableNpc)r);
-        }
-        return npcs;
+        return getAllNpcs();
     }
     
     public static ArrayList<RegisterableDialog> getDialogs() {
@@ -110,7 +97,7 @@ public class AbstractDictionary {
     }
     
     public static RegisterableNpc getNpcByName(String name, String title) {
-        for (AbstractRegisterable registered : getAll()) {
+        for (AbstractRegisterable registered : getAllNpcs()) {
             if (registered instanceof RegisterableNpc) {
                 RegisterableNpc npc = (RegisterableNpc)registered;
                 if (npc.getBaseOptions().getName().equals(name) && npc.getBaseOptions().getTitle().equals(title)) return npc;
@@ -120,7 +107,7 @@ public class AbstractDictionary {
     }
     
     public static GameEvent getEventByName(String name) {
-        for (AbstractRegisterable registered : getAll()) {
+        for (AbstractRegisterable registered : getGameEvents()) {
             if (registered instanceof GameEvent) {
                 GameEvent event = (GameEvent)registered;
                 if (event.getIdentifier().equals(name)) return event;
@@ -147,34 +134,40 @@ public class AbstractDictionary {
         //add(new JaffaMarketeerIntro());
     }
 
-    public static void loadNpcFactions() {
-        add(new Goauld());
-        add(new StargateCommand());
-        add(new JaffaMarketeers());
-        add(new BountyHunters());
+    public static ArrayList<RegisterableNpcFaction> getNpcFactions() {
+        ArrayList<RegisterableNpcFaction> factions = new ArrayList<RegisterableNpcFaction>();
+        factions.add(new Goauld());
+        factions.add(new StargateCommand());
+        factions.add(new JaffaMarketeers());
+        factions.add(new BountyHunters());
+        return factions;
     }
 
-    public static void loadNpcs() {
+    public static ArrayList<RegisterableNpc> getAllNpcs() {
+        ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
         //add(new GeneralHammond());
-        add(new TauriSoldier());
-        add(new GoauldCommander());
-        add(new GoauldSoldier());
-        add(new TauriCommander());
+        npcs.add(new TauriSoldier());
+        npcs.add(new GoauldCommander());
+        npcs.add(new GoauldSoldier());
+        npcs.add(new TauriCommander());
         //add(new JanetFraser());
         //add(new MarcusBell());
         //add(new WalterHarriman());
         //add(new JaffaMarketeer());
-        add(new TauriSniper());
+        npcs.add(new TauriSniper());
+        return npcs;
     }
     
-    public static void loadGameEvents() {
-        add(new RandomSpawnContestedWorlds());
-        add(new RandomSpawnCommanders());
+    public static ArrayList<GameEvent> getGameEvents() {
+        ArrayList<GameEvent> events = new ArrayList<GameEvent>();
+        events.add(new RandomSpawnContestedWorlds());
+        events.add(new RandomSpawnCommanders());
         //add(new LocStargateCommand());
         //add(new SGCInfirmary());
         //add(new StargateCommandMarines());
-        add(new VillagerSpawnContestedWorlds());
-        add(new RandomSpawnSnipers());
+        events.add(new VillagerSpawnContestedWorlds());
+        events.add(new RandomSpawnSnipers());
+        return events;
     }
 
     public static void loadQuests() {

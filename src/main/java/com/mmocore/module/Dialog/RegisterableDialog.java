@@ -77,7 +77,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
                     dialogOption.dialogId = -1;
                     dialogOption.optionType = EnumOptionType.QuitOption;
                 } else {
-                    dialogOption.dialogId = registered.getID();
+                    dialogOption.dialogId = registered.getIdentifier();
                 }
             } else {
                 dialogOption.dialogId = -1;
@@ -87,9 +87,9 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     }
     
     public void pushToGame() {
-        if (this.getID() == -1) return;
+        if (this.getIdentifier() == -1) return;
         if (actualDialog == null) actualDialog = new Dialog();
-        if (this.actualDialog.id != this.getID()) this.actualDialog.id = this.getID();
+        if (this.actualDialog.id != this.getIdentifier()) this.actualDialog.id = this.getIdentifier();
         if (this.actualDialog.category == null || !this.getBaseOptions().getCategory().equals(this.actualDialog.category.title)) {
             this.setDialogCategory(this.getBaseOptions().getCategory());
         }
@@ -302,14 +302,14 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             actualDialog.factionOptions.faction2Points = 0;            
         }       
         if (this.save()) {
-            ForgeAPI.sendConsoleEntry("Successfully saved dialog: " + this.getID(), ConsoleMessageType.FINE);
+            ForgeAPI.sendConsoleEntry("Successfully saved dialog: " + this.getIdentifier(), ConsoleMessageType.FINE);
         } else {
-            ForgeAPI.sendConsoleEntry("Failed saving dialog: " + this.getID(), ConsoleMessageType.FINE);
+            ForgeAPI.sendConsoleEntry("Failed saving dialog: " + this.getIdentifier(), ConsoleMessageType.FINE);
         }
     }
     
     public boolean isRegistered() {
-        return MMOCore.getDialogRegistry().getRegistered(this.getID()) != null;
+        return MMOCore.getDialogRegistry().getRegistered(this.getIdentifier()) != null;
     }
     
     public boolean save() {
@@ -359,14 +359,6 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         this.pushToGame();
     }
     
-    public int getID() {
-        return id;
-    }
-    
-    public void setID(int id) {
-        this.id = id;
-    }
-    
     public int getVersion() {
         return actualDialog.version;
     }
@@ -383,7 +375,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             DialogCategory newCategory = new DialogCategory();
             newCategory.id = DialogController.instance.categories.size();
             newCategory.title = categoryName;
-            newCategory.dialogs.put(getID(), actualDialog);
+            newCategory.dialogs.put(getIdentifier(), actualDialog);
             DialogController.instance.categories.put(newCategory.id, newCategory);
             actualDialog.category = newCategory;
         }
@@ -406,7 +398,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
         
         if (DialogAPI.exists(this.getBaseOptions().getTitle()) && DialogAPI.get(this.getBaseOptions().getTitle()).category.equals(DialogAPI.getCategory(this.getBaseOptions().getCategory()))) {
             this.actualDialog = DialogAPI.get(this.getBaseOptions().getTitle());
-            setID(this.actualDialog.id);
+            setIdentifier(this.actualDialog.id);
         } else {
             actualDialog = new Dialog();
             actualDialog.title = this.getBaseOptions().getTitle();
@@ -416,7 +408,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             while (DialogAPI.get(id) != null) {
                 id = r.nextInt(100000);
             }
-            setID(id);
+            setIdentifier(id);
             this.setDialogCategory(this.getBaseOptions().getCategory());
             this.pushToGame();
         }

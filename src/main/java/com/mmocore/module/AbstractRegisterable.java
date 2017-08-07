@@ -11,9 +11,17 @@ package com.mmocore.module;
  */
 public abstract class AbstractRegisterable<T extends AbstractRegisterable, U, O extends Object> extends AbstractObjectCore<AbstractRegisterable> {
    
+    private U identifier = null;
+    
     public abstract void tick();    
     
-    public abstract U getIdentifier();
+    public U getIdentifier() {
+        return this.identifier;
+    }
+    
+    public void setIdentifier(U identifier) {
+        this.identifier = identifier;
+    }
     
     public abstract O getRegisteredObject();
 
