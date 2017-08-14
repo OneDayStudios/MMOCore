@@ -62,6 +62,8 @@ public class BorderListener extends RegisterableListener {
                 if (e.entity instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer)e.entity;
                     damagePlayer(player, source, 1);
+                    RegisterablePlayer rPlayer = MMOCore.getPlayerRegistry().getRegistered(player.getUniqueID());
+                    GuiAPI.sendGuiElementToClient(rPlayer, GuiSlot.MissionObjective, "Dimensional Border Alert", "You are taking damage because you are outside this dimension!", "Return to within the dimensional border to stop taking damage!", 500, 500, 500, 1000);
                 } else {
                     terminateEntity(entity);
                 }

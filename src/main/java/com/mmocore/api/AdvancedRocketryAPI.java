@@ -67,7 +67,7 @@ public class AdvancedRocketryAPI {
     
     public static double getBorder(int dimensionId) {
         DimensionProperties properties = AdvancedRocketryAPI.getCelestialForDimId(dimensionId);
-        if (properties != null) return (1000 + ((int)properties.getGravitationalMultiplier() * 25));
+        if (properties != null) return (2500 + ((int)properties.getGravitationalMultiplier() * 25));
         return 0.0;
     }
     
