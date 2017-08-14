@@ -89,9 +89,7 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     }
     
     public void addHostileFaction(String name) {
-        ForgeAPI.sendConsoleEntry("Processing faction:" + name, ConsoleMessageType.FINE);
         if (!this.hostileFactions.contains(name)) {
-            ForgeAPI.sendConsoleEntry("Adding faction: " + name, ConsoleMessageType.FINE);
             this.hostileFactions.add(name);
         }        
     }
@@ -169,19 +167,13 @@ public class RegisterableNpcFaction extends AbstractRegisterable<RegisterableNpc
     }
 
     public void updateHostiles() {
-        ForgeAPI.sendConsoleEntry("Processing factions: " + this.hostileFactions.size(), ConsoleMessageType.FINE);
         for (String faction : this.hostileFactions) {
-            ForgeAPI.sendConsoleEntry("Seeking out faction with name: " + faction, ConsoleMessageType.FINE);
             RegisterableNpcFaction hostileFaction = NpcFactionAPI.getRegistered(faction);
             if (hostileFaction != null) {
                 if (!this.getRegisteredObject().attackFactions.contains(hostileFaction.getIdentifier())) {
                     ForgeAPI.sendConsoleEntry("Updating faction: " + hostileFaction.getIdentifier() + ", " + hostileFaction.getName() + " as hostile to : " + this.getName(), ConsoleMessageType.FINE);
                     this.addHostileFaction(hostileFaction.getIdentifier());
-                } else {
-                    ForgeAPI.sendConsoleEntry("Not Updating faction: " + hostileFaction.getIdentifier() + ", " + hostileFaction.getName() + " as hostile to : " + this.getName(), ConsoleMessageType.FINE);
                 }
-            } else {
-                ForgeAPI.sendConsoleEntry("Could not locate faction : " + faction + " to make enemies with : " + this.getName(), ConsoleMessageType.WARNING);
             }
         }
     }

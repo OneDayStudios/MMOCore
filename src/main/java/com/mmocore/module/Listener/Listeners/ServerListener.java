@@ -33,9 +33,7 @@ public class ServerListener extends RegisterableListener {
     
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent e) {
-        ForgeAPI.sendConsoleEntry("Ticking server", ConsoleMessageType.FINE);
         for (RegisterableNpcFaction faction : MMOCore.getNpcFactionRegistry().getRegistered().values()) {
-            ForgeAPI.sendConsoleEntry("Ticking faction for hostiles: " + faction.getName(), ConsoleMessageType.FINE);
             faction.updateHostiles();
         }
     }

@@ -8,6 +8,7 @@ package com.mmocore.module.Listener;
 import com.mmocore.module.Listener.Listeners.WorldListener;
 import com.mmocore.MMOCore;
 import com.mmocore.module.AbstractRegistry;
+import com.mmocore.module.Listener.Listeners.BorderListener;
 import com.mmocore.module.Listener.Listeners.CraftingListener;
 import com.mmocore.module.Listener.Listeners.GuiListener;
 import com.mmocore.module.Listener.Listeners.PlayerListener;
@@ -38,6 +39,7 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
         MMOCore.getListenerRegistry().register(new VillagerSpawnListener());
         MMOCore.getListenerRegistry().register(new CraftingListener());
         MMOCore.getListenerRegistry().register(new ServerListener());
+        MMOCore.getListenerRegistry().register(new BorderListener());
     }
     private void initClientListeners() {
         MMOCore.getListenerRegistry().register(new GuiListener());

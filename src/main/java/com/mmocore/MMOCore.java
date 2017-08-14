@@ -37,7 +37,7 @@ import cpw.mods.fml.common.event.FMLServerStoppingEvent;
  * @author Drakster
  */
 
-@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = "*", dependencies = "after:WarpDrive;" )
+@Mod(modid=MMOCore.MODID, name=MMOCore.MODNAME, version=MMOCore.MODVER, acceptableRemoteVersions = MMOCore.MODVER, dependencies = "after:WarpDrive;" )
 
 public class MMOCore {
     
@@ -46,7 +46,7 @@ public class MMOCore {
     
    public static final String MODID = "mmocore";
    public static final String MODNAME = "MMOCore";
-   public static final String MODVER = "1.0.6";
+   public static final String MODVER = "1.0.7";
 
    private static GuiRegistry guiRegistry;
    private static DimensionRegistry dimensionRegistry;
