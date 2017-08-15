@@ -40,10 +40,11 @@ public class WorldListener extends RegisterableListener {
                     AdvancedRocketryAPI.getName(dimensionId), 
                     w.getWorldInfo().getWorldName(), 
                     (AdvancedRocketryAPI.getCelestialForDimId(dimensionId) != null ? DimensionType.Planet : DimensionType.StarSystem), 
-                    AdvancedRocketryAPI.hasBreathableAtmosphere(dimensionId), 
+                    AdvancedRocketryAPI.hasBreathableAtmosphere(dimensionId),
+                    AdvancedRocketryAPI.getBorder(dimensionId),
                     AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("x"), 
                     AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("z"), 
-                    AdvancedRocketryAPI.getBorder(dimensionId), dimensionId);
+                    dimensionId);
                     MMOCore.getDimensionRegistry().register(dimension);
                     RegisterableDimension registered = MMOCore.getDimensionRegistry().getRegistered(dimensionId);
                     if (registered != null) {
