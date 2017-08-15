@@ -33,6 +33,8 @@ public class UniversalPosition extends RegisterableCommand {
         PlayerAPI.sendMessage(player, "Dimension Coordinates: " + player.getPosition().getDPosX() + "," + player.getPosition().getDPosY() + "," + player.getPosition().getDPosZ());
         PlayerAPI.sendMessage(player, "Universal Coordinates: " + Math.round(player.getPosition().getUPosX()) + "," + Math.round(player.getPosition().getUPosZ()));
         if (player.getPosition().getDimension() != null) PlayerAPI.sendMessage(player, "Dimension:" + player.getPosition().getDimension().getName());
+        if (player.getPosition().getDimension() != null) PlayerAPI.sendMessage(player, "Border: " + player.getPosition().getDimension().getRadiusBorderX());
+        if (player.getPosition().getDimension() != null) PlayerAPI.sendMessage(player, "Spawn: " + player.getPosition().getDimension().getSpawnX() + "," + player.getPosition().getDimension().getSpawnZ());
         if (player.getPosition().getCelestialBody() != null) PlayerAPI.sendMessage(player, "Celestial Body:" + player.getPosition().getCelestialBody().getName());
     }
 
