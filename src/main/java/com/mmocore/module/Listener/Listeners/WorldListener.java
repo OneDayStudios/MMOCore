@@ -6,10 +6,9 @@
 package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
-import com.mmocore.api.AdvancedRocketryAPI;
-import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Listener.RegisterableListener;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import java.util.HashMap;
 
 /**
  *
@@ -36,30 +34,8 @@ public class WorldListener extends RegisterableListener {
         int dimensionId = w.provider.dimensionId;
         
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
-            RegisterableDimension dimension = new RegisterableDimension(
-                    AdvancedRocketryAPI.getName(dimensionId), 
-                    w.getWorldInfo().getWorldName(), 
-                    (AdvancedRocketryAPI.getCelestialForDimId(dimensionId) != null ? DimensionType.Planet : DimensionType.StarSystem), 
-                    AdvancedRocketryAPI.hasBreathableAtmosphere(dimensionId),
-                    AdvancedRocketryAPI.getBorder(dimensionId),
-                    AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("x"), 
-                    AdvancedRocketryAPI.getPlanetPosition(dimensionId).get("z"), 
-                    dimensionId);
-                    MMOCore.getDimensionRegistry().register(dimension);
-                    RegisterableDimension registered = MMOCore.getDimensionRegistry().getRegistered(dimensionId);
-                    if (registered != null) {
-                        // Now loading Factions etc on overworld load.
-                        if (registered.getIdentifier() == 0) {                            
-                            DictionaryAPI.loadNpcFactions();
-                            DictionaryAPI.loadDialogs();
-                            DictionaryAPI.loadQuests();
-                        }
-                        ForgeAPI.sendConsoleEntry("Registering for dimension: " + dimension.getName(), ConsoleMessageType.FINE);
-                        DictionaryAPI.loadNpcs(registered);
-                        DictionaryAPI.loadGameEvents(registered);
-                    } else {
-                        ForgeAPI.sendConsoleEntry("Error registering for dimension: " + dimension.getName(), ConsoleMessageType.FINE);
-                    }
+            RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
+            MMOCore.getDimensionRegistry().register(dimension);
         }
     }
     
@@ -77,11 +53,6 @@ public class WorldListener extends RegisterableListener {
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
         dimension.setLastTick(System.currentTimeMillis());
-        if (dimension.getType().equals(DimensionType.Planet)) {
-            HashMap<String,Double> position = AdvancedRocketryAPI.getPlanetPosition(w.provider.dimensionId);
-            dimension.setPosX(position.get("x"));
-            dimension.setPosZ(position.get("z"));
-        }
         MMOCore.getNpcRegistry().tickForDimension(dimension);
         MMOCore.getGameEventRegistry().tickForDimension(dimension);
     }

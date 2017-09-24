@@ -7,6 +7,7 @@ package com.mmocore;
 import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
+import com.mmocore.api.WarpDriveAPI;
 import com.mmocore.module.Dialog.DialogRegistry;
 import com.mmocore.module.Dimension.DimensionRegistry;
 import com.mmocore.module.Gui.GuiRegistry;
@@ -18,6 +19,7 @@ import com.mmocore.module.Quest.QuestRegistry;
 import com.mmocore.module.Stargate.StargateRegistry;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.Dialog.RegisterableDialog;
+import com.mmocore.module.Galaxy.GalaxyRegistry;
 import com.mmocore.module.GameEvent.GameEventRegistry;
 import com.mmocore.module.command.BaseCommand;
 import com.mmocore.module.command.CommandRegistry;
@@ -57,7 +59,7 @@ public class MMOCore {
    private static NpcRegistry npcRegistry;
    private static GameEventRegistry gameEventRegistry;
    private static CommandRegistry cmdRegistry;
-   
+   private static GalaxyRegistry galaxyRegistry;
    
    private static DataChannel channel;
    
@@ -93,6 +95,11 @@ public class MMOCore {
    public static ListenerRegistry getListenerRegistry() {
        if (listenerRegistry == null)  listenerRegistry = new ListenerRegistry();
        return listenerRegistry;
+   }
+   
+   public static GalaxyRegistry getGalaxyRegistry() {
+       if (galaxyRegistry == null)  galaxyRegistry = new GalaxyRegistry();
+       return galaxyRegistry;
    }
    
    public static StargateRegistry getStargateRegistry() {
@@ -159,7 +166,9 @@ public class MMOCore {
             MMOCore.getQuestRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();
             MMOCore.getGameEventRegistry().initialise();
-            MMOCore.getNpcRegistry().initialise();  
+            MMOCore.getNpcRegistry().initialise();
+            // The below reference loads all fake dimensions (aka gas giants and stars) into the Dimension Registry.
+            WarpDriveAPI.onServerStarted();
        }
    }
    

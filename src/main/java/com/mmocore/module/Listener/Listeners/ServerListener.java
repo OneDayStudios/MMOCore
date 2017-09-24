@@ -6,24 +6,10 @@
 package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
-import com.mmocore.api.AdvancedRocketryAPI;
-import com.mmocore.api.DictionaryAPI;
-import com.mmocore.api.ForgeAPI;
-import com.mmocore.api.NpcAPI;
-import com.mmocore.constants.ConsoleMessageType;
-import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.Listener.RegisterableListener;
-import com.mmocore.constants.DimensionConditions;
-import com.mmocore.constants.DimensionType;
-import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
-import java.util.ArrayList;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import java.util.HashMap;
 
 /**
  *
