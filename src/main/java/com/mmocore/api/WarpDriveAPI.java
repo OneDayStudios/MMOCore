@@ -29,7 +29,8 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
         for (CelestialObject s : getReadOnly()) {
                 if (s.dimensionId == s.parent.dimensionId) return s;
         }
-        return null;
+        ForgeAPI.sendConsoleEntry("Failed to load universe, providing overworld as the universal dimension!", ConsoleMessageType.WARNING);
+        if (ForgeAPI.isServer()) { return CelestialObjectManager.get(false, 0, 0, 0); } else { return CelestialObjectManager.get(true, 0, 0, 0); }        
     }
     
     private static CelestialObject[] getReadOnly() {
