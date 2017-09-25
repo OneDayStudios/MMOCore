@@ -14,6 +14,7 @@ import com.mmocore.module.Dimension.RegisterableDimension;
 import cr0s.warpdrive.data.CelestialObjectManager;
 import cr0s.warpdrive.data.CelestialObject;
 import cr0s.warpdrive.data.CelestialObject.RenderData;
+import java.util.ArrayList;
 import java.util.Set;
 /**
  *
@@ -35,12 +36,17 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
         if (ForgeAPI.isServer()) { return CelestialObjectManager.get(false, 0, 0, 0); } else { return CelestialObjectManager.get(true, 0, 0, 0); }        
     }
     
-    private static CelestialObject[] getReadOnly() {
-        CelestialObject[] cachedCopy = null;
+    private static ArrayList<CelestialObject> getReadOnly() {
+        ArrayList<CelestialObject> cachedCopy = new ArrayList<CelestialObject>();
         if (ForgeAPI.isServer()) {
-            cachedCopy = CelestialObjectManager.SERVER.celestialObjects;
+            for (CelestialObject object : CelestialObjectManager.SERVER.celestialObjects) {
+                cachedCopy.add(CelestialObjectManager.get(false, object.getName()));
+            }
+            
         } else {
-            cachedCopy = CelestialObjectManager.CLIENT.celestialObjects;
+            for (CelestialObject object : CelestialObjectManager.CLIENT.celestialObjects) {
+                cachedCopy.add(CelestialObjectManager.get(true, object.getName()));
+            }
         }
         return cachedCopy;
     }
