@@ -35,9 +35,9 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     private static CelestialObject[] getReadOnly() {
         CelestialObject[] cachedCopy = null;
         if (ForgeAPI.isServer()) {
-        cachedCopy = CelestialObjectManager.SERVER.celestialObjects;
+            cachedCopy = CelestialObjectManager.SERVER.celestialObjects;
         } else {
-        cachedCopy = CelestialObjectManager.CLIENT.celestialObjects;
+            cachedCopy = CelestialObjectManager.CLIENT.celestialObjects;
         }
         return cachedCopy;
     }
