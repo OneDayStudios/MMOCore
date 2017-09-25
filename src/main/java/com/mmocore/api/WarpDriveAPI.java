@@ -27,7 +27,9 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     private static CelestialObject getUniverse() {
         for (CelestialObject s : getReadOnly()) {
+            if (s.parent != null) {
                 if (s.dimensionId == s.parent.dimensionId) return s;
+            }
         }
         ForgeAPI.sendConsoleEntry("Failed to load universe, providing overworld as the universal dimension!", ConsoleMessageType.WARNING);
         if (ForgeAPI.isServer()) { return CelestialObjectManager.get(false, 0, 0, 0); } else { return CelestialObjectManager.get(true, 0, 0, 0); }        
@@ -74,7 +76,7 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     }
     
     public static int getParentId(int dimensionId) {
-        if (!isMapped(dimensionId)) return 0;
+        if (!isMapped(dimensionId) || getForDimId(dimensionId).parent == null) return 0;
         return getForDimId(dimensionId).parent.dimensionId;
     }
     
@@ -112,12 +114,12 @@ public class WarpDriveAPI extends AbstractAPI<WarpDriveAPI> {
     
     public static boolean isSolarSystem(int dimensionId) {
         if (!isMapped(dimensionId)) return false;
-        return getForDimId(dimensionId).parent.dimensionId == getUniverse().dimensionId;
+        return getForDimId(dimensionId).parent != null && getForDimId(dimensionId).parent.dimensionId == getUniverse().dimensionId;
     }
     
     public static boolean isPlanet(int dimensionId) {
         if (!isMapped(dimensionId)) return false;
-        return getForDimId(dimensionId).parent.dimensionId != getUniverse().dimensionId && getForDimId(dimensionId).dimensionId != getForDimId(dimensionId).parent.dimensionId;
+        return getForDimId(dimensionId).parent != null && getForDimId(dimensionId).parent.dimensionId != getUniverse().dimensionId && getForDimId(dimensionId).dimensionId != getForDimId(dimensionId).parent.dimensionId;
     }
     
     public static DimensionType getType(int dimensionId) {
