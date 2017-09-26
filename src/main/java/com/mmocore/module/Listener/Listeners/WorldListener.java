@@ -52,6 +52,10 @@ public class WorldListener extends RegisterableListener {
         if (!e.phase.equals(TickEvent.Phase.START)) return;
         World w = (World)e.world;
         RegisterableDimension dimension = MMOCore.getDimensionRegistry().getRegistered(w.provider.dimensionId);
+        if (dimension == null) {
+            ForgeAPI.sendConsoleEntry("Error: Dimension: " + w.provider.dimensionId + " is not registered and it is ticking!", ConsoleMessageType.FINE);
+            return;
+        }
         dimension.setLastTick(System.currentTimeMillis());
         MMOCore.getNpcRegistry().tickForDimension(dimension);
         MMOCore.getGameEventRegistry().tickForDimension(dimension);
