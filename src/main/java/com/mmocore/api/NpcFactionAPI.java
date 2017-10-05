@@ -8,6 +8,7 @@ package com.mmocore.api;
 import com.mmocore.MMOCore;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
+import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

@@ -134,13 +134,12 @@ public class MMOCore {
    
    @Mod.EventHandler
    public void load(FMLInitializationEvent event) {
-       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);      
+       ForgeAPI.sendConsoleEntry("Loading " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);       
    }
    
    @Mod.EventHandler
    public void postLoad(FMLPostInitializationEvent event) {
-       ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
-       MMOCore.getListenerRegistry().initialise();
+       ForgeAPI.sendConsoleEntry("Initialising " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);         
    }
    
    @Mod.EventHandler
@@ -158,13 +157,14 @@ public class MMOCore {
        if (ForgeAPI.isClient()) {
 //           MMOCore.getGuiRegistry().initialise();
        }
-       if (ForgeAPI.isServer()) {
+       if (ForgeAPI.isServer()) {       
+            MMOCore.getNpcFactionRegistry().initialise();      
             MMOCore.getDimensionRegistry().initialise();
             MMOCore.getPlayerRegistry().initialise();
             MMOCore.getDialogRegistry().initialise();       
             MMOCore.getCommandRegistry().initialise();
             MMOCore.getQuestRegistry().initialise();
-            MMOCore.getNpcFactionRegistry().initialise();
+            MMOCore.getListenerRegistry().initialise();     
             MMOCore.getGameEventRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();
             // The below reference loads all fake dimensions (aka gas giants and stars) into the Dimension Registry.

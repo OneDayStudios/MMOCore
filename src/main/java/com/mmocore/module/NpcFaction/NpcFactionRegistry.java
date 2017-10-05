@@ -5,6 +5,8 @@
  */
 package com.mmocore.module.NpcFaction;
 
+import com.mmocore.MMOCore;
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcFactionAPI;
 import com.mmocore.constants.ConsoleMessageType;
@@ -27,9 +29,10 @@ public class NpcFactionRegistry extends AbstractRegistry<NpcFactionRegistry, Int
             ForgeAPI.sendConsoleEntry("Detected existing Npc Faction: " + f.name + ", queuing for initialisation.", ConsoleMessageType.FINE);
         }
         for (String name : factionNames) {
-            RegisterableNpcFaction faction = new RegisterableNpcFaction(name);
-            ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
+                RegisterableNpcFaction faction = new RegisterableNpcFaction(name);
+                ForgeAPI.sendConsoleEntry("Initialising existing Npc Faction: " + faction.getName(), ConsoleMessageType.FINE);
         }
+        DictionaryAPI.loadNpcFactions();
     }
 
     @Override

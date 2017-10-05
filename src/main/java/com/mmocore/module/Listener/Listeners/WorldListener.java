@@ -6,6 +6,7 @@
 package com.mmocore.module.Listener.Listeners;
 
 import com.mmocore.MMOCore;
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.NpcAPI;
 import com.mmocore.api.WarpDriveAPI;
@@ -36,6 +37,8 @@ public class WorldListener extends RegisterableListener {
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
             RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
             MMOCore.getDimensionRegistry().register(dimension);
+            DictionaryAPI.loadGameEvents(dimension);
+            DictionaryAPI.loadNpcs(dimension);            
         }
     }
     
