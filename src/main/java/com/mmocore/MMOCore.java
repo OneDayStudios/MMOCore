@@ -158,12 +158,13 @@ public class MMOCore {
 //           MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {       
+            MMOCore.getListenerRegistry().initialise();   
+            MMOCore.getDimensionRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();      
             MMOCore.getPlayerRegistry().initialise();
             MMOCore.getDialogRegistry().initialise();       
             MMOCore.getCommandRegistry().initialise();
-            MMOCore.getQuestRegistry().initialise();
-            MMOCore.getListenerRegistry().initialise();     
+            MMOCore.getQuestRegistry().initialise();  
             MMOCore.getGameEventRegistry().initialise();
             MMOCore.getNpcRegistry().initialise();
             // The below reference loads all fake dimensions (aka gas giants and stars) into the Dimension Registry.
