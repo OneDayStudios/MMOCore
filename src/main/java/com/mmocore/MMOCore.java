@@ -130,7 +130,6 @@ public class MMOCore {
    public void preLoad(FMLPreInitializationEvent event) {
        ForgeAPI.sendConsoleEntry("Starting " + MODNAME + " v" + MODVER, ConsoleMessageType.FINE);
        MMOCore.channel = new DataChannel(MMOCore.MODID);     
-       MMOCore.getDimensionRegistry().initialise();
    }
    
    @Mod.EventHandler
@@ -159,6 +158,7 @@ public class MMOCore {
 //           MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {       
+            MMOCore.getDimensionRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();      
             MMOCore.getPlayerRegistry().initialise();
             MMOCore.getDialogRegistry().initialise();       
