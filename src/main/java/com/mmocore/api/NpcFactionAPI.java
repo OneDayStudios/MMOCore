@@ -40,6 +40,12 @@ public class NpcFactionAPI extends AbstractAPI<NpcFactionAPI> {
         for (RegisterableNpcFaction f : MMOCore.getNpcFactionRegistry().getRegistered().values()) {
             if (f.getName().equals(name)) return f;
         }
+        for (RegisterableNpcFaction f : AbstractDictionary.getFactions()) {
+            if (f.getName().equals(name)) {
+                MMOCore.getNpcFactionRegistry().register(f);
+                return f;
+            }
+        }
         ForgeAPI.sendConsoleEntry("Something tried to reference a faction : " + name + " that did not exist.", ConsoleMessageType.FINE);
         return null;
     }
