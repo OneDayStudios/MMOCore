@@ -1029,10 +1029,10 @@ public class RegisterableNpc extends AbstractRegisterable<RegisterableNpc, UUID,
     public NpcStateOptions getStateOptions() {
         return this.stateOptions;
     }
-
+    
     @Override
     public RegisterableNpc getRegisteredObject() {
-        return this;
+        return (MMOCore.getNpcRegistry().getRegistered(this.getIdentifier()));
     }
 
     @Override

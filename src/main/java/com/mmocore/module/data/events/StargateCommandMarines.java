@@ -9,6 +9,8 @@ import com.mmocore.api.UniverseAPI;
 import com.mmocore.constants.NpcRotation;
 import com.mmocore.constants.uPosition;
 import com.mmocore.module.GameEvent.events.CloneLoadEvent;
+import com.mmocore.module.Npc.RegisterableNpc;
+import com.mmocore.module.Npc.options.NpcMovementOptions;
 import com.mmocore.module.data.AbstractDictionary;
 import com.mmocore.module.data.npcs.mobs.TauriSoldier;
 
@@ -20,7 +22,11 @@ public class StargateCommandMarines extends CloneLoadEvent {
     
     public StargateCommandMarines() {
         super("Stargate Command Marine Spawns");
-        addSpawningNpc(AbstractDictionary.getNpcByName("Tauri Soldier", "Stargate Command"));
+        RegisterableNpc npc = AbstractDictionary.getNpcByName("Tauri Soldier", "Stargate Command");
+        NpcMovementOptions mOpts = npc.getMovementOptions();
+        mOpts.setMovementTypeStanding();
+        npc.setMovementOptions(mOpts);
+        addSpawningNpc(npc);
         this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-132.0, 7.0, -627.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-144.0, 5.0, -616.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-140.0, 5.0, -616.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));

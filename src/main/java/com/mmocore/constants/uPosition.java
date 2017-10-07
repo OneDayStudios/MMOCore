@@ -30,7 +30,7 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;        
-        if (dimension == null) {
+        if (dimension == null || this.getDimension().getParent() == null) {
             this.uPosX = 0.0;
             this.uPosZ = 0.0;
             return;

@@ -11,6 +11,7 @@ import com.mmocore.constants.NpcSpawnMethod;
 import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.Dimension.RegisterableDimension;
 import com.mmocore.module.GameEvent.GameEvent;
+import com.mmocore.module.GameEvent.events.NpcSpawnEvent;
 import com.mmocore.module.Npc.RegisterableNpc;
 import com.mmocore.module.NpcFaction.RegisterableNpcFaction;
 import com.mmocore.module.Quest.RegisterableQuest;
@@ -60,10 +61,12 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
     // Loads Statically assigned Npcs. Should only be called when a dimension is loaded.
     public static void loadNpcs(RegisterableDimension dimension) {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Npcs...", ConsoleMessageType.FINE);
+        if (dimension == null) { return; }
         for (RegisterableNpc npc : AbstractDictionary.getNpcs()) {
-            if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null && MMOCore.getDimensionRegistry().isRegistered(npc.getBaseOptions().getSpawnPosition().getDimension().getIdentifier())) {
+            if (npc.getBaseOptions().getSpawnPosition() == null || npc.getBaseOptions().getSpawnMethod() == null) continue;
+            if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null) {
                 ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
-                MMOCore.getNpcRegistry().register(npc);
+                MMOCore.getGameEventRegistry().register(new NpcSpawnEvent(npc.getBaseOptions().getSpawnPosition(), npc));
             }
         }
     }
