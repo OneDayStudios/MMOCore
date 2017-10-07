@@ -188,6 +188,8 @@ public class QuestLocationEvent extends GameEvent {
 
     @Override
     public boolean ticksForDimension(RegisterableDimension dimension) {
+        if (this.getPosition() == null) return false;
+        if (dimension == null || this.getPosition().getDimension() == null) return false;
         return (this.getPosition().getDimension().equals(dimension));
     }
 
