@@ -44,6 +44,10 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
     }
     
     public void tickForDimension(RegisterableDimension dimension) {
+        if (dimension == null) {
+            ForgeAPI.sendConsoleEntry("Something tried to tick events with a null dimension!", ConsoleMessageType.FINE);
+            return;
+        }
         Collection<GameEvent> events = this.getRegistered().values();
         ArrayList<String> eventsToRemove = new ArrayList<String>();
         for (GameEvent event : EventAPI.getEventsForDimension(dimension)) {

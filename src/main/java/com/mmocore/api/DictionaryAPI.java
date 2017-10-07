@@ -84,7 +84,7 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
         ForgeAPI.sendConsoleEntry("Loading Statically configured Events...", ConsoleMessageType.FINE);
         for (GameEvent definedEvent : AbstractDictionary.getEvents()) {
             ForgeAPI.sendConsoleEntry("Loading Event: " + definedEvent.getIdentifier(), ConsoleMessageType.FINE);
-            if (definedEvent.ticksForDimension(dimension) && !MMOCore.getGameEventRegistry().isRegistered(definedEvent.getIdentifier())) MMOCore.getGameEventRegistry().register(definedEvent);
+            if (dimension != null && definedEvent.ticksForDimension(dimension) && !MMOCore.getGameEventRegistry().isRegistered(definedEvent.getIdentifier())) MMOCore.getGameEventRegistry().register(definedEvent);
         }
     }
     
