@@ -65,7 +65,7 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
         for (RegisterableNpc npc : AbstractDictionary.getNpcs()) {
             if (npc.getBaseOptions().getSpawnPosition() == null || npc.getBaseOptions().getSpawnMethod() == null) continue;
             if (npc.getBaseOptions().getSpawnMethod().equals(NpcSpawnMethod.Static) && npc.getBaseOptions().getSpawnPosition() != null) {
-                ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
+                ForgeAPI.sendConsoleEntry("Loading Npc: " + npc.getBaseOptions().getName() + " (" + npc.getBaseOptions().getTitle() + ")", ConsoleMessageType.FINE);
                 MMOCore.getGameEventRegistry().register(new NpcSpawnEvent(npc.getBaseOptions().getSpawnPosition(), npc));
             }
         }

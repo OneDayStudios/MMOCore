@@ -62,11 +62,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<RegisterableQuest> getQuests() {
-        ArrayList<RegisterableQuest> quests = new ArrayList<RegisterableQuest>();
-        for (AbstractRegisterable r : getAll()) {
-            if (r instanceof RegisterableQuest) quests.add((RegisterableQuest)r);
-        }
-        return quests;
+        return loadQuests();
     }
     
     public static ArrayList<GameEvent> getEvents() {
@@ -78,11 +74,7 @@ public class AbstractDictionary {
     }
     
     public static ArrayList<RegisterableDialog> getDialogs() {
-        ArrayList<RegisterableDialog> dialogs = new ArrayList<RegisterableDialog>();
-        for (AbstractRegisterable r : getAll()) {
-            if (r instanceof RegisterableDialog) dialogs.add((RegisterableDialog)r);
-        }
-        return dialogs;
+        return loadDialogs();
     }
     
     public static RegisterableDialog getDialogByName(String title, String category) {
@@ -125,12 +117,14 @@ public class AbstractDictionary {
         return null;
     }
     
-    public static void loadDialogs() {
-        add(new LetsGetStarted());
-        add(new WelcomeToTheSGC());
-        add(new WhereAmI());
-        add(new JanetFraserWelcome());
-        add(new JaffaMarketeerIntro());
+    public static ArrayList<RegisterableDialog> loadDialogs() {
+        ArrayList<RegisterableDialog> dialogs = new ArrayList<RegisterableDialog>();
+        dialogs.add(new LetsGetStarted());
+        dialogs.add(new WelcomeToTheSGC());
+        dialogs.add(new WhereAmI());
+        dialogs.add(new JanetFraserWelcome());
+        dialogs.add(new JaffaMarketeerIntro());
+        return dialogs;
     }
 
     public static ArrayList<RegisterableNpcFaction> getNpcFactions() {
@@ -169,7 +163,9 @@ public class AbstractDictionary {
         return events;
     }
 
-    public static void loadQuests() {
-        add(new VisitingTheInfirmary());
+    public static ArrayList<RegisterableQuest> loadQuests() {
+        ArrayList<RegisterableQuest> quests = new ArrayList<RegisterableQuest>();
+        quests.add(new VisitingTheInfirmary());
+        return quests;
     }
 }

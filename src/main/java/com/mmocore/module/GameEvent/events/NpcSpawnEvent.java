@@ -38,7 +38,7 @@ public class NpcSpawnEvent extends GameEvent {
         if (this.position.getDimension().equals(dimension)) {
                 MMOCore.getNpcRegistry().register(npc);
         }
-        if (NpcAPI.get(npc.getBaseOptions().getName(), npc.getBaseOptions().getTitle(), npc.getBaseOptions().getFaction()) != null) {
+        if (npc.existsInGame()) {
             this.setFlaggedForRemoval();
         }
     }
