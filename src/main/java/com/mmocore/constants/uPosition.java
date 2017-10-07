@@ -30,6 +30,11 @@ public class uPosition extends AbstractObjectCore<uPosition> {
         this.dPosX = dPosX;
         this.dPosY = dPosY;
         this.dPosZ = dPosZ;        
+        if (dimension == null) {
+            this.uPosX = 0.0;
+            this.uPosZ = 0.0;
+            return;
+        }
         // If a position is in hyperspace, this is how we calculate it.
         if (this.getDimension().getType().equals(DimensionType.Hyperspace)){
             this.uPosX = this.dPosX;
@@ -107,8 +112,5 @@ public class uPosition extends AbstractObjectCore<uPosition> {
     @Override
     public void finalise() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    
+    }    
 }

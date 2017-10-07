@@ -39,7 +39,7 @@ public class ListenerRegistry extends AbstractRegistry<ListenerRegistry, String,
         MMOCore.getListenerRegistry().register(new VillagerSpawnListener());
         MMOCore.getListenerRegistry().register(new CraftingListener());
         MMOCore.getListenerRegistry().register(new ServerListener());
-        MMOCore.getListenerRegistry().register(new BorderListener());
+        //MMOCore.getListenerRegistry().register(new BorderListener());
     }
     private void initClientListeners() {
         MMOCore.getListenerRegistry().register(new GuiListener());

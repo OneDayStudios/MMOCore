@@ -126,11 +126,11 @@ public class AbstractDictionary {
     }
     
     public static void loadDialogs() {
-        //add(new LetsGetStarted());
-        //add(new WelcomeToTheSGC());
-        //add(new WhereAmI());
-        //add(new JanetFraserWelcome());
-        //add(new JaffaMarketeerIntro());
+        add(new LetsGetStarted());
+        add(new WelcomeToTheSGC());
+        add(new WhereAmI());
+        add(new JanetFraserWelcome());
+        add(new JaffaMarketeerIntro());
     }
 
     public static ArrayList<RegisterableNpcFaction> getNpcFactions() {
@@ -144,15 +144,15 @@ public class AbstractDictionary {
 
     public static ArrayList<RegisterableNpc> getAllNpcs() {
         ArrayList<RegisterableNpc> npcs = new ArrayList<RegisterableNpc>();
-        //add(new GeneralHammond());
+        npcs.add(new GeneralHammond());
         npcs.add(new TauriSoldier());
         npcs.add(new GoauldCommander());
         npcs.add(new GoauldSoldier());
         npcs.add(new TauriCommander());
-        //add(new JanetFraser());
-        //add(new MarcusBell());
-        //add(new WalterHarriman());
-        //add(new JaffaMarketeer());
+        npcs.add(new JanetFraser());
+        npcs.add(new MarcusBell());
+        npcs.add(new WalterHarriman());
+        npcs.add(new JaffaMarketeer());
         npcs.add(new TauriSniper());
         return npcs;
     }
@@ -161,15 +161,15 @@ public class AbstractDictionary {
         ArrayList<GameEvent> events = new ArrayList<GameEvent>();
         events.add(new RandomSpawnContestedWorlds());
         events.add(new RandomSpawnCommanders());
-        //add(new LocStargateCommand());
-        //add(new SGCInfirmary());
-        //add(new StargateCommandMarines());
+        events.add(new LocStargateCommand());
+        events.add(new SGCInfirmary());
+        events.add(new StargateCommandMarines());
         events.add(new VillagerSpawnContestedWorlds());
         events.add(new RandomSpawnSnipers());
         return events;
     }
 
     public static void loadQuests() {
-        //add(new VisitingTheInfirmary());
+        add(new VisitingTheInfirmary());
     }
 }

@@ -159,6 +159,8 @@ public class MMOCore {
 //           MMOCore.getGuiRegistry().initialise();
        }
        if (ForgeAPI.isServer()) {       
+            DictionaryAPI.loadQuests();
+            DictionaryAPI.loadDialogs();
             MMOCore.getDimensionRegistry().initialise();
             MMOCore.getNpcFactionRegistry().initialise();      
             MMOCore.getPlayerRegistry().initialise();

@@ -20,7 +20,7 @@ public class StargateCommandMarines extends CloneLoadEvent {
     
     public StargateCommandMarines() {
         super("Stargate Command Marine Spawns");
-        addSpawningNpc(AbstractDictionary.getNpcByName("SGC Soldier", "Stargate Command"));
+        addSpawningNpc(AbstractDictionary.getNpcByName("Tauri Soldier", "Stargate Command"));
         this.addSpawnLocation(NpcRotation.SOUTH, new uPosition(-132.0, 7.0, -627.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-144.0, 5.0, -616.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));
         this.addSpawnLocation(NpcRotation.NORTH, new uPosition(-140.0, 5.0, -616.0, UniverseAPI.getDimensionByDisplayName("P2X-3YZ")));
