@@ -35,10 +35,14 @@ public class WorldListener extends RegisterableListener {
         int dimensionId = w.provider.dimensionId;
         
         if (!MMOCore.getDimensionRegistry().isRegistered(dimensionId)) {
+            if (WarpDriveAPI.isMapped(dimensionId)) {
             RegisterableDimension dimension = new RegisterableDimension(WarpDriveAPI.getName(dimensionId), w.getWorldInfo().getWorldName(), WarpDriveAPI.getType(dimensionId), WarpDriveAPI.hasBreathableAtmosphere(dimensionId), WarpDriveAPI.getBorderX(dimensionId), WarpDriveAPI.getBorderZ(dimensionId), WarpDriveAPI.getPosInParentX(dimensionId), WarpDriveAPI.getPosInParentZ(dimensionId), WarpDriveAPI.getSpawnX(dimensionId), WarpDriveAPI.getSpawnZ(dimensionId), WarpDriveAPI.getConditions(dimensionId), dimensionId, WarpDriveAPI.getParentId(dimensionId));
             MMOCore.getDimensionRegistry().register(dimension);
             DictionaryAPI.loadGameEvents(dimension);
             DictionaryAPI.loadNpcs(dimension);            
+            } else {
+                ForgeAPI.sendConsoleEntry("Not loading dimension: " + dimensionId + " as it is not mapped with WarpDrive!", ConsoleMessageType.FINE);
+            }
         }
     }
     
