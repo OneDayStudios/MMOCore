@@ -32,6 +32,7 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
                 MMOCore.getQuestRegistry().replaceOrUpdate(temp, temp.getIdentifier());
                 registered = QuestAPI.getRegistered(quest.getBaseOptions().getTitle(), quest.getBaseOptions().getQuestChain());
                 registered.pushToGame();
+                registered.save();
                 ForgeAPI.sendConsoleEntry("Loading Already initialised quest: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
             } else {
                 ForgeAPI.sendConsoleEntry("Loading uninitialised quest: " + quest.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
@@ -50,6 +51,7 @@ public class DictionaryAPI extends AbstractAPI<DictionaryAPI> {
                 MMOCore.getDialogRegistry().replaceOrUpdate(temp, temp.getIdentifier());
                 registered = DialogAPI.getRegistered(dialog.getBaseOptions().getTitle(), dialog.getBaseOptions().getCategory());
                 registered.pushToGame();
+                registered.save();
                 ForgeAPI.sendConsoleEntry("Loading Already initialised dialog: " + temp.getBaseOptions().getTitle(), ConsoleMessageType.FINE);
             } else {
                 ForgeAPI.sendConsoleEntry("Loading uninitialised dialog: " + dialog.getBaseOptions().getTitle(), ConsoleMessageType.FINE);

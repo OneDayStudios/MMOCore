@@ -39,6 +39,7 @@ public class NpcSpawnEvent extends GameEvent {
                 MMOCore.getNpcRegistry().register(npc);
         }
         if (npc.existsInGame()) {
+            ForgeAPI.sendConsoleEntry("Npc: " + npc.getBaseOptions().getName() + " is now in game, removing spawn event." , ConsoleMessageType.FINE);
             this.setFlaggedForRemoval();
         }
     }

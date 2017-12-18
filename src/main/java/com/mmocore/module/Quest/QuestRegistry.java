@@ -5,6 +5,7 @@
  */
 package com.mmocore.module.Quest;
 
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.api.QuestAPI;
 import com.mmocore.constants.ConsoleMessageType;
@@ -22,6 +23,7 @@ public class QuestRegistry extends AbstractRegistry<QuestRegistry, Integer, Regi
     @Override
     public void initialise() {
         HashMap<String, String> quests = new HashMap<String, String>();
+        DictionaryAPI.loadQuests();
         for (Quest q : QuestAPI.getAllReadOnly()) {
             quests.put(q.title, q.category.title);
             ForgeAPI.sendConsoleEntry("Detected existing Quest: " + q.title + " (" + q.id + ") with category: " + q.category.title + "), queuing for initialisation.", ConsoleMessageType.FINE);

@@ -44,7 +44,6 @@ public abstract class AbstractRegistry<T extends AbstractRegistry, U, J extends 
     }
     
     public void tick() {
-        ForgeAPI.sendConsoleEntry("Ticking: " + this.getClass().getName(), ConsoleMessageType.FINE);
         for (J object : getRegisteredReadOnly().values()) {
             J registered = this.getRegistered((U)object.getIdentifier());
             if (registered != null) registered.tick();

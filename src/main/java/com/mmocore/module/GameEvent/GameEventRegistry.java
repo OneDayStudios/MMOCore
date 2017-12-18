@@ -37,9 +37,6 @@ public class GameEventRegistry extends AbstractRegistry<GameEventRegistry, Strin
 
     @Override
     public void initialise() {
-        if (ForgeAPI.isServer()) {
-
-        }
         // Not required.
     }
     

@@ -26,11 +26,10 @@ public class EventAPI extends AbstractAPI<EventAPI> {
         for (GameEvent e : MMOCore.getGameEventRegistry().getRegistered().values()) {
             if (e.getIdentifier().equals(name)) return e;
         }
-        for (GameEvent e : AbstractDictionary.getEvents()) {
-            if (e.getIdentifier().equals(name)) {
-                MMOCore.getGameEventRegistry().register(e);
-                return e;
-            }
+        GameEvent e = AbstractDictionary.getEventByName(name);
+        if (e != null) {
+            MMOCore.getGameEventRegistry().register(e);
+            return getRegistered(name);
         }
         return null;
     }

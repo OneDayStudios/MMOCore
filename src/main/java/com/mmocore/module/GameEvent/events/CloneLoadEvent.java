@@ -86,7 +86,6 @@ public class CloneLoadEvent extends GameEvent {
     public boolean ticksForDimension(RegisterableDimension dimension) {
        for (uPosition pos : this.getPositions().keySet()) {
            if (pos.getDimension() == null) {
-               ForgeAPI.sendConsoleEntry("Attempting to do cloneload failed due to null dimension!", ConsoleMessageType.FINE);
                continue; 
            }
            if (pos.getDimension().equals(dimension)) return true;

@@ -87,7 +87,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     }
     
     public void pushToGame() {
-        if (this.getIdentifier() == -1) return;
+        if (this.getIdentifier() == -1);
         if (actualDialog == null) actualDialog = new Dialog();
         if (this.actualDialog.id != this.getIdentifier()) this.actualDialog.id = this.getIdentifier();
         if (this.actualDialog.category == null || !this.getBaseOptions().getCategory().equals(this.actualDialog.category.title)) {
@@ -313,6 +313,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     }
     
     public boolean save() {
+            this.pushToGame();
             if (!actualDialog.category.dialogs.containsValue(actualDialog)) actualDialog.category.dialogs.put(actualDialog.id, actualDialog);
             if (actualDialog.category.dialogs.containsValue(actualDialog)) actualDialog.category.dialogs.replace(actualDialog.id, actualDialog);
             if (DialogController.instance.categories.containsKey(actualDialog.category.id)) DialogController.instance.categories.replace(actualDialog.category.id, actualDialog.category);
@@ -320,6 +321,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             DialogController.instance.saveCategory(actualDialog.category);
             DialogController.instance.saveDialog(actualDialog.category.id, actualDialog);
             DialogController.instance.load();
+            this.actualDialog = DialogController.instance.dialogs.get(this.id);
             return true;
     }
     
@@ -393,9 +395,7 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
     }
 
     @Override
-    public void initialise() {
-        ForgeAPI.sendConsoleEntry("Initialised dialog: " + this.getIdentifier(), ConsoleMessageType.FINE);
-        
+    public void initialise() {        
         if (DialogAPI.exists(this.getBaseOptions().getTitle()) && DialogAPI.get(this.getBaseOptions().getTitle()).category.equals(DialogAPI.getCategory(this.getBaseOptions().getCategory()))) {
             this.actualDialog = DialogAPI.get(this.getBaseOptions().getTitle());
             setIdentifier(this.actualDialog.id);
@@ -410,13 +410,14 @@ public class RegisterableDialog extends AbstractRegisterable<RegisterableDialog,
             }
             setIdentifier(id);
             this.setDialogCategory(this.getBaseOptions().getCategory());
-            this.pushToGame();
-        }
+            this.save();
+        }        
+        ForgeAPI.sendConsoleEntry("Initialised dialog: " + this.getBaseOptions().getTitle() + " with identifier: " + this.getIdentifier(), ConsoleMessageType.FINE);
     }
 
     @Override
     public void finalise() {
-        ForgeAPI.sendConsoleEntry("Finalised dialog: " + this.getIdentifier(), ConsoleMessageType.FINE);
+        ForgeAPI.sendConsoleEntry("Finalised dialog: " + this.getBaseOptions().getTitle() + " ID: " + this.getIdentifier(), ConsoleMessageType.FINE);
         this.pushToGame();
     }
 

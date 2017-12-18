@@ -7,6 +7,7 @@ package com.mmocore.module.Dialog;
 
 import com.mmocore.MMOCore;
 import com.mmocore.api.DialogAPI;
+import com.mmocore.api.DictionaryAPI;
 import com.mmocore.api.ForgeAPI;
 import com.mmocore.constants.ConsoleMessageType;
 import com.mmocore.module.AbstractRegistry;
@@ -25,6 +26,7 @@ public class DialogRegistry extends AbstractRegistry<DialogRegistry, Integer, Re
     @Override
     public void initialise() {
         HashMap<String, String> dialogs = new HashMap<String, String>();
+        DictionaryAPI.loadDialogs();
         for (Dialog d : DialogAPI.getAllReadOnly()) {
             dialogs.put(d.title, d.category.title);
             ForgeAPI.sendConsoleEntry("Detected existing Dialog: " + d.title + " (" + d.id + ") with category: " + d.category.title + "), queuing for initialisation.", ConsoleMessageType.FINE);

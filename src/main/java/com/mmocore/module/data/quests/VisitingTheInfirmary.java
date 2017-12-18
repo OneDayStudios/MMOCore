@@ -9,6 +9,7 @@ import com.mmocore.api.EventAPI;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
 import com.mmocore.module.Quest.RegisterableQuest;
 import com.mmocore.module.Quest.options.QuestObjectiveOptions;
+import com.mmocore.module.data.AbstractDictionary;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,7 @@ public class VisitingTheInfirmary extends RegisterableQuest {
         );
         QuestObjectiveOptions opts = this.getObjectiveOptions();
         ArrayList<QuestLocationEvent> events = new ArrayList<QuestLocationEvent>();
-        events.add((QuestLocationEvent)EventAPI.getRegistered("Visiting Infirmary"));
+        events.add((QuestLocationEvent)AbstractDictionary.getEventByName("Visiting Infirmary"));
         opts.setOrUpdateQuestTypeLocation(events);
         this.setObjectiveOptions(opts);
     }

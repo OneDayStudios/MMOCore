@@ -288,6 +288,7 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
     }
     
     public boolean save() {
+            this.pushToGame();
             if (!actualQuest.category.quests.containsValue(actualQuest)) actualQuest.category.quests.put(actualQuest.id, actualQuest);
             if (actualQuest.category.quests.containsValue(actualQuest)) actualQuest.category.quests.replace(actualQuest.id, actualQuest);
             if (QuestController.instance.categories.containsKey(actualQuest.category.id)) QuestController.instance.categories.replace(actualQuest.category.id, actualQuest.category);
@@ -373,7 +374,6 @@ public class RegisterableQuest extends AbstractRegisterable<RegisterableQuest, I
         }
         this.setQuestCategory(this.getBaseOptions().getQuestChain());
         this.save();
-        this.pushToGame();
     }
 
     @Override

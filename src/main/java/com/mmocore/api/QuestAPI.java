@@ -6,6 +6,8 @@
 package com.mmocore.api;
 
 import com.mmocore.MMOCore;
+import static com.mmocore.api.DialogAPI.getRegistered;
+import com.mmocore.module.Dialog.RegisterableDialog;
 import com.mmocore.module.GameEvent.events.QuestLocationEvent;
 import com.mmocore.module.Player.RegisterablePlayer;
 import com.mmocore.module.Quest.RegisterableQuest;
@@ -105,11 +107,10 @@ public class QuestAPI extends AbstractAPI<QuestAPI> {
         for (RegisterableQuest q : MMOCore.getQuestRegistry().getRegistered().values()) {
             if (q.getBaseOptions().getTitle().equals(name) && q.getBaseOptions().getQuestChain().equals(chain)) return q;
         }
-        for (RegisterableQuest q : AbstractDictionary.getQuests()) {
-            if (q.getBaseOptions().getTitle().equals(name) && q.getBaseOptions().getQuestChain().equals(chain)) {
-                MMOCore.getQuestRegistry().register(q);
-                return q;
-            }
+        RegisterableQuest q = AbstractDictionary.getQuestByName(name, chain);
+        if (q != null) {
+            MMOCore.getQuestRegistry().register(q);
+            return getRegistered(name,chain);
         }
         return null;
     }
